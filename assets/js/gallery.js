@@ -151,10 +151,22 @@ let startY = 0;
 let isPanning = false;
 
 function fitToScreen() {
-  scale = 1;
-  originX = 0;
-  originY = 0;
-  lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+  const vw = viewer.clientWidth;
+  const vh = viewer.clientHeight;
+
+  const iw = lightboxImg.naturalWidth;
+  const ih = lightboxImg.naturalHeight;
+
+  // Compute scale to fit image inside viewer
+  const scaleX = vw / iw;
+  const scaleY = vh / ih;
+  scale = Math.min(scaleX, scaleY);
+
+  // Center the image
+  originX = (vw - iw * scale) / 2;
+  originY = (vh - ih * scale) / 2;
+
+  lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
 }
 
 function openLightbox(index, item, caption) {
@@ -166,7 +178,7 @@ function openLightbox(index, item, caption) {
   lightboxCaption.textContent = `${item.name} — ${caption}`;
   lightbox.classList.remove("hidden");
 
-  // Wait for image to load before fitting
+  // Fit AFTER image loads
   lightboxImg.onload = () => {
     fitToScreen();
   };
@@ -247,7 +259,7 @@ viewer.addEventListener("wheel", e => {
 
   const oldScale = scale;
   scale += delta * zoomIntensity;
-  scale = Math.min(Math.max(1, scale), 8);
+  scale = Math.min(Math.max(scale, 0.1), 8);
 
   const rect = viewer.getBoundingClientRect();
   const cx = e.clientX - rect.left;
@@ -269,7 +281,7 @@ zoomInBtn.onclick = () => {
 };
 
 zoomOutBtn.onclick = () => {
-  scale = Math.max(scale - 0.2, 1);
+  scale = Math.max(scale - 0.2, 0.1);
   lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
 };
 
