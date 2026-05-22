@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }}</title>
 
-  <link rel="stylesheet" href="/portfolio/assets/css/style.css">
-  <link rel="icon" href="/portfolio/assets/images/favicons/favicon.ico" type="image/x-icon">
+  <!-- Your site CSS -->
+  <link rel="stylesheet" href="/portfolio/assets/css/main.css">
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <!-- Favicon (update path to wherever your favicon actually is) -->
+  <link rel="icon" href="/portfolio/assets/images/logo/favicon.ico">
 </head>
 
 <body>
@@ -19,6 +30,14 @@
 
   {% include footer.html %}
 
+  <!-- Leaflet JS (must load BEFORE your map scripts) -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-o9N1j7kGStGkGkS2k9JbZQ+QpimecvFRCydLr6Zi3kE="
+    crossorigin="">
+  </script>
+
+  <!-- Global theme toggle -->
   <script type="module" src="/portfolio/assets/js/theme.js"></script>
 
 </body>
