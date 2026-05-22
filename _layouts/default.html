@@ -3,33 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }}</title>
 
-  <!-- Site CSS -->
+  <title>{{ page.title }} | Fantail GIS</title>
+
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+  <link rel="icon" href="{{ site.baseurl }}/assets/images/logo/fantail-logo-black.svg">
 
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-  <!-- Favicon -->
-  <link rel="icon" href="{{ site.baseurl }}/assets/images/logo/favicon.ico">
 </head>
 
 <body>
 
   {% include header.html %}
 
-  <main>
+  <main class="page-content">
     {{ content }}
   </main>
 
   {% include footer.html %}
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <!-- Theme toggle -->
-  <script type="module" src="{{ site.baseurl }}/assets/js/theme.js"></script>
-
+  <script src="{{ site.baseurl }}/assets/js/theme.js"></script>
 </body>
 </html>
