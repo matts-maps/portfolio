@@ -8,8 +8,8 @@ export function initGallery(images) {
   const fContinent = document.getElementById("filter-continent");
   const fCountry = document.getElementById("filter-country");
   const fLocation = document.getElementById("filter-location");
-  const fTheme = document.getElementById("filter-theme");
   const fDisaster = document.getElementById("filter-disaster");
+  const fTheme = document.getElementById("filter-theme");
   const btnClear = document.getElementById("clear-filters");
 
   // Build initial filter options
@@ -27,8 +27,8 @@ export function initGallery(images) {
   fContinent.onchange =
   fCountry.onchange =
   fLocation.onchange =
-  fTheme.onchange =
-  fDisaster.onchange = applyFilters;
+  fDisaster.onchange =
+  fTheme.onchange = applyFilters;
 
   btnClear.onclick = () => {
     fSearch.value = "";
@@ -36,8 +36,8 @@ export function initGallery(images) {
     fContinent.value = "";
     fCountry.value = "";
     fLocation.value = "";
-    fTheme.value = "";
     fDisaster.value = "";
+    fTheme.value = "";
     applyFilters();
   };
 
@@ -48,8 +48,8 @@ export function initGallery(images) {
         (fContinent.value === "" || item.continent === fContinent.value) &&
         (fCountry.value === "" || item.country === fCountry.value) &&
         (fLocation.value === "" || item.location === fLocation.value) &&
-        (fTheme.value === "" || item.themes.includes(fTheme.value)) &&
-        (fDisaster.value === "" || item.disaster === fDisaster.value)
+        (fDisaster.value === "" || item.disaster === fDisaster.value) &&
+        (fTheme.value === "" || item.themes.includes(fTheme.value))
       );
     });
 
@@ -72,13 +72,34 @@ export function initGallery(images) {
       const card = document.createElement("div");
       card.className = "gallery-card";
 
+      // Thumbnail path
       const thumb = item.file.replace("assets/images/maps/", "assets/images/maps/thumbs/");
       const imgSrc = base + thumb;
+
+      // Build caption line 2
+      const parts = [];
+
+      // Location + Country
+      if (item.location && item.country !== "Multiple") {
+        parts.push(`${item.location}, ${item.country}`);
+      } else if (item.country && item.country !== "Multiple") {
+        parts.push(item.country);
+      }
+
+      // Disaster (skip if "None")
+      if (item.disaster && item.disaster !== "None") {
+        parts.push(item.disaster);
+      }
+
+      // Year
+      parts.push(item.year);
+
+      const captionLine2 = parts.join(" · ");
 
       card.innerHTML = `
         <img src="${imgSrc}" alt="${item.name}">
         <h3>${item.name}</h3>
-        <p>${item.location || item.country || ""}</p>
+        <p>${captionLine2}</p>
       `;
 
       grid.appendChild(card);
@@ -89,6 +110,8 @@ export function initGallery(images) {
     fillSelect(fContinent, list.map(i => i.continent));
     fillSelect(fCountry, list.map(i => i.country));
     fillSelect(fLocation, list.map(i => i.location).filter(Boolean));
+
+    // Disaster BEFORE theme
     fillSelect(fDisaster, list.map(i => i.disaster));
 
     // Themes dropdown
