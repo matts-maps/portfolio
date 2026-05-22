@@ -11,22 +11,52 @@ permalink: /
 
 <h2>Latest Maps</h2>
 
-<div id="filters" class="filter-bar">
-  <select id="filter-continent">
-    <option value="">All Continents</option>
-  </select>
+<div id="filter-bar" class="filter-bar">
 
-  <select id="filter-theme">
-    <option value="">All Themes</option>
-  </select>
+  <label>
+    Search
+    <input id="search-box" type="text" placeholder="Search maps…">
+  </label>
 
-  <select id="filter-disaster">
-    <option value="">All Disasters</option>
-  </select>
+  <label>
+    Sort
+    <select id="sort-select">
+      <option value="alpha">Alphabetical</option>
+      <option value="year">Year</option>
+      <option value="theme">Theme</option>
+    </select>
+  </label>
 
-  <select id="filter-year">
-    <option value="">All Years</option>
-  </select>
+  <label>
+    Continent
+    <select id="filter-continent"></select>
+  </label>
+
+  <label>
+    Country
+    <select id="filter-country"></select>
+  </label>
+
+  <label>
+    Location
+    <select id="filter-location"></select>
+  </label>
+
+  <label>
+    Themes
+    <select id="filter-theme"></select>
+  </label>
+
+  <label>
+    Disaster
+    <select id="filter-disaster"></select>
+  </label>
+
+  <label>
+    Year
+    <select id="filter-year"></select>
+  </label>
+
 </div>
 
 <div class="gallery-grid" id="gallery-grid"></div>
@@ -37,4 +67,5 @@ permalink: /
 
   initGallery(images);
 </script>
+
 
