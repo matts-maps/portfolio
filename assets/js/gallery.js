@@ -7,7 +7,13 @@ export function renderGallery(images) {
     const card = document.createElement("div");
     card.className = "gallery-card";
 
-    const imgSrc = base + item.file.replace(/^\/+/, "");
+    // Convert full image path → thumbnail path
+    const thumbPath = item.file.replace(
+      "assets/images/maps/",
+      "assets/images/maps/thumbs/"
+    );
+
+    const imgSrc = base + thumbPath.replace(/^\/+/, "");
 
     card.innerHTML = `
       <img src="${imgSrc}" alt="${item.name}">
