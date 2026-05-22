@@ -1,32 +1,22 @@
-// assets/js/gallery.js
-// Entry module for the gallery page
+import { images } from "{{ site.baseurl }}/assets/js/gallery-data.js";
+import { applyFilters } from "{{ site.baseurl }}/assets/js/gallery-filters.js";
+import { openLightbox } from "{{ site.baseurl }}/assets/js/lightbox.js";
 
-import { images } from "./gallery-data.js";
-import { initGalleryFilters } from "./gallery-filters.js";
-import { initLightbox } from "./lightbox.js";
+const container = document.getElementById("gallery-grid");
 
 function renderGallery(list) {
-  const gallery = document.getElementById("gallery");
-  if (!gallery) return;
+  container.innerHTML = "";
 
-  gallery.innerHTML = "";
+  list.forEach(img => {
+    const el = document.createElement("img");
+    el.src = `${img.file.startsWith("http") ? img.file : "{{ site.baseurl }}/" + img.file}`;
+    el.alt = img.name;
+    el.className = "gallery-thumb";
 
-  list.forEach(item => {
-    const card = document.createElement("article");
-    card.className = "gallery-item";
-    card.setAttribute("data-lightbox-item", "true");
-
-    card.innerHTML = `
-      <img src="${item.file}" alt="${item.name}">
-      <h3>${item.name}</h3>
-      <p>${item.country || ""}${item.location ? " — " + item.location : ""}</p>
-    `;
-
-    gallery.appendChild(card);
+    el.addEventListener("click", () => openLightbox(img));
+    container.appendChild(el);
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  initGalleryFilters(images, renderGallery);
-  initLightbox("#gallery");
-});
+renderGallery(images);
+applyFilters(images, renderGallery);

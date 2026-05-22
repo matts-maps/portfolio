@@ -1,36 +1,22 @@
-// assets/js/map-projects.js
-// Entry module for the projects map page
-
-import { projects } from "./projects-data.js";
+import { projects } from "{{ site.baseurl }}/assets/js/projects-data.js";
 
 function initProjectsMap() {
-  const mapContainer = document.getElementById("projects-map");
-  if (!mapContainer) return;
-
   const map = L.map("projects-map").setView([20, 0], 2);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 18,
-    attribution: "&copy; OpenStreetMap contributors"
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19
   }).addTo(map);
 
-  const sidebar = document.getElementById("project-info");
-
-  projects.forEach(item => {
-    if (typeof item.lat !== "number" || typeof item.lng !== "number") return;
-
-    const marker = L.marker([item.lat, item.lng]).addTo(map);
+  projects.forEach(p => {
+    const marker = L.marker([p.lat, p.lng]).addTo(map);
 
     marker.on("click", () => {
-      if (!sidebar) return;
-
-      sidebar.innerHTML = `
-        <h3>${item.name}</h3>
-        <p><strong>Country:</strong> ${item.country || ""}</p>
-        <p><strong>Location:</strong> ${item.location || ""}</p>
-        <p><strong>Year:</strong> ${item.year || ""}</p>
-        <p><strong>Type:</strong> ${item.type || ""}</p>
-        <p>${item.description || ""}</p>
+      const panel = document.getElementById("project-info");
+      panel.innerHTML = `
+        <h2>${p.title}</h2>
+        <p>${p.description}</p>
+        <p><strong>Location:</strong> ${p.location}</p>
+        <a href="${p.link}" target="_blank">View project</a>
       `;
     });
   });
