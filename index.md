@@ -13,5 +13,9 @@ permalink: /
 
 <div class="gallery-grid" id="gallery-grid"></div>
 
-<script src="{{ site.baseurl }}/assets/js/gallery-data.js"></script>
-<script src="{{ site.baseurl }}/assets/js/gallery.js"></script>
+<script type="module">
+  import { images } from "{{ site.baseurl }}/assets/js/gallery-data.js";
+  import { renderGallery } from "{{ site.baseurl }}/assets/js/gallery.js";
+
+  renderGallery(images);
+</script>
