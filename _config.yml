@@ -1,11 +1,15 @@
 title: "Fantail GIS"
 description: "Maps, Projects, and Visual Work"
+author: "Matt Sims"
 baseurl: "/portfolio"   
 url: "https://matts-maps.github.io"
 
 markdown: kramdown
 theme: minima
+paginate:          5
+paginate_path:     "/posts/page:num/"
 
 collections:
   projects:
     output: true
+
