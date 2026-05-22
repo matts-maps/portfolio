@@ -227,7 +227,10 @@ nav a:hover {
    FILTER BAR
 =========================== */
 
+
 .filter-bar {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 1.5rem;
@@ -256,4 +259,19 @@ nav a:hover {
   font-size: 1rem;
   min-width: 150px;
 }
+
+.clear-btn {
+  align-self: end;
+  padding: 0.5rem 1rem;
+  background: #ddd;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.clear-btn:hover {
+  background: #ccc;
+}
+
 

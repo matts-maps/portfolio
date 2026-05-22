@@ -10,10 +10,13 @@ export function initGallery(images) {
   const fLocation = document.getElementById("filter-location");
   const fTheme = document.getElementById("filter-theme");
   const fDisaster = document.getElementById("filter-disaster");
-  const fYear = document.getElementById("filter-year");
+  const btnClear = document.getElementById("clear-filters");
 
   // Build initial filter options
   populateFilters(images);
+
+  // Default sort = newest first
+  fSort.value = "year";
 
   // Initial render
   applyFilters();
@@ -25,8 +28,18 @@ export function initGallery(images) {
   fCountry.onchange =
   fLocation.onchange =
   fTheme.onchange =
-  fDisaster.onchange =
-  fYear.onchange = applyFilters;
+  fDisaster.onchange = applyFilters;
+
+  btnClear.onclick = () => {
+    fSearch.value = "";
+    fSort.value = "year";
+    fContinent.value = "";
+    fCountry.value = "";
+    fLocation.value = "";
+    fTheme.value = "";
+    fDisaster.value = "";
+    applyFilters();
+  };
 
   function applyFilters() {
     let filtered = images.filter(item => {
@@ -36,8 +49,7 @@ export function initGallery(images) {
         (fCountry.value === "" || item.country === fCountry.value) &&
         (fLocation.value === "" || item.location === fLocation.value) &&
         (fTheme.value === "" || item.themes.includes(fTheme.value)) &&
-        (fDisaster.value === "" || item.disaster === fDisaster.value) &&
-        (fYear.value === "" || item.year.toString() === fYear.value)
+        (fDisaster.value === "" || item.disaster === fDisaster.value)
       );
     });
 
@@ -78,7 +90,6 @@ export function initGallery(images) {
     fillSelect(fCountry, list.map(i => i.country));
     fillSelect(fLocation, list.map(i => i.location).filter(Boolean));
     fillSelect(fDisaster, list.map(i => i.disaster));
-    fillSelect(fYear, list.map(i => i.year.toString()));
 
     // Themes dropdown
     const themes = [...new Set(list.flatMap(i => i.themes))].sort();

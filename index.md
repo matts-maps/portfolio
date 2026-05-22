@@ -1,16 +1,3 @@
----
-layout: default
-title: Home
-permalink: /
----
-
-<section class="hero">
-  <h1>Welcome</h1>
-  <p>Explore maps, projects, and geospatial work.</p>
-</section>
-
-<h2>Latest Maps</h2>
-
 <div id="filter-bar" class="filter-bar">
 
   <label>
@@ -21,8 +8,8 @@ permalink: /
   <label>
     Sort
     <select id="sort-select">
+      <option value="year" selected>Year (Newest First)</option>
       <option value="alpha">Alphabetical</option>
-      <option value="year">Year</option>
       <option value="theme">Theme</option>
     </select>
   </label>
@@ -52,10 +39,7 @@ permalink: /
     <select id="filter-disaster"></select>
   </label>
 
-  <label>
-    Year
-    <select id="filter-year"></select>
-  </label>
+  <button id="clear-filters" class="clear-btn">Clear Filters</button>
 
 </div>
 
@@ -67,5 +51,3 @@ permalink: /
 
   initGallery(images);
 </script>
-
-
