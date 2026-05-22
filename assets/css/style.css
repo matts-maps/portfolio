@@ -219,10 +219,11 @@ nav a:hover {
    Lightbox
 -------------------------------------------------- */
 
+
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.9);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -235,13 +236,7 @@ nav a:hover {
   display: none;
 }
 
-#lightbox-img {
-  max-width: 90%;
-  max-height: 80vh;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
+/* Close button */
 #lightbox-close {
   position: absolute;
   top: 1rem;
@@ -249,14 +244,60 @@ nav a:hover {
   font-size: 3rem;
   color: white;
   cursor: pointer;
+  z-index: 20;
+}
+
+/* Prev / Next buttons */
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3rem;
+  color: white;
+  background: rgba(0,0,0,0.4);
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  z-index: 20;
+  border-radius: 6px;
+}
+
+#lightbox-prev { left: 1rem; }
+#lightbox-next { right: 1rem; }
+
+.lightbox-nav:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Viewer container */
+#lightbox-viewer {
+  position: relative;
+  overflow: hidden;
+  max-width: 90%;
+  max-height: 80vh;
+  cursor: grab;
+}
+
+#lightbox-viewer:active {
+  cursor: grabbing;
+}
+
+/* Image inside viewer */
+#lightbox-img {
+  transform-origin: center center;
+  transition: transform 0.1s ease-out;
+  user-select: none;
+  pointer-events: none;
 }
 
 #lightbox-caption {
   color: white;
   font-size: 1.2rem;
+  margin-top: 1rem;
   text-align: center;
   max-width: 80%;
 }
+
 
 /* --------------------------------------------------
    Responsive

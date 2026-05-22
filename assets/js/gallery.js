@@ -1,3 +1,6 @@
+let currentFilteredList = [];
+let currentIndex = 0;
+
 export function initGallery(images) {
   const grid = document.getElementById("gallery-grid");
   const base = window.location.origin + "/portfolio/";
@@ -58,6 +61,9 @@ export function initGallery(images) {
     if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
     if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
 
+    // Store for lightbox navigation
+    currentFilteredList = filtered;
+
     // Update dependent filters
     populateFilters(filtered);
 
@@ -68,7 +74,7 @@ export function initGallery(images) {
   function render(list) {
     grid.innerHTML = "";
 
-    list.forEach(item => {
+    list.forEach((item, index) => {
       const card = document.createElement("div");
       card.className = "gallery-card";
 
@@ -79,19 +85,16 @@ export function initGallery(images) {
       // Build caption line 2
       const parts = [];
 
-      // Location + Country
       if (item.location && item.country !== "Multiple") {
         parts.push(`${item.location}, ${item.country}`);
       } else if (item.country && item.country !== "Multiple") {
         parts.push(item.country);
       }
 
-      // Disaster (skip if "None")
       if (item.disaster && item.disaster !== "None") {
         parts.push(item.disaster);
       }
 
-      // Year
       parts.push(item.year);
 
       const captionLine2 = parts.join(" · ");
@@ -106,12 +109,7 @@ export function initGallery(images) {
       `;
 
       // Lightbox click
-      card.onclick = () => {
-        const fullImg = base + item.file;
-        document.getElementById("lightbox-img").src = fullImg;
-        document.getElementById("lightbox-caption").textContent = `${item.name} — ${captionLine2}`;
-        document.getElementById("lightbox").classList.remove("hidden");
-      };
+      card.onclick = () => openLightbox(index, item, captionLine2);
 
       grid.appendChild(card);
 
@@ -127,10 +125,8 @@ export function initGallery(images) {
     fillSelect(fCountry, list.map(i => i.country));
     fillSelect(fLocation, list.map(i => i.location).filter(Boolean));
 
-    // Disaster BEFORE theme
     fillSelect(fDisaster, list.map(i => i.disaster));
 
-    // Themes dropdown
     const themes = [...new Set(list.flatMap(i => i.themes))].sort();
     fillSelect(fTheme, themes);
   }
@@ -147,14 +143,118 @@ export function initGallery(images) {
     if (unique.includes(current)) select.value = current;
   }
 
-  // Lightbox close
+  /* --------------------------------------------------
+     LIGHTBOX + PAN + ZOOM + NAVIGATION
+  -------------------------------------------------- */
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const lightboxCaption = document.getElementById("lightbox-caption");
+
+  const viewer = document.getElementById("lightbox-viewer");
+
+  let scale = 1;
+  let originX = 0;
+  let originY = 0;
+  let startX = 0;
+  let startY = 0;
+  let isPanning = false;
+
+  function resetPanZoom() {
+    scale = 1;
+    originX = 0;
+    originY = 0;
+    lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+  }
+
+  function openLightbox(index, item, caption) {
+    currentIndex = index;
+
+    const fullImg = base + item.file;
+    lightboxImg.src = fullImg;
+
+    lightboxCaption.textContent = `${item.name} — ${caption}`;
+    lightbox.classList.remove("hidden");
+
+    resetPanZoom();
+  }
+
+  // Close
   document.getElementById("lightbox-close").onclick = () => {
-    document.getElementById("lightbox").classList.add("hidden");
+    lightbox.classList.add("hidden");
   };
 
-  document.getElementById("lightbox").onclick = (e) => {
+  // Click outside closes
+  lightbox.onclick = (e) => {
     if (e.target.id === "lightbox") {
-      document.getElementById("lightbox").classList.add("hidden");
+      lightbox.classList.add("hidden");
     }
   };
+
+  // Prev / Next
+  document.getElementById("lightbox-prev").onclick = () => navigate(-1);
+  document.getElementById("lightbox-next").onclick = () => navigate(1);
+
+  function navigate(direction) {
+    const list = currentFilteredList;
+    currentIndex = (currentIndex + direction + list.length) % list.length;
+
+    const item = list[currentIndex];
+
+    const parts = [];
+    if (item.location && item.country !== "Multiple") {
+      parts.push(`${item.location}, ${item.country}`);
+    } else if (item.country && item.country !== "Multiple") {
+      parts.push(item.country);
+    }
+    if (item.disaster && item.disaster !== "None") {
+      parts.push(item.disaster);
+    }
+    parts.push(item.year);
+
+    const caption = parts.join(" · ");
+
+    openLightbox(currentIndex, item, caption);
+  }
+
+  /* -----------------------------
+     PAN + ZOOM
+  ----------------------------- */
+
+  viewer.addEventListener("mousedown", e => {
+    isPanning = true;
+    startX = e.clientX - originX;
+    startY = e.clientY - originY;
+  });
+
+  viewer.addEventListener("mouseup", () => {
+    isPanning = false;
+  });
+
+  viewer.addEventListener("mousemove", e => {
+    if (!isPanning) return;
+    originX = e.clientX - startX;
+    originY = e.clientY - startY;
+    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+  });
+
+  viewer.addEventListener("wheel", e => {
+    e.preventDefault();
+
+    const zoomIntensity = 0.1;
+    const delta = e.deltaY < 0 ? 1 : -1;
+
+    const oldScale = scale;
+    scale += delta * zoomIntensity;
+    scale = Math.min(Math.max(1, scale), 8);
+
+    const rect = viewer.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+
+    originX -= (cx / oldScale - cx / scale);
+    originY -= (cy / oldScale - cy / scale);
+
+    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+  });
 }
