@@ -4,45 +4,32 @@ title: Home
 permalink: /
 ---
 
-<div class="layout">
-  
-  <!-- LEFT FILTER PANEL -->
-  <aside id="filter-panel">
-    <h2>Filters</h2>
+<section class="hero">
+  <h1>Welcome</h1>
+  <p>Explore maps, projects, and geospatial work.</p>
+</section>
 
-    <input id="search-box" type="text" placeholder="Search maps…">
+<h2>Latest Maps</h2>
 
-    <h3>Sort</h3>
-    <select id="sort-select">
-      <option value="alpha">Alphabetical</option>
-      <option value="year">Year</option>
-      <option value="theme">Theme</option>
-    </select>
+<div id="filters" class="filter-bar">
+  <select id="filter-continent">
+    <option value="">All Continents</option>
+  </select>
 
-    <h3>Continent</h3>
-    <select id="filter-continent"></select>
+  <select id="filter-theme">
+    <option value="">All Themes</option>
+  </select>
 
-    <h3>Country</h3>
-    <select id="filter-country"></select>
+  <select id="filter-disaster">
+    <option value="">All Disasters</option>
+  </select>
 
-    <h3>Location</h3>
-    <select id="filter-location"></select>
-
-    <h3>Themes</h3>
-    <div id="filter-themes"></div>
-
-    <h3>Disaster</h3>
-    <select id="filter-disaster"></select>
-
-    <h3>Year</h3>
-    <select id="filter-year"></select>
-
-  </aside>
-
-  <!-- RIGHT MASONRY GRID -->
-  <div class="gallery-grid" id="gallery-grid"></div>
-
+  <select id="filter-year">
+    <option value="">All Years</option>
+  </select>
 </div>
+
+<div class="gallery-grid" id="gallery-grid"></div>
 
 <script type="module">
   import { images } from "{{ site.baseurl }}/assets/js/gallery-data.js";
@@ -50,3 +37,4 @@ permalink: /
 
   initGallery(images);
 </script>
+
