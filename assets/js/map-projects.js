@@ -1,39 +1,32 @@
-(function () {
-  const mapEl = document.getElementById("projects-map");
-  if (!mapEl || !window.PROJECTS || !window.FilterUtils || !L) return;
+import { projects } from "./projects-data.js";
 
-  const map = L.map(mapEl).setView([14.5995, 120.9842], 5);
+function initProjectsMap() {
+  const mapContainer = document.getElementById("projects-map");
+  if (!mapContainer) return;
+
+  const map = L.map("projects-map").setView([20, 0], 2);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18,
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
-  let markersLayer = L.layerGroup().addTo(map);
+  projects.forEach(p => {
+    if (typeof p.lat !== "number" || typeof p.lng !== "number") return;
 
-  function renderMarkers() {
-    markersLayer.clearLayers();
-    const items = window.FilterUtils.applyFiltersToItems(window.PROJECTS);
-    items.forEach((item) => {
-      if (typeof item.lat !== "number" || typeof item.lng !== "number") return;
-      const marker = L.marker([item.lat, item.lng]).addTo(markersLayer);
-      marker.on("click", () => {
-        if (window.ProjectSidebar) {
-          window.ProjectSidebar.open(item);
-        }
-      });
-    });
-    if (items.length > 0) {
-      const bounds = L.latLngBounds(
-        items
-          .filter((i) => typeof i.lat === "number" && typeof i.lng === "number")
-          .map((i) => [i.lat, i.lng])
-      );
-      if (bounds.isValid()) {
-        map.fitBounds(bounds, { padding: [20, 20] });
-      }
-    }
-  }
+    const marker = L.marker([p.lat, p.lng]).addTo(map);
+    const title = p.name || "Project";
+    const country = p.country || "";
+    const org = p.organisation || "";
+    const type = p.projectType || "";
+    const level = p.level || "";
 
-  window.addEventListener("filters:changed", renderMarkers);
-  renderMarkers();
-})();
+    marker.bindPopup(`
+      <strong>${title}</strong><br>
+      ${country}<br>
+      ${org}${type ? " — " + type : ""}${level ? "<br>" + level : ""}
+    `);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initProjectsMap);

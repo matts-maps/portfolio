@@ -1,30 +1,31 @@
-(function () {
-  const container = document.getElementById("gallery");
-  if (!container || !window.GALLERY_ITEMS || !window.FilterUtils) return;
+import { images } from "./gallery-data.js";
+import { initGalleryFilters } from "./gallery-filters.js";
+import { initLightbox } from "./lightbox.js";
 
-  function render() {
-    const items = window.FilterUtils.applyFiltersToItems(window.GALLERY_ITEMS);
-    container.innerHTML = "";
-    items.forEach((item) => {
-      const div = document.createElement("div");
-      div.className = "gallery-item";
-      div.dataset.id = item.id;
-      div.innerHTML = `
-        <img src="${item.image}" alt="${item.title}">
-        <div class="gallery-item-info">
-          <div class="gallery-item-title">${item.title}</div>
-          <div class="gallery-item-meta">${item.category} • ${item.tag}</div>
-        </div>
-      `;
-      div.addEventListener("click", () => {
-        if (window.Lightbox) {
-          window.Lightbox.open(item);
-        }
-      });
-      container.appendChild(div);
-    });
-  }
+function renderGallery(list) {
+  const gallery = document.getElementById("gallery");
+  if (!gallery) return;
 
-  window.addEventListener("filters:changed", render);
-  render();
-})();
+  gallery.innerHTML = "";
+
+  list.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "gallery-item";
+    card.setAttribute("data-lightbox-item", "true");
+
+    card.innerHTML = `
+      <img src="${item.file}" alt="${item.name}">
+      <h3>${item.name}</h3>
+      <p>
+        ${item.country || ""}${item.location ? " — " + item.location : ""}
+      </p>
+    `;
+
+    gallery.appendChild(card);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initGalleryFilters(images, renderGallery);
+  initLightbox("#gallery");
+});
