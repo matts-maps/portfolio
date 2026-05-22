@@ -13,7 +13,7 @@ export function initThemeToggle() {
 
   if (prefersDark) {
     document.body.classList.add("dark");
-    if (logo) logo.src = "assets/images/logos/fantail-logo-white.svg";
+    if (logo) logo.src = "/assets/images/logos/fantail-logo-white.svg";
     toggle.textContent = "☀️";
   } else {
     toggle.textContent = "🌙";
@@ -24,8 +24,8 @@ export function initThemeToggle() {
 
     if (logo) {
       logo.src = isDark
-        ? "assets/images/logos/fantail-logo-white.svg"
-        : "assets/images/logos/fantail-logo-black.svg";
+        ? "/assets/images/logos/fantail-logo-white.svg"
+        : "/assets/images/logos/fantail-logo-black.svg";
     }
 
     toggle.textContent = isDark ? "☀️" : "🌙";
