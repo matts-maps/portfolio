@@ -1,8 +1,10 @@
 title: "Fantail GIS"
 description: "Maps, Projects, and Visual Work"
 author: "Matt Sims"
-baseurl: "/portfolio"   
+
 url: "https://matts-maps.github.io"
+baseurl: "/portfolio"
+
 
 markdown: kramdown
 theme: minima
