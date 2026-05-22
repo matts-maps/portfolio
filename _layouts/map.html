@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+<section class="layout-with-sidebar">
+  {% include filter-panel.html %}
+
+  <div class="content-area">
+    <div id="map" class="map-container"></div>
+  </div>
+</section>
+
+{% include lightbox.html %}
+
+<script src="{{ '/assets/js/gallery-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/map-gallery.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>

@@ -1,0 +1,11 @@
+title: "Fantail GIS"
+description: "Maps, Projects, and Visual Work"
+baseurl: "portfolio" # set to "/repo-name" if using project pages
+url: "https://matts-maps.github.io"
+
+markdown: kramdown
+theme: minima
+
+collections:
+  projects:
+    output: true

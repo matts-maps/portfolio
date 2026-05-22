@@ -1,0 +1,10 @@
+<aside id="project-sidebar" class="project-sidebar closed">
+  <button id="sidebar-close" class="sidebar-close">&times;</button>
+  <div class="project-sidebar-content">
+    <h2 id="sidebar-title"></h2>
+    <p id="sidebar-location"></p>
+    <p id="sidebar-tags"></p>
+    <p id="sidebar-description"></p>
+    <a id="sidebar-link" href="#" target="_blank" rel="noopener">View more</a>
+  </div>
+</aside>

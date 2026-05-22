@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+<section class="layout-with-sidebar">
+  {% include filter-panel.html %}
+
+  <div class="content-area">
+    <div id="projects-map" class="map-container"></div>
+  </div>
+
+  {% include sidebar-project.html %}
+</section>
+
+<script src="{{ '/assets/js/projects-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/map-projects.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/sidebar.js' | relative_url }}"></script>
