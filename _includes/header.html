@@ -1,7 +1,10 @@
 <header class="site-header">
-  <div class="site-title">
-    <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
-  </div>
+  <a href="{{ '/' | relative_url }}" class="logo-link">
+    <img id="site-logo"
+         src="{{ '/assets/images/logo/fantail-logo-black.svg' | relative_url }}"
+         alt="Fantail GIS Logo">
+  </a>
+
   <nav class="site-nav">
     <a href="{{ '/' | relative_url }}">Home</a>
     <a href="{{ '/map/' | relative_url }}">Map</a>
@@ -9,4 +12,6 @@
     <a href="{{ '/about/' | relative_url }}">About</a>
     <a href="{{ '/contact/' | relative_url }}">Contact</a>
   </nav>
+
+  <button id="theme-toggle" aria-label="Toggle theme">🌓</button>
 </header>
