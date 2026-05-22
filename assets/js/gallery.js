@@ -96,13 +96,29 @@ export function initGallery(images) {
 
       const captionLine2 = parts.join(" · ");
 
+      // Card HTML with hover overlay
       card.innerHTML = `
         <img src="${imgSrc}" alt="${item.name}">
-        <h3>${item.name}</h3>
-        <p>${captionLine2}</p>
+        <div class="overlay">
+          <h3>${item.name}</h3>
+          <p>${captionLine2}</p>
+        </div>
       `;
 
+      // Lightbox click
+      card.onclick = () => {
+        const fullImg = base + item.file;
+        document.getElementById("lightbox-img").src = fullImg;
+        document.getElementById("lightbox-caption").textContent = `${item.name} — ${captionLine2}`;
+        document.getElementById("lightbox").classList.remove("hidden");
+      };
+
       grid.appendChild(card);
+
+      // Animate in
+      requestAnimationFrame(() => {
+        card.classList.add("visible");
+      });
     });
   }
 
@@ -130,4 +146,15 @@ export function initGallery(images) {
 
     if (unique.includes(current)) select.value = current;
   }
+
+  // Lightbox close
+  document.getElementById("lightbox-close").onclick = () => {
+    document.getElementById("lightbox").classList.add("hidden");
+  };
+
+  document.getElementById("lightbox").onclick = (e) => {
+    if (e.target.id === "lightbox") {
+      document.getElementById("lightbox").classList.add("hidden");
+    }
+  };
 }

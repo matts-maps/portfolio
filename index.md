@@ -66,12 +66,16 @@ permalink: /
 
 <div class="gallery-grid" id="gallery-grid"></div>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox hidden">
+  <span id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="">
+  <div id="lightbox-caption"></div>
+</div>
+
 <script type="module">
   import { images } from "{{ site.baseurl }}/assets/js/gallery-data.js";
   import { initGallery } from "{{ site.baseurl }}/assets/js/gallery.js";
 
   initGallery(images);
 </script>
-
-
-
