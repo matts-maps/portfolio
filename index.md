@@ -4,29 +4,31 @@ title: Home
 permalink: /
 ---
 
-<!-- FILTER BAR ACROSS THE TOP -->
-<div id="filter-bar" class="filter-bar">
+<section class="hero">
+  <h1>Welcome</h1>
+  <p>Explore maps, projects, and geospatial work.</p>
+</section>
 
-  <input id="search-box" type="text" placeholder="Search maps…">
+<h2>Latest Maps</h2>
 
-  <select id="sort-select">
-    <option value="alpha">Alphabetical</option>
-    <option value="year">Year</option>
-    <option value="theme">Theme</option>
+<div id="filters" class="filter-bar">
+  <select id="filter-continent">
+    <option value="">All Continents</option>
   </select>
 
-  <select id="filter-continent"></select>
-  <select id="filter-country"></select>
-  <select id="filter-location"></select>
+  <select id="filter-theme">
+    <option value="">All Themes</option>
+  </select>
 
-  <div id="filter-themes" class="theme-checkboxes"></div>
+  <select id="filter-disaster">
+    <option value="">All Disasters</option>
+  </select>
 
-  <select id="filter-disaster"></select>
-  <select id="filter-year"></select>
-
+  <select id="filter-year">
+    <option value="">All Years</option>
+  </select>
 </div>
 
-<!-- MASONRY GRID -->
 <div class="gallery-grid" id="gallery-grid"></div>
 
 <script type="module">
@@ -35,3 +37,4 @@ permalink: /
 
   initGallery(images);
 </script>
+

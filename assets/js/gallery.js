@@ -1,70 +1,51 @@
 export function initGallery(images) {
-  const grid = document.getElementById("gallery-grid");
+  const container = document.getElementById("gallery-grid");
+
   const base = window.location.origin + "/portfolio/";
 
-  // Filter elements
-  const fSearch = document.getElementById("search-box");
-  const fSort = document.getElementById("sort-select");
-  const fContinent = document.getElementById("filter-continent");
-  const fCountry = document.getElementById("filter-country");
-  const fLocation = document.getElementById("filter-location");
-  const fThemes = document.getElementById("filter-themes");
-  const fDisaster = document.getElementById("filter-disaster");
-  const fYear = document.getElementById("filter-year");
-
-  // Build initial filter options
+  // Build dropdown options
   populateFilters(images);
 
-  // Initial render
-  applyFilters();
+  // Render initial gallery
+  render(images);
 
-  // Attach listeners
-  fSearch.oninput =
-  fSort.onchange =
-  fContinent.onchange =
-  fCountry.onchange =
-  fLocation.onchange =
-  fDisaster.onchange =
-  fYear.onchange = applyFilters;
-
-  fThemes.addEventListener("change", applyFilters);
+  // Attach filter listeners
+  document.getElementById("filter-continent").addEventListener("change", applyFilters);
+  document.getElementById("filter-theme").addEventListener("change", applyFilters);
+  document.getElementById("filter-disaster").addEventListener("change", applyFilters);
+  document.getElementById("filter-year").addEventListener("change", applyFilters);
 
   function applyFilters() {
-    const selectedThemes = [...fThemes.querySelectorAll("input:checked")].map(i => i.value);
+    const c = document.getElementById("filter-continent").value;
+    const t = document.getElementById("filter-theme").value;
+    const d = document.getElementById("filter-disaster").value;
+    const y = document.getElementById("filter-year").value;
 
-    let filtered = images.filter(item => {
+    const filtered = images.filter(item => {
       return (
-        (fSearch.value === "" || item.name.toLowerCase().includes(fSearch.value.toLowerCase())) &&
-        (fContinent.value === "" || item.continent === fContinent.value) &&
-        (fCountry.value === "" || item.country === fCountry.value) &&
-        (fLocation.value === "" || item.location === fLocation.value) &&
-        (selectedThemes.length === 0 || selectedThemes.every(t => item.themes.includes(t))) &&
-        (fDisaster.value === "" || item.disaster === fDisaster.value) &&
-        (fYear.value === "" || item.year.toString() === fYear.value)
+        (c === "" || item.continent === c) &&
+        (t === "" || item.themes.includes(t)) &&
+        (d === "" || item.disaster === d) &&
+        (y === "" || item.year.toString() === y)
       );
     });
 
-    // Sorting
-    if (fSort.value === "alpha") filtered.sort((a,b)=>a.name.localeCompare(b.name));
-    if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
-    if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
-
-    // Update dependent filters
-    populateFilters(filtered);
-
-    // Render
     render(filtered);
   }
 
   function render(list) {
-    grid.innerHTML = "";
+    container.innerHTML = "";
 
     list.forEach(item => {
       const card = document.createElement("div");
       card.className = "gallery-card";
 
-      const thumb = item.file.replace("assets/images/maps/", "assets/images/maps/thumbs/");
-      const imgSrc = base + thumb;
+      const thumbPath = item.file.replace(
+        "assets/images/maps/",
+        "assets/images/maps/thumbs/"
+      );
+
+      const imgSrc = base + thumbPath.replace(/^\/+/, "");
 
       card.innerHTML = `
         <img src="${imgSrc}" alt="${item.name}">
@@ -72,33 +53,36 @@ export function initGallery(images) {
         <p>${item.location || item.country || ""}</p>
       `;
 
-      grid.appendChild(card);
+      container.appendChild(card);
     });
   }
+}
 
-  function populateFilters(list) {
-    fillSelect(fContinent, list.map(i => i.continent));
-    fillSelect(fCountry, list.map(i => i.country));
-    fillSelect(fLocation, list.map(i => i.location).filter(Boolean));
-    fillSelect(fDisaster, list.map(i => i.disaster));
-    fillSelect(fYear, list.map(i => i.year.toString()));
+function populateFilters(images) {
+  const continents = new Set();
+  const themes = new Set();
+  const disasters = new Set();
+  const years = new Set();
 
-    // Themes = checkboxes
-    const themes = [...new Set(list.flatMap(i => i.themes))].sort();
-    fThemes.innerHTML = themes.map(t => `
-      <label><input type="checkbox" value="${t}"> ${t}</label>
-    `).join("");
-  }
+  images.forEach(i => {
+    continents.add(i.continent);
+    i.themes.forEach(t => themes.add(t));
+    disasters.add(i.disaster);
+    years.add(i.year);
+  });
 
-  function fillSelect(select, values) {
-    const unique = [...new Set(values)].sort();
-    const current = select.value;
+  fill("filter-continent", continents);
+  fill("filter-theme", themes);
+  fill("filter-disaster", disasters);
+  fill("filter-year", years);
 
-    select.innerHTML = `<option value="">All</option>`;
-    unique.forEach(v => {
-      select.innerHTML += `<option value="${v}">${v}</option>`;
+  function fill(id, set) {
+    const select = document.getElementById(id);
+    [...set].sort().forEach(v => {
+      const opt = document.createElement("option");
+      opt.value = v;
+      opt.textContent = v;
+      select.appendChild(opt);
     });
-
-    if (unique.includes(current)) select.value = current;
   }
 }
