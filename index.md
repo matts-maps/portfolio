@@ -1,32 +1,51 @@
----
-layout: default
-title: Home
-permalink: /
----
-
-<!-- FILTER BAR ACROSS THE TOP -->
 <div id="filter-bar" class="filter-bar">
 
-  <input id="search-box" type="text" placeholder="Search maps…">
+  <label>
+    Search
+    <input id="search-box" type="text" placeholder="Search maps…">
+  </label>
 
-  <select id="sort-select">
-    <option value="alpha">Alphabetical</option>
-    <option value="year">Year</option>
-    <option value="theme">Theme</option>
-  </select>
+  <label>
+    Sort
+    <select id="sort-select">
+      <option value="alpha">Alphabetical</option>
+      <option value="year">Year</option>
+      <option value="theme">Theme</option>
+    </select>
+  </label>
 
-  <select id="filter-continent"></select>
-  <select id="filter-country"></select>
-  <select id="filter-location"></select>
+  <label>
+    Continent
+    <select id="filter-continent"></select>
+  </label>
 
-  <div id="filter-themes" class="theme-checkboxes"></div>
+  <label>
+    Country
+    <select id="filter-country"></select>
+  </label>
 
-  <select id="filter-disaster"></select>
-  <select id="filter-year"></select>
+  <label>
+    Location
+    <select id="filter-location"></select>
+  </label>
+
+  <label>
+    Themes
+    <select id="filter-theme"></select>
+  </label>
+
+  <label>
+    Disaster
+    <select id="filter-disaster"></select>
+  </label>
+
+  <label>
+    Year
+    <select id="filter-year"></select>
+  </label>
 
 </div>
 
-<!-- MASONRY GRID -->
 <div class="gallery-grid" id="gallery-grid"></div>
 
 <script type="module">
