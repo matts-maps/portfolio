@@ -7,22 +7,36 @@
   </label>
 
   <label>
-    <span>Category</span>
-    <select id="filter-category">
-      <option value="">All</option>
-      <option value="map">Map</option>
-      <option value="photo">Photo</option>
-      <option value="project">Project</option>
+    <span>Sort</span>
+    <select id="filter-sort">
+      <option value="alpha">Alphabetical</option>
+      <option value="year">Year</option>
+      <option value="theme">Theme</option>
     </select>
   </label>
 
   <label>
-    <span>Tag</span>
-    <select id="filter-tag">
-      <option value="">All</option>
-      <option value="urban">Urban</option>
-      <option value="rural">Rural</option>
-      <option value="transport">Transport</option>
-    </select>
+    <span>Continent</span>
+    <select id="filter-continent"></select>
   </label>
+
+  <label>
+    <span>Country</span>
+    <select id="filter-country"></select>
+  </label>
+
+  <label>
+    <span>Location</span>
+    <select id="filter-location"></select>
+  </label>
+
+  <label>
+    <span>Disaster</span>
+    <select id="filter-disaster"></select>
+  </label>
+
+  <h3>Themes</h3>
+  <div id="filter-themes" class="theme-checkboxes"></div>
+
+  <button id="filter-reset" class="reset-btn">Reset filters</button>
 </aside>
