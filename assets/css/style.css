@@ -223,25 +223,40 @@ nav a:hover {
   }
 }
 
-/* ===========================
-   FILTER BAR
-=========================== */
+/* --------------------------------------------------
+   Top Filter Bar
+-------------------------------------------------- */
 
 .filter-bar {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
+  background: #fafafa;
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: var(--header-height);
-  background: #fff;
-  z-index: 5;
-  border-bottom: 1px solid var(--border);
+  z-index: 10;
 }
 
-.filter-bar select {
+.filter-bar select,
+.filter-bar input[type="text"] {
   padding: 0.5rem;
-  font-size: 1rem;
   border-radius: 6px;
   border: 1px solid var(--border);
-  background: #fff;
+  font-size: 1rem;
+}
+
+.theme-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+
+.theme-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
 }
