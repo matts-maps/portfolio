@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>{{ page.title }} | {{ site.title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <title>{{ page.title }} | {{ site.title }}</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{{ '/assets/images/logo/favicon.ico' | relative_url }}">
+
+  <!-- Main CSS -->
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
+
 <body>
+
   {% include header.html %}
 
   <main class="site-main">
@@ -19,6 +29,22 @@
 
   {% include footer.html %}
 
+  <!-- Core JS -->
+  <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/filters.js' | relative_url }}"></script>
+
+  <!-- Gallery + Lightbox -->
+  <script src="{{ '/assets/js/gallery-data.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/gallery.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>
+
+  <!-- Map Pages -->
+  <script src="{{ '/assets/js/map-gallery.js' | relative_url }}"></script>
+
+  <!-- Projects Map + Sidebar -->
+  <script src="{{ '/assets/js/projects-data.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/map-projects.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/sidebar.js' | relative_url }}"></script>
+
 </body>
 </html>
