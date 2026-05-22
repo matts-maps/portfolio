@@ -1,22 +1,14 @@
-import { images } from "{{ site.baseurl }}/assets/js/gallery-data.js";
-import { applyFilters } from "{{ site.baseurl }}/assets/js/gallery-filters.js";
-import { openLightbox } from "{{ site.baseurl }}/assets/js/lightbox.js";
-
 const container = document.getElementById("gallery-grid");
 
-function renderGallery(list) {
-  container.innerHTML = "";
+galleryData.forEach(item => {
+  const card = document.createElement("div");
+  card.className = "gallery-card";
 
-  list.forEach(img => {
-    const el = document.createElement("img");
-    el.src = `${img.file.startsWith("http") ? img.file : "{{ site.baseurl }}/" + img.file}`;
-    el.alt = img.name;
-    el.className = "gallery-thumb";
+  card.innerHTML = `
+    <img src="${item.image}" alt="${item.name}">
+    <h3>${item.name}</h3>
+    <p>${item.description || ""}</p>
+  `;
 
-    el.addEventListener("click", () => openLightbox(img));
-    container.appendChild(el);
-  });
-}
-
-renderGallery(images);
-applyFilters(images, renderGallery);
+  container.appendChild(card);
+});
