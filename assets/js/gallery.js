@@ -130,146 +130,149 @@ export function initGallery(images) {
     if (unique.includes(current)) select.value = current;
   }
 
-  /* --------------------------------------------------
-     LIGHTBOX + PAN + ZOOM + NAVIGATION
-  -------------------------------------------------- */
+ /* --------------------------------------------------
+   LIGHTBOX + PAN + ZOOM + NAVIGATION
+-------------------------------------------------- */
 
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-  const lightboxCaption = document.getElementById("lightbox-caption");
-  const viewer = document.getElementById("lightbox-viewer");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const lightboxCaption = document.getElementById("lightbox-caption");
+const viewer = document.getElementById("lightbox-viewer");
 
-  const zoomInBtn = document.getElementById("zoom-in");
-  const zoomOutBtn = document.getElementById("zoom-out");
-  const resetBtn = document.getElementById("zoom-reset");
+const zoomInBtn = document.getElementById("zoom-in");
+const zoomOutBtn = document.getElementById("zoom-out");
+const resetBtn = document.getElementById("zoom-reset");
 
-  let scale = 1;
-  let originX = 0;
-  let originY = 0;
-  let startX = 0;
-  let startY = 0;
-  let isPanning = false;
+let scale = 1;
+let originX = 0;
+let originY = 0;
+let startX = 0;
+let startY = 0;
+let isPanning = false;
 
-  function fitToScreen() {
-    scale = 1;
-    originX = 0;
-    originY = 0;
-    lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
-  }
+function fitToScreen() {
+  scale = 1;
+  originX = 0;
+  originY = 0;
+  lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+}
 
-  function openLightbox(index, item, caption) {
-    currentIndex = index;
+function openLightbox(index, item, caption) {
+  currentIndex = index;
 
-    const fullImg = base + item.file;
-    lightboxImg.src = fullImg;
+  const fullImg = base + item.file;
+  lightboxImg.src = fullImg;
 
-    lightboxCaption.textContent = `${item.name} — ${caption}`;
-    lightbox.classList.remove("hidden");
+  lightboxCaption.textContent = `${item.name} — ${caption}`;
+  lightbox.classList.remove("hidden");
 
-    fitToScreen();
-  }
-
-  // ESC closes
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-      lightbox.classList.add("hidden");
-    }
-  });
-
-  // Close
-  document.getElementById("lightbox-close").onclick = () => {
-    lightbox.classList.add("hidden");
-  };
-
-  // Click outside closes
-  lightbox.onclick = (e) => {
-    if (e.target.id === "lightbox") {
-      lightbox.classList.add("hidden");
-    }
-  };
-
-  // Prev / Next
-  document.getElementById("lightbox-prev").onclick = () => navigate(-1);
-  document.getElementById("lightbox-next").onclick = () => navigate(1);
-
-  function navigate(direction) {
-    const list = currentFilteredList;
-    currentIndex = (currentIndex + direction + list.length) % list.length;
-
-    const item = list[currentIndex];
-
-    const parts = [];
-    if (item.location && item.country !== "Multiple") {
-      parts.push(`${item.location}, ${item.country}`);
-    } else if (item.country && item.country !== "Multiple") {
-      parts.push(item.country);
-    }
-    if (item.disaster && item.disaster !== "None") {
-      parts.push(item.disaster);
-    }
-    parts.push(item.year);
-
-    const caption = parts.join(" · ");
-
-    openLightbox(currentIndex, item, caption);
-  }
-
-  /* -----------------------------
-     PAN + ZOOM
-  ----------------------------- */
-
-  viewer.addEventListener("mousedown", e => {
-    isPanning = true;
-    startX = e.clientX - originX;
-    startY = e.clientY - originY;
-  });
-
-  viewer.addEventListener("mouseup", () => {
-    isPanning = false;
-  });
-
-  viewer.addEventListener("mousemove", e => {
-    if (!isPanning) return;
-    originX = e.clientX - startX;
-    originY = e.clientY - startY;
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  });
-
-  viewer.addEventListener("wheel", e => {
-    e.preventDefault();
-
-    const zoomIntensity = 0.1;
-    const delta = e.deltaY < 0 ? 1 : -1;
-
-    const oldScale = scale;
-    scale += delta * zoomIntensity;
-    scale = Math.min(Math.max(1, scale), 8);
-
-    const rect = viewer.getBoundingClientRect();
-    const cx = e.clientX - rect.left;
-    const cy = e.clientY - rect.top;
-
-    originX -= (cx / oldScale - cx / scale);
-    originY -= (cy / oldScale - cy / scale);
-
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  });
-
-  /* -----------------------------
-     ZOOM BAR BUTTONS
-  ----------------------------- */
-
-  zoomInBtn.onclick = () => {
-    scale = Math.min(scale + 0.2, 8);
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  };
-
-  zoomOutBtn.onclick = () => {
-    scale = Math.max(scale - 0.2, 1);
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  };
-
-  resetBtn.onclick = () => {
+  // Wait for image to load before fitting
+  lightboxImg.onload = () => {
     fitToScreen();
   };
 }
+
+// ESC closes
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    lightbox.classList.add("hidden");
+  }
+});
+
+// Close button
+document.getElementById("lightbox-close").onclick = () => {
+  lightbox.classList.add("hidden");
+};
+
+// Click outside closes
+lightbox.onclick = (e) => {
+  if (e.target.id === "lightbox") {
+    lightbox.classList.add("hidden");
+  }
+};
+
+// Prev / Next
+document.getElementById("lightbox-prev").onclick = () => navigate(-1);
+document.getElementById("lightbox-next").onclick = () => navigate(1);
+
+function navigate(direction) {
+  const list = currentFilteredList;
+  currentIndex = (currentIndex + direction + list.length) % list.length;
+
+  const item = list[currentIndex];
+
+  const parts = [];
+  if (item.location && item.country !== "Multiple") {
+    parts.push(`${item.location}, ${item.country}`);
+  } else if (item.country && item.country !== "Multiple") {
+    parts.push(item.country);
+  }
+  if (item.disaster && item.disaster !== "None") {
+    parts.push(item.disaster);
+  }
+  parts.push(item.year);
+
+  const caption = parts.join(" · ");
+
+  openLightbox(currentIndex, item, caption);
+}
+
+/* -----------------------------
+   PAN + ZOOM
+----------------------------- */
+
+viewer.addEventListener("mousedown", e => {
+  isPanning = true;
+  startX = e.clientX - originX;
+  startY = e.clientY - originY;
+});
+
+viewer.addEventListener("mouseup", () => {
+  isPanning = false;
+});
+
+viewer.addEventListener("mousemove", e => {
+  if (!isPanning) return;
+  originX = e.clientX - startX;
+  originY = e.clientY - startY;
+  lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+});
+
+// Scroll zoom
+viewer.addEventListener("wheel", e => {
+  e.preventDefault();
+
+  const zoomIntensity = 0.1;
+  const delta = e.deltaY < 0 ? 1 : -1;
+
+  const oldScale = scale;
+  scale += delta * zoomIntensity;
+  scale = Math.min(Math.max(1, scale), 8);
+
+  const rect = viewer.getBoundingClientRect();
+  const cx = e.clientX - rect.left;
+  const cy = e.clientY - rect.top;
+
+  originX -= (cx / oldScale - cx / scale);
+  originY -= (cy / oldScale - cy / scale);
+
+  lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+});
+
+/* -----------------------------
+   ZOOM BAR BUTTONS
+----------------------------- */
+
+zoomInBtn.onclick = () => {
+  scale = Math.min(scale + 0.2, 8);
+  lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+};
+
+zoomOutBtn.onclick = () => {
+  scale = Math.max(scale - 0.2, 1);
+  lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+};
+
+resetBtn.onclick = () => {
+  fitToScreen();
+};

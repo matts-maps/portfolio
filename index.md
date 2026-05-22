@@ -68,17 +68,28 @@ permalink: /
 
 <!-- LIGHTBOX -->
 <div id="lightbox" class="lightbox hidden">
-  <button id="lightbox-prev" class="lightbox-nav">&#10094;</button>
-  <button id="lightbox-next" class="lightbox-nav">&#10095;</button>
 
   <span id="lightbox-close">&times;</span>
 
+  <!-- Navigation -->
+  <button id="lightbox-prev" class="lightbox-nav">&#10094;</button>
+  <button id="lightbox-next" class="lightbox-nav">&#10095;</button>
+
+  <!-- Zoom Controls -->
+  <div id="zoom-controls">
+    <button id="zoom-in" class="zoom-btn">+</button>
+    <button id="zoom-out" class="zoom-btn">−</button>
+    <button id="zoom-reset" class="zoom-btn">Reset</button>
+  </div>
+
+  <!-- Viewer -->
   <div id="lightbox-viewer">
     <img id="lightbox-img" src="">
   </div>
 
   <div id="lightbox-caption"></div>
 </div>
+
 
 
 <script type="module">
