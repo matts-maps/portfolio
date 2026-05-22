@@ -61,13 +61,9 @@ export function initGallery(images) {
     if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
     if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
 
-    // Store for lightbox navigation
     currentFilteredList = filtered;
 
-    // Update dependent filters
     populateFilters(filtered);
-
-    // Render
     render(filtered);
   }
 
@@ -78,28 +74,22 @@ export function initGallery(images) {
       const card = document.createElement("div");
       card.className = "gallery-card";
 
-      // Thumbnail path
       const thumb = item.file.replace("assets/images/maps/", "assets/images/maps/thumbs/");
       const imgSrc = base + thumb;
 
-      // Build caption line 2
       const parts = [];
-
       if (item.location && item.country !== "Multiple") {
         parts.push(`${item.location}, ${item.country}`);
       } else if (item.country && item.country !== "Multiple") {
         parts.push(item.country);
       }
-
       if (item.disaster && item.disaster !== "None") {
         parts.push(item.disaster);
       }
-
       parts.push(item.year);
 
       const captionLine2 = parts.join(" · ");
 
-      // Card HTML with hover overlay
       card.innerHTML = `
         <img src="${imgSrc}" alt="${item.name}">
         <div class="overlay">
@@ -108,12 +98,10 @@ export function initGallery(images) {
         </div>
       `;
 
-      // Lightbox click
       card.onclick = () => openLightbox(index, item, captionLine2);
 
       grid.appendChild(card);
 
-      // Animate in
       requestAnimationFrame(() => {
         card.classList.add("visible");
       });
@@ -124,7 +112,6 @@ export function initGallery(images) {
     fillSelect(fContinent, list.map(i => i.continent));
     fillSelect(fCountry, list.map(i => i.country));
     fillSelect(fLocation, list.map(i => i.location).filter(Boolean));
-
     fillSelect(fDisaster, list.map(i => i.disaster));
 
     const themes = [...new Set(list.flatMap(i => i.themes))].sort();
@@ -150,8 +137,11 @@ export function initGallery(images) {
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightbox-img");
   const lightboxCaption = document.getElementById("lightbox-caption");
-
   const viewer = document.getElementById("lightbox-viewer");
+
+  const zoomInBtn = document.getElementById("zoom-in");
+  const zoomOutBtn = document.getElementById("zoom-out");
+  const resetBtn = document.getElementById("zoom-reset");
 
   let scale = 1;
   let originX = 0;
@@ -160,7 +150,7 @@ export function initGallery(images) {
   let startY = 0;
   let isPanning = false;
 
-  function resetPanZoom() {
+  function fitToScreen() {
     scale = 1;
     originX = 0;
     originY = 0;
@@ -176,8 +166,15 @@ export function initGallery(images) {
     lightboxCaption.textContent = `${item.name} — ${caption}`;
     lightbox.classList.remove("hidden");
 
-    resetPanZoom();
+    fitToScreen();
   }
+
+  // ESC closes
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      lightbox.classList.add("hidden");
+    }
+  });
 
   // Close
   document.getElementById("lightbox-close").onclick = () => {
@@ -257,4 +254,22 @@ export function initGallery(images) {
 
     lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
   });
+
+  /* -----------------------------
+     ZOOM BAR BUTTONS
+  ----------------------------- */
+
+  zoomInBtn.onclick = () => {
+    scale = Math.min(scale + 0.2, 8);
+    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+  };
+
+  zoomOutBtn.onclick = () => {
+    scale = Math.max(scale - 0.2, 1);
+    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+  };
+
+  resetBtn.onclick = () => {
+    fitToScreen();
+  };
 }
