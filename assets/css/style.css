@@ -285,7 +285,7 @@ nav a:hover {
   position: absolute;
   top: 1rem;
   left: 1rem;
-  z-index: 30;
+  z-index: 60;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -326,6 +326,8 @@ nav a:hover {
 .lightbox-nav:hover {
   background: rgba(255,255,255,0.2);
 }
+
+
 
 
 
