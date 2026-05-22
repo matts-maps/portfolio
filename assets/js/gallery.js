@@ -8,7 +8,7 @@ export function initGallery(images) {
   const fContinent = document.getElementById("filter-continent");
   const fCountry = document.getElementById("filter-country");
   const fLocation = document.getElementById("filter-location");
-  const fTheme = document.getElementById("filter-theme");
+  const fThemes = document.getElementById("filter-themes");
   const fDisaster = document.getElementById("filter-disaster");
   const fYear = document.getElementById("filter-year");
 
@@ -24,18 +24,21 @@ export function initGallery(images) {
   fContinent.onchange =
   fCountry.onchange =
   fLocation.onchange =
-  fTheme.onchange =
   fDisaster.onchange =
   fYear.onchange = applyFilters;
 
+  fThemes.addEventListener("change", applyFilters);
+
   function applyFilters() {
+    const selectedThemes = [...fThemes.querySelectorAll("input:checked")].map(i => i.value);
+
     let filtered = images.filter(item => {
       return (
         (fSearch.value === "" || item.name.toLowerCase().includes(fSearch.value.toLowerCase())) &&
         (fContinent.value === "" || item.continent === fContinent.value) &&
         (fCountry.value === "" || item.country === fCountry.value) &&
         (fLocation.value === "" || item.location === fLocation.value) &&
-        (fTheme.value === "" || item.themes.includes(fTheme.value)) &&
+        (selectedThemes.length === 0 || selectedThemes.every(t => item.themes.includes(t))) &&
         (fDisaster.value === "" || item.disaster === fDisaster.value) &&
         (fYear.value === "" || item.year.toString() === fYear.value)
       );
@@ -80,9 +83,11 @@ export function initGallery(images) {
     fillSelect(fDisaster, list.map(i => i.disaster));
     fillSelect(fYear, list.map(i => i.year.toString()));
 
-    // Themes dropdown
+    // Themes = checkboxes
     const themes = [...new Set(list.flatMap(i => i.themes))].sort();
-    fillSelect(fTheme, themes);
+    fThemes.innerHTML = themes.map(t => `
+      <label><input type="checkbox" value="${t}"> ${t}</label>
+    `).join("");
   }
 
   function fillSelect(select, values) {

@@ -230,7 +230,7 @@ nav a:hover {
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem 1.5rem;
+  gap: 1rem;
   padding: 1rem 1.5rem;
   background: #fafafa;
   border-bottom: 1px solid var(--border);
@@ -239,21 +239,24 @@ nav a:hover {
   z-index: 10;
 }
 
-.filter-bar label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #444;
-}
-
 .filter-bar select,
 .filter-bar input[type="text"] {
-  margin-top: 0.25rem;
   padding: 0.5rem;
   border-radius: 6px;
   border: 1px solid var(--border);
   font-size: 1rem;
-  min-width: 150px;
 }
 
+.theme-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+
+.theme-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+}
