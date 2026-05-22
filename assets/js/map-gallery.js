@@ -1,7 +1,4 @@
-// assets/js/map-gallery.js
-// Entry module for the map page (maps of disasters)
-
-import { images } from "./gallery-data.js";
+import { images } from "/portfolio/assets/js/gallery-data.js";
 
 function initMapGallery() {
   const mapContainer = document.getElementById("maps-map");

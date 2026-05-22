@@ -1,6 +1,3 @@
-// assets/js/theme.js
-// Handles dark/light mode toggle and logo switching
-
 export function initThemeToggle() {
   const toggle = document.getElementById("dark-toggle");
   const logo = document.getElementById("site-logo");
@@ -13,7 +10,7 @@ export function initThemeToggle() {
 
   if (prefersDark) {
     document.body.classList.add("dark");
-    if (logo) logo.src = "/assets/images/logos/fantail-logo-white.svg";
+    if (logo) logo.src = "/portfolio/assets/images/logos/fantail-logo-white.svg";
     toggle.textContent = "☀️";
   } else {
     toggle.textContent = "🌙";
@@ -24,8 +21,8 @@ export function initThemeToggle() {
 
     if (logo) {
       logo.src = isDark
-        ? "/assets/images/logos/fantail-logo-white.svg"
-        : "/assets/images/logos/fantail-logo-black.svg";
+        ? "/portfolio/assets/images/logos/fantail-logo-white.svg"
+        : "/portfolio/assets/images/logos/fantail-logo-black.svg";
     }
 
     toggle.textContent = isDark ? "☀️" : "🌙";
