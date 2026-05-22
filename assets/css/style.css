@@ -276,57 +276,27 @@ nav a:hover {
   max-width: 90%;
   max-height: 80vh;
   cursor: grab;
-  background: #111;
-  border-radius: 6px;
 }
 
-/* Zoom controls */
-#zoom-controls {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 30;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+#lightbox-viewer:active {
+  cursor: grabbing;
 }
 
-.zoom-btn {
-  background: rgba(0,0,0,0.6);
+/* Image inside viewer */
+#lightbox-img {
+  transform-origin: center center;
+  transition: transform 0.1s ease-out;
+  user-select: none;
+  pointer-events: none;
+}
+
+#lightbox-caption {
   color: white;
-  border: 1px solid #444;
-  padding: 0.4rem 0.8rem;
-  font-size: 1.1rem;
-  border-radius: 4px;
-  cursor: pointer;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+  max-width: 80%;
 }
-
-.zoom-btn:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-/* Prev / Next buttons */
-.lightbox-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 3rem;
-  color: white;
-  background: rgba(0,0,0,0.4);
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  z-index: 20;
-  border-radius: 6px;
-}
-
-#lightbox-prev { left: 1rem; }
-#lightbox-next { right: 1rem; }
-
-.lightbox-nav:hover {
-  background: rgba(255,255,255,0.2);
-}
-
 
 
 /* --------------------------------------------------
