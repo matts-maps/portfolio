@@ -222,3 +222,26 @@ nav a:hover {
     font-size: 2.2rem;
   }
 }
+
+/* ===========================
+   FILTER BAR
+=========================== */
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: var(--header-height);
+  background: #fff;
+  z-index: 5;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-bar select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
