@@ -1,15 +1,15 @@
 ---
 layout: default
+title: Projects Map
 ---
 
-<section class="layout-with-sidebar">
-  {% include filter-panel.html %}
-
-  <div class="content-area">
-    <div id="projects-map" class="map-container"></div>
-  </div>
+<section class="projects-page">
+  <h1>Projects Map</h1>
 
   {% include sidebar-project.html %}
+
+  <div id="projects-map" class="map-container"></div>
 </section>
 
-
+<script type="module" src="/assets/js/map-projects.js"></script>
+<script type="module" src="/assets/js/sidebar.js"></script>

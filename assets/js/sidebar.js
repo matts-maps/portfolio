@@ -1,7 +1,11 @@
+// assets/js/sidebar.js
+// Simple sidebar toggle for the projects page
+
 export function initSidebar() {
-  const toggle = document.querySelector("[data-sidebar-toggle]");
   const sidebar = document.querySelector("[data-sidebar]");
-  if (!toggle || !sidebar) return;
+  const toggle = document.querySelector("[data-sidebar-toggle]");
+
+  if (!sidebar || !toggle) return;
 
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("open");

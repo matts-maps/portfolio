@@ -1,3 +1,6 @@
+// assets/js/gallery-filters.js
+// Handles all gallery filter logic and returns filtered results to gallery.js
+
 export function initGalleryFilters(images, renderCallback) {
   const searchBox = document.getElementById("filter-search");
   const sortSelect = document.getElementById("filter-sort");
@@ -8,8 +11,6 @@ export function initGalleryFilters(images, renderCallback) {
   const themeContainer = document.getElementById("filter-themes");
   const resetBtn = document.getElementById("filter-reset");
 
-  if (!renderCallback) return;
-
   const continents = [...new Set(images.map(i => i.continent).filter(Boolean))];
   const countries = [...new Set(images.map(i => i.country).filter(Boolean))];
   const locations = [...new Set(images.map(i => i.location).filter(Boolean))];
@@ -18,11 +19,7 @@ export function initGalleryFilters(images, renderCallback) {
 
   function populateSelect(select, list) {
     if (!select) return;
-    select.innerHTML = "";
-    const allOpt = document.createElement("option");
-    allOpt.value = "";
-    allOpt.textContent = "All";
-    select.appendChild(allOpt);
+    select.innerHTML = `<option value="">All</option>`;
     list.sort().forEach(item => {
       const opt = document.createElement("option");
       opt.value = item;

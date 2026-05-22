@@ -1,3 +1,6 @@
+// assets/js/map-gallery.js
+// Entry module for the map page (maps of disasters)
+
 import { images } from "./gallery-data.js";
 
 function initMapGallery() {
@@ -15,13 +18,15 @@ function initMapGallery() {
     if (typeof item.lat !== "number" || typeof item.lng !== "number") return;
 
     const marker = L.marker([item.lat, item.lng]).addTo(map);
+
     const title = item.name;
     const meta = `${item.country || ""}${item.location ? " — " + item.location : ""}`;
+    const themes = item.themes && item.themes.length ? item.themes.join(", ") : "";
 
     marker.bindPopup(`
       <strong>${title}</strong><br>
       ${meta}<br>
-      ${item.disaster || ""} ${item.themes && item.themes.length ? "— " + item.themes.join(", ") : ""}
+      ${item.disaster || ""}${themes ? " — " + themes : ""}
     `);
   });
 }

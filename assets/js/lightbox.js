@@ -1,3 +1,6 @@
+// assets/js/lightbox.js
+// Simple reusable lightbox for gallery items
+
 export function initLightbox(containerSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
@@ -8,7 +11,7 @@ export function initLightbox(containerSelector) {
     overlay.id = "lightbox-overlay";
     overlay.innerHTML = `
       <div class="lightbox-content">
-        <button id="lightbox-close" aria-label="Close">&times;</button>
+        <button id="lightbox-close">&times;</button>
         <img id="lightbox-image" alt="">
         <h3 id="lightbox-title"></h3>
         <p id="lightbox-meta"></p>
@@ -42,9 +45,11 @@ export function initLightbox(containerSelector) {
   container.addEventListener("click", e => {
     const card = e.target.closest("[data-lightbox-item]");
     if (!card) return;
+
     const img = card.querySelector("img");
     const title = card.querySelector("h3")?.textContent || "";
     const meta = card.querySelector("p")?.textContent || "";
+
     if (img) openLightbox(img.src, title, meta);
   });
 }

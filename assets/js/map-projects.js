@@ -1,3 +1,6 @@
+// assets/js/map-projects.js
+// Entry module for the projects map page
+
 import { projects } from "./projects-data.js";
 
 function initProjectsMap() {
@@ -11,21 +14,25 @@ function initProjectsMap() {
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
-  projects.forEach(p => {
-    if (typeof p.lat !== "number" || typeof p.lng !== "number") return;
+  const sidebar = document.getElementById("project-info");
 
-    const marker = L.marker([p.lat, p.lng]).addTo(map);
-    const title = p.name || "Project";
-    const country = p.country || "";
-    const org = p.organisation || "";
-    const type = p.projectType || "";
-    const level = p.level || "";
+  projects.forEach(item => {
+    if (typeof item.lat !== "number" || typeof item.lng !== "number") return;
 
-    marker.bindPopup(`
-      <strong>${title}</strong><br>
-      ${country}<br>
-      ${org}${type ? " — " + type : ""}${level ? "<br>" + level : ""}
-    `);
+    const marker = L.marker([item.lat, item.lng]).addTo(map);
+
+    marker.on("click", () => {
+      if (!sidebar) return;
+
+      sidebar.innerHTML = `
+        <h3>${item.name}</h3>
+        <p><strong>Country:</strong> ${item.country || ""}</p>
+        <p><strong>Location:</strong> ${item.location || ""}</p>
+        <p><strong>Year:</strong> ${item.year || ""}</p>
+        <p><strong>Type:</strong> ${item.type || ""}</p>
+        <p>${item.description || ""}</p>
+      `;
+    });
   });
 }
 

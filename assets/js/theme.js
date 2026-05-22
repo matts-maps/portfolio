@@ -1,32 +1,35 @@
-const THEME_KEY = "fantail-theme";
+// assets/js/theme.js
+// Handles dark/light mode toggle and logo switching
 
-function applyTheme(theme) {
-  document.body.classList.toggle("dark", theme === "dark");
+export function initThemeToggle() {
+  const toggle = document.getElementById("dark-toggle");
   const logo = document.getElementById("site-logo");
-  if (!logo) return;
 
-  if (theme === "dark") {
-    logo.src = "assets/images/logo/fantail-logo-white.svg";
+  if (!toggle) return;
+
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (prefersDark) {
+    document.body.classList.add("dark");
+    if (logo) logo.src = "assets/images/logos/fantail-logo-white.svg";
+    toggle.textContent = "☀️";
   } else {
-    logo.src = "assets/images/logo/fantail-logo-black.svg";
+    toggle.textContent = "🌙";
   }
+
+  toggle.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark");
+
+    if (logo) {
+      logo.src = isDark
+        ? "assets/images/logos/fantail-logo-white.svg"
+        : "assets/images/logos/fantail-logo-black.svg";
+    }
+
+    toggle.textContent = isDark ? "☀️" : "🌙";
+  });
 }
 
-function getStoredTheme() {
-  return localStorage.getItem(THEME_KEY) || "light";
-}
-
-function toggleTheme() {
-  const current = getStoredTheme();
-  const next = current === "light" ? "dark" : "light";
-  localStorage.setItem(THEME_KEY, next);
-  applyTheme(next);
-}
-
-export function initTheme() {
-  applyTheme(getStoredTheme());
-  const btn = document.getElementById("theme-toggle");
-  if (btn) btn.addEventListener("click", toggleTheme);
-}
-
-document.addEventListener("DOMContentLoaded", initTheme);
+document.addEventListener("DOMContentLoaded", initThemeToggle);
