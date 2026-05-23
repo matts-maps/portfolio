@@ -151,10 +151,20 @@ export function initGallery(images) {
   let isPanning = false;
 
   function fitToScreen() {
-    scale = 1;
-    originX = 0;
-    originY = 0;
-    lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+    const vw = viewer.clientWidth;
+    const vh = viewer.clientHeight;
+
+    const iw = lightboxImg.naturalWidth;
+    const ih = lightboxImg.naturalHeight;
+
+    const scaleX = vw / iw;
+    const scaleY = vh / ih;
+    scale = Math.min(scaleX, scaleY);
+
+    originX = (vw - iw * scale) / 2;
+    originY = (vh - ih * scale) / 2;
+
+    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
   }
 
   function openLightbox(index, item, caption) {
@@ -166,29 +176,27 @@ export function initGallery(images) {
     lightboxCaption.textContent = `${item.name} — ${caption}`;
     lightbox.classList.remove("hidden");
 
-    fitToScreen();
+    lightboxImg.onload = () => {
+      fitToScreen();
+    };
   }
 
-  // ESC closes
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
       lightbox.classList.add("hidden");
     }
   });
 
-  // Close
   document.getElementById("lightbox-close").onclick = () => {
     lightbox.classList.add("hidden");
   };
 
-  // Click outside closes
   lightbox.onclick = (e) => {
     if (e.target.id === "lightbox") {
       lightbox.classList.add("hidden");
     }
   };
 
-  // Prev / Next
   document.getElementById("lightbox-prev").onclick = () => navigate(-1);
   document.getElementById("lightbox-next").onclick = () => navigate(1);
 
@@ -243,7 +251,7 @@ export function initGallery(images) {
 
     const oldScale = scale;
     scale += delta * zoomIntensity;
-    scale = Math.min(Math.max(1, scale), 8);
+    scale = Math.min(Math.max(scale, 0.1), 8);
 
     const rect = viewer.getBoundingClientRect();
     const cx = e.clientX - rect.left;
@@ -265,7 +273,7 @@ export function initGallery(images) {
   };
 
   zoomOutBtn.onclick = () => {
-    scale = Math.max(scale - 0.2, 1);
+    scale = Math.max(scale - 0.2, 0.1);
     lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
   };
 
