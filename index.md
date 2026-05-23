@@ -9,8 +9,6 @@ permalink: /
   <p>Explore maps, projects, and geospatial work.</p>
 </section>
 
-<!-- THEME TOGGLE -->
-<button id="theme-toggle" class="theme-toggle">🌓</button>
 
 <h2 class="section-title">Latest Maps</h2>
 
