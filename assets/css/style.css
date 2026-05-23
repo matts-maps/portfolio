@@ -58,13 +58,16 @@ body {
   height: 125px;
   width: auto;
   object-fit: contain;
+  display: block;
 }
 
-/* NAVIGATION */
+/* NAVIGATION — RIGHT ALIGNED WITH GALLERY */
 .site-nav {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  margin-left: auto;
+  padding-right: 1rem; /* aligns with gallery edge */
 }
 
 .site-nav a {
@@ -78,14 +81,13 @@ body {
   color: #0077cc;
 }
 
-/* THEME TOGGLE — NOW INSIDE HEADER */
+/* THEME TOGGLE INSIDE NAV */
 .theme-toggle {
   background: none;
   border: none;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   cursor: pointer;
   color: var(--text);
-  margin-left: 1.5rem;
   padding: 0.25rem;
 }
 
