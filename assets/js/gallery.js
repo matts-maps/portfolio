@@ -15,10 +15,16 @@ export function initGallery(images) {
   const fTheme = document.getElementById("filter-theme");
   const btnClear = document.getElementById("clear-filters");
 
+  // Build initial filter options
   populateFilters(images);
+
+  // Default sort = newest first
   fSort.value = "year";
+
+  // Initial render
   applyFilters();
 
+  // Attach listeners
   fSearch.oninput =
   fSort.onchange =
   fContinent.onchange =
@@ -50,11 +56,13 @@ export function initGallery(images) {
       );
     });
 
+    // Sorting
     if (fSort.value === "alpha") filtered.sort((a,b)=>a.name.localeCompare(b.name));
     if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
     if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
 
     currentFilteredList = filtered;
+
     populateFilters(filtered);
     render(filtered);
   }
@@ -139,15 +147,15 @@ export function initGallery(images) {
   const btnClose = document.getElementById("lightbox-close");
 
   let scale = 1;
-  let offsetX = 0;
-  let offsetY = 0;
+  let posX = 0;   // top-left based translation
+  let posY = 0;
   let startX = 0;
   let startY = 0;
   let isPanning = false;
 
   function applyTransform() {
     lightboxImg.style.transform =
-      `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+      `translate(${posX}px, ${posY}px) scale(${scale})`;
   }
 
   function fitToScreen() {
@@ -157,12 +165,15 @@ export function initGallery(images) {
     const iw = lightboxImg.naturalWidth;
     const ih = lightboxImg.naturalHeight;
 
+    if (!iw || !ih) return;
+
     const scaleX = vw / iw;
     const scaleY = vh / ih;
     scale = Math.min(scaleX, scaleY);
 
-    offsetX = 0;
-    offsetY = 0;
+    // centre image in viewer
+    posX = (vw - iw * scale) / 2;
+    posY = (vh - ih * scale) / 2;
 
     applyTransform();
   }
@@ -195,8 +206,8 @@ export function initGallery(images) {
 
   viewer.addEventListener("mousedown", e => {
     isPanning = true;
-    startX = e.clientX - offsetX;
-    startY = e.clientY - offsetY;
+    startX = e.clientX - posX;
+    startY = e.clientY - posY;
   });
 
   viewer.addEventListener("mouseup", () => isPanning = false);
@@ -205,14 +216,14 @@ export function initGallery(images) {
   viewer.addEventListener("mousemove", e => {
     if (!isPanning) return;
 
-    offsetX = e.clientX - startX;
-    offsetY = e.clientY - startY;
+    posX = e.clientX - startX;
+    posY = e.clientY - startY;
 
     applyTransform();
   });
 
   /* -----------------------------
-     SCROLL ZOOM (center-origin)
+     SCROLL ZOOM (top-left math)
   ----------------------------- */
 
   viewer.addEventListener("wheel", e => {
@@ -226,11 +237,12 @@ export function initGallery(images) {
     scale = Math.min(Math.max(scale, 0.1), 8);
 
     const rect = viewer.getBoundingClientRect();
-    const cx = e.clientX - (rect.left + rect.width / 2);
-    const cy = e.clientY - (rect.top + rect.height / 2);
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
 
-    offsetX -= (cx / oldScale - cx / scale);
-    offsetY -= (cy / oldScale - cy / scale);
+    // keep cursor position stable while zooming
+    posX = mx - (mx - posX) * (scale / oldScale);
+    posY = my - (my - posY) * (scale / oldScale);
 
     applyTransform();
   }, { passive: false });
@@ -241,14 +253,38 @@ export function initGallery(images) {
 
   if (zoomInBtn) {
     zoomInBtn.onclick = () => {
+      const rect = viewer.getBoundingClientRect();
+      const mx = rect.left + rect.width / 2;
+      const my = rect.top + rect.height / 2;
+
+      const oldScale = scale;
       scale = Math.min(scale + 0.2, 8);
+
+      const vx = mx - rect.left;
+      const vy = my - rect.top;
+
+      posX = vx - (vx - posX) * (scale / oldScale);
+      posY = vy - (vy - posY) * (scale / oldScale);
+
       applyTransform();
     };
   }
 
   if (zoomOutBtn) {
     zoomOutBtn.onclick = () => {
+      const rect = viewer.getBoundingClientRect();
+      const mx = rect.left + rect.width / 2;
+      const my = rect.top + rect.height / 2;
+
+      const oldScale = scale;
       scale = Math.max(scale - 0.2, 0.1);
+
+      const vx = mx - rect.left;
+      const vy = my - rect.top;
+
+      posX = vx - (vx - posX) * (scale / oldScale);
+      posY = vy - (vy - posY) * (scale / oldScale);
+
       applyTransform();
     };
   }
