@@ -15,16 +15,10 @@ export function initGallery(images) {
   const fTheme = document.getElementById("filter-theme");
   const btnClear = document.getElementById("clear-filters");
 
-  // Build initial filter options
   populateFilters(images);
-
-  // Default sort = newest first
   fSort.value = "year";
-
-  // Initial render
   applyFilters();
 
-  // Attach listeners
   fSearch.oninput =
   fSort.onchange =
   fContinent.onchange =
@@ -56,13 +50,11 @@ export function initGallery(images) {
       );
     });
 
-    // Sorting
     if (fSort.value === "alpha") filtered.sort((a,b)=>a.name.localeCompare(b.name));
     if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
     if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
 
     currentFilteredList = filtered;
-
     populateFilters(filtered);
     render(filtered);
   }
@@ -142,6 +134,9 @@ export function initGallery(images) {
   const zoomInBtn = document.getElementById("zoom-in");
   const zoomOutBtn = document.getElementById("zoom-out");
   const resetBtn = document.getElementById("zoom-reset");
+  const btnPrev = document.getElementById("lightbox-prev");
+  const btnNext = document.getElementById("lightbox-next");
+  const btnClose = document.getElementById("lightbox-close");
 
   let scale = 1;
   let originX = 0;
@@ -164,7 +159,8 @@ export function initGallery(images) {
     originX = (vw - iw * scale) / 2;
     originY = (vh - ih * scale) / 2;
 
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+    lightboxImg.style.transform =
+      `translate(${originX}px, ${originY}px) scale(${scale})`;
   }
 
   function openLightbox(index, item, caption) {
@@ -176,29 +172,18 @@ export function initGallery(images) {
     lightboxCaption.textContent = `${item.name} — ${caption}`;
     lightbox.classList.remove("hidden");
 
-    lightboxImg.onload = () => {
-      fitToScreen();
-    };
+    lightboxImg.onload = () => fitToScreen();
   }
 
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-      lightbox.classList.add("hidden");
-    }
+    if (e.key === "Escape") lightbox.classList.add("hidden");
   });
 
-  document.getElementById("lightbox-close").onclick = () => {
-    lightbox.classList.add("hidden");
-  };
+  if (btnClose) btnClose.onclick = () => lightbox.classList.add("hidden");
 
-  lightbox.onclick = (e) => {
-    if (e.target.id === "lightbox") {
-      lightbox.classList.add("hidden");
-    }
-  };
-
-  document.getElementById("lightbox-prev").onclick = () => navigate(-1);
-  document.getElementById("lightbox-next").onclick = () => navigate(1);
+  lightbox.addEventListener("click", e => {
+    if (e.target === lightbox) lightbox.classList.add("hidden");
+  });
 
   function navigate(direction) {
     const list = currentFilteredList;
@@ -218,66 +203,77 @@ export function initGallery(images) {
     parts.push(item.year);
 
     const caption = parts.join(" · ");
-
     openLightbox(currentIndex, item, caption);
   }
+
+  if (btnPrev) btnPrev.onclick = () => navigate(-1);
+  if (btnNext) btnNext.onclick = () => navigate(1);
 
   /* -----------------------------
      PAN + ZOOM
   ----------------------------- */
 
-  viewer.addEventListener("mousedown", e => {
-    isPanning = true;
-    startX = e.clientX - originX;
-    startY = e.clientY - originY;
-  });
+  if (viewer) {
+    viewer.addEventListener("mousedown", e => {
+      isPanning = true;
+      startX = e.clientX - originX;
+      startY = e.clientY - originY;
+    });
 
-  viewer.addEventListener("mouseup", () => {
-    isPanning = false;
-  });
+    viewer.addEventListener("mouseup", () => isPanning = false);
+    viewer.addEventListener("mouseleave", () => isPanning = false);
 
-  viewer.addEventListener("mousemove", e => {
-    if (!isPanning) return;
-    originX = e.clientX - startX;
-    originY = e.clientY - startY;
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  });
+    viewer.addEventListener("mousemove", e => {
+      if (!isPanning) return;
 
-  viewer.addEventListener("wheel", e => {
-    e.preventDefault();
+      originX = e.clientX - startX;
+      originY = e.clientY - startY;
 
-    const zoomIntensity = 0.1;
-    const delta = e.deltaY < 0 ? 1 : -1;
+      lightboxImg.style.transform =
+        `translate(${originX}px, ${originY}px) scale(${scale})`;
+    });
 
-    const oldScale = scale;
-    scale += delta * zoomIntensity;
-    scale = Math.min(Math.max(scale, 0.1), 8);
+    viewer.addEventListener("wheel", e => {
+      e.preventDefault();
 
-    const rect = viewer.getBoundingClientRect();
-    const cx = e.clientX - rect.left;
-    const cy = e.clientY - rect.top;
+      const zoomIntensity = 0.1;
+      const delta = e.deltaY < 0 ? 1 : -1;
 
-    originX -= (cx / oldScale - cx / scale);
-    originY -= (cy / oldScale - cy / scale);
+      const oldScale = scale;
+      scale += delta * zoomIntensity;
+      scale = Math.min(Math.max(scale, 0.1), 8);
 
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  });
+      const rect = viewer.getBoundingClientRect();
+      const cx = e.clientX - rect.left - viewer.clientWidth / 2;
+      const cy = e.clientY - rect.top - viewer.clientHeight / 2;
+
+      originX -= (cx / oldScale - cx / scale);
+      originY -= (cy / oldScale - cy / scale);
+
+      lightboxImg.style.transform =
+        `translate(${originX}px, ${originY}px) scale(${scale})`;
+    }, { passive: false });
+  }
 
   /* -----------------------------
      ZOOM BAR BUTTONS
   ----------------------------- */
 
-  zoomInBtn.onclick = () => {
-    scale = Math.min(scale + 0.2, 8);
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  };
+  if (zoomInBtn) {
+    zoomInBtn.onclick = () => {
+      scale = Math.min(scale + 0.2, 8);
+      lightboxImg.style.transform =
+        `translate(${originX}px, ${originY}px) scale(${scale})`;
+    };
+  }
 
-  zoomOutBtn.onclick = () => {
-    scale = Math.max(scale - 0.2, 0.1);
-    lightboxImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  };
+  if (zoomOutBtn) {
+    zoomOutBtn.onclick = () => {
+      scale = Math.max(scale - 0.2, 0.1);
+      lightboxImg.style.transform =
+        `translate(${originX}px, ${originY}px) scale(${scale})`;
+    };
+  }
 
-  resetBtn.onclick = () => {
-    fitToScreen();
-  };
+  if (resetBtn) resetBtn.onclick = () => fitToScreen();
 }

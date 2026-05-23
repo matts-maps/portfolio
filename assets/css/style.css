@@ -283,10 +283,11 @@ nav a:hover {
   height: auto;
   max-width: none;
   max-height: none;
-  transform-origin: top left;
+  transform-origin: center center;
   user-select: none;
   pointer-events: none;
 }
+
 
 /* Caption */
 #lightbox-caption {
