@@ -123,157 +123,165 @@ export function initGallery(images) {
   }
 
   /* --------------------------------------------------
-     LIGHTBOX + PAN + ZOOM + NAVIGATION
-  -------------------------------------------------- */
+   LIGHTBOX + PAN + ZOOM + NAVIGATION
+-------------------------------------------------- */
 
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-  const lightboxCaption = document.getElementById("lightbox-caption");
-  const viewer = document.getElementById("lightbox-viewer");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const lightboxCaption = document.getElementById("lightbox-caption");
+const viewer = document.getElementById("lightbox-viewer");
 
-  const zoomInBtn = document.getElementById("zoom-in");
-  const zoomOutBtn = document.getElementById("zoom-out");
-  const resetBtn = document.getElementById("zoom-reset");
-  const btnPrev = document.getElementById("lightbox-prev");
-  const btnNext = document.getElementById("lightbox-next");
-  const btnClose = document.getElementById("lightbox-close");
+const zoomInBtn = document.getElementById("zoom-in");
+const zoomOutBtn = document.getElementById("zoom-out");
+const resetBtn = document.getElementById("zoom-reset");
+const btnPrev = document.getElementById("lightbox-prev");
+const btnNext = document.getElementById("lightbox-next");
+const btnClose = document.getElementById("lightbox-close");
 
-  let scale = 1;
-  let originX = 0;
-  let originY = 0;
-  let startX = 0;
-  let startY = 0;
-  let isPanning = false;
+let scale = 1;
+let offsetX = 0;   // centered translation
+let offsetY = 0;
+let startX = 0;
+let startY = 0;
+let isPanning = false;
 
-  function fitToScreen() {
-    const vw = viewer.clientWidth;
-    const vh = viewer.clientHeight;
-
-    const iw = lightboxImg.naturalWidth;
-    const ih = lightboxImg.naturalHeight;
-
-    const scaleX = vw / iw;
-    const scaleY = vh / ih;
-    scale = Math.min(scaleX, scaleY);
-
-    originX = (vw - iw * scale) / 2;
-    originY = (vh - ih * scale) / 2;
-
-    lightboxImg.style.transform =
-      `translate(${originX}px, ${originY}px) scale(${scale})`;
-  }
-
-  function openLightbox(index, item, caption) {
-    currentIndex = index;
-
-    const fullImg = base + item.file;
-    lightboxImg.src = fullImg;
-
-    lightboxCaption.textContent = `${item.name} — ${caption}`;
-    lightbox.classList.remove("hidden");
-
-    lightboxImg.onload = () => fitToScreen();
-  }
-
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") lightbox.classList.add("hidden");
-  });
-
-  if (btnClose) btnClose.onclick = () => lightbox.classList.add("hidden");
-
-  lightbox.addEventListener("click", e => {
-    if (e.target === lightbox) lightbox.classList.add("hidden");
-  });
-
-  function navigate(direction) {
-    const list = currentFilteredList;
-    currentIndex = (currentIndex + direction + list.length) % list.length;
-
-    const item = list[currentIndex];
-
-    const parts = [];
-    if (item.location && item.country !== "Multiple") {
-      parts.push(`${item.location}, ${item.country}`);
-    } else if (item.country && item.country !== "Multiple") {
-      parts.push(item.country);
-    }
-    if (item.disaster && item.disaster !== "None") {
-      parts.push(item.disaster);
-    }
-    parts.push(item.year);
-
-    const caption = parts.join(" · ");
-    openLightbox(currentIndex, item, caption);
-  }
-
-  if (btnPrev) btnPrev.onclick = () => navigate(-1);
-  if (btnNext) btnNext.onclick = () => navigate(1);
-
-  /* -----------------------------
-     PAN + ZOOM
-  ----------------------------- */
-
-  if (viewer) {
-    viewer.addEventListener("mousedown", e => {
-      isPanning = true;
-      startX = e.clientX - originX;
-      startY = e.clientY - originY;
-    });
-
-    viewer.addEventListener("mouseup", () => isPanning = false);
-    viewer.addEventListener("mouseleave", () => isPanning = false);
-
-    viewer.addEventListener("mousemove", e => {
-      if (!isPanning) return;
-
-      originX = e.clientX - startX;
-      originY = e.clientY - startY;
-
-      lightboxImg.style.transform =
-        `translate(${originX}px, ${originY}px) scale(${scale})`;
-    });
-
-    viewer.addEventListener("wheel", e => {
-      e.preventDefault();
-
-      const zoomIntensity = 0.1;
-      const delta = e.deltaY < 0 ? 1 : -1;
-
-      const oldScale = scale;
-      scale += delta * zoomIntensity;
-      scale = Math.min(Math.max(scale, 0.1), 8);
-
-      const rect = viewer.getBoundingClientRect();
-      const cx = e.clientX - rect.left - viewer.clientWidth / 2;
-      const cy = e.clientY - rect.top - viewer.clientHeight / 2;
-
-      originX -= (cx / oldScale - cx / scale);
-      originY -= (cy / oldScale - cy / scale);
-
-      lightboxImg.style.transform =
-        `translate(${originX}px, ${originY}px) scale(${scale})`;
-    }, { passive: false });
-  }
-
-  /* -----------------------------
-     ZOOM BAR BUTTONS
-  ----------------------------- */
-
-  if (zoomInBtn) {
-    zoomInBtn.onclick = () => {
-      scale = Math.min(scale + 0.2, 8);
-      lightboxImg.style.transform =
-        `translate(${originX}px, ${originY}px) scale(${scale})`;
-    };
-  }
-
-  if (zoomOutBtn) {
-    zoomOutBtn.onclick = () => {
-      scale = Math.max(scale - 0.2, 0.1);
-      lightboxImg.style.transform =
-        `translate(${originX}px, ${originY}px) scale(${scale})`;
-    };
-  }
-
-  if (resetBtn) resetBtn.onclick = () => fitToScreen();
+function applyTransform() {
+  lightboxImg.style.transform =
+    `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
+
+function fitToScreen() {
+  const vw = viewer.clientWidth;
+  const vh = viewer.clientHeight;
+
+  const iw = lightboxImg.naturalWidth;
+  const ih = lightboxImg.naturalHeight;
+
+  const scaleX = vw / iw;
+  const scaleY = vh / ih;
+  scale = Math.min(scaleX, scaleY);
+
+  // Center the image
+  offsetX = 0;
+  offsetY = 0;
+
+  applyTransform();
+}
+
+function openLightbox(index, item, caption) {
+  currentIndex = index;
+
+  const fullImg = base + item.file;
+  lightboxImg.src = fullImg;
+
+  lightboxCaption.textContent = `${item.name} — ${caption}`;
+  lightbox.classList.remove("hidden");
+
+  lightboxImg.onload = () => fitToScreen();
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") lightbox.classList.add("hidden");
+});
+
+if (btnClose) btnClose.onclick = () => lightbox.classList.add("hidden");
+
+lightbox.addEventListener("click", e => {
+  if (e.target === lightbox) lightbox.classList.add("hidden");
+});
+
+/* -----------------------------
+   PAN
+----------------------------- */
+
+viewer.addEventListener("mousedown", e => {
+  isPanning = true;
+  startX = e.clientX - offsetX;
+  startY = e.clientY - offsetY;
+});
+
+viewer.addEventListener("mouseup", () => isPanning = false);
+viewer.addEventListener("mouseleave", () => isPanning = false);
+
+viewer.addEventListener("mousemove", e => {
+  if (!isPanning) return;
+
+  offsetX = e.clientX - startX;
+  offsetY = e.clientY - startY;
+
+  applyTransform();
+});
+
+/* -----------------------------
+   SCROLL ZOOM (center-origin)
+----------------------------- */
+
+viewer.addEventListener("wheel", e => {
+  e.preventDefault();
+
+  const zoomIntensity = 0.1;
+  const delta = e.deltaY < 0 ? 1 : -1;
+
+  const oldScale = scale;
+  scale += delta * zoomIntensity;
+  scale = Math.min(Math.max(scale, 0.1), 8);
+
+  // Cursor position relative to viewer center
+  const rect = viewer.getBoundingClientRect();
+  const cx = e.clientX - (rect.left + rect.width / 2);
+  const cy = e.clientY - (rect.top + rect.height / 2);
+
+  // Adjust offsets so zoom focuses on cursor
+  offsetX -= (cx / oldScale - cx / scale);
+  offsetY -= (cy / oldScale - cy / scale);
+
+  applyTransform();
+}, { passive: false });
+
+/* -----------------------------
+   ZOOM BUTTONS
+----------------------------- */
+
+if (zoomInBtn) {
+  zoomInBtn.onclick = () => {
+    scale = Math.min(scale + 0.2, 8);
+    applyTransform();
+  };
+}
+
+if (zoomOutBtn) {
+  zoomOutBtn.onclick = () => {
+    scale = Math.max(scale - 0.2, 0.1);
+    applyTransform();
+  };
+}
+
+if (resetBtn) resetBtn.onclick = () => fitToScreen();
+
+/* -----------------------------
+   PREV / NEXT
+----------------------------- */
+
+function navigate(direction) {
+  const list = currentFilteredList;
+  currentIndex = (currentIndex + direction + list.length) % list.length;
+
+  const item = list[currentIndex];
+
+  const parts = [];
+  if (item.location && item.country !== "Multiple") {
+    parts.push(`${item.location}, ${item.country}`);
+  } else if (item.country && item.country !== "Multiple") {
+    parts.push(item.country);
+  }
+  if (item.disaster && item.disaster !== "None") {
+    parts.push(item.disaster);
+  }
+  parts.push(item.year);
+
+  const caption = parts.join(" · ");
+  openLightbox(currentIndex, item, caption);
+}
+
+if (btnPrev) btnPrev.onclick = () => navigate(-1);
+if (btnNext) btnNext.onclick = () => navigate(1);
