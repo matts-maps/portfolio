@@ -5,22 +5,7 @@ export function initGallery(images) {
   const grid = document.getElementById("gallery-grid");
   const base = window.location.origin + "/portfolio/";
 
-  /* --------------------------------------------------
-     MOBILE FILTER TOGGLE
-  -------------------------------------------------- */
-  const mobileToggle = document.getElementById("mobile-filter-toggle");
-  const filterWrapper = document.getElementById("filter-panel-wrapper");
-
-  if (mobileToggle && filterWrapper) {
-    mobileToggle.addEventListener("click", () => {
-      const isOpen = filterWrapper.classList.toggle("open");
-      mobileToggle.textContent = isOpen ? "Filters ▴" : "Filters ▾";
-    });
-  }
-
-  /* --------------------------------------------------
-     FILTER ELEMENTS
-  -------------------------------------------------- */
+  // Filter elements
   const fSearch = document.getElementById("search-box");
   const fSort = document.getElementById("sort-select");
   const fContinent = document.getElementById("filter-continent");
@@ -30,10 +15,16 @@ export function initGallery(images) {
   const fTheme = document.getElementById("filter-theme");
   const btnClear = document.getElementById("clear-filters");
 
+  // Build initial filter options
   populateFilters(images);
+
+  // Default sort = newest first
   fSort.value = "year";
+
+  // Initial render
   applyFilters();
 
+  // Attach listeners
   fSearch.oninput =
   fSort.onchange =
   fContinent.onchange =
@@ -53,9 +44,6 @@ export function initGallery(images) {
     applyFilters();
   };
 
-  /* --------------------------------------------------
-     FILTER LOGIC
-  -------------------------------------------------- */
   function applyFilters() {
     let filtered = images.filter(item => {
       return (
@@ -68,11 +56,13 @@ export function initGallery(images) {
       );
     });
 
+    // Sorting
     if (fSort.value === "alpha") filtered.sort((a,b)=>a.name.localeCompare(b.name));
     if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
     if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
 
     currentFilteredList = filtered;
+
     populateFilters(filtered);
     render(filtered);
   }
@@ -141,8 +131,9 @@ export function initGallery(images) {
   }
 
   /* --------------------------------------------------
-     LIGHTBOX
+     LIGHTBOX + PAN + ZOOM + NAVIGATION
   -------------------------------------------------- */
+
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightbox-img");
   const lightboxCaption = document.getElementById("lightbox-caption");
@@ -156,7 +147,7 @@ export function initGallery(images) {
   const btnClose = document.getElementById("lightbox-close");
 
   let scale = 1;
-  let posX = 0;
+  let posX = 0;   // top-left based translation
   let posY = 0;
   let startX = 0;
   let startY = 0;
@@ -180,6 +171,7 @@ export function initGallery(images) {
     const scaleY = vh / ih;
     scale = Math.min(scaleX, scaleY);
 
+    // centre image in viewer
     posX = (vw - iw * scale) / 2;
     posY = (vh - ih * scale) / 2;
 
@@ -208,9 +200,10 @@ export function initGallery(images) {
     if (e.target === lightbox) lightbox.classList.add("hidden");
   });
 
-  /* --------------------------------------------------
+  /* -----------------------------
      PAN
-  -------------------------------------------------- */
+  ----------------------------- */
+
   viewer.addEventListener("mousedown", e => {
     isPanning = true;
     startX = e.clientX - posX;
@@ -229,9 +222,10 @@ export function initGallery(images) {
     applyTransform();
   });
 
-  /* --------------------------------------------------
-     SCROLL ZOOM
-  -------------------------------------------------- */
+  /* -----------------------------
+     SCROLL ZOOM (top-left math)
+  ----------------------------- */
+
   viewer.addEventListener("wheel", e => {
     e.preventDefault();
 
@@ -246,52 +240,61 @@ export function initGallery(images) {
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
 
+    // keep cursor position stable while zooming
     posX = mx - (mx - posX) * (scale / oldScale);
     posY = my - (my - posY) * (scale / oldScale);
 
     applyTransform();
   }, { passive: false });
 
-  /* --------------------------------------------------
+  /* -----------------------------
      ZOOM BUTTONS
-  -------------------------------------------------- */
+  ----------------------------- */
+
   if (zoomInBtn) {
-    zoomInBtn.addEventListener("click", () => {
+    zoomInBtn.onclick = () => {
       const rect = viewer.getBoundingClientRect();
-      const mx = rect.width / 2;
-      const my = rect.height / 2;
+      const mx = rect.left + rect.width / 2;
+      const my = rect.top + rect.height / 2;
 
       const oldScale = scale;
       scale = Math.min(scale + 0.2, 8);
 
-      posX = mx - (mx - posX) * (scale / oldScale);
-      posY = my - (my - posY) * (scale / oldScale);
+      const vx = mx - rect.left;
+      const vy = my - rect.top;
+
+      posX = vx - (vx - posX) * (scale / oldScale);
+      posY = vy - (vy - posY) * (scale / oldScale);
 
       applyTransform();
-    });
+    };
   }
 
   if (zoomOutBtn) {
-    zoomOutBtn.addEventListener("click", () => {
+    zoomOutBtn.onclick = () => {
       const rect = viewer.getBoundingClientRect();
-      const mx = rect.width / 2;
-      const my = rect.height / 2;
+      const mx = rect.left + rect.width / 2;
+      const my = rect.top + rect.height / 2;
 
       const oldScale = scale;
       scale = Math.max(scale - 0.2, 0.1);
 
-      posX = mx - (mx - posX) * (scale / oldScale);
-      posY = my - (my - posY) * (scale / oldScale);
+      const vx = mx - rect.left;
+      const vy = my - rect.top;
+
+      posX = vx - (vx - posX) * (scale / oldScale);
+      posY = vy - (vy - posY) * (scale / oldScale);
 
       applyTransform();
-    });
+    };
   }
 
-  if (resetBtn) resetBtn.addEventListener("click", () => fitToScreen());
+  if (resetBtn) resetBtn.onclick = () => fitToScreen();
 
-  /* --------------------------------------------------
+  /* -----------------------------
      PREV / NEXT
-  -------------------------------------------------- */
+  ----------------------------- */
+
   function navigate(direction) {
     const list = currentFilteredList;
     currentIndex = (currentIndex + direction + list.length) % list.length;
@@ -313,6 +316,6 @@ export function initGallery(images) {
     openLightbox(currentIndex, item, caption);
   }
 
-  if (btnPrev) btnPrev.addEventListener("click", () => navigate(-1));
-  if (btnNext) btnNext.addEventListener("click", () => navigate(1));
+  if (btnPrev) btnPrev.onclick = () => navigate(-1);
+  if (btnNext) btnNext.onclick = () => navigate(1);
 }
