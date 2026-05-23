@@ -58,9 +58,7 @@ body {
   height: 125px;
   width: auto;
   object-fit: contain;
-  display: block;
 }
-
 
 /* NAVIGATION */
 .site-nav {
