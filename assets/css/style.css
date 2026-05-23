@@ -36,12 +36,25 @@ body {
   line-height: 1.6;
 }
 
+/* THEME TOGGLE BUTTON */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 20000;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--text);
+}
+
 /* --------------------------------------------------
    HEADER
 -------------------------------------------------- */
 
 .site-header {
-  height: 150px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,40 +66,19 @@ body {
   z-index: 10;
 }
 
-/* LOGO — EXACTLY 125px HIGH */
-#site-logo {
-  height: 125px;
-  width: auto;
-  object-fit: contain;
+.logo {
+  height: 40px;
 }
 
-/* NAVIGATION */
-.site-nav {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.site-nav a {
+nav a {
+  margin-left: 1.5rem;
   text-decoration: none;
   color: var(--text);
-  font-weight: 600;
-  font-size: 1.1rem;
+  font-weight: 500;
 }
 
-.site-nav a:hover {
+nav a:hover {
   color: #0077cc;
-}
-
-/* THEME TOGGLE — NOW INSIDE HEADER */
-.theme-toggle {
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: var(--text);
-  margin-left: 1.5rem;
-  padding: 0.25rem;
 }
 
 /* --------------------------------------------------
