@@ -41,7 +41,7 @@ body {
 -------------------------------------------------- */
 
 .site-header {
-  height: 150px;
+  height: 100px; /* matches new logo size */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,12 +50,12 @@ body {
   background: var(--bg);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
 }
 
-/* LOGO — EXACTLY 125px HIGH */
+/* LOGO — EXACTLY 75px HIGH */
 #site-logo {
-  height: 125px;
+  height: 75px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -179,10 +179,20 @@ body {
    FILTER BAR + MOBILE COLLAPSE
 -------------------------------------------------- */
 
+/* Title above filter bar */
 .section-title {
   max-width: 1600px;
   margin: 2rem auto 0.5rem;
   padding: 0 1.5rem;
+}
+
+/* FILTER PANEL STICKY BELOW HEADER */
+#filter-panel-wrapper {
+  position: sticky;
+  top: 100px; /* matches header height */
+  z-index: 10;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
 }
 
 .filter-bar {
@@ -209,11 +219,6 @@ body {
   text-align: left;
   cursor: pointer;
   color: var(--text);
-}
-
-#filter-panel-wrapper {
-  overflow: hidden;
-  transition: max-height 0.3s ease;
 }
 
 @media (max-width: 900px) {
