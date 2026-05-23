@@ -9,59 +9,70 @@ permalink: /
   <p>Explore maps, projects, and geospatial work.</p>
 </section>
 
+<!-- THEME TOGGLE -->
+<button id="theme-toggle" class="theme-toggle">🌓</button>
+
 <h2 class="section-title">Latest Maps</h2>
 
-<div id="filter-bar" class="filter-bar">
+<!-- MOBILE FILTER TOGGLE -->
+<button id="mobile-filter-toggle" class="mobile-filter-toggle">
+  Filters ▾
+</button>
 
-  <!-- ROW 1 -->
-  <div class="filter-row row-1">
-    <label class="search-label">
-      Search
-      <input id="search-box" type="text" placeholder="Search maps…">
-    </label>
+<!-- WRAPPER FOR COLLAPSING -->
+<div id="filter-panel-wrapper">
+  <div id="filter-bar" class="filter-bar">
 
-    <button id="clear-filters" class="clear-btn">Clear Filters</button>
+    <!-- ROW 1 -->
+    <div class="filter-row row-1">
+      <label class="search-label">
+        Search
+        <input id="search-box" type="text" placeholder="Search maps…">
+      </label>
+
+      <button id="clear-filters" class="clear-btn">Clear Filters</button>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="filter-row row-2">
+
+      <label>
+        Sort
+        <select id="sort-select">
+          <option value="year" selected>Year (Newest First)</option>
+          <option value="alpha">Alphabetical</option>
+          <option value="theme">Theme</option>
+        </select>
+      </label>
+
+      <label>
+        Continent
+        <select id="filter-continent"></select>
+      </label>
+
+      <label>
+        Country
+        <select id="filter-country"></select>
+      </label>
+
+      <label>
+        Location
+        <select id="filter-location"></select>
+      </label>
+
+      <label>
+        Disaster
+        <select id="filter-disaster"></select>
+      </label>
+
+      <label>
+        Themes
+        <select id="filter-theme"></select>
+      </label>
+
+    </div>
+
   </div>
-
-  <!-- ROW 2 -->
-  <div class="filter-row row-2">
-
-    <label>
-      Sort
-      <select id="sort-select">
-        <option value="year" selected>Year (Newest First)</option>
-        <option value="alpha">Alphabetical</option>
-        <option value="theme">Theme</option>
-      </select>
-    </label>
-
-    <label>
-      Continent
-      <select id="filter-continent"></select>
-    </label>
-
-    <label>
-      Country
-      <select id="filter-country"></select>
-    </label>
-
-    <label>
-      Location
-      <select id="filter-location"></select>
-    </label>
-
-    <label>
-      Disaster
-      <select id="filter-disaster"></select>
-    </label>
-
-    <label>
-      Themes
-      <select id="filter-theme"></select>
-    </label>
-
-  </div>
-
 </div>
 
 <div class="gallery-grid" id="gallery-grid"></div>
@@ -93,3 +104,5 @@ permalink: /
 
   initGallery(images);
 </script>
+
+<script src="{{ site.baseurl }}/assets/js/theme.js"></script>
