@@ -3,25 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
 
-  <title>{{ page.title }} | Fantail GIS</title>
-
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-  <link rel="icon" href="{{ site.baseurl }}/assets/images/logo/fantail-logo-black.svg">
-
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 
 <body>
 
-  {% include header.html %}
+  <!-- HEADER (same on every page) -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="{{ '/' | relative_url }}" class="logo">Matt’s Maps</a>
 
+      <nav class="site-nav">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/map/' | relative_url }}">Map</a>
+        <a href="{{ '/projects/' | relative_url }}">Projects</a>
+        <a href="{{ '/about/' | relative_url }}">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT WRAPPER -->
   <main class="page-content">
     {{ content }}
   </main>
 
-  {% include footer.html %}
+  <!-- GLOBAL LIGHTBOX (homepage + map + projects) -->
+  <div id="lightbox" class="lightbox hidden">
+    <span id="lightbox-close">&times;</span>
 
-  <script src="{{ site.baseurl }}/assets/js/theme.js"></script>
+    <button id="lightbox-prev" class="lightbox-nav">&#10094;</button>
+    <button id="lightbox-next" class="lightbox-nav">&#10095;</button>
+
+    <div id="zoom-controls">
+      <button id="zoom-in" class="zoom-btn">+</button>
+      <button id="zoom-out" class="zoom-btn">−</button>
+      <button id="zoom-reset" class="zoom-btn">Reset</button>
+    </div>
+
+    <div id="lightbox-viewer">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <div id="lightbox-caption"></div>
+  </div>
+
+  <!-- GLOBAL JS -->
+  <script src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>
+
 </body>
 </html>
