@@ -147,7 +147,7 @@ export function initGallery(images) {
   const btnClose = document.getElementById("lightbox-close");
 
   let scale = 1;
-  let posX = 0;   // top-left based translation
+  let posX = 0;
   let posY = 0;
   let startX = 0;
   let startY = 0;
@@ -171,20 +171,21 @@ export function initGallery(images) {
     const scaleY = vh / ih;
     scale = Math.min(scaleX, scaleY);
 
-    // centre image in viewer
     posX = (vw - iw * scale) / 2;
     posY = (vh - ih * scale) / 2;
 
     applyTransform();
   }
 
-  function openLightbox(index, item, caption) {
+  function openLightbox(index, item, captionLine2) {
     currentIndex = index;
 
     const fullImg = base + item.file;
     lightboxImg.src = fullImg;
 
-    lightboxCaption.textContent = `${item.name} — ${caption}`;
+    // ⭐ THE ONLY CHANGE YOU NEED ⭐
+    lightboxCaption.innerHTML = `<strong>${item.name}</strong><br>${captionLine2}`;
+
     lightbox.classList.remove("hidden");
 
     lightboxImg.onload = () => fitToScreen();
@@ -223,7 +224,7 @@ export function initGallery(images) {
   });
 
   /* -----------------------------
-     SCROLL ZOOM (top-left math)
+     SCROLL ZOOM
   ----------------------------- */
 
   viewer.addEventListener("wheel", e => {
@@ -240,7 +241,6 @@ export function initGallery(images) {
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
 
-    // keep cursor position stable while zooming
     posX = mx - (mx - posX) * (scale / oldScale);
     posY = my - (my - posY) * (scale / oldScale);
 
@@ -312,8 +312,8 @@ export function initGallery(images) {
     }
     parts.push(item.year);
 
-    const caption = parts.join(" · ");
-    openLightbox(currentIndex, item, caption);
+    const captionLine2 = parts.join(" · ");
+    openLightbox(currentIndex, item, captionLine2);
   }
 
   if (btnPrev) btnPrev.onclick = () => navigate(-1);
