@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | Fantail GIS</title>
 
-  <!-- Global styles -->
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-
-  <!-- Favicon -->
   <link rel="icon" href="{{ '/assets/images/logo/favicon.ico' | relative_url }}">
 </head>
 
@@ -17,15 +14,15 @@
   {% include header.html %}
 
   <main class="page-content">
-    {{ content }}
+    <div class="page-inner">
+      {{ content }}
+    </div>
   </main>
 
   {% include footer.html %}
 
-  <!-- Global theme script -->
   <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
 
-  <!-- Page‑specific JS hooks -->
   {% if page.layout == "home" %}
     {% include js-home.html %}
   {% endif %}
@@ -38,6 +35,5 @@
     {% include js-projects.html %}
   {% endif %}
 
-  <!-- Map JS was always loaded by the map layout, not here -->
 </body>
 </html>

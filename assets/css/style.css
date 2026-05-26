@@ -26,6 +26,13 @@ body {
   line-height: 1.6;
 }
 
+/* Universal page width */
+.page-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 /* --------------------------------------------------
    HEADER (aligned with gallery)
 -------------------------------------------------- */

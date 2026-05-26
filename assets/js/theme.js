@@ -26,10 +26,8 @@ if (saved === "dark") {
   }
 }
 
-// Apply correct logo on load
 applyLogo();
 
-// Toggle theme + save preference + update logo
 toggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
 
