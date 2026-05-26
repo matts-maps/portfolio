@@ -8,15 +8,9 @@ export function initFilters(images, onChange) {
   const fTheme = document.getElementById("filter-theme");
   const btnClear = document.getElementById("clear-filters");
 
-  /* --------------------------------------------------
-     CYCLONE GROUP LOGIC
-  -------------------------------------------------- */
-  const cycloneGroup = ["Cyclone", "Hurricane", "Typhoon"];
-  const cycloneLabel = "Cyclone, Hurricane, Typhoon";
-
-  /* --------------------------------------------------
+  /* -----------------------------
      POPULATE SELECT OPTIONS
-  -------------------------------------------------- */
+  ----------------------------- */
   function fillSelect(select, values) {
     const unique = [...new Set(values)].sort();
     const current = select.value;
@@ -35,55 +29,25 @@ export function initFilters(images, onChange) {
     fillSelect(fContinent, list.map(i => i.continent));
     fillSelect(fCountry, list.map(i => i.country));
     fillSelect(fLocation, list.map(i => i.location).filter(Boolean));
+    fillSelect(fDisaster, list.map(i => i.disaster));
 
-    // ⭐ Disaster dropdown: always show the combined cyclone option
-    const disasters = [...new Set(
-      list.map(i =>
-        cycloneGroup.includes(i.disaster)
-          ? cycloneLabel
-          : i.disaster
-      )
-    )].sort();
-
-    fDisaster.innerHTML = `<option value="">All</option>` +
-      disasters.map(d => `<option value="${d}">${d}</option>`).join("");
-
-    // Themes
     const themes = [...new Set(list.flatMap(i => i.themes))].sort();
     fillSelect(fTheme, themes);
   }
 
-  /* --------------------------------------------------
+  /* -----------------------------
      APPLY FILTERS
-  -------------------------------------------------- */
+  ----------------------------- */
   function applyFilters() {
     let filtered = images.filter(item => {
-      // Search
-      if (fSearch.value &&
-          !item.name.toLowerCase().includes(fSearch.value.toLowerCase())) {
-        return false;
-      }
-
-      // Continent
-      if (fContinent.value && item.continent !== fContinent.value) return false;
-
-      // Country
-      if (fCountry.value && item.country !== fCountry.value) return false;
-
-      // Location
-      if (fLocation.value && item.location !== fLocation.value) return false;
-
-      // ⭐ Disaster logic (combined cyclone option)
-      if (fDisaster.value === cycloneLabel) {
-        if (!cycloneGroup.includes(item.disaster)) return false;
-      } else if (fDisaster.value && item.disaster !== fDisaster.value) {
-        return false;
-      }
-
-      // Theme
-      if (fTheme.value && !item.themes.includes(fTheme.value)) return false;
-
-      return true;
+      return (
+        (fSearch.value === "" || item.name.toLowerCase().includes(fSearch.value.toLowerCase())) &&
+        (fContinent.value === "" || item.continent === fContinent.value) &&
+        (fCountry.value === "" || item.country === fCountry.value) &&
+        (fLocation.value === "" || item.location === fLocation.value) &&
+        (fDisaster.value === "" || item.disaster === fDisaster.value) &&
+        (fTheme.value === "" || item.themes.includes(fTheme.value))
+      );
     });
 
     // Sorting
@@ -91,16 +55,16 @@ export function initFilters(images, onChange) {
     if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
     if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
 
-    // Repopulate dropdowns based on filtered list
+    // ⭐ Repopulate dropdowns based on filtered list
     populateFilters(filtered);
 
-    // Send filtered list back to gallery/map
+    // ⭐ Send filtered list back to map
     onChange(filtered);
   }
 
-  /* --------------------------------------------------
+  /* -----------------------------
      EVENT LISTENERS
-  -------------------------------------------------- */
+  ----------------------------- */
   fSearch.oninput =
   fSort.onchange =
   fContinent.onchange =
@@ -120,9 +84,13 @@ export function initFilters(images, onChange) {
     applyFilters();
   };
 
-  /* --------------------------------------------------
+  /* -----------------------------
      INITIAL POPULATION + FILTER
-  -------------------------------------------------- */
+  ----------------------------- */
+
+  // ⭐ Populate dropdowns BEFORE filtering
   populateFilters(images);
+
+  // ⭐ Apply filters (initial render)
   applyFilters();
 }
