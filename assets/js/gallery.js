@@ -15,6 +15,10 @@ export function initGallery(images) {
   const fTheme = document.getElementById("filter-theme");
   const btnClear = document.getElementById("clear-filters");
 
+  // ⭐ Cyclone group logic
+  const cycloneGroup = ["Cyclone", "Hurricane", "Typhoon"];
+  const cycloneLabel = "Cyclone, Hurricane, Typhoon";
+
   // Build initial filter options
   populateFilters(images);
 
@@ -44,16 +48,38 @@ export function initGallery(images) {
     applyFilters();
   };
 
+  /* --------------------------------------------------
+     APPLY FILTERS
+  -------------------------------------------------- */
   function applyFilters() {
     let filtered = images.filter(item => {
-      return (
-        (fSearch.value === "" || item.name.toLowerCase().includes(fSearch.value.toLowerCase())) &&
-        (fContinent.value === "" || item.continent === fContinent.value) &&
-        (fCountry.value === "" || item.country === fCountry.value) &&
-        (fLocation.value === "" || item.location === fLocation.value) &&
-        (fDisaster.value === "" || item.disaster === fDisaster.value) &&
-        (fTheme.value === "" || item.themes.includes(fTheme.value))
-      );
+
+      // Search
+      if (fSearch.value &&
+          !item.name.toLowerCase().includes(fSearch.value.toLowerCase())) {
+        return false;
+      }
+
+      // Continent
+      if (fContinent.value && item.continent !== fContinent.value) return false;
+
+      // Country
+      if (fCountry.value && item.country !== fCountry.value) return false;
+
+      // Location
+      if (fLocation.value && item.location !== fLocation.value) return false;
+
+      // ⭐ Disaster logic (combined cyclone option)
+      if (fDisaster.value === cycloneLabel) {
+        if (!cycloneGroup.includes(item.disaster)) return false;
+      } else if (fDisaster.value && item.disaster !== fDisaster.value) {
+        return false;
+      }
+
+      // Theme
+      if (fTheme.value && !item.themes.includes(fTheme.value)) return false;
+
+      return true;
     });
 
     // Sorting
@@ -67,6 +93,9 @@ export function initGallery(images) {
     render(filtered);
   }
 
+  /* --------------------------------------------------
+     RENDER GALLERY
+  -------------------------------------------------- */
   function render(list) {
     grid.innerHTML = "";
 
@@ -78,14 +107,18 @@ export function initGallery(images) {
       const imgSrc = base + thumb;
 
       const parts = [];
+
       if (item.location && item.country !== "Multiple") {
         parts.push(`${item.location}, ${item.country}`);
       } else if (item.country && item.country !== "Multiple") {
         parts.push(item.country);
       }
+
+      // ⭐ Display real disaster term (not combined label)
       if (item.disaster && item.disaster !== "None") {
         parts.push(item.disaster);
       }
+
       parts.push(item.year);
 
       const captionLine2 = parts.join(" · ");
@@ -108,11 +141,25 @@ export function initGallery(images) {
     });
   }
 
+  /* --------------------------------------------------
+     POPULATE FILTERS
+  -------------------------------------------------- */
   function populateFilters(list) {
     fillSelect(fContinent, list.map(i => i.continent));
     fillSelect(fCountry, list.map(i => i.country));
     fillSelect(fLocation, list.map(i => i.location).filter(Boolean));
-    fillSelect(fDisaster, list.map(i => i.disaster));
+
+    // ⭐ Disaster dropdown: always show the combined cyclone option
+    const disasters = [...new Set(
+      list.map(i =>
+        cycloneGroup.includes(i.disaster)
+          ? cycloneLabel
+          : i.disaster
+      )
+    )].sort();
+
+    fDisaster.innerHTML = `<option value="">All</option>` +
+      disasters.map(d => `<option value="${d}">${d}</option>`).join("");
 
     const themes = [...new Set(list.flatMap(i => i.themes))].sort();
     fillSelect(fTheme, themes);
@@ -132,6 +179,7 @@ export function initGallery(images) {
 
   /* --------------------------------------------------
      LIGHTBOX + PAN + ZOOM + NAVIGATION
+     (unchanged)
   -------------------------------------------------- */
 
   const lightbox = document.getElementById("lightbox");
@@ -183,7 +231,6 @@ export function initGallery(images) {
     const fullImg = base + item.file;
     lightboxImg.src = fullImg;
 
-    // ⭐ THE ONLY CHANGE YOU NEED ⭐
     lightboxCaption.innerHTML = `<strong>${item.name}</strong><br>${captionLine2}`;
 
     lightbox.classList.remove("hidden");
@@ -200,10 +247,6 @@ export function initGallery(images) {
   lightbox.addEventListener("click", e => {
     if (e.target === lightbox) lightbox.classList.add("hidden");
   });
-
-  /* -----------------------------
-     PAN
-  ----------------------------- */
 
   viewer.addEventListener("mousedown", e => {
     isPanning = true;
@@ -222,10 +265,6 @@ export function initGallery(images) {
 
     applyTransform();
   });
-
-  /* -----------------------------
-     SCROLL ZOOM
-  ----------------------------- */
 
   viewer.addEventListener("wheel", e => {
     e.preventDefault();
@@ -246,10 +285,6 @@ export function initGallery(images) {
 
     applyTransform();
   }, { passive: false });
-
-  /* -----------------------------
-     ZOOM BUTTONS
-  ----------------------------- */
 
   if (zoomInBtn) {
     zoomInBtn.onclick = () => {
@@ -290,10 +325,6 @@ export function initGallery(images) {
   }
 
   if (resetBtn) resetBtn.onclick = () => fitToScreen();
-
-  /* -----------------------------
-     PREV / NEXT
-  ----------------------------- */
 
   function navigate(direction) {
     const list = currentFilteredList;
