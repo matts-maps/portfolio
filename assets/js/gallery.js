@@ -18,8 +18,8 @@ export function initGallery(images) {
   // Build initial filter options
   populateFilters(images);
 
-  // Default sort = newest first
-  fSort.value = "year";
+  // Default sort = Year + Month (Newest → Oldest)
+  fSort.value = "yearmonth";
 
   // Initial render
   applyFilters();
@@ -35,7 +35,7 @@ export function initGallery(images) {
 
   btnClear.onclick = () => {
     fSearch.value = "";
-    fSort.value = "year";
+    fSort.value = "yearmonth";
     fContinent.value = "";
     fCountry.value = "";
     fLocation.value = "";
@@ -65,12 +65,7 @@ export function initGallery(images) {
       filtered.sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    // Year only
-    if (fSort.value === "year") {
-      filtered.sort((a, b) => b.year - a.year);
-    }
-
-    // ⭐ Year + Month (Newest First)
+    // ⭐ Year + Month (Newest → Oldest)
     if (fSort.value === "yearmonth") {
       filtered.sort((a, b) => {
         const getMonthNum = m => {
@@ -87,7 +82,10 @@ export function initGallery(images) {
         const aMonth = getMonthNum(a.month);
         const bMonth = getMonthNum(b.month);
 
+        // Newest year first
         if (b.year !== a.year) return b.year - a.year;
+
+        // Newest month first
         return bMonth - aMonth;
       });
     }
