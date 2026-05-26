@@ -6,6 +6,9 @@ on:
       - "assets/images/maps/**"
       - ".github/workflows/generate-thumbnails.yml"
 
+permissions:
+  contents: write
+
 jobs:
   build-thumbnails:
     runs-on: ubuntu-latest
@@ -42,6 +45,12 @@ jobs:
             const input = `${inputDir}/${file}`;
             const output = `${outputDir}/${file}`;
 
+            // Skip if thumbnail already exists
+            if (fs.existsSync(output)) {
+              console.log("Skipping existing:", file);
+              continue;
+            }
+
             sharp(input)
               .resize(600)
               .jpeg({ quality: 70 })
@@ -55,6 +64,11 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add assets/images/maps/thumbs
-          git commit -m "Auto-generate thumbnails" || echo "No changes to commit"
-          git push
+
+          if [ -n "$(git status --porcelain)" ]; then
+            git add assets/images/maps/thumbs
+            git commit -m "Auto-generate thumbnails"
+            git push
+          else
+            echo "No changes to commit"
+          fi
