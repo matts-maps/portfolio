@@ -80,7 +80,7 @@ export const images = [
     lat: -15.3767,
     lng: 166.9592,
     themes: ["WASH", "Humanitarian"],
-    disaster: "Cyclone"
+    disaster: "Cyclone, Hurricane, Typhoon"
   },
 
   {
@@ -94,7 +94,7 @@ export const images = [
     lat: 15.4150,
     lng: -61.3710,
     themes: ["Humanitarian", "Weather"],
-    disaster: "Hurricane"
+    disaster: "Cyclone, Hurricane, Typhoon"
   },
 
   {
@@ -164,7 +164,7 @@ export const images = [
     lat: 12.8797,
     lng: 121.7740,
     themes: ["Humanitarian"],
-    disaster: "Typhoon"
+    disaster: "Cyclone, Hurricane, Typhoon"
   },
 
   {
@@ -178,7 +178,7 @@ export const images = [
     lat: 12.8797,
     lng: 121.7740,
     themes: ["Humanitarian"],
-    disaster: "Typhoon"
+    disaster: "Cyclone, Hurricane, Typhoon"
   },
 
   {
@@ -192,7 +192,7 @@ export const images = [
     lat: 13.6192,
     lng: 123.1814,
     themes: ["Humanitarian", "Food security", "WASH"],
-    disaster: "Typhoon"
+    disaster: "Cyclone, Hurricane, Typhoon"
   },
 
   {
@@ -206,7 +206,7 @@ export const images = [
     lat: -19.8333,
     lng: 34.8500,
     themes: ["Humanitarian", "Health"],
-    disaster: "Cyclone"
+    disaster: "Cyclone, Hurricane, Typhoon"
   },
 
   {
@@ -220,7 +220,7 @@ export const images = [
     lat: -19.8333,
     lng: 34.8500,
     themes: ["Humanitarian", "Health"],
-    disaster: "Cyclone"
+    disaster: "Cyclone, Hurricane, Typhoon"
   },
 
   {
@@ -248,7 +248,7 @@ export const images = [
     lat: -19.1211,
     lng: 34.8440,
     themes: ["Humanitarian", "Health"],
-    disaster: "Cyclone"
+    disaster: "Cyclone, Hurricane, Typhoon"
   },
 
   {
@@ -345,7 +345,7 @@ export const images = [
     month: 4,
     lat: 13.2528,
     lng: -61.1971,
-    themes: ["Humanitarian", "Situational overview"],
+    themes: ["Humanitarian"],
     disaster: "Volcano"
   },
 
