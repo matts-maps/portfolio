@@ -1,8 +1,8 @@
 const toggle = document.getElementById("theme-toggle");
 const logo = document.getElementById("site-logo");
 
-// Your GitHub Pages base path
-const BASE = "/portfolio";
+// Read baseurl from HTML (works locally + GitHub Pages)
+const BASE = logo.dataset.baseurl || "";
 
 // Swap logo based on theme
 function applyLogo() {
@@ -21,7 +21,6 @@ if (saved === "dark") {
 } else if (saved === "light") {
   document.body.classList.remove("dark");
 } else {
-  // Follow system preference on first visit
   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
     document.body.classList.add("dark");
   }

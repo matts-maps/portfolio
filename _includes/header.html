@@ -5,9 +5,11 @@
     <a href="{{ '/' | relative_url }}" class="logo">
       <img 
         id="site-logo"
-        src="{{ '/assets/images/fantail-logo-black.svg' | relative_url }}" 
+        data-baseurl="{{ site.baseurl }}"
+        src="{{ '/assets/images/logo/fantail-logo-black.svg' | relative_url }}"
         alt="Fantail GIS logo"
       >
+
     </a>
 
     <!-- NAVIGATION -->
@@ -16,6 +18,11 @@
       <a href="{{ '/map/' | relative_url }}">Map</a>
       <a href="{{ '/projects/' | relative_url }}">Projects</a>
       <a href="{{ '/about/' | relative_url }}">About</a>
+
+
+      <!-- THEME TOGGLE -->
+      <button id="theme-toggle" class="theme-toggle">🌓</button>
+
     </nav>
 
   </div>
