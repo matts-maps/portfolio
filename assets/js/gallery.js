@@ -56,10 +56,46 @@ export function initGallery(images) {
       );
     });
 
-    // Sorting
-    if (fSort.value === "alpha") filtered.sort((a,b)=>a.name.localeCompare(b.name));
-    if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
-    if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
+    /* -----------------------------
+       SORTING
+    ----------------------------- */
+
+    // Alphabetical
+    if (fSort.value === "alpha") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    // Year only
+    if (fSort.value === "year") {
+      filtered.sort((a, b) => b.year - a.year);
+    }
+
+    // ⭐ Year + Month (Newest First)
+    if (fSort.value === "yearmonth") {
+      filtered.sort((a, b) => {
+        const getMonthNum = m => {
+          if (typeof m === "number") return m;
+          if (!m) return 0;
+          const map = {
+            january: 1, february: 2, march: 3, april: 4,
+            may: 5, june: 6, july: 7, august: 8,
+            september: 9, october: 10, november: 11, december: 12
+          };
+          return map[m.toLowerCase()] || 0;
+        };
+
+        const aMonth = getMonthNum(a.month);
+        const bMonth = getMonthNum(b.month);
+
+        if (b.year !== a.year) return b.year - a.year;
+        return bMonth - aMonth;
+      });
+    }
+
+    // Theme sort
+    if (fSort.value === "theme") {
+      filtered.sort((a, b) => a.themes[0].localeCompare(b.themes[0]));
+    }
 
     currentFilteredList = filtered;
 
@@ -183,7 +219,6 @@ export function initGallery(images) {
     const fullImg = base + item.file;
     lightboxImg.src = fullImg;
 
-    // ⭐ THE ONLY CHANGE YOU NEED ⭐
     lightboxCaption.innerHTML = `<strong>${item.name}</strong><br>${captionLine2}`;
 
     lightbox.classList.remove("hidden");

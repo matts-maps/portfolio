@@ -50,15 +50,58 @@ export function initFilters(images, onChange) {
       );
     });
 
-    // Sorting
-    if (fSort.value === "alpha") filtered.sort((a,b)=>a.name.localeCompare(b.name));
-    if (fSort.value === "year") filtered.sort((a,b)=>b.year - a.year);
-    if (fSort.value === "theme") filtered.sort((a,b)=>a.themes[0].localeCompare(b.themes[0]));
+    /* -----------------------------
+       SORTING
+    ----------------------------- */
 
-    // ⭐ Repopulate dropdowns based on filtered list
+    // Alphabetical
+    if (fSort.value === "alpha") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    // Year only
+    if (fSort.value === "year") {
+      filtered.sort((a, b) => b.year - a.year);
+    }
+
+    // Year + Month (Newest First)
+    if (fSort.value === "yearmonth") {
+      filtered.sort((a, b) => {
+        const getMonthNum = m => {
+          if (typeof m === "number") return m;
+          if (!m) return 0;
+          const map = {
+            january: 1, february: 2, march: 3, april: 4,
+            may: 5, june: 6, july: 7, august: 8,
+            september: 9, october: 10, november: 11, december: 12
+          };
+          return map[m.toLowerCase()] || 0;
+        };
+
+        const aMonth = getMonthNum(a.month);
+        const bMonth = getMonthNum(b.month);
+
+        // Compare year first
+        if (b.year !== a.year) return b.year - a.year;
+
+        // Then compare month
+        return bMonth - aMonth;
+      });
+    }
+
+    // Theme sort
+    if (fSort.value === "theme") {
+      filtered.sort((a, b) => a.themes[0].localeCompare(b.themes[0]));
+    }
+
+    /* -----------------------------
+       UPDATE FILTER OPTIONS
+    ----------------------------- */
     populateFilters(filtered);
 
-    // ⭐ Send filtered list back to map
+    /* -----------------------------
+       SEND BACK TO MAP
+    ----------------------------- */
     onChange(filtered);
   }
 
@@ -88,9 +131,9 @@ export function initFilters(images, onChange) {
      INITIAL POPULATION + FILTER
   ----------------------------- */
 
-  // ⭐ Populate dropdowns BEFORE filtering
+  // Populate dropdowns BEFORE filtering
   populateFilters(images);
 
-  // ⭐ Apply filters (initial render)
+  // Initial render
   applyFilters();
 }
