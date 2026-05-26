@@ -1,0 +1,71 @@
+name: Generate Thumbnails
+
+on:
+  push:
+    paths:
+      - "assets/images/maps/**"
+      - ".github/workflows/generate-thumbnails.yml"
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-thumbnails:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Sharp
+        run: npm install sharp
+
+      - name: Generate thumbnails
+        run: |
+          mkdir -p assets/images/maps/thumbs
+          node << 'EOF'
+          import fs from "fs";
+          import sharp from "sharp";
+
+          const inputDir = "assets/images/maps";
+          const outputDir = "assets/images/maps/thumbs";
+
+          const files = fs.readdirSync(inputDir).filter(f =>
+            /\.(jpg|jpeg|png)$/i.test(f)
+          );
+
+          for (const file of files) {
+            const input = `${inputDir}/${file}`;
+            const output = `${outputDir}/${file}`;
+
+            sharp(input)
+              .resize(600)
+              .jpeg({ quality: 70 })
+              .toFile(output)
+              .then(() => console.log("Created:", file))
+              .catch(err => console.error("Error:", file, err));
+          }
+          EOF
+
+      - name: Commit thumbnails
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          if [ -n "$(git status --porcelain)" ]; then
+            git add assets/images/maps/thumbs
+            git commit -m "Auto-generate thumbnails"
+            git push
+          else
+            echo "No changes to commit"
+          fi
