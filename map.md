@@ -9,8 +9,6 @@ permalink: /map/
   <p>Explore all maps by location. Click a marker to view the map.</p>
 </section>
 
-
-
 <!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
@@ -23,10 +21,3 @@ permalink: /map/
 
 <!-- MarkerCluster JS -->
 <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-
-<!-- Map logic -->
-<script type="module">
-  import { images } from "{{ '/assets/js/gallery-data.js' | relative_url }}";
-
-  initMap(images);
-</script>

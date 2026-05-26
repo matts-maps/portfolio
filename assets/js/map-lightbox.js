@@ -1,39 +1,38 @@
-// Map Lightbox Logic (fixed for GitHub Pages baseurl)
+// assets/js/map-lightbox.js
 
-const mapLightbox = document.getElementById("map-lightbox");
-const mapLightboxImg = document.getElementById("map-lightbox-img");
-const mapLightboxCaption = document.getElementById("map-lightbox-caption");
-const mapLightboxClose = document.getElementById("map-lightbox-close");
-
-// Read baseurl from HTML (works locally + GitHub Pages)
-const MAP_BASE = mapLightbox.dataset.baseurl || "";
-
-// Open the map lightbox
 export function openMapLightbox(item) {
-  // Prepend baseurl to the image path
-  mapLightboxImg.src = `${MAP_BASE}${item.file}`;
-  mapLightboxImg.alt = item.name || "";
+  const box = document.getElementById("map-lightbox");
+  const img = document.getElementById("map-lightbox-img");
+  const caption = document.getElementById("map-lightbox-caption");
 
-  mapLightboxCaption.textContent = item.name || "";
+  const base = box.dataset.baseurl || "";
+  const file = item.file;
 
-  mapLightbox.classList.remove("hidden");
+  const path = file.startsWith("/")
+    ? `${base}${file}`
+    : `${base}/${file}`;
+
+  img.src = path;
+  img.alt = item.name || "";
+
+  caption.innerHTML = `
+    <strong>${item.name || ""}</strong><br>
+    ${item.location || ""}${item.country ? ", " + item.country : ""} • ${item.year || ""}
+  `;
+
+  box.classList.remove("hidden");
 }
 
-// Close on background click
-mapLightbox.addEventListener("click", (e) => {
-  if (e.target === mapLightbox) {
-    mapLightbox.classList.add("hidden");
-  }
-});
+function closeMapLightbox() {
+  const box = document.getElementById("map-lightbox");
+  if (box) box.classList.add("hidden");
+}
 
-// Close button
-mapLightboxClose.addEventListener("click", () => {
-  mapLightbox.classList.add("hidden");
-});
+const closeBtn = document.getElementById("map-lightbox-close");
+if (closeBtn) {
+  closeBtn.addEventListener("click", closeMapLightbox);
+}
 
-// Close on Escape
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    mapLightbox.classList.add("hidden");
-  }
+  if (e.key === "Escape") closeMapLightbox();
 });
