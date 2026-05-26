@@ -613,5 +613,33 @@ export const images = [
     lng: 34.4500,
     themes: ["Humanitarian", "Displacement", "Urban"],
     disaster: "Conflict"
+  },
+
+  {
+    file: "assets/images/maps/2026-micronesia-estimated-damage.png",
+    name: "Estimated damage through satellite obervations (as of 24 April 2026)",
+    continent: "Oceania",
+    country: "Federated States of Micronesia",
+    location: "Chuuk State",
+    year: 2026,
+    month: 4,
+    lat: 7.42269,
+    lng: 151.76077,
+    themes: ["Humanitarian", "Damage assessment"],
+    disaster: "Cyclone"
+  },
+
+  {
+    file: "assets/images/maps/2026-micronesia-distances.png",
+    name: "Distances from state ports to the outer islands",
+    continent: "Oceania",
+    country: "Federated States of Micronesia",
+    location: "Chuuk State",
+    year: 2026,
+    month: 4,
+    lat: 7.1269709,
+    lng: 148.8678691,
+    themes: ["Humanitarian", "Logistics"],
+    disaster: "Cyclone"
   }
 ];
