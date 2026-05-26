@@ -67,31 +67,15 @@ export function initFilters(images, onChange) {
     // Year + Month (Newest First)
     if (fSort.value === "yearmonth") {
       filtered.sort((a, b) => {
-
         const getMonthNum = m => {
+          if (typeof m === "number") return m;
           if (!m) return 0;
-
-          const clean = String(m).trim().toLowerCase();
-
-          // numeric month (1–12)
-          if (!isNaN(clean)) return Number(clean);
-
           const map = {
-            jan: 1, january: 1,
-            feb: 2, february: 2,
-            mar: 3, march: 3,
-            apr: 4, april: 4,
-            may: 5,
-            jun: 6, june: 6,
-            jul: 7, july: 7,
-            aug: 8, august: 8,
-            sep: 9, sept: 9, september: 9,
-            oct: 10, october: 10,
-            nov: 11, november: 11,
-            dec: 12, december: 12
+            january: 1, february: 2, march: 3, april: 4,
+            may: 5, june: 6, july: 7, august: 8,
+            september: 9, october: 10, november: 11, december: 12
           };
-
-          return map[clean] || 0;
+          return map[m.toLowerCase()] || 0;
         };
 
         const aMonth = getMonthNum(a.month);
@@ -147,6 +131,9 @@ export function initFilters(images, onChange) {
      INITIAL POPULATION + FILTER
   ----------------------------- */
 
+  // Populate dropdowns BEFORE filtering
   populateFilters(images);
+
+  // Initial render
   applyFilters();
 }
