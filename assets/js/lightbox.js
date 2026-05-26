@@ -1,19 +1,26 @@
-export function openLightbox(img) {
-  const overlay = document.getElementById("lightbox-overlay");
-  const image = document.getElementById("lightbox-image");
-  const title = document.getElementById("lightbox-title");
-  const meta = document.getElementById("lightbox-meta");
+export function openLightbox(item) {
+  const box = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  const caption = document.getElementById("lightbox-caption");
 
-  image.src = img.file.startsWith("http")
-    ? img.file
-    : "{{ site.baseurl }}/" + img.file;
+  img.src = item.file;
+  img.alt = item.name || "";
 
-  title.textContent = img.name;
-  meta.textContent = `${img.location || img.country} • ${img.year}`;
+  caption.innerHTML = `
+    <strong>${item.name || ""}</strong><br>
+    ${item.location || ""}${item.country ? ", " + item.country : ""} • ${item.year || ""}
+  `;
 
-  overlay.classList.add("open");
+  box.classList.remove("hidden");
 }
 
-document.getElementById("lightbox-close").addEventListener("click", () => {
-  document.getElementById("lightbox-overlay").classList.remove("open");
+function closeLightbox() {
+  document.getElementById("lightbox").classList.add("hidden");
+}
+
+document.getElementById("lightbox-close")
+  .addEventListener("click", closeLightbox);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeLightbox();
 });

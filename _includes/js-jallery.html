@@ -1,0 +1,8 @@
+<script type="module" src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>
+
+<script type="module">
+  import { images } from "{{ '/assets/js/gallery-data.js' | relative_url }}";
+  import { renderGallery } from "{{ '/assets/js/gallery.js' | relative_url }}";
+
+  renderGallery(images);
+</script>

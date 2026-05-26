@@ -3,54 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | {{ site.title }}</title>
+  <title>{{ page.title }} | Fantail GIS</title>
 
+  <!-- Global styles -->
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ '/assets/images/logo/favicon.ico' | relative_url }}">
 </head>
 
-<body>
+<body class="{{ page.body_class }}">
 
-  <!-- HEADER (same on every page) -->
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="{{ '/' | relative_url }}" class="logo">Matt’s Maps</a>
+  {% include header.html %}
 
-      <nav class="site-nav">
-        <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/map/' | relative_url }}">Map</a>
-        <a href="{{ '/projects/' | relative_url }}">Projects</a>
-        <a href="{{ '/about/' | relative_url }}">About</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- PAGE CONTENT WRAPPER -->
   <main class="page-content">
     {{ content }}
   </main>
 
-  <!-- GLOBAL LIGHTBOX (homepage + map + projects) -->
-  <div id="lightbox" class="lightbox hidden">
-    <span id="lightbox-close">&times;</span>
+  {% include footer.html %}
 
-    <button id="lightbox-prev" class="lightbox-nav">&#10094;</button>
-    <button id="lightbox-next" class="lightbox-nav">&#10095;</button>
+  <!-- Global theme script -->
+  <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
 
-    <div id="zoom-controls">
-      <button id="zoom-in" class="zoom-btn">+</button>
-      <button id="zoom-out" class="zoom-btn">−</button>
-      <button id="zoom-reset" class="zoom-btn">Reset</button>
-    </div>
+  <!-- Page‑specific JS hooks -->
+  {% if page.layout == "home" %}
+    {% include js-home.html %}
+  {% endif %}
 
-    <div id="lightbox-viewer">
-      <img id="lightbox-img" src="">
-    </div>
+  {% if page.layout == "gallery" %}
+    {% include js-gallery.html %}
+  {% endif %}
 
-    <div id="lightbox-caption"></div>
-  </div>
+  {% if page.layout == "projects" %}
+    {% include js-projects.html %}
+  {% endif %}
 
-  <!-- GLOBAL JS -->
-  <script src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>
-
+  <!-- Map JS was always loaded by the map layout, not here -->
 </body>
 </html>

@@ -1,0 +1,19 @@
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<!-- Lightbox -->
+<script type="module" src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>
+
+<!-- Map Initializer -->
+<script type="module">
+  import { images } from "{{ '/assets/js/gallery-data.js' | relative_url }}";
+  import initMap from "{{ '/assets/js/map-gallery.js' | relative_url }}";
+
+  initMap(images, "{{ site.baseurl }}");
+</script>

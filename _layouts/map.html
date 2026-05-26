@@ -1,12 +1,15 @@
 ---
 layout: default
-title: Map Gallery
 ---
 
 <section class="map-page">
-  <h1>Map Gallery</h1>
 
-  <div id="maps-map" class="map-container"></div>
+  <h1>{{ page.title }}</h1>
+
+  <div id="map"></div>
+
+  {% include lightbox.html %}
+
 </section>
 
-<script type="module" src="{{ site.baseurl }}/assets/js/map-gallery.js"></script>
+{% include js-map.html %}
