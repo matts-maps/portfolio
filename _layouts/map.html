@@ -2,23 +2,33 @@
 layout: default
 ---
 
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+
 <div id="map-page-wrapper">
 
-  <h1 class="page-title">{{ page.title }}</h1>
-  <p class="page-intro">{{ page.description }}</p>
-
-  <!-- ⭐ ADD FILTER BAR HERE ⭐ -->
-  {% include filter-bar.html %}
-
+  <!-- HERO FROM map.md -->
   {{ content }}
 
+  <!-- FILTER BAR -->
+  {% include filter-bar.html %}
+
+  <!-- MAP -->
   <div id="map-container">
     <div id="map"></div>
   </div>
 
 </div>
 
+<!-- LIGHTBOX -->
 {% include map-lightbox.html %}
 
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<!-- Your map scripts -->
 <script type="module" src="{{ '/assets/js/map-gallery.js' | relative_url }}"></script>
 <script type="module" src="{{ '/assets/js/map-lightbox.js' | relative_url }}"></script>
