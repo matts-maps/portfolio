@@ -4,13 +4,14 @@ layout: default
 
 <div id="map-page-wrapper">
 
-  <!-- HERO SECTION (from map.md) -->
-  {{ content }}
+  <h1 class="page-title">{{ page.title }}</h1>
+  <p class="page-intro">{{ page.description }}</p>
 
-  <!-- ⭐ FILTER BAR GOES HERE — directly after hero ⭐ -->
+  <!-- ⭐ ADD FILTER BAR HERE ⭐ -->
   {% include filter-bar.html %}
 
-  <!-- MAP -->
+  {{ content }}
+
   <div id="map-container">
     <div id="map"></div>
   </div>
@@ -19,6 +20,5 @@ layout: default
 
 {% include map-lightbox.html %}
 
-<!-- JS -->
 <script type="module" src="{{ '/assets/js/map-gallery.js' | relative_url }}"></script>
 <script type="module" src="{{ '/assets/js/map-lightbox.js' | relative_url }}"></script>
