@@ -1,15 +1,314 @@
 ---
 layout: default
-title: Projects Map
 ---
 
-<section class="projects-page">
-  <h1>Projects Map</h1>
+<main class="page-content">
+  <div class="page-inner">
 
-  {% include sidebar-project.html %}
+    {{ content }}
 
-  <div id="projects-map" class="map-container"></div>
-</section>
+    <!-- Leaflet styles -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
 
-<script type="module" src="{{ site.baseurl }}/assets/js/map-projects.js"></script>
-<script type="module" src="{{ site.baseurl }}/assets/js/sidebar.js"></script>
+    <div id="map-page-wrapper">
+
+      <h1 class="page-title">Projects Map</h1>
+      <p class="page-intro">
+        Explore training, response, preparedness, and technical support projects around the world.
+      </p>
+
+      {% include project-filter-bar.html %}
+
+      <div id="map-container">
+        <div id="projects-map"></div>
+      </div>
+
+      {% include project-details-panel.html %}
+
+    </div>
+
+    <!-- PROJECT TABLE -->
+    <section class="project-list-section">
+      <h2 class="section-title">All Projects</h2>
+
+      <table id="project-table" class="project-table">
+        <thead>
+          <tr>
+            <th>Project Name</th>
+            <th>Year</th>
+            <th>Theme(s)</th>
+            <th>Country</th>
+            <th>Location</th>
+            <th>Organisation</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="project-table-body"></tbody>
+      </table>
+    </section>
+
+    <!-- Leaflet scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+    <!-- Map + Table logic -->
+    <script type="module">
+document.addEventListener("readystatechange", async () => {
+  if (document.readyState !== "complete") return;
+
+  const { projects } = await import("{{ '/assets/js/projects-data.js' | relative_url }}");
+  const { initProjectsMap } = await import("{{ '/assets/js/map-projects.js' | relative_url }}");
+
+  // Initialise map
+  initProjectsMap(projects);
+
+  // DOM references
+  const tbody = document.getElementById("project-table-body");
+
+  const sortEl = document.getElementById("sort-filter");
+  const continentEl = document.getElementById("continent-filter");
+  const countryEl = document.getElementById("country-filter");
+  const locationEl = document.getElementById("location-filter");
+  const themeEl = document.getElementById("theme-filter");
+  const modalityEl = document.getElementById("modality-filter");
+  const resetBtn = document.getElementById("reset-filters");
+
+  /* --------------------------------------------------
+     POPULATE FILTERS (array-aware)
+  -------------------------------------------------- */
+
+  function populateFilters() {
+    const continents = [...new Set(
+      projects.flatMap(p =>
+        Array.isArray(p.continent) ? p.continent : [p.continent]
+      ).filter(Boolean)
+    )].sort();
+
+    const countries = [...new Set(
+      projects.flatMap(p =>
+        Array.isArray(p.country) ? p.country : [p.country]
+      ).filter(Boolean)
+    )].sort();
+
+    const locations = [...new Set(
+      projects.flatMap(p =>
+        Array.isArray(p.location) ? p.location : [p.location]
+      ).filter(Boolean)
+    )].sort();
+
+    const themes = [...new Set(
+      projects.flatMap(p => p.themes || []).filter(Boolean)
+    )].sort();
+
+    const modalities = [...new Set(
+      projects.map(p => p.modality).filter(Boolean)
+    )].sort();
+
+    continentEl.innerHTML = `<option value="">All</option>` +
+      continents.map(c => `<option value="${c}">${c}</option>`).join("");
+
+    countryEl.innerHTML = `<option value="">All</option>` +
+      countries.map(c => `<option value="${c}">${c}</option>`).join("");
+
+    locationEl.innerHTML = `<option value="">All</option>` +
+      locations.map(l => `<option value="${l}">${l}</option>`).join("");
+
+    themeEl.innerHTML = `<option value="">All</option>` +
+      themes.map(t => `<option value="${t}">${t}</option>`).join("");
+
+    modalityEl.innerHTML = `<option value="">All</option>` +
+      modalities.map(m => `<option value="${m}">${m}</option>`).join("");
+  }
+
+  populateFilters();
+
+  /* --------------------------------------------------
+     DEPENDENT DROPDOWNS (array-aware)
+  -------------------------------------------------- */
+
+  continentEl.addEventListener("change", () => {
+    const selected = continentEl.value;
+
+    const filteredCountries = [...new Set(
+      projects
+        .filter(p =>
+          !selected ||
+          (Array.isArray(p.continent)
+            ? p.continent.includes(selected)
+            : p.continent === selected)
+        )
+        .flatMap(p =>
+          Array.isArray(p.country) ? p.country : [p.country]
+        )
+        .filter(Boolean)
+    )].sort();
+
+    countryEl.innerHTML = `<option value="">All</option>` +
+      filteredCountries.map(c => `<option value="${c}">${c}</option>`).join("");
+
+    locationEl.innerHTML = `<option value="">All</option>`;
+  });
+
+  countryEl.addEventListener("change", () => {
+    const selectedCountry = countryEl.value;
+
+    const filteredLocations = [...new Set(
+      projects
+        .filter(p =>
+          !selectedCountry ||
+          (Array.isArray(p.country)
+            ? p.country.includes(selectedCountry)
+            : p.country === selectedCountry)
+        )
+        .flatMap(p =>
+          Array.isArray(p.location) ? p.location : [p.location]
+        )
+        .filter(Boolean)
+    )].sort();
+
+    locationEl.innerHTML = `<option value="">All</option>` +
+      filteredLocations.map(l => `<option value="${l}">${l}</option>`).join("");
+  });
+
+  /* --------------------------------------------------
+     FILTER + SORT (array-aware)
+  -------------------------------------------------- */
+
+  function filterAndSort() {
+    const sort = sortEl.value;
+    const continent = continentEl.value;
+    const country = countryEl.value;
+    const location = locationEl.value;
+    const theme = themeEl.value;
+    const modality = modalityEl.value;
+
+    let filtered = projects.filter(p => {
+
+      const matchContinent =
+        !continent ||
+        (Array.isArray(p.continent)
+          ? p.continent.includes(continent)
+          : p.continent === continent);
+
+      const matchCountry =
+        !country ||
+        (Array.isArray(p.country)
+          ? p.country.includes(country)
+          : p.country === country);
+
+      const matchLocation =
+        !location ||
+        (Array.isArray(p.location)
+          ? p.location.includes(location)
+          : p.location === location);
+
+      const matchTheme =
+        !theme ||
+        (Array.isArray(p.themes)
+          ? p.themes.includes(theme)
+          : p.themes === theme);
+
+      const matchModality =
+        !modality || p.modality === modality;
+
+      return (
+        matchContinent &&
+        matchCountry &&
+        matchLocation &&
+        matchTheme &&
+        matchModality
+      );
+    });
+
+    // Sorting
+    if (sort === "year") {
+      filtered.sort((a, b) => (b.year || 0) - (a.year || 0));
+    } else if (sort === "alpha") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort === "theme") {
+      filtered.sort((a, b) => {
+        const tA = Array.isArray(a.themes) ? a.themes[0] : a.themes || "";
+        const tB = Array.isArray(b.themes) ? b.themes[0] : b.themes || "";
+        return tA.localeCompare(tB);
+      });
+    }
+
+    return filtered;
+  }
+
+  /* --------------------------------------------------
+     RENDER TABLE
+  -------------------------------------------------- */
+
+  function renderTable(list) {
+    tbody.innerHTML = list.map((p, i) => {
+      return `
+        <tr data-index="${i}">
+          <td>${p.name}</td>
+          <td>${p.year || ""}</td>
+          <td>${Array.isArray(p.themes) ? p.themes.join(", ") : (p.themes || "")}</td>
+          <td>${Array.isArray(p.country) ? p.country.join(", ") : (p.country || "")}</td>
+          <td>${Array.isArray(p.location) ? p.location.join(", ") : (p.location || "")}</td>
+          <td>${p.organisation || ""}</td>
+          <td>${p.status || ""}</td>
+        </tr>
+      `;
+    }).join("");
+
+    [...tbody.querySelectorAll("tr")].forEach((row, idx) => {
+      row.addEventListener("click", () => {
+        const item = list[idx];
+        if (window.openProjectDetails) {
+          window.openProjectDetails(item);
+        }
+      });
+    });
+  }
+
+  // Initial table
+  renderTable(projects);
+
+  /* --------------------------------------------------
+     SYNC FILTERS → MAP + TABLE
+  -------------------------------------------------- */
+
+  function applyFilters() {
+    const filtered = filterAndSort();
+    renderTable(filtered);
+    window.updateMapMarkers(filtered);
+  }
+
+  [
+    sortEl,
+    continentEl,
+    countryEl,
+    locationEl,
+    themeEl,
+    modalityEl
+  ].forEach(el => {
+    el.addEventListener("change", applyFilters);
+  });
+
+  /* --------------------------------------------------
+     RESET FILTERS
+  -------------------------------------------------- */
+
+  resetBtn.addEventListener("click", () => {
+    sortEl.value = "year";
+    continentEl.value = "";
+    countryEl.value = "";
+    locationEl.value = "";
+    themeEl.value = "";
+    modalityEl.value = "";
+
+    populateFilters();
+    applyFilters();
+  });
+
+});
+</script>
+
+  </div>
+</main>
