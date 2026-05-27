@@ -1,14 +1,13 @@
 // /assets/js/map-projects.js
-// FINAL PRODUCTION VERSION — GLOBAL LEAFLET, NO ESM IMPORTS
+
+let map;
+let clusterGroup;
 
 export function initProjectsMap(projects) {
   const mapEl = document.getElementById("projects-map");
   if (!mapEl) return;
 
-  // ------------------------------------------------------------
-  // MAP INITIALIZATION
-  // ------------------------------------------------------------
-  const map = L.map("projects-map", {
+  map = L.map("projects-map", {
     scrollWheelZoom: true,
     worldCopyJump: true
   }).setView([20, 0], 2);
@@ -18,92 +17,178 @@ export function initProjectsMap(projects) {
     attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
-  const clusterGroup = L.markerClusterGroup({
+  clusterGroup = L.markerClusterGroup({
     showCoverageOnHover: false,
     maxClusterRadius: 40
   });
 
-  // ------------------------------------------------------------
-  // DETAILS PANEL
-  // ------------------------------------------------------------
-  const panel = document.getElementById("project-details-panel");
-  const panelContent = document.getElementById("project-details-content");
-  const panelClose = document.getElementById("project-details-close");
+  map.addLayer(clusterGroup);
 
-  if (panelClose) {
-    panelClose.addEventListener("click", () => {
-      panel.classList.remove("open");
+  /* --------------------------------------------------
+     DETAILS PANEL
+  -------------------------------------------------- */
+  const panel = document.getElementById("project-details-panel");
+  const closeBtn = document.getElementById("close-project-details");
+
+  const titleEl = document.getElementById("project-title");
+  const orgEl = document.getElementById("project-organisation");
+  const typeEl = document.getElementById("project-type");
+  const themesEl = document.getElementById("project-themes");
+  const locationEl = document.getElementById("project-location");
+  const yearEl = document.getElementById("project-year");
+  const disasterEl = document.getElementById("project-disaster");
+  const descriptionEl = document.getElementById("project-description");
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      panel.classList.add("hidden");
     });
   }
 
   function openDetails(item) {
-    panelContent.innerHTML = `
-      <h2>${item.name}</h2>
-      <p><strong>Country:</strong> ${item.country || ""}</p>
-      <p><strong>Location:</strong> ${item.location || ""}</p>
-      <p><strong>Year:</strong> ${item.year || ""}</p>
-      <p><strong>Type:</strong> ${item.type || ""}</p>
-      <p>${item.description || ""}</p>
-    `;
-    panel.classList.add("open");
+    titleEl.textContent = item.name || "";
+    orgEl.textContent = item.organisation || "";
+    typeEl.textContent = item.type || "";
+    themesEl.textContent = Array.isArray(item.themes)
+      ? item.themes.join(", ")
+      : item.themes || "";
+    locationEl.textContent = Array.isArray(item.location)
+      ? item.location.join(", ")
+      : item.location || "";
+    yearEl.textContent = item.year || "";
+    disasterEl.textContent = item.disaster || "";
+    descriptionEl.textContent = item.description || "";
+
+    panel.classList.remove("hidden");
   }
 
-  // ------------------------------------------------------------
-  // MARKER CREATION
-  // ------------------------------------------------------------
-  let markers = [];
+  // Expose globally for table clicks
+  window.openProjectDetails = openDetails;
+
+  /* --------------------------------------------------
+     MARKER BUILDING
+  -------------------------------------------------- */
 
   function buildMarkers(list) {
     clusterGroup.clearLayers();
-    markers = [];
 
-    list.forEach(item => {
-      if (typeof item.lat !== "number" || typeof item.lng !== "number") return;
-
-      const marker = L.marker([item.lat, item.lng], {
-        title: item.name
+    const markers = list
+      .filter(p => typeof p.lat === "number" && typeof p.lng === "number")
+      .map(p => {
+        const marker = L.marker([p.lat, p.lng], { title: p.name });
+        marker.on("click", () => openDetails(p));
+        clusterGroup.addLayer(marker);
+        return marker;
       });
 
-      marker.on("click", () => openDetails(item));
-
-      markers.push(marker);
-      clusterGroup.addLayer(marker);
-    });
-
-    map.addLayer(clusterGroup);
+    if (markers.length > 0) {
+      const group = L.featureGroup(markers);
+      map.fitBounds(group.getBounds(), { padding: [40, 40] });
+    } else {
+      map.setView([20, 0], 2);
+    }
   }
 
-  // Initial load
-  buildMarkers(projects);
+  /* --------------------------------------------------
+     FILTERS
+  -------------------------------------------------- */
 
-  // ------------------------------------------------------------
-  // FILTER SYSTEM
-  // ------------------------------------------------------------
   const searchInput = document.getElementById("project-search");
-  const typeSelect = document.getElementById("project-type");
-  const yearSelect = document.getElementById("project-year");
+  const themeSelect = document.getElementById("theme-filter");
+  const continentSelect = document.getElementById("continent-filter");
+  const countrySelect = document.getElementById("country-filter");
+  const modalitySelect = document.getElementById("modality-filter");
+  const resetBtn = document.getElementById("reset-filters");
 
   function applyFilters() {
     const q = searchInput?.value?.toLowerCase() || "";
-    const type = typeSelect?.value || "";
-    const year = yearSelect?.value || "";
+    const theme = themeSelect?.value || "";
+    const continent = continentSelect?.value || "";
+    const country = countrySelect?.value || "";
+    const modality = modalitySelect?.value || "";
 
     const filtered = projects.filter(p => {
+      const countries = Array.isArray(p.country) ? p.country : [p.country];
+      const continents = Array.isArray(p.continent) ? p.continent : [p.continent];
+      const locations = Array.isArray(p.location) ? p.location : [p.location];
+
       const matchesSearch =
         p.name.toLowerCase().includes(q) ||
-        (p.country || "").toLowerCase().includes(q) ||
-        (p.location || "").toLowerCase().includes(q);
+        countries.some(c => c?.toLowerCase().includes(q)) ||
+        locations.some(l => l?.toLowerCase().includes(q));
 
-      const matchesType = type === "" || p.type === type;
-      const matchesYear = year === "" || String(p.year) === year;
+      const matchesTheme =
+        !theme ||
+        (Array.isArray(p.themes)
+          ? p.themes.includes(theme)
+          : p.themes === theme);
 
-      return matchesSearch && matchesType && matchesYear;
+      const matchesContinent =
+        !continent || continents.includes(continent);
+
+      const matchesCountry =
+        !country || countries.includes(country);
+
+      const matchesModality =
+        !modality || p.modality === modality;
+
+      return (
+        matchesSearch &&
+        matchesTheme &&
+        matchesContinent &&
+        matchesCountry &&
+        matchesModality
+      );
     });
 
     buildMarkers(filtered);
+
+    /* --------------------------------------------------
+       COUNTRY-LEVEL ZOOM OVERRIDE
+    -------------------------------------------------- */
+    if (country && filtered.length > 0) {
+      const first = filtered[0];
+
+      if (typeof first.lat === "number" && typeof first.lng === "number") {
+        map.setView([first.lat, first.lng], 5); // country zoom level
+        return filtered;
+      }
+    }
+
+    return filtered;
   }
 
-  if (searchInput) searchInput.addEventListener("input", applyFilters);
-  if (typeSelect) typeSelect.addEventListener("change", applyFilters);
-  if (yearSelect) yearSelect.addEventListener("change", applyFilters);
+  /* --------------------------------------------------
+     RESET BUTTON
+  -------------------------------------------------- */
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      if (searchInput) searchInput.value = "";
+      if (themeSelect) themeSelect.value = "";
+      if (continentSelect) continentSelect.value = "";
+      if (countrySelect) countrySelect.value = "";
+      if (modalitySelect) modalitySelect.value = "";
+
+      buildMarkers(projects);
+    });
+  }
+
+  /* --------------------------------------------------
+     INITIAL LOAD + LISTENERS
+  -------------------------------------------------- */
+
+  buildMarkers(projects);
+
+  [
+    searchInput,
+    themeSelect,
+    continentSelect,
+    countrySelect,
+    modalitySelect
+  ].forEach(el => {
+    if (!el) return;
+    el.addEventListener("input", applyFilters);
+    el.addEventListener("change", applyFilters);
+  });
 }
