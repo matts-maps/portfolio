@@ -4,6 +4,8 @@ let map;
 let clusterGroup;
 
 export function initProjectsMap(projects) {
+  const allProjects = projects; // <-- capture dataset safely
+
   const mapEl = document.getElementById("projects-map");
   if (!mapEl) return;
 
@@ -47,7 +49,9 @@ export function initProjectsMap(projects) {
 
   function openDetails(item) {
     titleEl.textContent = item.name || "";
-    orgEl.textContent = item.organisation || "";
+    orgEl.textContent = Array.isArray(item.organisation)
+      ? item.organisation.join(", ")
+      : item.organisation || "";
     typeEl.textContent = item.type || "";
     themesEl.textContent = Array.isArray(item.themes)
       ? item.themes.join(", ")
@@ -107,7 +111,7 @@ export function initProjectsMap(projects) {
     const country = countrySelect?.value || "";
     const modality = modalitySelect?.value || "";
 
-    const filtered = projects.filter(p => {
+    const filtered = allProjects.filter(p => {
       const countries = Array.isArray(p.country) ? p.country : [p.country];
       const continents = Array.isArray(p.continent) ? p.continent : [p.continent];
       const locations = Array.isArray(p.location) ? p.location : [p.location];
@@ -143,14 +147,12 @@ export function initProjectsMap(projects) {
 
     buildMarkers(filtered);
 
-    /* --------------------------------------------------
-       COUNTRY-LEVEL ZOOM OVERRIDE
-    -------------------------------------------------- */
+    // COUNTRY-LEVEL ZOOM OVERRIDE
     if (country && filtered.length > 0) {
       const first = filtered[0];
 
       if (typeof first.lat === "number" && typeof first.lng === "number") {
-        map.setView([first.lat, first.lng], 5); // country zoom level
+        map.setView([first.lat, first.lng], 5);
         return filtered;
       }
     }
@@ -170,7 +172,7 @@ export function initProjectsMap(projects) {
       if (countrySelect) countrySelect.value = "";
       if (modalitySelect) modalitySelect.value = "";
 
-      buildMarkers(projects);
+      buildMarkers(allProjects);
     });
   }
 
@@ -178,7 +180,7 @@ export function initProjectsMap(projects) {
      INITIAL LOAD + LISTENERS
   -------------------------------------------------- */
 
-  buildMarkers(projects);
+  buildMarkers(allProjects);
 
   [
     searchInput,
@@ -191,4 +193,7 @@ export function initProjectsMap(projects) {
     el.addEventListener("input", applyFilters);
     el.addEventListener("change", applyFilters);
   });
+
+  // Expose map update function for table → map sync
+  window.updateMapMarkers = list => buildMarkers(list);
 }
