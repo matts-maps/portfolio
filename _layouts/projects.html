@@ -1,15 +1,40 @@
 ---
 layout: default
-title: Projects Map
+title: Projects
+permalink: /projects/
 ---
 
-<section class="projects-page">
-  <h1>Projects Map</h1>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
 
-  {% include sidebar-project.html %}
+<div id="map-page-wrapper">
 
-  <div id="projects-map" class="map-container"></div>
-</section>
+  <h1 class="page-title">Projects Map</h1>
+  <p class="page-intro">
+    Explore training, response, preparedness, and technical support projects around the world.
+  </p>
 
-<script type="module" src="{{ site.baseurl }}/assets/js/map-projects.js"></script>
-<script type="module" src="{{ site.baseurl }}/assets/js/sidebar.js"></script>
+  {% include project-filter-bar.html %}
+
+  <div id="map-container">
+    <div id="projects-map"></div>
+  </div>
+
+  {% include project-details-panel.html %}
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<script type="module">
+  document.addEventListener("readystatechange", async () => {
+    if (document.readyState !== "complete") return;
+
+    const { projects } = await import("{{ '/assets/js/projects-data.js' | relative_url }}");
+    const { initProjectsMap } = await import("{{ '/assets/js/map-projects.js' | relative_url }}");
+
+    initProjectsMap(projects);
+  });
+</script>
