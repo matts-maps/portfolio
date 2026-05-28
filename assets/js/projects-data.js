@@ -171,17 +171,17 @@ export const projects = [
   },
 
   {
-    name: "Conflict",
+    name: "Yazidi displacement from Mount Sinjar",
     continent: "Asia",
     country: "Iraq",
     location: "",
-    year: "",
-    month: "",
+    year: "2014",
+    month: "July",
     themes: ["Response"],
     disaster: "Conflict",
     lat: 36.366728,
     lng: 41.721839,
-    description: "Yazidi displacement from Mount Sinjar",
+    description: "Preparation of data and map visuals for daily ministerial briefings.",
     type: "Response",
     modality: "Remote",
     organisation: ["Department for International Development (DfID)"],
@@ -772,16 +772,16 @@ export const projects = [
   },
 
   {
-    name: "Earthquake, tsunami and liquefaction",
+    name: "Sulawesi Earthquake, tsunami and liquefaction response analysis",
     continent: "Asia",
     country: "Indonesia",
     location: "Palu",
     year: "2018",
-    month: "",
+    month: "October",
     themes: ["Response"],
     disaster: "Earthquake / Tsunami",
-    lat: -0.7893,
-    lng: 113.9213,
+    lat: -0.9000437095252369,
+    lng: 119.87636672452953,
     description:
       "Analysis and mapping of the Indonesian response to the 2018 Sulawesi earthquake.\nThis included the mapping of damaged buildings from the three events and assessing the humanitarian impacts in the event aftermath.",
     type: "Response",
@@ -1000,7 +1000,7 @@ export const projects = [
   },
 
   {
-    name: "Munitions Explosion",
+    name: "GIS and mapping support, Munitions depot explosion",
     continent: "Africa",
     country: "Republic of Congo",
     location: "Brazzaville",
@@ -1010,10 +1010,11 @@ export const projects = [
     disaster: "Explosion",
     lat: -4.2634,
     lng: 15.2429,
-    description: "",
+    description: "Deployment to Brazzaville to provide mapping and information management support to the national government and the international demining teams responsible for clearing the site of unexploded ordnance.",
     type: "Response",
     modality: "In-situ",
     organisation: [
+      "Government of the Republic of Congo",
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
     level: "National",
@@ -1085,7 +1086,7 @@ export const projects = [
     disaster: "Typhoon",
     lat: 11.2433,
     lng: 125.0033,
-    description: "",
+    description: "Deployment to Tacloban, Philippines to deliver humanitarian situational mapping and information management as part of the On-Site Operations Coordination Centre (OSOCC) to National Disaster Risk Reduction and Management Council (NDRRMC), UNOCHA and the INGOs during the disaster response phase. I also provided remote support to field teams, along with recovery phase spatial analysis and mapping delivered for ACAPS and Habitat for Humanity.",
     type: "Response",
     modality: "In-situ",
     organisation: [
@@ -1180,8 +1181,8 @@ export const projects = [
     continent: "Africa",
     country: "Liberia",
     location: "Monrovia",
-    year: "",
-    month: "",
+    year: "2014",
+    month: "September",
     themes: ["Response"],
     disaster: "Ebola",
     lat: 6.3156,
@@ -1197,8 +1198,8 @@ export const projects = [
     startDate: "",
     endDate: "",
     status: "Complete",
-    parentProject: "",
-    parentProjectDescription: ""
+    parentProject: "2014 Ebola response in West Africa",
+    parentProjectDescription: "Throughout 2014 I worked on the coordination, data collection and mapping of the Ebola epidemic in West Africa, initially working remotely with international organisations such as UNOCHA and ACAPS, followed by a deployment to Liberia to provide situational mapping for the Government of Libera, UNDAC and international agencies. I supported and trained staff at the national mapping agency as part of a coordinated handover."
   },
 
   {
@@ -1262,10 +1263,11 @@ export const projects = [
     disaster: "Cyclone",
     lat: -17.7333,
     lng: 168.3167,
-    description: "",
+    description: "Delivered field level data and mapping support to the National Disaster Management Office of Vanuatu and UNOCHA who led international coordination of the disaster response. My role included delivery of a 3-day field assessment of some of the damaged villages in engagement with local communities on affected islands.",
     type: "Response",
     modality: "In-situ",
     organisation: [
+      "Government of Vanuatu ",
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
     level: "National",
@@ -1281,7 +1283,7 @@ export const projects = [
     continent: "Caribbean",
     country: "Haiti",
     location: "",
-    year: "",
+    year: "2021",
     month: "",
     themes: ["Response"],
     disaster: "Earthquake",
@@ -1306,8 +1308,8 @@ export const projects = [
     continent: "Africa",
     country: "Malawi",
     location: "Lilongwe",
-    year: "",
-    month: "",
+    year: "2015",
+    month: "February",
     themes: ["Response"],
     disaster: "Flooding",
     lat: -13.9626,
