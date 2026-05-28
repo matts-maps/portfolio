@@ -27,14 +27,14 @@ export const projects = [
   },
 
   {
-    name: "",
+    name: "GIS support to Chuuk State, Federated States of Micronesia following Typhoon Sinlaku",
     continent: "Oceania",
     country: "Federated States of Micronesia",
     location: "",
     year: "2026",
     month: "April",
     themes: ["Response"],
-    disaster: "Cyclone",
+    disaster: "Typhoon",
     lat: 7.416667,
     lng: 151.783333,
     description: "",
