@@ -35,10 +35,10 @@ export function initProjectsMap(projects) {
   const titleEl = document.getElementById("project-title");
   const orgEl = document.getElementById("project-organisation");
   const typeEl = document.getElementById("project-type");
-  const themesEl = document.getElementById("project-themes");
-  const locationEl = document.getElementById("project-location");
-  const yearEl = document.getElementById("project-year");
   const disasterEl = document.getElementById("project-disaster");
+  const locationEl = document.getElementById("project-location");
+  const countryEl = document.getElementById("project-country");
+  const yearEl = document.getElementById("project-year");
   const descriptionEl = document.getElementById("project-description");
 
   if (closeBtn) {
@@ -48,20 +48,48 @@ export function initProjectsMap(projects) {
   }
 
   function openDetails(item) {
+    // Title
     titleEl.textContent = item.name || "";
-    orgEl.textContent = Array.isArray(item.organisation)
-      ? item.organisation.join(", ")
-      : item.organisation || "";
-    typeEl.textContent = item.type || "";
-    themesEl.textContent = Array.isArray(item.themes)
-      ? item.themes.join(", ")
-      : item.themes || "";
-    locationEl.textContent = Array.isArray(item.location)
-      ? item.location.join(", ")
-      : item.location || "";
+
+    // Location
+    if (item.location) {
+      locationEl.textContent = Array.isArray(item.location)
+        ? item.location.join(", ")
+        : item.location;
+      locationEl.style.display = "block";
+    } else {
+      locationEl.style.display = "none";
+    }
+
+    // Country · Year
+    countryEl.textContent = item.country || "";
     yearEl.textContent = item.year || "";
+
+    const countryYearRow = countryEl.parentElement;
+    countryYearRow.style.display =
+      item.country || item.year ? "block" : "none";
+
+    // Type · Disaster
+    typeEl.textContent = item.type || "";
     disasterEl.textContent = item.disaster || "";
+    disasterEl.style.display = item.disaster ? "inline" : "none";
+
+    const typeDisasterRow = typeEl.parentElement;
+    typeDisasterRow.style.display =
+      item.type || item.disaster ? "block" : "none";
+
+    // Description
     descriptionEl.textContent = item.description || "";
+
+    // Organisations
+    if (item.organisation) {
+      orgEl.textContent = Array.isArray(item.organisation)
+        ? item.organisation.join(", ")
+        : item.organisation;
+      orgEl.style.display = "block";
+    } else {
+      orgEl.style.display = "none";
+    }
 
     panel.classList.remove("hidden");
   }
