@@ -759,3 +759,63 @@ body.dark #reset-filters:hover {
 body.dark .project-table tr:hover {
   background: rgba(255,255,255,0.05);
 }
+
+
+/* --------------------------------------------------
+   PROJECT DETAILS PANEL — NEW STRUCTURE SUPPORT
+-------------------------------------------------- */
+
+/* Location (optional) */
+.details-location {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Country · Year */
+.details-country-year {
+  margin: 0.15rem 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.details-country-year span {
+  margin-right: 0.35rem;
+}
+
+.details-country-year span:last-child::before {
+  content: "· ";
+  opacity: 0.7;
+}
+
+/* Type · Disaster */
+.details-type-disaster {
+  margin: 0.15rem 0 0.75rem 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.details-type-disaster span {
+  margin-right: 0.35rem;
+}
+
+.details-type-disaster span:last-child::before {
+  content: "· ";
+  opacity: 0.7;
+}
+
+/* Description paragraph */
+.details-description {
+  margin: 1rem 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  opacity: 0.9;
+}
+
+/* Organisations (optional) */
+.details-organisation {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  opacity: 0.9;
+  font-weight: 600;
+}

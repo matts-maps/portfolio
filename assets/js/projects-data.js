@@ -11,7 +11,7 @@ export const projects = [
     disaster: "Volcano",
     lat: 13.2528,
     lng: -61.1971,
-    description: ", Saint Vincent and the Grenadines volcano response, , March 2021",
+    description: "Mapping of the humanitarian and environmental impacts of the La Soufrière volcanic eruption in Saint Vincent and the Grenadines, including mapping of damaged buildings, evacuation centres, and ashfall extent.",
     type: "Response",
     modality: "Remote",
     organisation: [
