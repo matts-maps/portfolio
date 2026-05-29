@@ -12,7 +12,9 @@ export const projects = [
     "lng": 15.2429,
     "description": "Deployment to Brazzaville to provide mapping and information management support to the national government and the international demining teams responsible for clearing the site of unexploded ordnance.",
     "type": "Response",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "Government of the Republic of Congo",
       "United Nations Disaster Assessment and Coordination (UNDAC)"
@@ -41,7 +43,9 @@ export const projects = [
     "lng": -2.7,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -67,7 +71,9 @@ export const projects = [
     "lng": 27.677,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -91,7 +97,9 @@ export const projects = [
     "lng": 125.0033,
     "description": "Deployment to Tacloban, Philippines to deliver humanitarian situational mapping and information management as part of the On-Site Operations Coordination Centre (OSOCC) to National Disaster Risk Reduction and Management Council (NDRRMC), UNOCHA and the INGOs during the disaster response phase. I also provided remote support to field teams, along with recovery phase spatial analysis and mapping delivered for ACAPS and Habitat for Humanity.",
     "type": "Response",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -117,7 +125,9 @@ export const projects = [
     "lng": 116.0735,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "International Search and Rescue Advisory Group (INSARAG)"
     ],
@@ -143,7 +153,9 @@ export const projects = [
     "lng": 9.44487352665677,
     "description": "",
     "type": "Training",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "International Humanitarian Partnership (IHP)",
       "European Commission's Humanitarian Aid and Civil Protection"
@@ -168,7 +180,9 @@ export const projects = [
     "lng": -10.8074,
     "description": "",
     "type": "Response",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)",
       "Government of Liberia"
@@ -193,7 +207,9 @@ export const projects = [
     "lng": 41.721839,
     "description": "Preparation of data and map visuals for daily ministerial briefings.",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "Department for International Development (DfID)"
     ],
@@ -220,7 +236,9 @@ export const projects = [
     "lng": 13.5036,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "International Humanitarian Partnership (IHP)"
     ],
@@ -248,7 +266,9 @@ export const projects = [
     "lng": 8.2275,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -272,7 +292,9 @@ export const projects = [
     "lng": 168.3167,
     "description": "Delivered field level data and mapping support to the National Disaster Management Office of Vanuatu and UNOCHA who led international coordination of the disaster response. My role included delivery of a 3-day field assessment of some of the damaged villages in engagement with local communities on affected islands.",
     "type": "Response",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "Government of Vanuatu",
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
@@ -297,7 +319,9 @@ export const projects = [
     "lng": 33.7741,
     "description": "",
     "type": "Response",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
@@ -321,7 +345,9 @@ export const projects = [
     "lng": 20.456944,
     "description": "Over 2015, I coordinated the GIS field teams in Greece, Serbia and Switzerland supporting UNHCR in the mapping of migrants through Europe.\nThis included creation of maps and databases on migration from Northern and West Africa into Europe.",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations High Commissioner for Refugees (UNHCR)",
       "Assessment Capacity Project (ACAPS)"
@@ -346,7 +372,9 @@ export const projects = [
     "lng": 23.728056,
     "description": "Over 2015, I coordinated the GIS field teams in Greece, Serbia and Switzerland supporting UNHCR in the mapping of migrants through Europe.\nThis included creation of maps and databases on migration from Northern and West Africa into Europe.",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations High Commissioner for Refugees (UNHCR)",
       "Assessment Capacity Project (ACAPS)"
@@ -371,7 +399,9 @@ export const projects = [
     "lng": 6.146944,
     "description": "Over 2015, I coordinated the GIS field teams in Greece, Serbia and Switzerland supporting UNHCR in the mapping of migrants through Europe.\nThis included creation of maps and databases on migration from Northern and West Africa into Europe.",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations High Commissioner for Refugees (UNHCR)",
       "Assessment Capacity Project (ACAPS)"
@@ -398,7 +428,9 @@ export const projects = [
     "lng": 5.7331,
     "description": "GIS and data lead for the exercise scenario planning team and exercise controllers for large-scale multinational humanitarian simulation exercise in Norway.\nThis involved leadership and coordination across a wide range of stakeholders and organizations including national disaster agencies, civil defence, NGOs, civil society, UN organizations, development partners, and others.",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "International Humanitarian Partnership (IHP)"
     ],
@@ -422,7 +454,9 @@ export const projects = [
     "lng": 168.3167,
     "description": "",
     "type": "Preparedness and anticipatory action",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -446,7 +480,9 @@ export const projects = [
     "lng": 119.8763667245295,
     "description": "Analysis and mapping of the Indonesian response to the 2018 Sulawesi earthquake.\nThis included the mapping of damaged buildings from the three events and assessing the humanitarian impacts in the event aftermath.",
     "type": "Response",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
@@ -470,7 +506,9 @@ export const projects = [
     "lng": 121.774,
     "description": "",
     "type": "Response",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
@@ -496,7 +534,9 @@ export const projects = [
     "lng": 120.5596,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "International Search and Rescue Advisory Group (INSARAG)"
     ],
@@ -520,7 +560,9 @@ export const projects = [
     "lng": -61.333333,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [],
     "level": "National",
     "startDate": "2018-09-10",
@@ -542,7 +584,9 @@ export const projects = [
     "lng": 34.85,
     "description": "Following Cyclone Idai, widespread flooding caused multiple disease outbreaks across the country.\nI provided mapping and analysis to show the spread of the disease and how the health cluster was delivering support based on collated multistakeholder data from a wide range of health organizations.",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
@@ -567,7 +611,9 @@ export const projects = [
     "lng": 19.8187,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -591,7 +637,9 @@ export const projects = [
     "lng": 43.1456,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -617,7 +665,9 @@ export const projects = [
     "lng": 24.7536,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -641,7 +691,9 @@ export const projects = [
     "lng": 85.324,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
@@ -665,7 +717,9 @@ export const projects = [
     "lng": -175.2,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
@@ -689,7 +743,9 @@ export const projects = [
     "lng": 125.7475,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
@@ -713,7 +769,9 @@ export const projects = [
     "lng": 35.5018,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -737,7 +795,9 @@ export const projects = [
     "lng": 31.58247,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High Commissioner for Refugees (UNHCR)",
@@ -765,7 +825,9 @@ export const projects = [
     "lng": 32.522854,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High Commissioner for Refugees (UNHCR)",
@@ -793,7 +855,9 @@ export const projects = [
     "lng": 11.517,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High Commissioner for Refugees (UNHCR)",
@@ -821,7 +885,9 @@ export const projects = [
     "lng": 15.0444,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High Commissioner for Refugees (UNHCR)",
@@ -849,7 +915,9 @@ export const projects = [
     "lng": 38.7469,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High Commissioner for Refugees (UNHCR)",
@@ -877,7 +945,9 @@ export const projects = [
     "lng": 2.1098,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High Commissioner for Refugees (UNHCR)",
@@ -905,7 +975,9 @@ export const projects = [
     "lng": 45.34375,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High Commissioner for Refugees (UNHCR)",
@@ -933,7 +1005,9 @@ export const projects = [
     "lng": 44.3661,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High CommissionerRefugees (UNHCR)",
@@ -962,7 +1036,9 @@ export const projects = [
     "lng": 69.1723,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
       "United Nations High Commissioner for Refugees (UNHCR)",
@@ -990,7 +1066,9 @@ export const projects = [
     "lng": 121.774,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
@@ -1016,7 +1094,9 @@ export const projects = [
     "lng": 140.0,
     "description": "Led the creation of a data collection tool (in multiple languages) for the Community Insights for Covid-19 survey in Asia and the Pacific, looking at the perceptions of Covid-19 within communities across the region.",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "Risk Communication and Community Engagement Working Group"
     ],
@@ -1040,7 +1120,9 @@ export const projects = [
     "lng": -72.3074,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
@@ -1064,7 +1146,9 @@ export const projects = [
     "lng": -61.1971,
     "description": "Mapping of the humanitarian and environmental impacts of the La Soufri\u00e8re volcanic eruption in Saint Vincent and the Grenadines, including mapping of damaged buildings, evacuation centres, and ashfall extent.",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "Caribbean Disaster Emergency Management Agency (CDEMA)",
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
@@ -1089,7 +1173,9 @@ export const projects = [
     "lng": 121.774,
     "description": "",
     "type": "Response",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "Centre for Disaster Preparedness (CDP)"
     ],
@@ -1113,7 +1199,9 @@ export const projects = [
     "lng": 100.6197,
     "description": "",
     "type": "Preparedness and anticipatory action",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "The Asia Disaster Reduction and Response Network (ADRRN)"
     ],
@@ -1135,11 +1223,13 @@ export const projects = [
       "Simex"
     ],
     "disaster": "",
-    "lat": 0.0,
-    "lng": 0.0,
+    "lat": 46.201667,
+    "lng": 6.146944,
     "description": "Creation of disaster simulation exercise data and maps for use at United Nations Disaster Assessment and Coordination (UNDAC) training simulation exercises, targeting disaster responders such as UN and national disaster management organization (NDMO) staff.",
     "type": "Training",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
@@ -1167,7 +1257,9 @@ export const projects = [
     "lng": 101.6869,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
@@ -1191,7 +1283,9 @@ export const projects = [
     "lng": -175.3925,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [],
     "level": "National",
     "startDate": "",
@@ -1213,7 +1307,10 @@ export const projects = [
     "lng": 120.5596,
     "description": "Quarterly support for delivery of targeted technical outputs to enhance the resilience of communities and beneficiaries in the Philippines through the private sector members of PDRF, including:\n\u2022 Scoping and landscape mapping \u2013 organisational level GIS and information management audit.\n\u2022 Who-What-Where-When and for Whom (5W) tool development (ArcGIS Online and Survey 123) for tracking member activities and resources.\n\u2022 Coaching and mentoring of GIS staff.",
     "type": "",
-    "modality": "In-situ and remote",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
     "organisation": [
       "Philippines Disaster Resilience Foundation (PDRF)"
     ],
@@ -1242,7 +1339,9 @@ export const projects = [
     "lng": 85.324,
     "description": "Development and delivery of a training course on using GIS to visualise and communicate risk information effectively.\nThe course introduced data sourcing and collection (Kobo), analysis and visualisation using QGIS to NGOs and CSOs that could be used in anticipatory action, response and recovery programmes.",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "Start Ready (Nepal)"
     ],
@@ -1271,7 +1370,9 @@ export const projects = [
     "lng": 120.9842,
     "description": "The course introduced data sourcing and collection (Kobo), analysis and visualisation using QGIS to NGOs and CSOs that could be used in anticipatory action, response and recovery programmes.",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "Start Ready (Nepal)"
     ],
@@ -1295,7 +1396,9 @@ export const projects = [
     "lng": 120.5596,
     "description": "",
     "type": "Preparedness and anticipatory action",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "Philippines Disaster Resilience Foundation (PDRF)"
     ],
@@ -1319,7 +1422,9 @@ export const projects = [
     "lng": 79.8612,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [],
     "level": "Sub-national",
     "startDate": "",
@@ -1344,7 +1449,9 @@ export const projects = [
     "lng": 106.8167,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
@@ -1368,7 +1475,9 @@ export const projects = [
     "lng": 84.124,
     "description": "",
     "type": "Preparedness and anticipatory action",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "Disaster Preparedness Network-Nepal (DPNet)"
     ],
@@ -1396,7 +1505,9 @@ export const projects = [
     "lng": 100.8825,
     "description": "",
     "type": "Training",
-    "modality": "In-situ",
+    "modality": [
+      "In-situ"
+    ],
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
@@ -1420,7 +1531,9 @@ export const projects = [
     "lng": 100.6197,
     "description": "",
     "type": "Training",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [],
     "level": "National and sub-national",
     "startDate": "",
@@ -1442,7 +1555,9 @@ export const projects = [
     "lng": 121.0587666,
     "description": "",
     "type": "Development",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "Asian Development Bank (ADB)"
     ],
@@ -1466,7 +1581,9 @@ export const projects = [
     "lng": -58.155,
     "description": "",
     "type": "Preparedness and anticipatory action",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [],
     "level": "National",
     "startDate": "20/05/2026",
@@ -1488,7 +1605,9 @@ export const projects = [
     "lng": 35.5018,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [],
     "level": "National",
     "startDate": "2026-05-25",
@@ -1510,7 +1629,9 @@ export const projects = [
     "lng": 36.2765,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [],
     "level": "National",
     "startDate": "2026-05-25",
@@ -1532,7 +1653,9 @@ export const projects = [
     "lng": -72.3074,
     "description": "",
     "type": "Preparedness and anticipatory action",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "United Nations Department for Safety and Security (UNDSS)"
     ],
@@ -1556,7 +1679,9 @@ export const projects = [
     "lng": 151.783333,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "Chuuk State Government",
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
@@ -1583,7 +1708,9 @@ export const projects = [
     "lng": 30.516667,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "EU",
       "Assessment Capacity Project (ACAPS)"
@@ -1610,7 +1737,9 @@ export const projects = [
     "lng": 51.3897,
     "description": "",
     "type": "Response",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "EU",
       "Assessment Capacity Project (ACAPS)"
@@ -1631,11 +1760,14 @@ export const projects = [
     "month": "",
     "themes": [],
     "disaster": "",
-    "lat": 55.3781,
-    "lng": -3.436,
+    "lat": 51.702,
+    "lng": -0.911,
     "description": "Coordination of organisational technical development",
     "type": "Training",
-    "modality": "In-situ and remote",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
     "organisation": [],
     "level": "",
     "startDate": "",
@@ -1653,11 +1785,14 @@ export const projects = [
     "month": "",
     "themes": [],
     "disaster": "",
-    "lat": 55.3781,
-    "lng": -3.436,
+    "lat": 51.702,
+    "lng": -0.911,
     "description": "Development and running of annual simulation exercises",
     "type": "Training",
-    "modality": "In-situ and remote",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
     "organisation": [],
     "level": "",
     "startDate": "",
@@ -1675,11 +1810,14 @@ export const projects = [
     "month": "",
     "themes": [],
     "disaster": "",
-    "lat": 54.526,
-    "lng": 15.2551,
+    "lat": 51.702,
+    "lng": -0.911,
     "description": "Over 100 training events for volunteers and staff",
     "type": "Training",
-    "modality": "In-situ and remote",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
     "organisation": [],
     "level": "",
     "startDate": "",
@@ -1701,7 +1839,9 @@ export const projects = [
     "lng": "",
     "description": "This role involved working across a regional network of civil society organizations and engaging closely with individual NGO/ CSOs (including the Centre for Disaster Preparedness (Philippines), Disaster Preparedness Network (Nepal) and Muslim Foundation for Culture and Development (MFCD)) to develop tools and best practices in data interoperability. These included \u201cWho-What-Where-When-for Whom\u201d (345W) mapping which is used as a preparedness, anticipatory action, response and project planning tool.",
     "type": "Preparedness and anticipatory action",
-    "modality": "Remote",
+    "modality": [
+      "Remote"
+    ],
     "organisation": [
       "Asian Disaster Reduction and Response Network (ADRRN)"
     ],
