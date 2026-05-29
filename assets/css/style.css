@@ -819,3 +819,18 @@ body.dark .project-table tr:hover {
   opacity: 0.9;
   font-weight: 600;
 }
+
+.hover-row {
+  background: #e0f0ff;
+  transition: background 0.3s ease;
+}
+
+.active-row {
+  background: #ffe9a8;
+  transition: background 0.5s ease;
+}
+
+.marker-hover {
+  transform: scale(1.3);
+  transition: transform 0.2s ease;
+}

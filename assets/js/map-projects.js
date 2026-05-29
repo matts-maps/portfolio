@@ -3,8 +3,95 @@
 let map;
 let clusterGroup;
 
+/* --------------------------------------------------
+   COLOR PALETTE BY TYPE
+-------------------------------------------------- */
+const typeColors = {
+  "Response": "#e63946",
+  "Training": "#457b9d",
+  "Preparedness and anticipatory action": "#2a9d8f",
+  "Development": "#f4a261",
+  "Other": "#999999",
+  "": "#999999"
+};
+
+/* --------------------------------------------------
+   MARKER FACTORIES
+-------------------------------------------------- */
+function createCircleMarker(p, color) {
+  const marker = L.circleMarker([p.lat, p.lng], {
+    radius: 7,
+    color,
+    weight: 2,
+    fillColor: color,
+    fillOpacity: 0.7
+  });
+  marker.projectId = p.name;
+  marker.projectType = p.type || "Other";
+  marker.projectStatus = p.status || "";
+  return marker;
+}
+
+function createStarMarker(p, color) {
+  const svg = "<svg width='20' height='20' viewBox='0 0 40 40'><polygon points='20,4 25,15 37,15 27,23 31,35 20,28 9,35 13,23 3,15 15,15' fill='" + color + "' stroke='" + color + "' stroke-width='2'/></svg>";
+
+  const icon = L.divIcon({
+    html: svg,
+    className: "star-icon",
+    iconSize: [20, 20],
+    iconAnchor: [10, 10]
+  });
+
+  const marker = L.marker([p.lat, p.lng], { icon });
+  marker.projectId = p.name;
+  marker.projectType = p.type || "Other";
+  marker.projectStatus = p.status || "";
+  return marker;
+}
+
+/* --------------------------------------------------
+   CLUSTER ICON (TYPE-BASED, MAJORITY)
+-------------------------------------------------- */
+function createClusterIcon(cluster) {
+  const markers = cluster.getAllChildMarkers();
+  const counts = {};
+
+  markers.forEach(m => {
+    const t = m.projectType || "Other";
+    counts[t] = (counts[t] || 0) + 1;
+  });
+
+  let dominantType = "Other";
+  let maxCount = -1;
+  Object.keys(counts).forEach(t => {
+    if (counts[t] > maxCount) {
+      maxCount = counts[t];
+      dominantType = t;
+    }
+  });
+
+  const color = typeColors[dominantType] || typeColors["Other"];
+  const count = cluster.getChildCount();
+
+  const sizeClass =
+    count < 10 ? "cluster-small" :
+    count < 50 ? "cluster-medium" :
+    "cluster-large";
+
+  const html = "<div class='cluster-inner' style='background:" + color + ";'><span>" + count + "</span></div>";
+
+  return L.divIcon({
+    html,
+    className: "custom-cluster-icon " + sizeClass,
+    iconSize: [40, 40]
+  });
+}
+
+/* --------------------------------------------------
+   INITIALISE MAP
+-------------------------------------------------- */
 export function initProjectsMap(projects) {
-  const allProjects = projects; // <-- capture dataset safely
+  const allProjects = projects;
 
   const mapEl = document.getElementById("projects-map");
   if (!mapEl) return;
@@ -21,7 +108,8 @@ export function initProjectsMap(projects) {
 
   clusterGroup = L.markerClusterGroup({
     showCoverageOnHover: false,
-    maxClusterRadius: 40
+    maxClusterRadius: 40,
+    iconCreateFunction: createClusterIcon
   });
 
   map.addLayer(clusterGroup);
@@ -48,10 +136,10 @@ export function initProjectsMap(projects) {
   }
 
   function openDetails(item) {
-    // Title
+    if (!item) return;
+
     titleEl.textContent = item.name || "";
 
-    // Location
     if (item.location) {
       locationEl.textContent = Array.isArray(item.location)
         ? item.location.join(", ")
@@ -61,7 +149,6 @@ export function initProjectsMap(projects) {
       locationEl.style.display = "none";
     }
 
-    // Country · Year
     countryEl.textContent = item.country || "";
     yearEl.textContent = item.year || "";
 
@@ -69,7 +156,6 @@ export function initProjectsMap(projects) {
     countryYearRow.style.display =
       item.country || item.year ? "block" : "none";
 
-    // Type · Disaster
     typeEl.textContent = item.type || "";
     disasterEl.textContent = item.disaster || "";
     disasterEl.style.display = item.disaster ? "inline" : "none";
@@ -78,10 +164,8 @@ export function initProjectsMap(projects) {
     typeDisasterRow.style.display =
       item.type || item.disaster ? "block" : "none";
 
-    // Description
     descriptionEl.textContent = item.description || "";
 
-    // Organisations
     if (item.organisation) {
       orgEl.textContent = Array.isArray(item.organisation)
         ? item.organisation.join(", ")
@@ -94,134 +178,52 @@ export function initProjectsMap(projects) {
     panel.classList.remove("hidden");
   }
 
-  // Expose globally for table clicks
   window.openProjectDetails = openDetails;
 
   /* --------------------------------------------------
-     MARKER BUILDING
+     BUILD MARKERS
   -------------------------------------------------- */
-
   function buildMarkers(list) {
     clusterGroup.clearLayers();
 
-    const markers = list
-      .filter(p => typeof p.lat === "number" && typeof p.lng === "number")
-      .map(p => {
-        const marker = L.marker([p.lat, p.lng], { title: p.name });
-        marker.on("click", () => openDetails(p));
-        clusterGroup.addLayer(marker);
-        return marker;
+    const pts = list.filter(
+      p => typeof p.lat === "number" && typeof p.lng === "number"
+    );
+
+    pts.forEach(p => {
+      const color = typeColors[p.type] || typeColors["Other"];
+
+      const marker =
+        p.status === "Current"
+          ? createStarMarker(p, color)
+          : createCircleMarker(p, color);
+
+      marker.on("click", () => {
+        openDetails(p);
       });
 
-    if (markers.length > 0) {
-      const group = L.featureGroup(markers);
-      map.fitBounds(group.getBounds(), { padding: [40, 40] });
+      clusterGroup.addLayer(marker);
+    });
+
+    if (pts.length > 0) {
+      const group = L.featureGroup(
+        pts.map(p => L.marker([p.lat, p.lng]))
+      );
+      map.fitBounds(group.getBounds(), {
+        padding: [40, 40],
+        animate: true,
+        duration: 1.0,
+        easeLinearity: 0.25
+      });
     } else {
       map.setView([20, 0], 2);
     }
   }
 
-  /* --------------------------------------------------
-     FILTERS
-  -------------------------------------------------- */
-
-  const searchInput = document.getElementById("project-search");
-  const themeSelect = document.getElementById("theme-filter");
-  const continentSelect = document.getElementById("continent-filter");
-  const countrySelect = document.getElementById("country-filter");
-  const modalitySelect = document.getElementById("modality-filter");
-  const resetBtn = document.getElementById("reset-filters");
-
-  function applyFilters() {
-    const q = searchInput?.value?.toLowerCase() || "";
-    const theme = themeSelect?.value || "";
-    const continent = continentSelect?.value || "";
-    const country = countrySelect?.value || "";
-    const modality = modalitySelect?.value || "";
-
-    const filtered = allProjects.filter(p => {
-      const countries = Array.isArray(p.country) ? p.country : [p.country];
-      const continents = Array.isArray(p.continent) ? p.continent : [p.continent];
-      const locations = Array.isArray(p.location) ? p.location : [p.location];
-
-      const matchesSearch =
-        p.name.toLowerCase().includes(q) ||
-        countries.some(c => c?.toLowerCase().includes(q)) ||
-        locations.some(l => l?.toLowerCase().includes(q));
-
-      const matchesTheme =
-        !theme ||
-        (Array.isArray(p.themes)
-          ? p.themes.includes(theme)
-          : p.themes === theme);
-
-      const matchesContinent =
-        !continent || continents.includes(continent);
-
-      const matchesCountry =
-        !country || countries.includes(country);
-
-      const matchesModality =
-        !modality || p.modality === modality;
-
-      return (
-        matchesSearch &&
-        matchesTheme &&
-        matchesContinent &&
-        matchesCountry &&
-        matchesModality
-      );
-    });
-
-    buildMarkers(filtered);
-
-    // COUNTRY-LEVEL ZOOM OVERRIDE
-    if (country && filtered.length > 0) {
-      const first = filtered[0];
-
-      if (typeof first.lat === "number" && typeof first.lng === "number") {
-        map.setView([first.lat, first.lng], 5);
-        return filtered;
-      }
-    }
-
-    return filtered;
-  }
-
-  /* --------------------------------------------------
-     RESET BUTTON
-  -------------------------------------------------- */
-
-  if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
-      if (searchInput) searchInput.value = "";
-      if (themeSelect) themeSelect.value = "";
-      if (continentSelect) continentSelect.value = "";
-      if (countrySelect) countrySelect.value = "";
-      if (modalitySelect) modalitySelect.value = "";
-
-      buildMarkers(allProjects);
-    });
-  }
-
-  /* --------------------------------------------------
-     INITIAL LOAD + LISTENERS
-  -------------------------------------------------- */
-
   buildMarkers(allProjects);
 
-  [
-    searchInput,
-    themeSelect,
-    continentSelect,
-    countrySelect,
-    modalitySelect
-  ].forEach(el => {
-    if (!el) return;
-    el.addEventListener("input", applyFilters);
-    el.addEventListener("change", applyFilters);
-  });
-
-  // Expose map update function for table → map sync
+  /* --------------------------------------------------
+     EXPOSE UPDATE FUNCTION FOR FILTERS
+  -------------------------------------------------- */
   window.updateMapMarkers = list => buildMarkers(list);
 }
