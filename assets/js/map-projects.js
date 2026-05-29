@@ -1,229 +1,194 @@
-// /assets/js/map-projects.js
+import { initFilters } from "/portfolio/assets/js/filter-engine.js";
+import { projects } from "/portfolio/assets/js/projects-data.js";
 
-let map;
-let clusterGroup;
+// Assign unique IDs to every project
+projects.forEach((p, index) => {
+  p.id = index;
+});
 
-/* --------------------------------------------------
-   COLOR PALETTE BY TYPE
--------------------------------------------------- */
-const typeColors = {
-  "Response": "#e63946",
-  "Training": "#457b9d",
-  "Preparedness and anticipatory action": "#2a9d8f",
-  "Development": "#f4a261",
-  "Other": "#999999",
-  "": "#999999"
-};
-
-/* --------------------------------------------------
-   MARKER FACTORIES
--------------------------------------------------- */
-function createCircleMarker(p, color) {
-  const marker = L.circleMarker([p.lat, p.lng], {
-    radius: 7,
-    color,
-    weight: 2,
-    fillColor: color,
-    fillOpacity: 0.7
-  });
-  marker.projectId = p.name;
-  marker.projectType = p.type || "Other";
-  marker.projectStatus = p.status || "";
-  return marker;
-}
-
-function createStarMarker(p, color) {
-  const svg = "<svg width='20' height='20' viewBox='0 0 40 40'><polygon points='20,4 25,15 37,15 27,23 31,35 20,28 9,35 13,23 3,15 15,15' fill='" + color + "' stroke='" + color + "' stroke-width='2'/></svg>";
-
-  const icon = L.divIcon({
-    html: svg,
-    className: "star-icon",
-    iconSize: [20, 20],
-    iconAnchor: [10, 10]
-  });
-
-  const marker = L.marker([p.lat, p.lng], { icon });
-  marker.projectId = p.name;
-  marker.projectType = p.type || "Other";
-  marker.projectStatus = p.status || "";
-  return marker;
-}
-
-/* --------------------------------------------------
-   CLUSTER ICON (TYPE-BASED, MAJORITY)
--------------------------------------------------- */
-function createClusterIcon(cluster) {
-  const markers = cluster.getAllChildMarkers();
-  const counts = {};
-
-  markers.forEach(m => {
-    const t = m.projectType || "Other";
-    counts[t] = (counts[t] || 0) + 1;
-  });
-
-  let dominantType = "Other";
-  let maxCount = -1;
-  Object.keys(counts).forEach(t => {
-    if (counts[t] > maxCount) {
-      maxCount = counts[t];
-      dominantType = t;
-    }
-  });
-
-  const color = typeColors[dominantType] || typeColors["Other"];
-  const count = cluster.getChildCount();
-
-  const sizeClass =
-    count < 10 ? "cluster-small" :
-    count < 50 ? "cluster-medium" :
-    "cluster-large";
-
-  const html = "<div class='cluster-inner' style='background:" + color + ";'><span>" + count + "</span></div>";
-
-  return L.divIcon({
-    html,
-    className: "custom-cluster-icon " + sizeClass,
-    iconSize: [40, 40]
-  });
-}
-
-/* --------------------------------------------------
-   INITIALISE MAP
--------------------------------------------------- */
-export function initProjectsMap(projects) {
-  const allProjects = projects;
+document.addEventListener("DOMContentLoaded", () => {
 
   const mapEl = document.getElementById("projects-map");
-  if (!mapEl) return;
+  const tableBody = document.getElementById("project-table-body");
+  const panel = document.getElementById("project-details-panel");
 
-  map = L.map("projects-map", {
-    scrollWheelZoom: true,
-    worldCopyJump: true
-  }).setView([20, 0], 2);
+  const titleEl = document.getElementById("project-title");
+  const metaEl = document.getElementById("project-meta-line");
+  const descEl = document.getElementById("project-description");
+  const partnersHeading = document.getElementById("partners-heading");
+  const partnersList = document.getElementById("project-partners-list");
+
+  /* --------------------------------------------------
+     MAP INITIALIZATION — GLOBAL VIEW
+  -------------------------------------------------- */
+  const map = L.map(mapEl).setView([20, 0], 2);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 18,
-    attribution: "&copy; OpenStreetMap contributors"
+    minZoom: 2
   }).addTo(map);
 
-  clusterGroup = L.markerClusterGroup({
-    showCoverageOnHover: false,
+  const cluster = L.markerClusterGroup({
     maxClusterRadius: 40,
-    iconCreateFunction: createClusterIcon
+    showCoverageOnHover: false
   });
+  map.addLayer(cluster);
 
-  map.addLayer(clusterGroup);
+  const markerById = new Map();
 
   /* --------------------------------------------------
-     DETAILS PANEL
+     MARKER ICONS — MATCH LEGEND
   -------------------------------------------------- */
-  const panel = document.getElementById("project-details-panel");
-  const closeBtn = document.getElementById("close-project-details");
+  function getMarkerIcon(project) {
+    const typeColors = {
+      "Response": "#e63946",
+      "Training": "#457b9d",
+      "Preparedness and anticipatory action": "#2a9d8f",
+      "Development": "#f4a261",
+      "Other": "#999999"
+    };
 
-  const titleEl = document.getElementById("project-title");
-  const orgEl = document.getElementById("project-organisation");
-  const typeEl = document.getElementById("project-type");
-  const disasterEl = document.getElementById("project-disaster");
-  const locationEl = document.getElementById("project-location");
-  const countryEl = document.getElementById("project-country");
-  const yearEl = document.getElementById("project-year");
-  const descriptionEl = document.getElementById("project-description");
+    const color = typeColors[project.type] || "#555";
 
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      panel.classList.add("hidden");
+    const isCurrent = project.status?.toLowerCase() === "current";
+
+    const html = isCurrent
+      ? `<div class="marker-star" style="color:${color}">★</div>`
+      : `<div class="marker-circle" style="background:${color}"></div>`;
+
+    return L.divIcon({
+      html,
+      className: "custom-marker",
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
     });
   }
 
-  function openDetails(item) {
-    if (!item) return;
+  /* --------------------------------------------------
+     CREATE MARKERS
+  -------------------------------------------------- */
+  function createMarkers() {
+    projects.forEach(p => {
+      if (p.lat == null || p.lng == null || p.lat === "" || p.lng === "") return;
 
-    titleEl.textContent = item.name || "";
+      const marker = L.marker(
+        [Number(p.lat), Number(p.lng)],
+        { icon: getMarkerIcon(p) }
+      );
 
-    if (item.location) {
-      locationEl.textContent = Array.isArray(item.location)
-        ? item.location.join(", ")
-        : item.location;
-      locationEl.style.display = "block";
+      marker.on("click", () => openDetails(p));
+      markerById.set(p.id, marker);
+    });
+  }
+
+  /* --------------------------------------------------
+     PANEL-ONLY UPDATE (NO MAP ZOOM)
+  -------------------------------------------------- */
+  function fillPanelOnly(p) {
+    titleEl.textContent = p.name;
+
+    metaEl.textContent = [
+      p.country,
+      p.year,
+      p.type,
+      p.disaster
+    ].filter(Boolean).join(" · ");
+
+    descEl.textContent = p.description || "";
+
+    partnersList.innerHTML = "";
+    if (p.organisation?.length) {
+      partnersHeading.style.display = "block";
+      p.organisation.forEach(org => {
+        const li = document.createElement("li");
+        li.textContent = org;
+        partnersList.appendChild(li);
+      });
     } else {
-      locationEl.style.display = "none";
-    }
-
-    countryEl.textContent = item.country || "";
-    yearEl.textContent = item.year || "";
-
-    const countryYearRow = countryEl.parentElement;
-    countryYearRow.style.display =
-      item.country || item.year ? "block" : "none";
-
-    typeEl.textContent = item.type || "";
-    disasterEl.textContent = item.disaster || "";
-    disasterEl.style.display = item.disaster ? "inline" : "none";
-
-    const typeDisasterRow = typeEl.parentElement;
-    typeDisasterRow.style.display =
-      item.type || item.disaster ? "block" : "none";
-
-    descriptionEl.textContent = item.description || "";
-
-    if (item.organisation) {
-      orgEl.textContent = Array.isArray(item.organisation)
-        ? item.organisation.join(", ")
-        : item.organisation;
-      orgEl.style.display = "block";
-    } else {
-      orgEl.style.display = "none";
+      partnersHeading.style.display = "none";
     }
 
     panel.classList.remove("hidden");
   }
 
-  window.openProjectDetails = openDetails;
+  /* --------------------------------------------------
+     FULL PANEL UPDATE + MAP ZOOM
+  -------------------------------------------------- */
+  function openDetails(p) {
+    fillPanelOnly(p);
+
+    const marker = markerById.get(p.id);
+    if (marker) map.setView(marker.getLatLng(), 6, { animate: true });
+  }
 
   /* --------------------------------------------------
-     BUILD MARKERS
+     UPDATE MAP BASED ON FILTERED RESULTS
   -------------------------------------------------- */
-  function buildMarkers(list) {
-    clusterGroup.clearLayers();
+  function updateMap(list) {
+    cluster.clearLayers();
 
-    const pts = list.filter(
-      p => typeof p.lat === "number" && typeof p.lng === "number"
-    );
-
-    pts.forEach(p => {
-      const color = typeColors[p.type] || typeColors["Other"];
-
-      const marker =
-        p.status === "Current"
-          ? createStarMarker(p, color)
-          : createCircleMarker(p, color);
-
-      marker.on("click", () => {
-        openDetails(p);
-      });
-
-      clusterGroup.addLayer(marker);
+    list.forEach(p => {
+      const marker = markerById.get(p.id);
+      if (marker) cluster.addLayer(marker);
     });
 
-    if (pts.length > 0) {
-      const group = L.featureGroup(
-        pts.map(p => L.marker([p.lat, p.lng]))
+    const coords = list
+      .map(p => [Number(p.lat), Number(p.lng)])
+      .filter(([lat, lng]) =>
+        !isNaN(lat) &&
+        !isNaN(lng) &&
+        Math.abs(lat) <= 90 &&
+        Math.abs(lng) <= 180
       );
-      map.fitBounds(group.getBounds(), {
-        padding: [40, 40],
-        animate: true,
-        duration: 1.0,
-        easeLinearity: 0.25
-      });
-    } else {
-      map.setView([20, 0], 2);
+
+    if (coords.length === 0) return;
+
+    if (coords.length === 1) {
+      map.setView(coords[0], 6, { animate: true });
+      return;
+    }
+
+    const bounds = L.latLngBounds(coords);
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [40, 40] });
     }
   }
 
-  buildMarkers(allProjects);
+  /* --------------------------------------------------
+     UPDATE TABLE
+  -------------------------------------------------- */
+  function updateTable(list) {
+    tableBody.innerHTML = "";
+
+    list.forEach(p => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${p.name}</td>
+        <td>${p.year}</td>
+        <td>${p.themes.join(", ")}</td>
+        <td>${p.country}</td>
+        <td>${p.location}</td>
+        <td>${(p.organisation || []).join(", ")}</td>
+        <td>${p.status}</td>
+      `;
+      tr.onclick = () => openDetails(p);
+      tableBody.appendChild(tr);
+    });
+  }
 
   /* --------------------------------------------------
-     EXPOSE UPDATE FUNCTION FOR FILTERS
+     INITIALIZE EVERYTHING
   -------------------------------------------------- */
-  window.updateMapMarkers = list => buildMarkers(list);
-}
+  createMarkers();
+
+  initFilters(projects, filtered => {
+    updateMap(filtered);
+    updateTable(filtered);
+
+    // Show most recent project in panel, but DO NOT zoom map
+    if (filtered.length) {
+      fillPanelOnly(filtered[0]);
+    }
+  });
+
+});

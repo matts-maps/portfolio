@@ -1,56 +1,57 @@
 <div id="project-filter-bar">
 
-  <!-- SORTING -->
+  <button id="reset-filters">Reset</button>
+
   <div class="filter-group">
-    <label for="sort-filter">Sort</label>
-    <select id="sort-filter">
-      <option value="year">Date (Newest)</option>
+    <label>Sort</label>
+    <select id="sort-select">
+      <option value="yearmonth" selected>Date (Newest)</option>
+      <option value="year">Year Only</option>
       <option value="alpha">Alphabetical</option>
       <option value="theme">Theme</option>
     </select>
   </div>
 
-  <!-- CONTINENT -->
   <div class="filter-group">
-    <label for="continent-filter">Continent</label>
-    <select id="continent-filter">
+    <label>Continent</label>
+    <select id="filter-continent">
       <option value="">All</option>
     </select>
   </div>
 
-  <!-- COUNTRY (dependent) -->
   <div class="filter-group">
-    <label for="country-filter">Country</label>
-    <select id="country-filter">
+    <label>Country</label>
+    <select id="filter-country">
       <option value="">All</option>
     </select>
   </div>
 
-  <!-- LOCATION (dependent) -->
   <div class="filter-group">
-    <label for="location-filter">Location</label>
-    <select id="location-filter">
+    <label>Location</label>
+    <select id="filter-location">
       <option value="">All</option>
     </select>
   </div>
 
-  <!-- THEME (single-select) -->
   <div class="filter-group">
-    <label for="theme-filter">Theme</label>
-    <select id="theme-filter">
+    <label>Disaster</label>
+    <select id="filter-disaster">
       <option value="">All</option>
     </select>
   </div>
 
-  <!-- MODALITY -->
   <div class="filter-group">
-    <label for="modality-filter">Modality</label>
-    <select id="modality-filter">
+    <label>Theme</label>
+    <select id="filter-theme">
       <option value="">All</option>
     </select>
   </div>
 
-  <!-- RESET -->
-  <button id="reset-filters">Reset</button>
+  <div class="filter-group">
+    <label>Modality</label>
+    <select id="filter-modality">
+      <option value="">All</option>
+    </select>
+  </div>
 
 </div>

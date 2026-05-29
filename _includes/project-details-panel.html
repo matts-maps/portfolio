@@ -1,29 +1,13 @@
-<div id="project-details-panel" class="project-details-panel hidden">
-  <button id="close-project-details" class="project-details-close" aria-label="Close project details">
-    ×
-  </button>
+<div id="project-details-panel" class="project-details">
+  <div class="details-content">
 
-  <!-- Title -->
-  <h2 id="project-title"></h2>
+    <h2 id="project-title" class="project-title"></h2>
+    <p id="project-meta-line" class="project-meta-line"></p>
 
-  <!-- Location (if present) -->
-  <p id="project-location" class="details-location"></p>
+    <div id="project-description" class="project-description"></div>
 
-  <!-- Country · Year -->
-  <p class="details-country-year">
-    <span id="project-country"></span>
-    <span id="project-year"></span>
-  </p>
+    <h3 class="partners-heading" id="partners-heading" style="display:none;">Partners</h3>
+    <ul id="project-partners-list" class="project-partners-list"></ul>
 
-  <!-- Type · Disaster (if present) -->
-  <p class="details-type-disaster">
-    <span id="project-type"></span>
-    <span id="project-disaster"></span>
-  </p>
-
-  <!-- Description -->
-  <p id="project-description" class="details-description"></p>
-
-  <!-- Organisations (if present) -->
-  <p id="project-organisation" class="details-organisation"></p>
+  </div>
 </div>
