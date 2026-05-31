@@ -1,227 +1,194 @@
-// /assets/js/map-projects.js
+import { initFilters } from "/portfolio/assets/js/filter-engine.js";
+import { projects } from "/portfolio/assets/js/projects-data.js";
 
-let map;
-let clusterGroup;
+// Assign unique IDs to every project
+projects.forEach((p, index) => {
+  p.id = index;
+});
 
-export function initProjectsMap(projects) {
-  const allProjects = projects; // <-- capture dataset safely
+document.addEventListener("DOMContentLoaded", () => {
 
   const mapEl = document.getElementById("projects-map");
-  if (!mapEl) return;
+  const tableBody = document.getElementById("project-table-body");
+  const panel = document.getElementById("project-details-panel");
 
-  map = L.map("projects-map", {
-    scrollWheelZoom: true,
-    worldCopyJump: true
-  }).setView([20, 0], 2);
+  const titleEl = document.getElementById("project-title");
+  const metaEl = document.getElementById("project-meta-line");
+  const descEl = document.getElementById("project-description");
+  const partnersHeading = document.getElementById("partners-heading");
+  const partnersList = document.getElementById("project-partners-list");
+
+  /* --------------------------------------------------
+     MAP INITIALIZATION — GLOBAL VIEW
+  -------------------------------------------------- */
+  const map = L.map(mapEl).setView([20, 0], 2);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 18,
-    attribution: "&copy; OpenStreetMap contributors"
+    minZoom: 2
   }).addTo(map);
 
-  clusterGroup = L.markerClusterGroup({
-    showCoverageOnHover: false,
-    maxClusterRadius: 40
+  const cluster = L.markerClusterGroup({
+    maxClusterRadius: 40,
+    showCoverageOnHover: false
   });
+  map.addLayer(cluster);
 
-  map.addLayer(clusterGroup);
+  const markerById = new Map();
 
   /* --------------------------------------------------
-     DETAILS PANEL
+     MARKER ICONS — MATCH LEGEND
   -------------------------------------------------- */
-  const panel = document.getElementById("project-details-panel");
-  const closeBtn = document.getElementById("close-project-details");
+  function getMarkerIcon(project) {
+    const typeColors = {
+      "Response": "#e63946",
+      "Training": "#457b9d",
+      "Preparedness and anticipatory action": "#2a9d8f",
+      "Development": "#f4a261",
+      "Other": "#999999"
+    };
 
-  const titleEl = document.getElementById("project-title");
-  const orgEl = document.getElementById("project-organisation");
-  const typeEl = document.getElementById("project-type");
-  const disasterEl = document.getElementById("project-disaster");
-  const locationEl = document.getElementById("project-location");
-  const countryEl = document.getElementById("project-country");
-  const yearEl = document.getElementById("project-year");
-  const descriptionEl = document.getElementById("project-description");
+    const color = typeColors[project.type] || "#555";
 
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      panel.classList.add("hidden");
+    const isCurrent = project.status?.toLowerCase() === "current";
+
+    const html = isCurrent
+      ? `<div class="marker-star" style="color:${color}">★</div>`
+      : `<div class="marker-circle" style="background:${color}"></div>`;
+
+    return L.divIcon({
+      html,
+      className: "custom-marker",
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
     });
   }
 
-  function openDetails(item) {
-    // Title
-    titleEl.textContent = item.name || "";
+  /* --------------------------------------------------
+     CREATE MARKERS
+  -------------------------------------------------- */
+  function createMarkers() {
+    projects.forEach(p => {
+      if (p.lat == null || p.lng == null || p.lat === "" || p.lng === "") return;
 
-    // Location
-    if (item.location) {
-      locationEl.textContent = Array.isArray(item.location)
-        ? item.location.join(", ")
-        : item.location;
-      locationEl.style.display = "block";
+      const marker = L.marker(
+        [Number(p.lat), Number(p.lng)],
+        { icon: getMarkerIcon(p) }
+      );
+
+      marker.on("click", () => openDetails(p));
+      markerById.set(p.id, marker);
+    });
+  }
+
+  /* --------------------------------------------------
+     PANEL-ONLY UPDATE (NO MAP ZOOM)
+  -------------------------------------------------- */
+  function fillPanelOnly(p) {
+    titleEl.textContent = p.name;
+
+    metaEl.textContent = [
+      p.country,
+      p.year,
+      p.type,
+      p.disaster
+    ].filter(Boolean).join(" · ");
+
+    descEl.textContent = p.description || "";
+
+    partnersList.innerHTML = "";
+    if (p.organisation?.length) {
+      partnersHeading.style.display = "block";
+      p.organisation.forEach(org => {
+        const li = document.createElement("li");
+        li.textContent = org;
+        partnersList.appendChild(li);
+      });
     } else {
-      locationEl.style.display = "none";
-    }
-
-    // Country · Year
-    countryEl.textContent = item.country || "";
-    yearEl.textContent = item.year || "";
-
-    const countryYearRow = countryEl.parentElement;
-    countryYearRow.style.display =
-      item.country || item.year ? "block" : "none";
-
-    // Type · Disaster
-    typeEl.textContent = item.type || "";
-    disasterEl.textContent = item.disaster || "";
-    disasterEl.style.display = item.disaster ? "inline" : "none";
-
-    const typeDisasterRow = typeEl.parentElement;
-    typeDisasterRow.style.display =
-      item.type || item.disaster ? "block" : "none";
-
-    // Description
-    descriptionEl.textContent = item.description || "";
-
-    // Organisations
-    if (item.organisation) {
-      orgEl.textContent = Array.isArray(item.organisation)
-        ? item.organisation.join(", ")
-        : item.organisation;
-      orgEl.style.display = "block";
-    } else {
-      orgEl.style.display = "none";
+      partnersHeading.style.display = "none";
     }
 
     panel.classList.remove("hidden");
   }
 
-  // Expose globally for table clicks
-  window.openProjectDetails = openDetails;
-
   /* --------------------------------------------------
-     MARKER BUILDING
+     FULL PANEL UPDATE + MAP ZOOM
   -------------------------------------------------- */
+  function openDetails(p) {
+    fillPanelOnly(p);
 
-  function buildMarkers(list) {
-    clusterGroup.clearLayers();
-
-    const markers = list
-      .filter(p => typeof p.lat === "number" && typeof p.lng === "number")
-      .map(p => {
-        const marker = L.marker([p.lat, p.lng], { title: p.name });
-        marker.on("click", () => openDetails(p));
-        clusterGroup.addLayer(marker);
-        return marker;
-      });
-
-    if (markers.length > 0) {
-      const group = L.featureGroup(markers);
-      map.fitBounds(group.getBounds(), { padding: [40, 40] });
-    } else {
-      map.setView([20, 0], 2);
-    }
+    const marker = markerById.get(p.id);
+    if (marker) map.setView(marker.getLatLng(), 6, { animate: true });
   }
 
   /* --------------------------------------------------
-     FILTERS
+     UPDATE MAP BASED ON FILTERED RESULTS
   -------------------------------------------------- */
+  function updateMap(list) {
+    cluster.clearLayers();
 
-  const searchInput = document.getElementById("project-search");
-  const themeSelect = document.getElementById("theme-filter");
-  const continentSelect = document.getElementById("continent-filter");
-  const countrySelect = document.getElementById("country-filter");
-  const modalitySelect = document.getElementById("modality-filter");
-  const resetBtn = document.getElementById("reset-filters");
+    list.forEach(p => {
+      const marker = markerById.get(p.id);
+      if (marker) cluster.addLayer(marker);
+    });
 
-  function applyFilters() {
-    const q = searchInput?.value?.toLowerCase() || "";
-    const theme = themeSelect?.value || "";
-    const continent = continentSelect?.value || "";
-    const country = countrySelect?.value || "";
-    const modality = modalitySelect?.value || "";
-
-    const filtered = allProjects.filter(p => {
-      const countries = Array.isArray(p.country) ? p.country : [p.country];
-      const continents = Array.isArray(p.continent) ? p.continent : [p.continent];
-      const locations = Array.isArray(p.location) ? p.location : [p.location];
-
-      const matchesSearch =
-        p.name.toLowerCase().includes(q) ||
-        countries.some(c => c?.toLowerCase().includes(q)) ||
-        locations.some(l => l?.toLowerCase().includes(q));
-
-      const matchesTheme =
-        !theme ||
-        (Array.isArray(p.themes)
-          ? p.themes.includes(theme)
-          : p.themes === theme);
-
-      const matchesContinent =
-        !continent || continents.includes(continent);
-
-      const matchesCountry =
-        !country || countries.includes(country);
-
-      const matchesModality =
-        !modality || p.modality === modality;
-
-      return (
-        matchesSearch &&
-        matchesTheme &&
-        matchesContinent &&
-        matchesCountry &&
-        matchesModality
+    const coords = list
+      .map(p => [Number(p.lat), Number(p.lng)])
+      .filter(([lat, lng]) =>
+        !isNaN(lat) &&
+        !isNaN(lng) &&
+        Math.abs(lat) <= 90 &&
+        Math.abs(lng) <= 180
       );
-    });
 
-    buildMarkers(filtered);
+    if (coords.length === 0) return;
 
-    // COUNTRY-LEVEL ZOOM OVERRIDE
-    if (country && filtered.length > 0) {
-      const first = filtered[0];
-
-      if (typeof first.lat === "number" && typeof first.lng === "number") {
-        map.setView([first.lat, first.lng], 5);
-        return filtered;
-      }
+    if (coords.length === 1) {
+      map.setView(coords[0], 6, { animate: true });
+      return;
     }
 
-    return filtered;
+    const bounds = L.latLngBounds(coords);
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [40, 40] });
+    }
   }
 
   /* --------------------------------------------------
-     RESET BUTTON
+     UPDATE TABLE
   -------------------------------------------------- */
+  function updateTable(list) {
+    tableBody.innerHTML = "";
 
-  if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
-      if (searchInput) searchInput.value = "";
-      if (themeSelect) themeSelect.value = "";
-      if (continentSelect) continentSelect.value = "";
-      if (countrySelect) countrySelect.value = "";
-      if (modalitySelect) modalitySelect.value = "";
-
-      buildMarkers(allProjects);
+    list.forEach(p => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${p.name}</td>
+        <td>${p.year}</td>
+        <td>${p.themes.join(", ")}</td>
+        <td>${p.country}</td>
+        <td>${p.location}</td>
+        <td>${(p.organisation || []).join(", ")}</td>
+        <td>${p.status}</td>
+      `;
+      tr.onclick = () => openDetails(p);
+      tableBody.appendChild(tr);
     });
   }
 
   /* --------------------------------------------------
-     INITIAL LOAD + LISTENERS
+     INITIALIZE EVERYTHING
   -------------------------------------------------- */
+  createMarkers();
 
-  buildMarkers(allProjects);
+  initFilters(projects, filtered => {
+    updateMap(filtered);
+    updateTable(filtered);
 
-  [
-    searchInput,
-    themeSelect,
-    continentSelect,
-    countrySelect,
-    modalitySelect
-  ].forEach(el => {
-    if (!el) return;
-    el.addEventListener("input", applyFilters);
-    el.addEventListener("change", applyFilters);
+    // Show most recent project in panel, but DO NOT zoom map
+    if (filtered.length) {
+      fillPanelOnly(filtered[0]);
+    }
   });
 
-  // Expose map update function for table → map sync
-  window.updateMapMarkers = list => buildMarkers(list);
-}
+});

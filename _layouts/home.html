@@ -1,10 +1,70 @@
 ---
 layout: default
-title: Home
 ---
 
-<section class="home-hero">
-  <h1>Welcome</h1>
-  <p>Explore maps, projects, and geospatial work.</p>
-  <a href="/portfolio/gallery.html" class="btn">View Gallery</a>
-</section>
+<link rel="stylesheet" href="{{ '/assets/css/masonry.css' | relative_url }}">
+
+{{ content }}
+
+{% include image-filter-bar.html %}
+
+<div class="gallery-grid" id="gallery-grid"></div>
+
+{% include image-lightbox.html %}
+
+<script type="module">
+  import { images } from "{{ site.baseurl }}/assets/js/image-data.js";
+  import { initImageFilterEngine } from "{{ site.baseurl }}/assets/js/image-filter-engine.js";
+  import { initLightbox, updateLightboxPool, launchLightbox } from "{{ site.baseurl }}/assets/js/image-lightbox.js";
+
+  const baseUrl = "{{ site.baseurl }}";
+
+  function renderGrid(filteredItems) {
+    const grid = document.getElementById('gallery-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    // Track active subset items inside global lightbox contextual pool
+    updateLightboxPool(filteredItems);
+
+    if (filteredItems.length === 0) {
+      grid.innerHTML = '<p class="no-results" style="column-span: all; text-align: center; color: var(--text); padding: 40px 0;">No maps match your filter selections.</p>';
+      return;
+    }
+
+    filteredItems.forEach((item, index) => {
+      const title = item.name || "Untitled Map";
+      const imgUrl = item.file ? `${baseUrl}/${item.file}` : '';
+      const displayThemes = item.themes ? item.themes.join(', ') : (item.disaster || 'Map');
+
+      const card = document.createElement('div');
+      card.className = 'gallery-card';
+      
+      card.innerHTML = `
+        <div class="card-image-wrapper">
+          <img src="${imgUrl}" alt="${title}" onerror="this.src='${baseUrl}/assets/images/placeholder.jpg'">
+          <div class="card-overlay-caption">
+            <div class="overlay-caption-content">
+              <h3>${title}</h3>
+              <p class="card-meta">${item.country || 'Global'} (${item.year || 'N/A'})</p>
+              <span class="overlay-tag">${displayThemes}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      card.addEventListener('click', () => launchLightbox(item));
+      grid.appendChild(card);
+
+      // Stagger entry phase to execute fade-in transition cleanly
+      setTimeout(() => {
+        card.classList.add('visible');
+      }, index * 30);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initLightbox();
+    initImageFilterEngine(images, renderGrid);
+  });
+</script>

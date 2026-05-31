@@ -3,13 +3,12 @@ description: "Maps, Projects, and Visual Work"
 author: "Matt Sims"
 
 url: "https://matts-maps.github.io"
-baseurl: "/portfolio"
-
+baseurl: "/portfolio" # Correctly targets your subfolder repository layout
 
 markdown: kramdown
 theme: minima
-paginate:          5
-paginate_path:     "/posts/page:num/"
+paginate: 5
+paginate_path: "/posts/page:num/"
 
 include:
   - assets
@@ -17,5 +16,4 @@ include:
 collections:
   projects:
     output: true
-
-
+    permalink: /projects/:path/

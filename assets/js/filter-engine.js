@@ -1,139 +1,129 @@
-export function initFilters(images, onChange) {
-  const fSearch = document.getElementById("search-box");
+export function initFilters(items, onChange) {
   const fSort = document.getElementById("sort-select");
   const fContinent = document.getElementById("filter-continent");
   const fCountry = document.getElementById("filter-country");
-  const fLocation = document.getElementById("filter-location");
   const fDisaster = document.getElementById("filter-disaster");
   const fTheme = document.getElementById("filter-theme");
-  const btnClear = document.getElementById("clear-filters");
+  const fModality = document.getElementById("filter-modality");
+  const fStatus = document.getElementById("filter-status");   // NEW
+  const btnReset = document.getElementById("reset-filters");
 
   /* -----------------------------
      POPULATE SELECT OPTIONS
   ----------------------------- */
-  function fillSelect(select, values) {
-    const unique = [...new Set(values)].sort();
+  function fill(select, values) {
+    const unique = [...new Set(values)].filter(Boolean).sort();
     const current = select.value;
 
     select.innerHTML = `<option value="">All</option>`;
-    unique.forEach(v => {
-      if (v && v !== "None" && v !== "Multiple") {
-        select.innerHTML += `<option value="${v}">${v}</option>`;
-      }
-    });
+    unique.forEach(v => select.innerHTML += `<option value="${v}">${v}</option>`);
 
     if (unique.includes(current)) select.value = current;
   }
 
-  function populateFilters(list) {
-    fillSelect(fContinent, list.map(i => i.continent));
-    fillSelect(fCountry, list.map(i => i.country));
-    fillSelect(fLocation, list.map(i => i.location).filter(Boolean));
-    fillSelect(fDisaster, list.map(i => i.disaster));
+  function populate(list) {
+    fill(fContinent, list.map(i => i.continent));
+    fill(fCountry, list.map(i => i.country));
+    fill(fDisaster, list.map(i => i.disaster));
+    fill(fTheme, list.flatMap(i => i.themes));
 
-    const themes = [...new Set(list.flatMap(i => i.themes))].sort();
-    fillSelect(fTheme, themes);
+    // Modality is an array → flatten it
+    fill(
+      fModality,
+      list.flatMap(i => Array.isArray(i.modality) ? i.modality : [i.modality])
+    );
+
+    // NEW: Status filter
+    fill(fStatus, list.map(i => i.status));
   }
 
   /* -----------------------------
      APPLY FILTERS
   ----------------------------- */
-  function applyFilters() {
-    let filtered = images.filter(item => {
+  function apply() {
+    let filtered = items.filter(i => {
+      const matchContinent = fContinent.value === "" || i.continent === fContinent.value;
+      const matchCountry = fCountry.value === "" || i.country === fCountry.value;
+      const matchDisaster = fDisaster.value === "" || i.disaster === fDisaster.value;
+      const matchTheme = fTheme.value === "" || i.themes.includes(fTheme.value);
+
+      // Correct modality matching for arrays
+      const matchModality =
+        fModality.value === "" ||
+        (Array.isArray(i.modality)
+          ? i.modality.includes(fModality.value)
+          : i.modality === fModality.value);
+
+      // NEW: Status filter
+      const matchStatus = fStatus.value === "" || i.status === fStatus.value;
+
       return (
-        (fSearch.value === "" || item.name.toLowerCase().includes(fSearch.value.toLowerCase())) &&
-        (fContinent.value === "" || item.continent === fContinent.value) &&
-        (fCountry.value === "" || item.country === fCountry.value) &&
-        (fLocation.value === "" || item.location === fLocation.value) &&
-        (fDisaster.value === "" || item.disaster === fDisaster.value) &&
-        (fTheme.value === "" || item.themes.includes(fTheme.value))
+        matchContinent &&
+        matchCountry &&
+        matchDisaster &&
+        matchTheme &&
+        matchModality &&
+        matchStatus
       );
     });
 
-    /* -----------------------------
-       SORTING
-    ----------------------------- */
+    // Repopulate dropdowns based on filtered list
+    populate(filtered);
 
-    // Alphabetical
+    // SORTING
     if (fSort.value === "alpha") {
       filtered.sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    // Year only
     if (fSort.value === "year") {
-      filtered.sort((a, b) => b.year - a.year);
+      filtered.sort((a, b) => Number(b.year) - Number(a.year));
     }
 
-    // Year + Month (Newest First)
     if (fSort.value === "yearmonth") {
+      const monthNum = m => ({
+        january:1,february:2,march:3,april:4,may:5,june:6,
+        july:7,august:8,september:9,october:10,november:11,december:12
+      }[String(m).toLowerCase()] || 0);
+
+      filtered.sort((a, b) =>
+        Number(b.year) - Number(a.year) ||
+        monthNum(b.month) - monthNum(a.month)
+      );
+    }
+
+    if (fSort.value === "theme") {
       filtered.sort((a, b) => {
-        const getMonthNum = m => {
-          if (typeof m === "number") return m;
-          if (!m) return 0;
-          const map = {
-            january: 1, february: 2, march: 3, april: 4,
-            may: 5, june: 6, july: 7, august: 8,
-            september: 9, october: 10, november: 11, december: 12
-          };
-          return map[m.toLowerCase()] || 0;
-        };
-
-        const aMonth = getMonthNum(a.month);
-        const bMonth = getMonthNum(b.month);
-
-        // Compare year first
-        if (b.year !== a.year) return b.year - a.year;
-
-        // Then compare month
-        return bMonth - aMonth;
+        const aTheme = a.themes[0] || "";
+        const bTheme = b.themes[0] || "";
+        return aTheme.localeCompare(bTheme);
       });
     }
 
-    // Theme sort
-    if (fSort.value === "theme") {
-      filtered.sort((a, b) => a.themes[0].localeCompare(b.themes[0]));
-    }
-
-    /* -----------------------------
-       UPDATE FILTER OPTIONS
-    ----------------------------- */
-    populateFilters(filtered);
-
-    /* -----------------------------
-       SEND BACK TO MAP
-    ----------------------------- */
     onChange(filtered);
   }
 
   /* -----------------------------
      EVENT LISTENERS
   ----------------------------- */
-  fSearch.oninput =
   fSort.onchange =
   fContinent.onchange =
   fCountry.onchange =
-  fLocation.onchange =
   fDisaster.onchange =
-  fTheme.onchange = applyFilters;
+  fTheme.onchange =
+  fModality.onchange =
+  fStatus.onchange = apply;
 
-  btnClear.onclick = () => {
-    fSearch.value = "";
-    fSort.value = "year";
+  btnReset.onclick = () => {
+    fSort.value = "yearmonth";
     fContinent.value = "";
     fCountry.value = "";
-    fLocation.value = "";
     fDisaster.value = "";
     fTheme.value = "";
-    applyFilters();
+    fModality.value = "";
+    fStatus.value = "";   // NEW
+    apply();
   };
 
-  /* -----------------------------
-     INITIAL POPULATION + FILTER
-  ----------------------------- */
-
-  // Populate dropdowns BEFORE filtering
-  populateFilters(images);
-
-  // Initial render
-  applyFilters();
+  populate(items);
+  apply();
 }
