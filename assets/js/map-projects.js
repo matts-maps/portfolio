@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const partnersList = document.getElementById("project-partners-list");
 
   /* --------------------------------------------------
-     MAP INITIALIZATION — GLOBAL VIEW
+      MAP INITIALIZATION — GLOBAL VIEW
   -------------------------------------------------- */
   const map = L.map(mapEl).setView([20, 0], 2);
 
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const markerById = new Map();
 
   /* --------------------------------------------------
-     MARKER ICONS — MATCH LEGEND
+      MARKER ICONS — MATCH LEGEND
   -------------------------------------------------- */
   function getMarkerIcon(project) {
     const typeColors = {
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* --------------------------------------------------
-     CREATE MARKERS
+      CREATE MARKERS
   -------------------------------------------------- */
   function createMarkers() {
     projects.forEach(p => {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* --------------------------------------------------
-     PANEL-ONLY UPDATE (NO MAP ZOOM)
+      PANEL-ONLY UPDATE (NO MAP ZOOM)
   -------------------------------------------------- */
   function fillPanelOnly(p) {
     titleEl.textContent = p.name;
@@ -112,17 +112,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* --------------------------------------------------
-     FULL PANEL UPDATE + MAP ZOOM
+      FULL PANEL UPDATE + MAP ZOOM
   -------------------------------------------------- */
   function openDetails(p) {
-    fillPanelOnly(p);
+    fullscreenDetails(p);
 
     const marker = markerById.get(p.id);
     if (marker) map.setView(marker.getLatLng(), 6, { animate: true });
   }
 
+  // Backwards-compatible alias for explicit initialization routines
+  function fullscreenDetails(p) {
+    fillPanelOnly(p);
+  }
+
   /* --------------------------------------------------
-     UPDATE MAP BASED ON FILTERED RESULTS
+      UPDATE MAP BASED ON FILTERED RESULTS
   -------------------------------------------------- */
   function updateMap(list) {
     cluster.clearLayers();
@@ -155,19 +160,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* --------------------------------------------------
-     UPDATE TABLE
+      UPDATE TABLE — ALIGNED WITH REVISED HEADERS
   -------------------------------------------------- */
   function updateTable(list) {
     tableBody.innerHTML = "";
 
     list.forEach(p => {
       const tr = document.createElement("tr");
+      // CHANGED: Replaced p.themes array display with a cleaner p.type string column and removed the location column cell
       tr.innerHTML = `
         <td>${p.name}</td>
         <td>${p.year}</td>
-        <td>${p.themes.join(", ")}</td>
+        <td>${p.type || ""}</td>
         <td>${p.country}</td>
-        <td>${p.location}</td>
         <td>${(p.organisation || []).join(", ")}</td>
         <td>${p.status}</td>
       `;
@@ -177,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* --------------------------------------------------
-     INITIALIZE EVERYTHING
+      INITIALIZE EVERYTHING
   -------------------------------------------------- */
   createMarkers();
 

@@ -142,13 +142,13 @@ export const projects = [
     "name": "Triplex 13",
     "continent": "Europe",
     "country": "Germany",
-    "location": "",
+    "location": "Flensberg",
     "year": "2013",
     "month": "September",
     "themes": [
       "Simex"
     ],
-    "disaster": "Flensberg",
+    "disaster": "Cyclone",
     "lat": 54.7936774712711,
     "lng": 9.44487352665677,
     "description": "",
@@ -1593,7 +1593,7 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "Lebanon",
+    "name": "H2H Lebanon",
     "continent": "Middle East",
     "country": "Lebanon",
     "location": "",
@@ -1617,7 +1617,7 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "Syria",
+    "name": "H2H Syria",
     "continent": "Middle East",
     "country": "Syria",
     "location": "",
@@ -1852,4 +1852,5 @@ export const projects = [
     "parentProject": "",
     "parentProjectDescription": ""
   }
+
 ];
