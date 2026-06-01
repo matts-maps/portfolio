@@ -11,15 +11,19 @@
 
 <body class="{{ page.body_class }}">
 
-  {% include header.html %}
+  <div class="site-wrapper">
 
-  <main class="page-content">
-    <div class="page-inner">
-      {{ content }}
-    </div>
-  </main>
+    {% include header.html %}
 
-  {% include footer.html %}
+    <main class="page-content">
+      <div class="page-inner">
+        {{ content }}
+      </div>
+    </main>
+
+    {% include footer.html %}
+
+  </div>
 
   <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
   <link rel="stylesheet" href="{{ '/assets/css/image-lightbox.css' | relative_url }}">
