@@ -566,8 +566,7 @@ export const images = [
     lng: 174.7762,
     themes: ["Landscape"],
     disaster: "None",
-    description: "Inspired by this map here - <a href='https://soaratlas.com/maps/oceania-new-zealand-aotearoa-15866?pos=-40.36082373372568%2C173.7623460138845%2C6.64' target='_blank'>Soar Atlas</a>
-    "
+    description: "Inspired by this map here - <a href='https://soaratlas.com/maps/oceania-new-zealand-aotearoa-15866?pos=-40.36082373372568%2C173.7623460138845%2C6.64' target='_blank'>Soar Atlas</a>"
   },
 
   {
@@ -582,7 +581,7 @@ export const images = [
     lng: 135.5023,
     themes: ["Urban"],
     disaster: "None",
-    description: ""Inspired by this map here - <a href='https://www.antiquemapsandprints.com/products/osaka-antique-town-city-plan-honshu-japan-1914-old-map-chart-p-6-018241?_pos=16&_sid=afb666c30&_ss=r' target='_blank'>Osaka antique town city plan. Honshu. Japan 1914 old map chart</a>" by the Japanese Government Railways.
+    description: "Inspired by this map here - <a href='https://www.antiquemapsandprints.com/products/osaka-antique-town-city-plan-honshu-japan-1914-old-map-chart-p-6-018241?_pos=16&_sid=afb666c30&_ss=r' target='_blank'>Osaka antique town city plan. Honshu. Japan 1914 old map chart</a>" by the Japanese Government Railways."
   },
 
   {
