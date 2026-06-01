@@ -35,7 +35,32 @@ layout: default
     filteredItems.forEach((item, index) => {
       const title = item.name || "Untitled Map";
       const imgUrl = item.file ? `${baseUrl}/${item.file}` : '';
-      const displayThemes = item.themes ? item.themes.join(', ') : (item.disaster || 'Map');
+
+      // --- CAPTION FORMATTING LOGIC ---
+      const line2Parts = [];
+
+      // 1. Handle Location and Country combination
+      if (item.location) {
+        line2Parts.push(`${item.location}, ${item.country || 'Global'}`);
+      } else if (item.country) {
+        line2Parts.push(item.country);
+      } else {
+        line2Parts.push('Global');
+      }
+
+      // 2. Add Disaster if it exists and is NOT "None"
+      if (item.disaster && item.disaster !== 'None') {
+        line2Parts.push(item.disaster);
+      }
+
+      // 3. Add Year if it exists
+      if (item.year) {
+        line2Parts.push(item.year);
+      }
+
+      // Join everything cleanly with a dash delimiter
+      const line2Text = line2Parts.join(' - ');
+      // --------------------------------
 
       const card = document.createElement('div');
       card.className = 'gallery-card';
@@ -46,8 +71,7 @@ layout: default
           <div class="card-overlay-caption">
             <div class="overlay-caption-content">
               <h3>${title}</h3>
-              <p class="card-meta">${item.country || 'Global'} (${item.year || 'N/A'})</p>
-              <span class="overlay-tag">${displayThemes}</span>
+              <p class="card-meta">${line2Text}</p>
             </div>
           </div>
         </div>

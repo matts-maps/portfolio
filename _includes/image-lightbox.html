@@ -1,11 +1,24 @@
 <div id="lightbox" class="lightbox">
-  <span id="lightbox-close">&times;</span>
+  <div class="lightbox-top-bar">
+    <button id="lightbox-reset" class="lightbox-control-btn" title="Reset Zoom">🔄 Reset View</button>
+    <span id="lightbox-close">&times;</span>
+  </div>
   
-  <button id="lightbox-prev">&#10094;</button>
-  <button id="lightbox-next">&#10095;</button>
-  
-  <div class="lightbox-content-wrapper">
-    <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-grid-container">
+    <div class="lightbox-nav-left">
+      <button id="lightbox-prev">&#10094;</button>
+    </div>
+    
+    <div class="lightbox-viewer-workspace">
+      <img id="lightbox-img" src="" alt="">
+    </div>
+    
+    <div class="lightbox-nav-right">
+      <button id="lightbox-next">&#10095;</button>
+    </div>
+  </div>
+
+  <div class="lightbox-footer">
     <h3 id="lightbox-title"></h3>
     <p id="lightbox-desc"></p>
   </div>

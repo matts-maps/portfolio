@@ -1,10 +1,19 @@
-// assets/js/image-lightbox.js
-
 let lightboxList = [];
 let currentIndex = 0;
 
 // Grab layout elements matching image-lightbox.html structure
-let lightbox, lightboxImg, lightboxTitle, lightboxDesc, closeBtn, prevBtn, nextBtn;
+let lightbox, lightboxImg, lightboxTitle, lightboxDesc, closeBtn, prevBtn, nextBtn, resetBtn;
+
+// --- ZOOM & PAN STATE VARIABLES ---
+let scale = 1;
+let isDragging = false;
+let startX = 0;
+let startY = 0;
+let translateX = 0;
+let translateY = 0;
+
+const MIN_SCALE = 1;
+const MAX_SCALE = 5;
 
 function initElements() {
   lightbox = document.getElementById("lightbox");
@@ -14,6 +23,7 @@ function initElements() {
   closeBtn = document.getElementById("lightbox-close");
   prevBtn = document.getElementById("lightbox-prev");
   nextBtn = document.getElementById("lightbox-next");
+  resetBtn = document.getElementById("lightbox-reset"); // Added Reset Button target
 }
 
 /**
@@ -50,6 +60,7 @@ export function openLightbox(index) {
   }
   
   currentIndex = parsedIndex;
+  resetZoom(); // Always start fresh on item open
   updateLightboxDOM();
   
   if (lightbox) {
@@ -76,12 +87,10 @@ export function launchLightbox(arg) {
   } else if (typeof arg === "string" && !isNaN(arg)) {
     openLightbox(parseInt(arg, 10));
   } else if (arg && (arg.target || arg.currentTarget)) {
-    // Handled as an Event Object
     const element = arg.currentTarget || arg.target;
     const dataIdx = element.getAttribute("data-index") || element.dataset.index;
     openLightbox(dataIdx !== null ? dataIdx : 0);
   } else if (arg && typeof arg === "object" && (arg.file || arg.src)) {
-    // NEW: Handled as a direct image item data object passed from the filter engine
     let targetFile = arg.file || arg.src;
     let index = lightboxList.findIndex(item => (item.file === targetFile || item.src === targetFile));
     
@@ -103,18 +112,109 @@ function closeLightbox() {
     lightbox.style.display = "";
   }
   if (lightboxImg) lightboxImg.src = ""; // Clear source to eliminate trailing cache ghost images
+  resetZoom();
 }
 
 function showNext() {
   if (lightboxList.length === 0) return;
   currentIndex = (currentIndex + 1) % lightboxList.length;
+  resetZoom(); // Reset transformation context before loading new map layout
   updateLightboxDOM();
 }
 
 function showPrev() {
   if (lightboxList.length === 0) return;
   currentIndex = (currentIndex - 1 + lightboxList.length) % lightboxList.length;
+  resetZoom(); // Reset transformation context before loading new map layout
   updateLightboxDOM();
+}
+
+/**
+ * Resets transform mechanics back to initial standard 1:1 view bounds
+ */
+function resetZoom() {
+  scale = 1;
+  translateX = 0;
+  translateY = 0;
+  isDragging = false;
+  applyTransform();
+  if (lightboxImg) {
+    lightboxImg.style.cursor = "zoom-in";
+  }
+}
+
+/**
+ * Coordinates and pushes scale/translate updates straight to the element matrix style pipeline
+ */
+function applyTransform() {
+  if (lightboxImg) {
+    lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  }
+
+  // --- TOGGLE RESET BUTTON VISIBILITY ---
+  if (resetBtn) {
+    if (scale > 1) {
+      resetBtn.classList.add("visible");
+    } else {
+      resetBtn.classList.remove("visible");
+    }
+  }
+}
+
+/**
+ * Intercepts user mouse-wheel updates over the lightbox image to step up or step down layout scaling
+ */
+function handleWheel(e) {
+  e.preventDefault();
+  const zoomIntensity = 0.12;
+  
+  // Calculate potential target scale mapping
+  let targetScale = scale + (e.deltaY < 0 ? zoomIntensity : -zoomIntensity);
+  targetScale = Math.min(Math.max(MIN_SCALE, targetScale), MAX_SCALE);
+
+  // If zooming out back to baseline, neutralize tracking coordinates
+  if (targetScale === 1) {
+    resetZoom();
+    return;
+  }
+
+  scale = targetScale;
+  applyTransform();
+  
+  if (lightboxImg) {
+    lightboxImg.style.cursor = scale > 1 ? "grab" : "zoom-in";
+  }
+}
+
+// --- POINTER EVENT HANDLERS FOR SMOOTH PANNING ---
+function handlePointerDown(e) {
+  // Only permit panning if the user is currently zoomed into the map canvas
+  if (scale <= 1) return; 
+  
+  isDragging = true;
+  startX = e.clientX - translateX;
+  startY = e.clientY - translateY;
+  
+  if (lightboxImg) {
+    lightboxImg.style.cursor = "grabbing";
+    lightboxImg.setPointerCapture(e.pointerId); // Bind tracking context safely past window edges
+  }
+}
+
+function handlePointerMove(e) {
+  if (!isDragging) return;
+  translateX = e.clientX - startX;
+  translateY = e.clientY - startY;
+  applyTransform();
+}
+
+function handlePointerUp(e) {
+  if (!isDragging) return;
+  isDragging = false;
+  if (lightboxImg) {
+    lightboxImg.style.cursor = "grab";
+    lightboxImg.releasePointerCapture(e.pointerId);
+  }
 }
 
 /**
@@ -129,7 +229,6 @@ function updateLightboxDOM() {
   
   console.log("🖼️ [Lightbox] Rendering high-res item data layout:", item);
 
-  // Normalizes image file target strings to form solid URLs
   let imgSrc = item.file || item.src || item.image || item.url || "";
   if (imgSrc && !imgSrc.startsWith("http://") && !imgSrc.startsWith("https://") && !imgSrc.startsWith("data:")) {
     const origin = window.location.origin;
@@ -182,11 +281,38 @@ export function initLightbox() {
   if (closeBtn) closeBtn.onclick = closeLightbox;
   if (nextBtn) nextBtn.onclick = showNext;
   if (prevBtn) prevBtn.onclick = showPrev;
+  if (resetBtn) resetBtn.onclick = resetZoom; // Bind click action to Reset Button
 
   if (lightbox) {
     lightbox.onclick = (e) => {
-      if (e.target === lightbox) closeLightbox();
+      // Background backdrop click only triggers modal exit if hitting safe workspace dead zones
+      if (e.target === lightbox || e.target.classList.contains('lightbox-viewer-workspace')) {
+        if (!isDragging) closeLightbox();
+      }
     };
+  }
+
+  // Bind Mouse Wheel and Pointer Track Listeners onto image wrapper node
+  if (lightboxImg) {
+    lightboxImg.style.transition = "transform 0.05s ease-out"; // Kept low to keep tracking ultra-responsive
+    lightboxImg.style.transformOrigin = "center center";
+    
+    // Remove old listeners to prevent stacking duplicate actions across hot-reloads
+    lightboxImg.onwheel = null;
+    lightboxImg.onpointerdown = null;
+    lightboxImg.onpointermove = null;
+    lightboxImg.onpointerup = null;
+    lightboxImg.onpointercancel = null;
+
+    // Attach active interactive events
+    lightboxImg.onwheel = handleWheel;
+    lightboxImg.onpointerdown = handlePointerDown;
+    lightboxImg.onpointermove = handlePointerMove;
+    lightboxImg.onpointerup = handlePointerUp;
+    lightboxImg.onpointercancel = handlePointerUp;
+    
+    // Prevent default ghost image dragging bugs built into standard desktop browsers
+    lightboxImg.ondragstart = (e) => e.preventDefault();
   }
 }
 
@@ -202,8 +328,12 @@ document.addEventListener("keydown", (e) => {
   if (!lightbox || (!lightbox.classList.contains("active") && lightbox.style.display !== "flex")) return;
   
   if (e.key === "Escape") closeLightbox();
-  if (e.key === "ArrowRight") showNext();
-  if (e.key === "ArrowLeft") showPrev();
+  
+  // Only route arrow keys to change images if user is zoomed back out 
+  if (scale <= 1) {
+    if (e.key === "ArrowRight") showNext();
+    if (e.key === "ArrowLeft") showPrev();
+  }
 });
 
 /* -------------------------------------------------------------------------
