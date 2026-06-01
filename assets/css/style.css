@@ -523,7 +523,9 @@ body.dark .project-table tr:hover {
   background: rgba(0,0,0,0.05);
 }
 
-/* Add this to your main CSS file to force the single-row layout */
+/* --------------------------------------------------
+   IMAGE FILTER BAR (IMAGE GALLERY PAGE)
+-------------------------------------------------- */
 .filter-bar {
   margin-bottom: 2rem;
   width: 100%;
@@ -567,6 +569,9 @@ body.dark .project-table tr:hover {
   box-sizing: border-box;
 }
 
+/* --------------------------------------------------
+   FOOTER
+-------------------------------------------------- */
 .site-footer {
     text-align: center;
 }
