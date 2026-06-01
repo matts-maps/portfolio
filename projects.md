@@ -6,5 +6,5 @@ permalink: /projects/
 
 <section class="hero">
   <h1>Projects</h1>
-  <p>Explore all projects by location. Click a marker to view the map.</p>
+  <p>Explore all projects by location. Click a marker to see more of the project details.</p>
 </section>

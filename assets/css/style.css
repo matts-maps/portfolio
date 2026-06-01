@@ -522,3 +522,51 @@ body.dark .project-table tr:hover {
   border: 2px solid #555;
   background: rgba(0,0,0,0.05);
 }
+
+/* Add this to your main CSS file to force the single-row layout */
+.filter-bar {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+.filter-row {
+  display: flex;
+  flex-wrap: nowrap; /* Prevents wrapping to a second row */
+  align-items: flex-end;
+  gap: 12px;
+  width: 100%;
+  overflow-x: auto;  /* Allows scrolling on tiny mobile screens */
+  padding-bottom: 5px;
+}
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 100px;
+}
+.filter-group label {
+  font-weight: bold;
+  font-size: 14px;
+}
+.filter-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 38px;
+  box-sizing: border-box;
+}
+#reset-filters {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #999;
+  background: #f8f9fa;
+  height: 38px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.site-footer {
+    text-align: center;
+}

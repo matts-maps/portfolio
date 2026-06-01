@@ -36,7 +36,7 @@ permalink: /gallery/
       <option value="">Theme</option>
     </select>
 
-    <button id="clear-filters">Clear filters</button>
+    <button id="clear-filters">Reset</button>
   </div>
 
   <!-- Gallery grid -->
