@@ -49,8 +49,8 @@ export const images = [
     location: "",
     year: 2015,
     month: 11,
-    lat: 54.5260,
-    lng: 15.2551,
+    lat: 44.817778,
+    lng: 20.456944,
     themes: ["Humanitarian", "Migration"],
     disaster: "Conflict"
   },
