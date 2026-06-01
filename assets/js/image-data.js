@@ -581,7 +581,7 @@ export const images = [
     lng: 135.5023,
     themes: ["Urban"],
     disaster: "None",
-    description: "Inspired by this map here - <a href='https://www.antiquemapsandprints.com/products/osaka-antique-town-city-plan-honshu-japan-1914-old-map-chart-p-6-018241?_pos=16&_sid=afb666c30&_ss=r' target='_blank'>Osaka antique town city plan. Honshu. Japan 1914 old map chart</a>" by the Japanese Government Railways."
+    description: "Inspired by this map here - <a href=\"https://www.antiquemapsandprints.com/products/osaka-antique-town-city-plan-honshu-japan-1914-old-map-chart-p-6-018241?_pos=16&_sid=afb666c30&_ss=r\" target=\"_blank\">Osaka antique town city plan. Honshu. Japan 1914 old map chart</a> by the Japanese Government Railways."
   },
 
   {
@@ -708,7 +708,7 @@ export const images = [
     file: "assets/images/maps/2016-northern-triangle-people-in-need.jpg",
     name: "El Salvador, Guatemala and Honduras - People in need (as of 11 November 2016)",
     continent: "Central America",
-    country: ["El Salvador", "Guatemala", "Honduras"]
+    country: ["El Salvador", "Guatemala", "Honduras"],
     location: "",
     year: 2016,
     month: 11,
@@ -734,3 +734,5 @@ export const images = [
     description: ""
   }
 ];
+
+
