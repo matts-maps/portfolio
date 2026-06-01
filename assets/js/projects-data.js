@@ -1284,8 +1284,8 @@ export const projects = [
       "Information Management"
     ],
     "disaster": "",
-    "lat": 3.139,
-    "lng": 101.6869,
+    "lat": -6.192724,
+    "lng": 106.868614,
     "description": "Coaching and mentoring of ASEAN-ERAT information management staff in the use of GIS for data collection, processing and visualisation to support disaster response operations.",
     "type": "Training",
     "modality": [
