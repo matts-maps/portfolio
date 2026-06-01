@@ -1694,7 +1694,7 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "Reporting conflict to the EPACC",
+    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
     "continent": "Europe",
     "country": "Ukraine",
     "location": "",
@@ -1719,11 +1719,11 @@ export const projects = [
     "startDate": "2026-03-14",
     "endDate": "",
     "status": "Current",
-    "parentProject": "",
+    "parentProject": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
     "parentProjectDescription": ""
   },
   {
-    "name": "Reporting conflict to the EPACC",
+    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
     "continent": "Middle East",
     "country": "Iran",
     "location": "",
