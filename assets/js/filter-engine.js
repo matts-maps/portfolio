@@ -3,7 +3,7 @@ export function initFilters(items, onChange) {
   const fContinent = document.getElementById("filter-continent");
   const fCountry = document.getElementById("filter-country");
   const fDisaster = document.getElementById("filter-disaster");
-  const fType = document.getElementById("filter-type"); // CHANGED: selector for type instead of theme
+  const fType = document.getElementById("filter-type"); 
   const fModality = document.getElementById("filter-modality");
   const fStatus = document.getElementById("filter-status");   
   const btnReset = document.getElementById("reset-filters");
@@ -23,9 +23,15 @@ export function initFilters(items, onChange) {
 
   function populate(list) {
     fill(fContinent, list.map(i => i.continent));
-    fill(fCountry, list.map(i => i.country));
+    
+    // CHANGED: Country can now be an array → flatten it for the dropdown options
+    fill(
+      fCountry, 
+      list.flatMap(i => Array.isArray(i.country) ? i.country : [i.country])
+    );
+    
     fill(fDisaster, list.map(i => i.disaster));
-    fill(fType, list.map(i => i.type)); // CHANGED: maps direct string values from i.type
+    fill(fType, list.map(i => i.type)); 
 
     // Modality is an array → flatten it
     fill(
@@ -43,9 +49,16 @@ export function initFilters(items, onChange) {
   function apply() {
     let filtered = items.filter(i => {
       const matchContinent = fContinent.value === "" || i.continent === fContinent.value;
-      const matchCountry = fCountry.value === "" || i.country === fCountry.value;
+      
+      // CHANGED: Correct country matching for both single strings and arrays
+      const matchCountry =
+        fCountry.value === "" ||
+        (Array.isArray(i.country)
+          ? i.country.includes(fCountry.value)
+          : i.country === fCountry.value);
+
       const matchDisaster = fDisaster.value === "" || i.disaster === fDisaster.value;
-      const matchType = fType.value === "" || i.type === fType.value; // CHANGED: string value equality check
+      const matchType = fType.value === "" || i.type === fType.value; 
 
       // Correct modality matching for arrays
       const matchModality =
@@ -59,9 +72,9 @@ export function initFilters(items, onChange) {
 
       return (
         matchContinent &&
-        matchCountry &&
+        matchCountry &&  // CHANGED
         matchDisaster &&
-        matchType && // CHANGED
+        matchType && 
         matchModality &&
         matchStatus
       );
@@ -91,7 +104,6 @@ export function initFilters(items, onChange) {
       );
     }
 
-    // CHANGED: Sort alphabetically by Type category string instead of Theme array values
     if (fSort.value === "type") { 
       filtered.sort((a, b) => {
         const aType = a.type || "";
@@ -110,7 +122,7 @@ export function initFilters(items, onChange) {
   fContinent.onchange =
   fCountry.onchange =
   fDisaster.onchange =
-  fType.onchange = // CHANGED
+  fType.onchange = 
   fModality.onchange =
   fStatus.onchange = apply;
 
@@ -119,7 +131,7 @@ export function initFilters(items, onChange) {
     fContinent.value = "";
     fCountry.value = "";
     fDisaster.value = "";
-    fType.value = ""; // CHANGED
+    fType.value = ""; 
     fModality.value = "";
     fStatus.value = "";   
     apply();
