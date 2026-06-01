@@ -689,7 +689,7 @@ export const images = [
     description: ""
   },
 
-    {
+  {
     file: "assets/images/maps/new-zealand-hexagonal-population.jpg",
     name: "Estimated population (2023)",
     continent: "Oceania",
@@ -702,6 +702,21 @@ export const images = [
     themes: ["Population"],
     disaster: "",
     description: "Part of the 30 maps in 30 days challenge in 2024."
+  },
+
+  {
+    file: "assets/images/maps/2016-northern-triangle-people-in-need.jpg",
+    name: "El Salvador, Guatemala and Honduras - People in need (as of 11 November 2016)",
+    continent: "Central America",
+    country: ["El Salvador", "Guatemala", "Honduras"]
+    location: "",
+    year: 2016,
+    month: 11,
+    lat: 13.698889,
+    lng: -89.191389,
+    themes: ["Population", "Humanitarian", "Displacement"],
+    disaster: "",
+    description: ""
   },
 
   {
