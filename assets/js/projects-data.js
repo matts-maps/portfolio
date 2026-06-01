@@ -651,7 +651,7 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "AA Pilot",
+    "name": "Assessment and Analysis Cell Pilot training course",
     "continent": "Europe",
     "country": "Estonia",
     "location": "Tallinn",
