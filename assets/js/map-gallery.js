@@ -1,4 +1,4 @@
-import { images } from "./gallery-data.js";
+import { images } from "./image-data.js";
 import { openMapLightbox, setMapLightboxList } from "./map-lightbox.js";
 import { initFilters } from "./filter-engine.js";
 
