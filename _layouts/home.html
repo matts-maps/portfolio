@@ -34,7 +34,14 @@ layout: default
 
     filteredItems.forEach((item, index) => {
       const title = item.name || "Untitled Map";
-      const imgUrl = item.file ? `${baseUrl}/${item.file}` : '';
+      
+      // --- THUMBNAIL LOGIC CONFIGURATION ---
+      // Swaps "assets/images/maps/" with "assets/images/maps/thumbs/"
+      let thumbUrl = '';
+      if (item.file) {
+        thumbUrl = `${baseUrl}/${item.file.replace('assets/images/maps/', 'assets/images/maps/thumbs/')}`;
+      }
+      // -------------------------------------
 
       // --- CAPTION FORMATTING LOGIC ---
       const line2Parts = [];
@@ -48,9 +55,14 @@ layout: default
         line2Parts.push('Global');
       }
 
-      // 2. Add Disaster if it exists and is NOT "None"
-      if (item.disaster && item.disaster !== 'None') {
-        line2Parts.push(item.disaster);
+      // 2. Add Disaster if it exists and handles both Single String and Array structures safely
+      if (item.disaster) {
+        const disasterList = Array.isArray(item.disaster) ? item.disaster : [item.disaster];
+        const activeDisasters = disasterList.filter(d => d && d !== 'None');
+        
+        if (activeDisasters.length > 0) {
+          line2Parts.push(activeDisasters.join(', '));
+        }
       }
 
       // 3. Add Year if it exists
@@ -65,9 +77,10 @@ layout: default
       const card = document.createElement('div');
       card.className = 'gallery-card';
       
+      // The gallery interface renders using the high-performance thumbUrl
       card.innerHTML = `
         <div class="card-image-wrapper">
-          <img src="${imgUrl}" alt="${title}" onerror="this.src='${baseUrl}/assets/images/placeholder.jpg'">
+          <img src="${thumbUrl}" alt="${title}" onerror="this.src='${baseUrl}/assets/images/placeholder.jpg'">
           <div class="card-overlay-caption">
             <div class="overlay-caption-content">
               <h3>${title}</h3>
@@ -77,6 +90,7 @@ layout: default
         </div>
       `;
       
+      // The lightbox event handler passes the whole 'item', ensuring full-resolution views remain intact
       card.addEventListener('click', () => launchLightbox(item));
       grid.appendChild(card);
 

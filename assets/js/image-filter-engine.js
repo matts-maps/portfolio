@@ -9,27 +9,48 @@ export function initImageFilterEngine(data, onFilterChange) {
   const themeSelect = document.getElementById('ife-theme');
   const yearSelect = document.getElementById('ife-year');
   
-  // Updated ID to match standard engine naming conventions
   const clearBtn = document.getElementById('ife-clear') || document.getElementById('reset-filters');
+
+  // Helper helper to normalize single strings or arrays cleanly into a standard flat array
+  const getDisasterArray = (item) => {
+    if (!item.disaster) return [];
+    return Array.isArray(item.disaster) ? item.disaster : [item.disaster];
+  };
 
   // 1. Dynamic Dropdown Populations
   function populateDropdown(selectElement, items, propertyName, selectedValue) {
     if (!selectElement) return;
     
-    // Clear existing options except the placeholder ("All ...")
-    while (selectElement.options.length > 1) {
-      selectElement.remove(1);
+    // Safely remove dynamically generated values while preserving "All" and custom group categories
+    for (let i = selectElement.options.length - 1; i >= 0; i--) {
+      const optVal = selectElement.options[i].value;
+      if (optVal !== "" && optVal !== "tropical-cyclone") {
+        selectElement.remove(i);
+      }
     }
     
-    const uniqueValues = [...new Set(items.map(item => item[propertyName]).filter(val => val !== undefined && val !== null && val !== ""))];
-    uniqueValues.sort((a, b) => b.toString().localeCompare(a.toString()));
+    // Use flatMap to read values whether they are strings or explicit arrays
+    let uniqueValues = [];
+    if (propertyName === 'disaster') {
+      uniqueValues = [...new Set(items.flatMap(item => getDisasterArray(item)).filter(Boolean))];
+    } else {
+      uniqueValues = [...new Set(items.map(item => item[propertyName]).filter(val => val !== undefined && val !== null && val !== ""))];
+    }
     
-    uniqueValues.forEach(val => {
+    // Filter out individual values covered by the tropical cyclone group item
+    let finalValues = uniqueValues;
+    if (propertyName === 'disaster') {
+      finalValues = uniqueValues.filter(val => !['Cyclone', 'Hurricane', 'Typhoon'].includes(val));
+    }
+    
+    finalValues.sort((a, b) => b.toString().localeCompare(a.toString()));
+    
+    finalValues.forEach(val => {
       selectElement.add(new Option(val, val));
     });
 
-    // Reapply previous selection if it's still available in the new subset
-    if (selectedValue && uniqueValues.includes(selectedValue)) {
+    // Reapply previous selection if it's still available in the new subset context
+    if (selectedValue && (selectedValue === 'tropical-cyclone' || uniqueValues.includes(selectedValue))) {
       selectElement.value = selectedValue;
     } else {
       selectElement.value = '';
@@ -51,6 +72,17 @@ export function initImageFilterEngine(data, onFilterChange) {
     }
   }
 
+  // Helper matching condition to check selection parameters against modern arrays or legacy string keys
+  function itemMatchesDisaster(item, filterValue) {
+    if (!filterValue) return true;
+    const disasterList = getDisasterArray(item);
+    
+    if (filterValue === 'tropical-cyclone') {
+      return disasterList.some(d => ['Cyclone', 'Hurricane', 'Typhoon'].includes(d));
+    }
+    return disasterList.includes(filterValue);
+  }
+
   // 2. Filter Processor
   function processData(triggeredByElement = null) {
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
@@ -70,7 +102,7 @@ export function initImageFilterEngine(data, onFilterChange) {
 
       const matchesContinent = !continentVal || item.continent === continentVal;
       const matchesCountry = !countryVal || item.country === countryVal;
-      const matchesDisaster = !disasterVal || item.disaster === disasterVal;
+      const matchesDisaster = itemMatchesDisaster(item, disasterVal);
       const matchesYear = !yearVal || String(item.year) === yearVal;
       const matchesTheme = !themeVal || (item.themes && item.themes.includes(themeVal));
 
@@ -78,13 +110,11 @@ export function initImageFilterEngine(data, onFilterChange) {
     });
 
     // Step B: Update sibling dropdown choices contextually 
-    // We avoid altering the dropdown that the user is actively clicking
     if (triggeredByElement !== continentSelect) {
-      // Find what values are valid based on ALL other active filters
       const continentSubset = data.filter(item => {
         return (!query || (item.name && item.name.toLowerCase().includes(query))) &&
                (!countryVal || item.country === countryVal) &&
-               (!disasterVal || item.disaster === disasterVal) &&
+               itemMatchesDisaster(item, disasterVal) &&
                (!yearVal || String(item.year) === yearVal) &&
                (!themeVal || (item.themes && item.themes.includes(themeVal)));
       });
@@ -95,7 +125,7 @@ export function initImageFilterEngine(data, onFilterChange) {
       const countrySubset = data.filter(item => {
         return (!query || (item.name && item.name.toLowerCase().includes(query))) &&
                (!continentVal || item.continent === continentVal) &&
-               (!disasterVal || item.disaster === disasterVal) &&
+               itemMatchesDisaster(item, disasterVal) &&
                (!yearVal || String(item.year) === yearVal) &&
                (!themeVal || (item.themes && item.themes.includes(themeVal)));
       });
@@ -118,7 +148,7 @@ export function initImageFilterEngine(data, onFilterChange) {
         return (!query || (item.name && item.name.toLowerCase().includes(query))) &&
                (!continentVal || item.continent === continentVal) &&
                (!countryVal || item.country === countryVal) &&
-               (!disasterVal || item.disaster === disasterVal) &&
+               itemMatchesDisaster(item, disasterVal) &&
                (!yearVal || String(item.year) === yearVal);
       });
       populateThemeDropdown(themeSelect, themeSubset, themeVal);
@@ -129,7 +159,7 @@ export function initImageFilterEngine(data, onFilterChange) {
         return (!query || (item.name && item.name.toLowerCase().includes(query))) &&
                (!continentVal || item.continent === continentVal) &&
                (!countryVal || item.country === countryVal) &&
-               (!disasterVal || item.disaster === disasterVal) &&
+               itemMatchesDisaster(item, disasterVal) &&
                (!themeVal || (item.themes && item.themes.includes(themeVal)));
       });
       populateDropdown(yearSelect, yearSubset, 'year', yearVal);
@@ -165,7 +195,6 @@ export function initImageFilterEngine(data, onFilterChange) {
       if (searchInput) searchInput.value = '';
       if (sortSelect) sortSelect.value = 'yearmonth';
       
-      // Clear out selection completely to force full rebuild
       if (continentSelect) continentSelect.value = '';
       if (countrySelect) countrySelect.value = '';
       if (disasterSelect) disasterSelect.value = '';
