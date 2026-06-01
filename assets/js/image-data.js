@@ -10,7 +10,8 @@ export const images = [
     lat: -4.2634,
     lng: 15.2429,
     themes: ["Humanitarian"],
-    disaster: "Munitions Explosion"
+    disaster: "Munitions Explosion",
+    description: ""
   },
 
   {
@@ -24,7 +25,8 @@ export const images = [
     lat: 6.4281,
     lng: -9.4295,
     themes: ["Health", "Humanitarian"],
-    disaster: "Ebola"
+    disaster: "Ebola",
+    description: ""
   },
 
   {
@@ -38,7 +40,8 @@ export const images = [
     lat: 6.4281,
     lng: -9.4295,
     themes: ["Health", "Humanitarian"],
-    disaster: "Ebola"
+    disaster: "Ebola",
+    description: ""
   },
 
   {
@@ -52,7 +55,8 @@ export const images = [
     lat: 44.817778,
     lng: 20.456944,
     themes: ["Humanitarian", "Migration"],
-    disaster: "Conflict"
+    disaster: "Conflict",
+    description: ""
   },
 
   {
@@ -66,7 +70,8 @@ export const images = [
     lat: -13.2543,
     lng: 34.3015,
     themes: ["Humanitarian"],
-    disaster: "Flood"
+    disaster: "Flood",
+    description: ""
   },
 
   {
@@ -80,7 +85,8 @@ export const images = [
     lat: -15.3767,
     lng: 166.9592,
     themes: ["WASH", "Humanitarian"],
-    disaster: "Cyclone"
+    disaster: "Cyclone",
+    description: ""
   },
 
   {
@@ -94,7 +100,8 @@ export const images = [
     lat: 15.4150,
     lng: -61.3710,
     themes: ["Humanitarian", "Weather"],
-    disaster: "Hurricane"
+    disaster: "Hurricane",
+    description: ""
   },
 
   {
@@ -108,7 +115,8 @@ export const images = [
     lat: -0.8980,
     lng: 119.8707,
     themes: ["Humanitarian", "Displacement"],
-    disaster: ["Earthquake", "Tsunami", "Liquefaction"]
+    disaster: ["Earthquake", "Tsunami", "Liquefaction"],
+    description: ""
   },
 
   {
@@ -122,7 +130,8 @@ export const images = [
     lat: -0.8980,
     lng: 119.8707,
     themes: ["Humanitarian", "WASH"],
-    disaster: "Earthquake"
+    disaster: "Earthquake",
+    description: ""
   },
 
   {
@@ -136,7 +145,8 @@ export const images = [
     lat: -0.8980,
     lng: 119.8707,
     themes: ["Humanitarian", "WASH"],
-    disaster: "Earthquake"
+    disaster: "Earthquake",
+    description: ""
   },
 
   {
@@ -150,7 +160,8 @@ export const images = [
     lat: -0.8980,
     lng: 119.8707,
     themes: ["Humanitarian", "WASH"],
-    disaster: "Earthquake"
+    disaster: "Earthquake",
+    description: ""
   },
 
   {
@@ -164,7 +175,8 @@ export const images = [
     lat: 12.8797,
     lng: 121.7740,
     themes: ["Humanitarian"],
-    disaster: "Typhoon"
+    disaster: "Typhoon",
+    description: ""
   },
 
   {
@@ -178,7 +190,8 @@ export const images = [
     lat: 12.8797,
     lng: 121.7740,
     themes: ["Humanitarian"],
-    disaster: "Typhoon"
+    disaster: "Typhoon",
+    description: ""
   },
 
   {
@@ -192,7 +205,8 @@ export const images = [
     lat: 13.6192,
     lng: 123.1814,
     themes: ["Humanitarian", "Food security", "WASH"],
-    disaster: ["Typhoon", "Landslide"]
+    disaster: ["Typhoon", "Landslide"],
+    description: ""
   },
 
   {
@@ -206,7 +220,8 @@ export const images = [
     lat: -19.8333,
     lng: 34.8500,
     themes: ["Humanitarian", "Health"],
-    disaster: "Cyclone"
+    disaster: "Cyclone",
+    description: ""
   },
 
   {
@@ -220,7 +235,8 @@ export const images = [
     lat: -19.8333,
     lng: 34.8500,
     themes: ["Humanitarian", "Health"],
-    disaster: "Cyclone"
+    disaster: "Cyclone",
+    description: ""
   },
 
   {
@@ -234,7 +250,8 @@ export const images = [
     lat: -19.1211,
     lng: 34.8440,
     themes: ["Humanitarian", "Health"],
-    disaster: "Cyclone"
+    disaster: "Cyclone",
+    description: ""
   },
 
   {
@@ -248,7 +265,8 @@ export const images = [
     lat: -19.1211,
     lng: 34.8440,
     themes: ["Humanitarian", "Health"],
-    disaster: "Cyclone"
+    disaster: "Cyclone",
+    description: ""
   },
 
   {
@@ -262,7 +280,8 @@ export const images = [
     lat: 33.9391,
     lng: 67.7100,
     themes: ["Humanitarian", "Food security"],
-    disaster: "Conflict"
+    disaster: "Conflict",
+    description: ""
   },
 
   {
@@ -276,7 +295,8 @@ export const images = [
     lat: 9.1450,
     lng: 40.4897,
     themes: ["Humanitarian", "Economy"],
-    disaster: "Conflict"
+    disaster: "Conflict",
+    description: ""
   },
 
   {
@@ -290,7 +310,8 @@ export const images = [
     lat: 9.1450,
     lng: 40.4897,
     themes: ["Humanitarian", "Agriculture"],
-    disaster: "Locusts"
+    disaster: "Locusts",
+    description: ""
   },
 
   {
@@ -304,7 +325,8 @@ export const images = [
     lat: 33.2232,
     lng: 43.6793,
     themes: ["Humanitarian", "Displacement"],
-    disaster: "Conflict"
+    disaster: "Conflict",
+    description: ""
   },
 
   {
@@ -318,7 +340,8 @@ export const images = [
     lat: 33.2232,
     lng: 43.6793,
     themes: ["Humanitarian", "Shelter"],
-    disaster: "Conflict"
+    disaster: "Conflict",
+    description: ""
   },
 
   {
@@ -332,7 +355,8 @@ export const images = [
     lat: 33.2232,
     lng: 43.6793,
     themes: ["Humanitarian", "Security"],
-    disaster: "Conflict"
+    disaster: "Conflict",
+    description: ""
   },
 
   {
@@ -346,7 +370,8 @@ export const images = [
     lat: 13.2528,
     lng: -61.1971,
     themes: ["Humanitarian"],
-    disaster: "Volcano"
+    disaster: "Volcano",
+    description: ""
   },
 
   {
@@ -360,7 +385,8 @@ export const images = [
     lat: -36.8509,
     lng: 174.7645,
     themes: ["Transport"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -374,7 +400,8 @@ export const images = [
     lat: 14.5995,
     lng: 120.9842,
     themes: ["Transport"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -388,7 +415,8 @@ export const images = [
     lat: 54.7023,
     lng: -3.2766,
     themes: ["Recreation"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -402,7 +430,8 @@ export const images = [
     lat: 56.8198,
     lng: -5.1052,
     themes: ["Recreation"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -416,7 +445,8 @@ export const images = [
     lat: 55.8642,
     lng: -4.2518,
     themes: ["Urban"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -430,7 +460,8 @@ export const images = [
     lat: 55.8642,
     lng: -4.2518,
     themes: ["Urban"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -444,7 +475,8 @@ export const images = [
     lat: 56.6820,
     lng: -5.1020,
     themes: ["Recreation"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -458,7 +490,8 @@ export const images = [
     lat: 21.0285,
     lng: 105.8542,
     themes: ["Urban"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -472,7 +505,8 @@ export const images = [
     lat: -38.6610,
     lng: 175.9420,
     themes: ["Recreation"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -486,7 +520,8 @@ export const images = [
     lat: 53.4084,
     lng: -2.9916,
     themes: ["Urban"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -500,10 +535,11 @@ export const images = [
     lat: 57.7280,
     lng: -5.5280,
     themes: ["Landscape"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
-  {
+    {
     file: "assets/images/maps/makati-osaka.png",
     name: "Makati",
     continent: "Asia",
@@ -514,10 +550,11 @@ export const images = [
     lat: 14.5547,
     lng: 121.0244,
     themes: ["Transport"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
-    {
+  {
     file: "assets/images/maps/new-zealand-raster.jpg",
     name: "Aotearoa/New Zealand",
     continent: "Oceania",
@@ -528,7 +565,8 @@ export const images = [
     lat: -41.2865,
     lng: 174.7762,
     themes: ["Landscape"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -542,7 +580,8 @@ export const images = [
     lat: 34.6937,
     lng: 135.5023,
     themes: ["Urban"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -556,7 +595,8 @@ export const images = [
     lat: -38.6857,
     lng: 176.0702,
     themes: ["Recreation", "Running"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -570,7 +610,8 @@ export const images = [
     lat: 14.5663,
     lng: 121.0365,
     themes: ["Urban"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -584,7 +625,8 @@ export const images = [
     lat: 1.3521,
     lng: 103.8198,
     themes: ["Urban"],
-    disaster: "None"
+    disaster: "None",
+    description: ""
   },
 
   {
@@ -598,7 +640,8 @@ export const images = [
     lat: 6.8770,
     lng: 31.3070,
     themes: ["Humanitarian", "Displacement", "Food security", "Health"],
-    disaster: "Conflict"
+    disaster: "Conflict",
+    description: ""
   },
 
   {
@@ -612,7 +655,8 @@ export const images = [
     lat: 31.5200,
     lng: 34.4500,
     themes: ["Humanitarian", "Displacement", "Urban"],
-    disaster: "Conflict"
+    disaster: "Conflict",
+    description: ""
   },
 
   {
@@ -626,7 +670,38 @@ export const images = [
     lat: 7.42269,
     lng: 151.76077,
     themes: ["Humanitarian", "Damage assessment"],
-    disaster: "Cyclone"
+    disaster: "Cyclone",
+    description: ""
+  },
+
+  {
+    file: "assets/images/maps/iceland-physical-geography.jpg",
+    name: "Physcial geography of Iceland",
+    continent: "Europe",
+    country: "Iceland",
+    location: "",
+    year: 2024,
+    month: 3,
+    lat: 65,
+    lng: -18,
+    themes: ["Landscape"],
+    disaster: "",
+    description: ""
+  },
+
+    {
+    file: "assets/images/maps/new-zealand-hexagonal-population.jpg",
+    name: "Estimated population (2023)",
+    continent: "Oceania",
+    country: "New Zealand",
+    location: "",
+    year: 2024,
+    month: 11,
+    lat: 65,
+    lng: -18,
+    themes: ["Population"],
+    disaster: "",
+    description: "Part of the 30 maps in 30 days challenge in 2024."
   },
 
   {
@@ -640,6 +715,7 @@ export const images = [
     lat: 7.1269709,
     lng: 148.8678691,
     themes: ["Humanitarian", "Logistics"],
-    disaster: "Cyclone"
+    disaster: "Cyclone",
+    description: ""
   }
 ];
