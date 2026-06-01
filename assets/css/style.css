@@ -212,26 +212,10 @@ body {
 #project-filter-bar select {
   padding: 0.55rem 0.75rem;
   border-radius: 6px;
-  border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
   font-size: 1rem;
   width: 100%;
-}
-
-#reset-filters {
-  padding: 0.55rem 1rem;
-  background: #ddd;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  height: 42px;
-  flex: 0 0 auto;
-}
-
-#reset-filters:hover {
-  background: #ccc;
 }
 
 @media (max-width: 1100px) {
@@ -527,46 +511,90 @@ body.dark .project-table tr:hover {
    IMAGE FILTER BAR (IMAGE GALLERY PAGE)
 -------------------------------------------------- */
 .filter-bar {
-  margin-bottom: 2rem;
   width: 100%;
+  max-width: 1600px;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.25rem;
+
+  background: var(--bg);
+  border-radius: 8px;
+  box-sizing: border-box;
 }
+
 .filter-row {
   display: flex;
-  flex-wrap: nowrap; /* Prevents wrapping to a second row */
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: flex-end;
-  gap: 12px;
+  gap: 1.25rem;
   width: 100%;
-  overflow-x: auto;  /* Allows scrolling on tiny mobile screens */
-  padding-bottom: 5px;
 }
+
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  flex: 1;
-  min-width: 100px;
+  flex: 1 1 0;
+  min-width: 140px;
 }
+
 .filter-group label {
-  font-weight: bold;
-  font-size: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text);
 }
+
 .filter-group select {
+  padding: 0.55rem 2rem 0.55rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  height: 38px;
+  height: 42px;
   box-sizing: border-box;
+
+  /* Custom dropdown chevron arrow to mirror reference image layout */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23222' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px;
 }
+
+/* Dark mode chevron adjustments */
+body.dark .filter-group select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23eee' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+}
+
 #reset-filters {
-  padding: 8px 16px;
+  padding: 0.55rem 1rem;
+  background: #ddd;
+  border: 1px solid var(--border);
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid #999;
-  background: #f8f9fa;
-  height: 38px;
-  white-space: nowrap;
+  font-weight: 600;
+  height: 42px;
+  flex: 0 0 auto;
   box-sizing: border-box;
+  white-space: nowrap;
+  color: #222;
+}
+
+#reset-filters:hover {
+  background: #ccc;
+}
+
+@media (max-width: 1100px) {
+  .filter-row {
+    flex-wrap: wrap;
+  }
+  .filter-group {
+    flex: 1 1 calc(50% - 1.25rem);
+  }
 }
 
 /* --------------------------------------------------
@@ -575,7 +603,6 @@ body.dark .project-table tr:hover {
 
 /* --- STICKY FOOTER & FLUID CENTERING LAYOUT (1600px Inner Canvas) --- */
 
-/* 1. Reset standard container height limits to read the entire window boundary */
 html, 
 body {
   margin: 0;
@@ -583,18 +610,16 @@ body {
   height: 100%;
 }
 
-/* 2. Establish the site wrapper as a vertical flexbox column stretching to full viewport height */
 .site-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* 3. Fluid Header container (Spans full screen width for sticky, backgrounds, and borders) */
 .site-header {
   width: 100%;
   height: var(--header-height);
-  border-bottom: 1px solid var(--border); /* Full screen width line */
+  border-bottom: 1px solid var(--border);
   background: var(--bg);
   position: sticky;
   top: 0;
@@ -602,7 +627,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Centers and clamps the navigation links tightly inside the 1600px track */
 .header-inner {
   width: 100%;
   max-width: 1600px;
@@ -612,9 +636,8 @@ body {
   box-sizing: border-box;
 }
 
-/* 4. Main body content canvas (Constrained to 1600px track and centered below header) */
 .page-content {
-  flex: 1 0 auto;     /* Absorbs empty vertical height on short pages to push footer down */
+  flex: 1 0 auto;     
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
@@ -622,19 +645,17 @@ body {
   box-sizing: border-box;
 }
 
-/* 5. Fluid Footer container (Spans full width edge-to-edge) */
 .site-footer {
-  flex-shrink: 0;     /* Prevents the footer from clipping on small devices */
-  width: 100%;        /* Full screen width layout wrapper */
-  padding: 30px 20px; /* Padding for uniform vertical clearance and mobile safe-zones */
-  text-align: center; /* Centers all content and text blocks horizontally across the screen */
+  flex-shrink: 0;     
+  width: 100%;        
+  padding: 30px 20px; 
+  text-align: center; 
   box-sizing: border-box;
 }
 
-/* Clean block rules for paragraph elements inside the fluid footer */
 .site-footer p {
   margin: 0;
-  display: inline-block; /* Keeps standard margins clear and keeps structural elements square */
+  display: inline-block; 
 }
 
 /* --------------------------------------------------
@@ -649,7 +670,6 @@ body {
   transition: transform 0.2s ease;
 }
 
-/* Accessible hover response setup */
 .custom-blue-dot:hover {
   transform: scale(1.3);
   background-color: #0056b3; 
