@@ -1269,6 +1269,35 @@ export const projects = [
     "status": "Complete",
     "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
     "parentProjectDescription": ""
+  },  {
+    "name": "ASEAN-ERAT Coaching",
+    "continent": "Asia",
+    "country": "Indonesia",
+    "location": "Jakarta",
+    "year": "2021",
+    "month": "August",
+    "themes": [
+      "Data collection",
+      "Data processing",
+      "Information Management"
+    ],
+    "disaster": "",
+    "lat": 3.139,
+    "lng": 101.6869,
+    "description": "Coaching and mentoring of ASEAN-ERAT information management staff in the use of GIS for data collection, processing and visualisation to support disaster response operations.",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": "Regional and national",
+    "startDate": "2021-08-03",
+    "endDate": "2021-08-07",
+    "status": "Complete",
+    "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "parentProjectDescription": ""
   },
   {
     "name": "Hunga Tonga\u2013Hunga Ha\u02bbapai volcano eruption",
