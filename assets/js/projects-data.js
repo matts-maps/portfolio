@@ -1142,8 +1142,8 @@ export const projects = [
     "month": "March",
     "themes": [],
     "disaster": "Volcano",
-    "lat": 13.2528,
-    "lng": -61.1971,
+    "lat": 13.333333, 
+    "lng": -61.183333,
     "description": "Mapping of the humanitarian and environmental impacts of the La Soufri\u00e8re volcanic eruption in Saint Vincent and the Grenadines, including mapping of damaged buildings, evacuation centres, and ashfall extent.",
     "type": "Response",
     "modality": [
@@ -1269,7 +1269,9 @@ export const projects = [
     "status": "Complete",
     "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
     "parentProjectDescription": ""
-  },  {
+  },  
+  
+{
     "name": "ASEAN-ERAT Coaching",
     "continent": "Asia",
     "country": "Indonesia",
@@ -1454,7 +1456,10 @@ export const projects = [
     "modality": [
       "Remote"
     ],
-    "organisation": [],
+    "organisation":[
+      "Muslim Foundation for Culture and Development (MFCD)",
+      "Asian Disaster Reduction and Response Network (ADRRN)"
+    ],
     "level": "Sub-national",
     "startDate": "",
     "endDate": "",
@@ -1508,7 +1513,8 @@ export const projects = [
       "Remote"
     ],
     "organisation": [
-      "Disaster Preparedness Network-Nepal (DPNet)"
+      "Disaster Preparedness Network-Nepal (DPNet)",
+      "Asian Disaster Reduction and Response Network (ADRRN)"
     ],
     "level": "Sub-national",
     "startDate": "",
@@ -1608,7 +1614,7 @@ export const projects = [
     "disaster": "Climate change",
     "lat": 6.801111,
     "lng": -58.155,
-    "description": "",
+    "description": "Mapping of schools at risk to wildfires, coastal and riverine flooding due climate change in Guyana.",
     "type": "Preparedness and anticipatory action",
     "modality": [
       "Remote"
@@ -1618,9 +1624,34 @@ export const projects = [
     "startDate": "20/05/2026",
     "endDate": "",
     "status": "Current",
-    "parentProject": "",
-    "parentProjectDescription": ""
+    "parentProject": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines.",
+    "parentProjectDescription": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines."
   },
+  {
+    "name": "Schools at risk to sea-level rise in Saint Vincent and the Grenadines",
+    "continent": "Caribbean",
+    "country": "Saint Vincent and the Grenadines",
+    "location": "Kingstown",
+    "year": "2026",
+    "month": "May",
+    "themes": [],
+    "disaster": "Climate change",
+    "lat": 13.157778, 
+    "lng": -61.225556,
+    "description": "Mapping of schools at risk to riverine flooding due climate change in Saint Vincent and the Grenadines",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [],
+    "level": "National",
+    "startDate": "20/05/2026",
+    "endDate": "",
+    "status": "Current",
+    "parentProject": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines.",
+    "parentProjectDescription": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines."
+  },
+
   {
     "name": "H2H Lebanon",
     "continent": "Middle East",
