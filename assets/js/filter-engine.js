@@ -2,9 +2,10 @@ export function initFilters(items, onChange) {
   const fSort = document.getElementById("sort-select");
   const fContinent = document.getElementById("filter-continent");
   const fCountry = document.getElementById("filter-country");
-  const fDisaster = document.getElementById("filter-disaster");
+  const fDisaster = document.getElementById("filter-disaster"); // <-- Array conversion implemented
   const fType = document.getElementById("filter-type"); 
   const fModality = document.getElementById("filter-modality");
+  const fLevel = document.getElementById("filter-level"); 
   const fStatus = document.getElementById("filter-status");   
   const btnReset = document.getElementById("reset-filters");
 
@@ -12,6 +13,7 @@ export function initFilters(items, onChange) {
       POPULATE SELECT OPTIONS
   ----------------------------- */
   function fill(select, values) {
+    if (!select) return; // Guard check in case element isn't in DOM yet
     const unique = [...new Set(values)].filter(Boolean).sort();
     const current = select.value;
 
@@ -24,60 +26,71 @@ export function initFilters(items, onChange) {
   function populate(list) {
     fill(fContinent, list.map(i => i.continent));
     
-    // CHANGED: Country can now be an array → flatten it for the dropdown options
     fill(
       fCountry, 
       list.flatMap(i => Array.isArray(i.country) ? i.country : [i.country])
     );
     
-    fill(fDisaster, list.map(i => i.disaster));
-    fill(fType, list.map(i => i.type)); 
+    // CHANGED: Flatten the disaster array values for the dropdown selection
+    fill(
+      fDisaster,
+      list.flatMap(i => Array.isArray(i.disaster) ? i.disaster : [i.disaster])
+    );
 
-    // Modality is an array → flatten it
+    fill(fType, list.map(i => i.type));
+    
     fill(
       fModality,
       list.flatMap(i => Array.isArray(i.modality) ? i.modality : [i.modality])
     );
 
-    // Status filter
+    fill(
+      fLevel,
+      list.flatMap(i => Array.isArray(i.level) ? i.level : [i.level])
+    );
+
     fill(fStatus, list.map(i => i.status));
   }
 
   /* -----------------------------
-      APPLY FILTERS
+      THE FILTER EXECUTION
   ----------------------------- */
-  function apply() {
-    let filtered = items.filter(i => {
-      const matchContinent = fContinent.value === "" || i.continent === fContinent.value;
-      
-      // CHANGED: Correct country matching for both single strings and arrays
-      const matchCountry =
-        fCountry.value === "" ||
-        (Array.isArray(i.country)
-          ? i.country.includes(fCountry.value)
-          : i.country === fCountry.value);
+  function applyFilters() {
+    const filtered = items.filter(i => {
+      // 1. Continent
+      if (fContinent.value && i.continent !== fContinent.value) return false;
 
-      const matchDisaster = fDisaster.value === "" || i.disaster === fDisaster.value;
-      const matchType = fType.value === "" || i.type === fType.value; 
+      // 2. Country (Array support)
+      if (fCountry.value) {
+        const countries = Array.isArray(i.country) ? i.country : [i.country];
+        if (!countries.includes(fCountry.value)) return false;
+      }
 
-      // Correct modality matching for arrays
-      const matchModality =
-        fModality.value === "" ||
-        (Array.isArray(i.modality)
-          ? i.modality.includes(fModality.value)
-          : i.modality === fModality.value);
+      // 3. CHANGED: Disaster (Array support using .includes)
+      if (fDisaster.value) {
+        const disasters = Array.isArray(i.disaster) ? i.disaster : [i.disaster];
+        if (!disasters.includes(fDisaster.value)) return false;
+      }
 
-      // Status filter
-      const matchStatus = fStatus.value === "" || i.status === fStatus.value;
+      // 4. Type
+      if (fType.value && i.type !== fType.value) return false;
 
-      return (
-        matchContinent &&
-        matchCountry &&  // CHANGED
-        matchDisaster &&
-        matchType && 
-        matchModality &&
-        matchStatus
-      );
+      // 5. Modality (Array support)
+      if (fModality.value) {
+        const modalities = Array.isArray(i.modality) ? i.modality : [i.modality];
+        if (!modalities.includes(fModality.value)) return false;
+      }
+
+      // 6. Level (Array support)
+      if (fLevel && fLevel.value) {
+        const levels = Array.isArray(i.level) ? i.level : [i.level];
+        if (!levels.includes(fLevel.value)) return false;
+      }
+
+      // 7. Status
+      if (fStatus.value && i.status !== fStatus.value) return false;
+
+      return true;
     });
 
     // Repopulate dropdowns based on filtered list
@@ -106,8 +119,8 @@ export function initFilters(items, onChange) {
 
     if (fSort.value === "type") { 
       filtered.sort((a, b) => {
-        const aType = a.type || "";
-        const bType = b.type || "";
+        const aType = a.type || ""; 
+        const bType = b.type || ""; 
         return aType.localeCompare(bType);
       });
     }
@@ -116,27 +129,23 @@ export function initFilters(items, onChange) {
   }
 
   /* -----------------------------
-      EVENT LISTENERS
+      LISTENERS & INITIALIZATION
   ----------------------------- */
-  fSort.onchange =
-  fContinent.onchange =
-  fCountry.onchange =
-  fDisaster.onchange =
-  fType.onchange = 
-  fModality.onchange =
-  fStatus.onchange = apply;
+  const filters = [fSort, fContinent, fCountry, fDisaster, fType, fModality, fLevel, fStatus];
+  filters.forEach(f => {
+    if (f) f.addEventListener("change", applyFilters);
+  });
 
-  btnReset.onclick = () => {
-    fSort.value = "yearmonth";
-    fContinent.value = "";
-    fCountry.value = "";
-    fDisaster.value = "";
-    fType.value = ""; 
-    fModality.value = "";
-    fStatus.value = "";   
-    apply();
-  };
+  if (btnReset) {
+    btnReset.addEventListener("click", () => {
+      filters.forEach(f => {
+        if (f) f.value = "";
+      });
+      applyFilters();
+    });
+  }
 
+  // Initial Run
   populate(items);
-  apply();
+  applyFilters();
 }

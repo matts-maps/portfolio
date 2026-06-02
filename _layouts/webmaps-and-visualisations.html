@@ -1,0 +1,293 @@
+---
+layout: default
+---
+
+<div class="container site-width-container">
+  <div class="markdown-content">
+    {{ content }}
+  </div>
+
+  <div class="map-dashboard-container">
+    <div id="visualisations-map"></div>
+
+    <div id="details-panel" class="details-pane">
+      <div id="panel-placeholder" class="panel-msg">
+        <p>Select a location indicator on the map to display the embedded data visualizations and project resources.</p>
+      </div>
+      <div id="panel-content" class="panel-data" style="display: none;">
+        <div class="panel-header">
+          <span id="proj-type" class="badge-type"></span>
+          <span id="proj-year" class="badge-year"></span>
+        </div>
+        <h2 id="proj-name"></h2>
+        
+        <div class="proj-metadata">
+          <p><strong>Countries:</strong> <span id="proj-country"></span></p>
+          <p><strong>Coordinates:</strong> <span id="proj-coords"></span></p>
+        </div>
+
+        <div id="proj-themes" class="tag-container"></div>
+        
+        <hr class="panel-divider" />
+        
+        <div class="resources-section">
+          <h3>Embedded Resources & Media</h3>
+          <div id="proj-links" class="links-vertical-stack"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script type="module">
+  import { visualizationProjects } from '{{ site.baseurl }}/assets/js/webmaps-and-visualisations-data.js';
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Center map with a broader geographical bounds setup
+    const map = L.map('visualisations-map').setView([14, -45], 3);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }).addTo(map);
+
+    // Custom Blue Marker Dot matching the Fantail portfolio style rules
+    const customDotIcon = L.divIcon({
+      className: 'custom-map-dot',
+      iconSize: [12, 12],
+      iconAnchor: [6, 6]
+    });
+
+    const placeholder = document.getElementById('panel-placeholder');
+    const contentArea = document.getElementById('panel-content');
+
+    // Track the active marker to handle style toggles smoothly
+    let activeMarker = null;
+
+    visualizationProjects.forEach(project => {
+      if (!project.lat || !project.lng) return;
+
+      const marker = L.marker([project.lat, project.lng], { icon: customDotIcon }).addTo(map);
+
+      // Handle click events directly on the marker instead of binding standard Popups
+      marker.on('click', function (e) {
+        // Toggle active visual states on selected nodes
+        if (activeMarker) {
+          activeMarker.getElement().classList.remove('active-dot');
+        }
+        marker.getElement().classList.add('active-dot');
+        activeMarker = marker;
+
+        // Pan to the selected map point gracefully
+        map.panTo(e.latlng);
+
+        // Populate embedded panel details
+        document.getElementById('proj-type').textContent = project.type || project.continent;
+        document.getElementById('proj-year').textContent = project.year;
+        document.getElementById('proj-name').textContent = project.name;
+        document.getElementById('proj-country').textContent = Array.isArray(project.country) ? project.country.join(', ') : project.country;
+        document.getElementById('proj-coords').textContent = `${project.lat}, ${project.lng}`;
+
+        // Clear and rebuild tag list
+        const themesContainer = document.getElementById('proj-themes');
+        themesContainer.innerHTML = '';
+        project.themes.forEach(theme => {
+          const span = document.createElement('span');
+          span.className = 'dashboard-tag';
+          span.textContent = theme;
+          themesContainer.appendChild(span);
+        });
+
+        // Clear and rebuild resources embed links links stack
+        const linksContainer = document.getElementById('proj-links');
+        linksContainer.innerHTML = '';
+        if (project.links && project.links.length > 0) {
+          project.links.forEach(link => {
+            const a = document.createElement('a');
+            a.className = 'dashboard-embed-btn';
+            a.href = link.url;
+            a.textContent = link.label;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            linksContainer.appendChild(a);
+          });
+        }
+
+        // Display panel contents cleanly
+        placeholder.style.display = 'none';
+        contentArea.style.display = 'block';
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Base structural boundaries for the page grid */
+  .site-width-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Embedded Master Container Dashboard Block */
+  .map-dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    width: 100%;
+    height: 750px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 24px;
+    overflow: hidden;
+    background: #ffffff;
+  }
+
+  /* Map Panel Viewport Canvas */
+  #visualisations-map {
+    flex: 1 1 65%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  /* Embedded details pane mimicking an integrated UI layout frame */
+  .details-pane {
+    flex: 1 1 35%;
+    min-width: 350px;
+    height: 100%;
+    background: #fafafa;
+    border-left: 1px solid #e2e8f0;
+    padding: 30px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Target point indicator alignment configurations */
+  .custom-map-dot {
+    background-color: #3182ce;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.4);
+    transition: transform 0.15s ease-in-out;
+  }
+  .active-dot {
+    background-color: #e53e3e !important;
+    box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.4) !important;
+    transform: scale(1.2);
+  }
+
+  /* Placeholder Styling text alignment rules */
+  .panel-msg {
+    margin: auto;
+    text-align: center;
+    color: #a0aec0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding: 20px;
+  }
+
+  /* Dashboard Details Typography Frameworks */
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .badge-type {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .badge-year {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #3182ce;
+  }
+  #proj-name {
+    margin: 0 0 16px 0;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    color: #1a202c;
+    font-weight: 700;
+  }
+  .proj-metadata p {
+    margin: 6px 0;
+    font-size: 0.9rem;
+    color: #4a5568;
+  }
+
+  /* Tags formatting systems */
+  .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .dashboard-tag {
+    background: #edf2f7;
+    color: #4a5568;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+  }
+
+  .panel-divider {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 20px 0;
+  }
+
+  .resources-section h3 {
+    font-size: 1rem;
+    color: #2d3748;
+    margin: 0 0 12px 0;
+  }
+  .links-vertical-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .dashboard-embed-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #3182ce;
+    color: #ffffff !important;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-sizing: border-box;
+    transition: background 0.15s ease;
+  }
+  .dashboard-embed-btn:hover {
+    background: #2b6cb0;
+  }
+
+  /* Responsive breakpoints for clean tablet execution sizing */
+  @media (max-width: 900px) {
+    .map-dashboard-container {
+      flex-direction: column;
+      height: auto;
+    }
+    #visualisations-map {
+      height: 450px;
+      flex: none;
+    }
+    .details-pane {
+      height: 350px;
+      flex: none;
+      border-left: none;
+      border-top: 1px solid #e2e8f0;
+    }
+  }
+</style>
