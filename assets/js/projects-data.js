@@ -502,8 +502,8 @@ export const projects = [
     "month": "September",
     "themes": [],
     "disaster": "Typhoon",
-    "lat": 12.8797,
-    "lng": 121.774,
+    "lat": 17.9326405,
+    "lng": 121.7995182,
     "description": "",
     "type": "Response",
     "modality": [
@@ -1062,8 +1062,8 @@ export const projects = [
     "month": "November",
     "themes": [],
     "disaster": "Typhoon",
-    "lat": 12.8797,
-    "lng": 121.774,
+    "lat": 13.6341923,
+    "lng": 123.2454633,
     "description": "",
     "type": "Response",
     "modality": [
@@ -1169,8 +1169,8 @@ export const projects = [
     "month": "December",
     "themes": [],
     "disaster": "Typhoon",
-    "lat": 12.8797,
-    "lng": 121.774,
+    "lat": 9.868778879383004,
+    "lng": 124.20833856205954,
     "description": "",
     "type": "Response",
     "modality": [
