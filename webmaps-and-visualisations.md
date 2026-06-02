@@ -1,9 +1,9 @@
 ---
 layout: webmaps-and-visualisations
 title: Webmaps and Visualisations
-permalink: /webmaps/
+permalink: /webmaps-and-visualisations/
 ---
-
-# Webmaps and Visualisations
-
-Explore operational dashboards, static maps, and interactive data visualisations tracking global humanitarian response, population displacements, and complex logistics datasets.
+<section class="hero">
+  <h1>Webmaps and visualisations</h1>
+  <p>Explore examples of web mapping, dashboards and other visualisations.</p>
+</section>
