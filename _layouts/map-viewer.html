@@ -1,0 +1,113 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+
+<link rel="stylesheet" href="{{ '/assets/css/map-viewer.css' | relative_url }}">
+
+<main class="map-viewer-container">
+    {{ content }}
+
+    {% include image-filter-bar.html %}
+
+    <section class="display-grid">
+        <div class="main-display-panel">
+            <div class="image-viewport" id="panel-viewport">
+                <div class="floating-btn-group">
+                    <button class="floating-btn" id="btn-panel-reset" title="Reset View">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                    <button class="floating-btn" id="btn-panel-fullscreen" title="Fullscreen View">
+                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                    </button>
+                </div>
+                <img id="main-map-image" src="" alt="Map View Target">
+            </div>
+        </div>
+
+        <aside class="sidebar-panel">
+            <div class="minimap-container">
+                <div id="leaflet-minimap"></div>
+            </div>
+
+            {% include image-details-panel.html %}
+        </aside>
+    </section>
+
+    <div class="similar-panel-section">
+        <h4 class="similar-panel-title">Similar Maps</h4>
+        <div class="similar-maps-carousel-wrapper">
+            <button class="carousel-nav-btn prev" id="carousel-btn-prev" title="Scroll Left">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            
+            <div id="similar-maps-strip-viewport" class="similar-maps-strip-container">
+                <div id="similar-maps-container" class="similar-maps-strip">
+                    </div>
+            </div>
+
+            <button class="carousel-nav-btn next" id="carousel-btn-next" title="Scroll Right">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</main>
+
+<div class="fullscreen-overlay" id="custom-fullscreen-modal">
+    <div class="modal-top-left">
+        <button class="modal-btn" id="btn-modal-reset" title="Reset View">
+            <i class="fa-solid fa-rotate"></i>
+        </button>
+    </div>
+    <div class="modal-top-right">
+        <button class="modal-btn exit-btn" id="btn-modal-close" title="Close (Esc)">
+            <i class="fa-regular fa-circle-xmark"></i>
+        </button>
+    </div>
+
+    <div class="fullscreen-viewport" id="modal-viewport">
+        <img id="fullscreen-map-image" src="" alt="Fullscreen Map View Target">
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+<script type="module" src="{{ '/assets/js/image-data.js' | relative_url }}"></script>
+<script type="module" src="{{ '/assets/js/map-viewer.js' | relative_url }}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const INACTIVITY_LIMIT = 500;
+
+        function registerInactivityTracker(containerElement) {
+            let activityTimeout;
+
+            function showControls() {
+                containerElement.classList.add("user-active");
+                clearTimeout(activityTimeout);
+                activityTimeout = setTimeout(hideControls, INACTIVITY_LIMIT);
+            }
+
+            function hideControls() {
+                containerElement.classList.remove("user-active");
+            }
+
+            containerElement.addEventListener("mousemove", showControls);
+            containerElement.addEventListener("mousedown", showControls);
+            containerElement.addEventListener("wheel", showControls, { passive: true });
+            containerElement.addEventListener("mouseleave", hideControls);
+        }
+
+        const panelViewport = document.getElementById("panel-viewport");
+        const fullscreenOverlay = document.getElementById("custom-fullscreen-modal");
+
+        if (panelViewport) registerInactivityTracker(panelViewport);
+        if (fullscreenOverlay) registerInactivityTracker(fullscreenOverlay);
+    });
+</script>

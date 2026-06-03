@@ -1,0 +1,330 @@
+.map-viewer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Map & Info Panel Content Layout Matrix */
+.display-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    align-items: start;
+}
+
+/* REMOVED: Border, border-radius, and box-shadow to maximize raw space */
+.main-display-panel {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* REMOVED: Background color placeholder so map image bleeds entirely */
+.image-viewport {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+    background-color: transparent;
+    cursor: grab;
+}
+.image-viewport:active {
+    cursor: grabbing;
+}
+
+/* OPTIMIZED: Uses 100% viewport allocation */
+#main-map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Keeps aspect ratio; change to 'cover' for zero empty space */
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Floating Control Buttons System */
+.floating-btn-group {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    display: flex;
+    gap: 0.4rem;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+.image-viewport.user-active .floating-btn-group {
+    opacity: 1;
+    pointer-events: auto;
+}
+.floating-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #000000;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.15s ease;
+}
+.floating-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+}
+
+/* Fullscreen Modal Control Overrides */
+.modal-top-left, .modal-top-right {
+    position: absolute;
+    top: 0.6rem;
+    z-index: 100000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+.modal-top-left { left: 0.6rem; }
+.modal-top-right { right: 0.6rem; }
+
+.fullscreen-overlay.user-active .modal-top-left,
+.fullscreen-overlay.user-active .modal-top-right {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #000000;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.15s ease;
+}
+.modal-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+}
+
+/* Immersive Fullscreen Simulation Modal Module */
+.fullscreen-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.95);
+    z-index: 99999;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.fullscreen-viewport {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    cursor: grab;
+}
+.fullscreen-viewport:active {
+    cursor: grabbing;
+}
+
+/* OPTIMIZED: Clean presentation for fullscreen mapping images */
+#fullscreen-map-image {
+    width: 100%;
+    height: 100%;
+    border: none; /* Secondary defensive reset */
+    object-fit: contain; 
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Sidebar Minimap Layout Layer */
+.sidebar-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.minimap-container {
+    background: #f1f5f9;
+    height: 240px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    overflow: hidden;
+    z-index: 1;
+}
+#leaflet-minimap {
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 968px) {
+    .display-grid {
+        grid-template-columns: 1fr;
+    }
+    .main-display-panel {
+        min-height: auto;
+    }
+    .image-viewport {
+        height: 380px;
+    }
+}
+
+/* ==========================================================================
+   Leaflet Custom Marker Overrides & Structural Resets
+   ========================================================================== */
+
+/* * Strips Leaflet's native square background styles, forcing 
+ * the Font Awesome Star vector to center flawlessly over map coordinates.
+ */
+.custom-star-marker {
+    background: transparent !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Adds crisp drop definition shadows around the star path */
+.custom-star-marker i {
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.4));
+}
+/* ==========================================================================
+   APPEND TO THE BOTTOM OF: /assets/css/map-viewer.css
+   ========================================================================== */
+
+/* ==========================================================================
+   APPEND TO THE BOTTOM OF: /assets/css/map-viewer.css
+   ========================================================================== */
+
+/* Similar Maps Section Layout Panel Structural Styles */
+.similar-panel-section {
+    margin-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    padding: 2rem 0;
+    width: 100%; /* Spans full width of the main body workspace */
+}
+
+.similar-panel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1.25rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Flex wrapper positioning the navigation controls adjacent to the viewport track */
+.similar-maps-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.similar-maps-strip-container {
+    flex: 1;
+    overflow-x: hidden; /* Hides default scrollbar while keeping hardware momentum scrolling active */
+    scroll-behavior: smooth;
+}
+
+.similar-maps-strip {
+    display: flex;
+    gap: 0.85rem;
+    padding: 0.5rem 0.25rem;
+}
+
+/* Layout parameters for individual map thumbnails */
+.similar-thumb-wrapper {
+    flex: 0 0 160px; /* Wider footprint scales perfectly over wide view displays */
+    height: 105px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #f8fafc;
+    transition: all 0.2s ease-in-out;
+}
+
+.similar-thumb-wrapper:hover {
+    border-color: #0055ff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px -2px rgba(0, 85, 255, 0.2);
+}
+
+.similar-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Arrow Navigation Button Control System Styles */
+.carousel-nav-btn {
+    flex: 0 0 38px;
+    height: 38px;
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #334155;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+    transition: all 0.15s ease;
+    z-index: 5;
+}
+
+.carousel-nav-btn:hover {
+    background: #0055ff;
+    border-color: #0055ff;
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 4px 8px rgba(0, 85, 255, 0.2);
+}
+
+.carousel-nav-btn:active {
+    transform: scale(0.95);
+}
+
+.no-similar-text {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+    font-style: italic;
+    padding: 1rem 0;
+}
