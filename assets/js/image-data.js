@@ -90,6 +90,21 @@ export const images = [
   },
 
   {
+    file: "assets/images/maps/2016-southern-africa-food-security-el-nino.jpg",
+    name: "Southern Africa: Estimated number of current food insecure rural populations (as of 16 Feb 2016)",
+    continent: "Africa",
+    country: "",
+    location: "",
+    year: 2015,
+    month: 3,
+    lat: -27.6673164,
+    lng: 24.8456952,
+    themes: ["El Niño", "Humanitarian"],
+    disaster: "Climate change",
+    description: ""
+  },
+
+  {
     file: "assets/images/maps/2018-dominica-isaac-wind-speed-probabilities.jpeg",
     name: "Hurricane Isaac - Wind speed probabilities (as at 11 September 2018)",
     continent: "Caribbean",
