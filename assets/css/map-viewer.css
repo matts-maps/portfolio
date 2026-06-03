@@ -1,0 +1,57 @@
+/* Container Layout */
+.map-viewer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 2-Column Grid Layout */
+.display-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+/* Left Panel Map Box */
+.main-display-panel {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px; /* Forces a nice grand scale footprint prior to network streaming completes */
+}
+
+.main-display-panel img {
+    width: 100%;
+    height: auto;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+}
+
+/* Sidebar Styling */
+.sidebar-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.minimap-container {
+    background: #f1f5f9;
+    height: 220px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
