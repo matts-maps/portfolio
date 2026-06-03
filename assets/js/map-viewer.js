@@ -302,6 +302,20 @@ function bindInterfaceEvents() {
             processFiltersAndRender();
         });
     }
+
+    // Carousel Left/Right Button Hardware Smooth Scrolling Listeners
+    const carouselViewport = document.getElementById('similar-maps-strip-viewport');
+    const btnPrev = document.getElementById('carousel-btn-prev');
+    const btnNext = document.getElementById('carousel-btn-next');
+
+    if (carouselViewport && btnPrev && btnNext) {
+        btnPrev.addEventListener('click', () => {
+            carouselViewport.scrollBy({ left: -480, behavior: 'smooth' });
+        });
+        btnNext.addEventListener('click', () => {
+            carouselViewport.scrollBy({ left: 480, behavior: 'smooth' });
+        });
+    }
 }
 
 function processFiltersAndRender() {
@@ -432,6 +446,85 @@ function syncMapVectorMarkers() {
     });
 }
 
+/**
+ * Renders similar/related layout images into the sub-panel area using actual thumbnails.
+ */
+function renderSimilarImagesPanel(currentItem) {
+    const container = document.getElementById('similar-maps-container');
+    const viewport = document.getElementById('similar-maps-strip-viewport');
+    const btnPrev = document.getElementById('carousel-btn-prev');
+    const btnNext = document.getElementById('carousel-btn-next');
+    if (!container) return;
+
+    container.innerHTML = '';
+    if (viewport) viewport.scrollLeft = 0; // Reset scroll container position on update
+
+    const relatedList = images.filter(item => {
+        if (item.file === currentItem.file) return false; // Skip the active selected image
+        
+        const sameCountry = item.country && currentItem.country && 
+            (Array.isArray(item.country) ? item.country.some(c => currentItem.country.includes(c)) : item.country === currentItem.country);
+            
+        const sameDisaster = item.disaster && currentItem.disaster && item.disaster !== "None" && item.disaster !== "" &&
+            (Array.isArray(item.disaster) ? item.disaster.some(d => currentItem.disaster.includes(d)) : item.disaster === currentItem.disaster);
+
+        return sameCountry || sameDisaster || (item.continent && item.continent === currentItem.continent);
+    }).slice(0, 16); // Upper limit window matching full-width configurations
+
+    if (relatedList.length === 0) {
+        container.innerHTML = '<p class="no-similar-text">No similar maps found matching this item\'s regional location context.</p>';
+        if (btnPrev) btnPrev.style.display = 'none';
+        if (btnNext) btnNext.style.display = 'none';
+        return;
+    }
+
+    // Toggle navigation arrows depending on item volume
+    if (btnPrev && btnNext) {
+        if (relatedList.length <= 4) {
+            btnPrev.style.display = 'none';
+            btnNext.style.display = 'none';
+        } else {
+            btnPrev.style.display = 'flex';
+            btnNext.style.display = 'flex';
+        }
+    }
+
+    const isSubfolder = window.location.pathname.includes('/portfolio');
+    const basePath = isSubfolder ? '/portfolio/' : '/';
+
+    relatedList.forEach(item => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'similar-thumb-wrapper';
+        
+        const img = document.createElement('img');
+        
+        // Explicit data property lookup, falling back to direct assets directory mapping
+        if (item.thumb) {
+            img.src = basePath + item.thumb;
+        } else {
+            const filename = item.file.split('/').pop();
+            img.src = basePath + 'assets/images/maps/thumbs/' + filename;
+        }
+        
+        img.alt = item.name;
+        img.className = 'similar-thumb-img';
+        img.title = `${item.name} (${item.year})`;
+
+        wrapper.addEventListener('click', () => {
+            renderFeaturedSelection(item);
+            syncMapVectorMarkers();
+            
+            // Pan minimap viewport position focus automatically
+            if (mapInstance && item.lat !== undefined && item.lng !== undefined) {
+                mapInstance.panTo([item.lat, item.lng], { animate: true });
+            }
+        });
+
+        wrapper.appendChild(img);
+        container.appendChild(wrapper);
+    });
+}
+
 function renderFeaturedSelection(item) {
     currentFeaturedItem = item;
     const mainImg = document.getElementById('main-map-image');
@@ -459,6 +552,9 @@ function renderFeaturedSelection(item) {
     if (containerEl) {
         containerEl.innerHTML = `<p style="line-height: 1.6; color: #334155; font-size: 0.95rem; margin: 0;">${item.description || "No project description provided."}</p>`;
     }
+
+    // Repopulate carousel array instantly relative to current selected asset
+    renderSimilarImagesPanel(item);
 }
 
 function renderEmptyState() {
@@ -469,4 +565,6 @@ function renderEmptyState() {
     if (document.getElementById('project-description-container')) {
         document.getElementById('project-description-container').innerHTML = `<p style="line-height: 1.6; color: #334155; font-size: 0.95rem; margin: 0;">Please adjust or clear filters.</p>`;
     }
+    const container = document.getElementById('similar-maps-container');
+    if (container) container.innerHTML = '';
 }

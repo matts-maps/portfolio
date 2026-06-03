@@ -38,6 +38,24 @@ layout: default
             {% include image-details-panel.html %}
         </aside>
     </section>
+
+    <div class="similar-panel-section">
+        <h4 class="similar-panel-title">Similar Maps</h4>
+        <div class="similar-maps-carousel-wrapper">
+            <button class="carousel-nav-btn prev" id="carousel-btn-prev" title="Scroll Left">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            
+            <div id="similar-maps-strip-viewport" class="similar-maps-strip-container">
+                <div id="similar-maps-container" class="similar-maps-strip">
+                    </div>
+            </div>
+
+            <button class="carousel-nav-btn next" id="carousel-btn-next" title="Scroll Right">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
 </main>
 
 <div class="fullscreen-overlay" id="custom-fullscreen-modal">

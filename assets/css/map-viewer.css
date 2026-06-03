@@ -219,3 +219,112 @@
 .custom-star-marker i {
     filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.4));
 }
+/* ==========================================================================
+   APPEND TO THE BOTTOM OF: /assets/css/map-viewer.css
+   ========================================================================== */
+
+/* ==========================================================================
+   APPEND TO THE BOTTOM OF: /assets/css/map-viewer.css
+   ========================================================================== */
+
+/* Similar Maps Section Layout Panel Structural Styles */
+.similar-panel-section {
+    margin-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    padding: 2rem 0;
+    width: 100%; /* Spans full width of the main body workspace */
+}
+
+.similar-panel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1.25rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Flex wrapper positioning the navigation controls adjacent to the viewport track */
+.similar-maps-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.similar-maps-strip-container {
+    flex: 1;
+    overflow-x: hidden; /* Hides default scrollbar while keeping hardware momentum scrolling active */
+    scroll-behavior: smooth;
+}
+
+.similar-maps-strip {
+    display: flex;
+    gap: 0.85rem;
+    padding: 0.5rem 0.25rem;
+}
+
+/* Layout parameters for individual map thumbnails */
+.similar-thumb-wrapper {
+    flex: 0 0 160px; /* Wider footprint scales perfectly over wide view displays */
+    height: 105px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #f8fafc;
+    transition: all 0.2s ease-in-out;
+}
+
+.similar-thumb-wrapper:hover {
+    border-color: #0055ff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px -2px rgba(0, 85, 255, 0.2);
+}
+
+.similar-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Arrow Navigation Button Control System Styles */
+.carousel-nav-btn {
+    flex: 0 0 38px;
+    height: 38px;
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #334155;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+    transition: all 0.15s ease;
+    z-index: 5;
+}
+
+.carousel-nav-btn:hover {
+    background: #0055ff;
+    border-color: #0055ff;
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 4px 8px rgba(0, 85, 255, 0.2);
+}
+
+.carousel-nav-btn:active {
+    transform: scale(0.95);
+}
+
+.no-similar-text {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+    font-style: italic;
+    padding: 1rem 0;
+}
