@@ -3,13 +3,15 @@ import { images } from './image-data.js';
 // Application State Variables
 let filteredImages = [...images];
 let currentFeaturedItem = null;
+let isInitialPageLoad = true; // Flag to trace first-run initialization states
+
 const activeFilters = {
-    sort: 'newest',
-    continent: 'all',
-    country: 'all',
-    disaster: 'all',
-    theme: 'all',
-    year: 'all'
+    sort: 'yearmonth',
+    continent: '',
+    country: '',
+    disaster: '',
+    theme: '',
+    year: ''
 };
 
 // Leaflet Engine Control Context Global Holders
@@ -23,17 +25,14 @@ const modalTransform = { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, sta
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize Interactive Leaflet Map Instance Window
     initializeLeafletSystem();
-
-    // 2. Build Filter Dropdowns Option Objects
-    buildDropdownOptions();
     
-    // 3. Bind Interactive Event Listeners
+    // 2. Bind Interactive Event Listeners
     bindInterfaceEvents();
     
-    // 4. Initialize specialized image workspace pan & scaling vectors
+    // 3. Initialize specialized image workspace pan & scaling vectors
     initializeImageInteractionHandlers();
 
-    // 5. Run initial filter pass and paint target map points
+    // 4. Run initial filter pass, populate dependent dropdowns, and paint points
     processFiltersAndRender();
 });
 
@@ -56,7 +55,11 @@ function initializeLeafletSystem() {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
     }).addTo(mapInstance);
 
-    markerClusterGroup = L.markerClusterGroup().addTo(mapInstance);
+    markerClusterGroup = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        maxClusterRadius: 80,       
+        disableClusteringAtZoom: 7  
+    }).addTo(mapInstance);
 }
 
 /**
@@ -74,7 +77,6 @@ function initializeImageInteractionHandlers() {
     const btnModalReset = document.getElementById('btn-modal-reset');
     const btnModalClose = document.getElementById('btn-modal-close');
 
-    // Helper functions for applying continuous CSS transforms
     const updateImageStyle = (imgElement, transformObj) => {
         if (imgElement) {
             imgElement.style.transform = `translate(${transformObj.x}px, ${transformObj.y}px) scale(${transformTransformLimits(transformObj.scale)})`;
@@ -83,7 +85,6 @@ function initializeImageInteractionHandlers() {
 
     const transformTransformLimits = (s) => Math.max(0.5, Math.min(s, 8));
 
-    // Panel Window Viewport Interaction Setup
     if (panelView && panelImg) {
         panelView.addEventListener('wheel', (e) => {
             e.preventDefault();
@@ -110,7 +111,6 @@ function initializeImageInteractionHandlers() {
         window.addEventListener('mouseup', () => { panelTransform.isDragging = false; });
     }
 
-    // Fullscreen Immersive Simulation Modal Viewport Setup
     if (modalView && modalImg) {
         modalView.addEventListener('wheel', (e) => {
             e.preventDefault();
@@ -137,7 +137,6 @@ function initializeImageInteractionHandlers() {
         window.addEventListener('mouseup', () => { modalTransform.isDragging = false; });
     }
 
-    // Control Toolbar Triggers Management
     if (btnPanelReset && panelImg) {
         btnPanelReset.addEventListener('click', () => {
             panelTransform.scale = 1; panelTransform.x = 0; panelTransform.y = 0;
@@ -152,18 +151,16 @@ function initializeImageInteractionHandlers() {
         });
     }
 
-    // Modal Lifecycle Visibility Hooks
     const launchFullscreenWorkspace = () => {
         if (!currentFeaturedItem || !modalOverlay || !modalImg) return;
         const isSubfolder = window.location.pathname.includes('/portfolio');
         modalImg.src = (isSubfolder ? '/portfolio/' : '/') + currentFeaturedItem.file;
 
-        // Synchronize initial configuration parameters natively
         modalTransform.scale = 1; modalTransform.x = 0; modalTransform.y = 0;
         updateImageStyle(modalImg, modalTransform);
 
         modalOverlay.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Lock background scrolling safely
+        document.body.style.overflow = 'hidden'; 
     };
 
     const dropFullscreenWorkspace = () => {
@@ -175,7 +172,6 @@ function initializeImageInteractionHandlers() {
     if (btnPanelFullscreen) btnPanelFullscreen.addEventListener('click', launchFullscreenWorkspace);
     if (btnModalClose) btnModalClose.addEventListener('click', dropFullscreenWorkspace);
 
-    // Escape Hotkey Intercept Vector Listener
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' || e.keyCode === 27) {
             dropFullscreenWorkspace();
@@ -184,11 +180,11 @@ function initializeImageInteractionHandlers() {
 }
 
 /**
- * Extracts, flattens, and sanitizes unique properties from your dataset array.
+ * Extracts unique values from a specific subset array instead of the global image stack
  */
-function extractUniqueValues(key) {
+function extractUniqueValuesFromSubset(subset, key) {
     const valuesSet = new Set();
-    images.forEach(item => {
+    subset.forEach(item => {
         const value = item[key];
         if (value === undefined || value === null) return;
         if (Array.isArray(value)) {
@@ -204,29 +200,79 @@ function extractUniqueValues(key) {
     return [...valuesSet].sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }));
 }
 
-function populateSelect(elementId, optionsList) {
+/**
+ * Updates dropdown options dynamically while keeping the selected choice active
+ */
+function updateDropdownMenuOptions(elementId, optionsList, currentValue) {
     const dropdown = document.getElementById(elementId);
     if (!dropdown) return;
+
+    // Clear everything except the first option ("All")
+    dropdown.innerHTML = '<option value="">All</option>';
+
     optionsList.forEach(val => {
         const option = document.createElement('option');
         option.value = val;
         option.textContent = val;
+        if (val === currentValue) {
+            option.selected = true;
+        }
         dropdown.appendChild(option);
     });
 }
 
-function buildDropdownOptions() {
-    populateSelect('filter-continent', extractUniqueValues('continent'));
-    populateSelect('filter-country', extractUniqueValues('country'));
-    populateSelect('filter-disaster', extractUniqueValues('disaster'));
-    populateSelect('filter-theme', extractUniqueValues('themes'));
-    populateSelect('filter-year', extractUniqueValues('year'));
+/**
+ * Recalculates what options should be visible based on current selections
+ */
+function buildDynamicDropdowns() {
+    const filterKeys = ['continent', 'country', 'disaster', 'theme', 'year'];
+    const dataMapping = { continent: 'continent', country: 'country', disaster: 'disaster', theme: 'themes', year: 'year' };
+
+    filterKeys.forEach(key => {
+        // Evaluate what items would match if we ignored ONLY this specific dropdown's filter
+        const temporarySubset = images.filter(item => {
+            const matchContinent = (key === 'continent' || activeFilters.continent === '' || 
+                (item.continent && String(item.continent).trim() === activeFilters.continent));
+            
+            let matchCountry = key === 'country' || activeFilters.country === '';
+            if (!matchCountry && item.country) {
+                if (Array.isArray(item.country)) {
+                    matchCountry = item.country.map(c => String(c).trim()).includes(activeFilters.country);
+                } else {
+                    matchCountry = String(item.country).trim() === activeFilters.country;
+                }
+            }
+            
+            let matchDisaster = key === 'disaster' || activeFilters.disaster === '';
+            if (!matchDisaster && item.disaster) {
+                if (Array.isArray(item.disaster)) {
+                    matchDisaster = item.disaster.map(d => String(d).trim()).includes(activeFilters.disaster);
+                } else {
+                    matchDisaster = String(item.disaster).trim() === activeFilters.disaster;
+                }
+            } else if (!matchDisaster && (!item.disaster || item.disaster === "")) {
+                matchDisaster = false;
+            }
+            
+            const matchTheme = (key === 'theme' || activeFilters.theme === '' || 
+                (item.themes && item.themes.map(t => String(t).trim()).includes(activeFilters.theme)));
+                
+            const matchYear = (key === 'year' || activeFilters.year === '' || 
+                (item.year && String(item.year).trim() === activeFilters.year));
+
+            return matchContinent && matchCountry && matchDisaster && matchTheme && matchYear;
+        });
+
+        // Extract values from the calculated temporary subset and update the DOM
+        const uniqueValues = extractUniqueValuesFromSubset(temporarySubset, dataMapping[key]);
+        updateDropdownMenuOptions('ife-' + key, uniqueValues, activeFilters[key]);
+    });
 }
 
 function bindInterfaceEvents() {
     const interfaceMap = ['sort', 'continent', 'country', 'disaster', 'theme', 'year'];
     interfaceMap.forEach(key => {
-        const element = document.getElementById('filter-' + key);
+        const element = document.getElementById('ife-' + key);
         if (element) {
             element.addEventListener('change', (e) => {
                 activeFilters[key] = e.target.value;
@@ -239,13 +285,13 @@ function bindInterfaceEvents() {
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
             interfaceMap.forEach(key => {
-                activeFilters[key] = 'all';
-                const element = document.getElementById('filter-' + key);
-                if (element) element.value = 'all';
+                activeFilters[key] = '';
+                const element = document.getElementById('ife-' + key);
+                if (element) element.value = '';
             });
-            activeFilters.sort = 'newest';
-            const sortEl = document.getElementById('filter-sort');
-            if (sortEl) sortEl.value = 'newest';
+            activeFilters.sort = 'yearmonth';
+            const sortEl = document.getElementById('ife-sort');
+            if (sortEl) sortEl.value = 'yearmonth';
             processFiltersAndRender();
         });
     }
@@ -253,10 +299,10 @@ function bindInterfaceEvents() {
 
 function processFiltersAndRender() {
     filteredImages = images.filter(item => {
-        const matchContinent = (activeFilters.continent === 'all' || 
+        const matchContinent = (activeFilters.continent === '' || 
             (item.continent && String(item.continent).trim() === activeFilters.continent));
         
-        let matchCountry = activeFilters.country === 'all';
+        let matchCountry = activeFilters.country === '';
         if (!matchCountry && item.country) {
             if (Array.isArray(item.country)) {
                 matchCountry = item.country.map(c => String(c).trim()).includes(activeFilters.country);
@@ -265,7 +311,7 @@ function processFiltersAndRender() {
             }
         }
         
-        let matchDisaster = activeFilters.disaster === 'all';
+        let matchDisaster = activeFilters.disaster === '';
         if (!matchDisaster && item.disaster) {
             if (Array.isArray(item.disaster)) {
                 matchDisaster = item.disaster.map(d => String(d).trim()).includes(activeFilters.disaster);
@@ -276,10 +322,10 @@ function processFiltersAndRender() {
             matchDisaster = false;
         }
         
-        const matchTheme = (activeFilters.theme === 'all' || 
+        const matchTheme = (activeFilters.theme === '' || 
             (item.themes && item.themes.map(t => String(t).trim()).includes(activeFilters.theme)));
             
-        const matchYear = (activeFilters.year === 'all' || 
+        const matchYear = (activeFilters.year === '' || 
             (item.year && String(item.year).trim() === activeFilters.year));
 
         return matchContinent && matchCountry && matchDisaster && matchTheme && matchYear;
@@ -288,13 +334,29 @@ function processFiltersAndRender() {
     filteredImages.sort((a, b) => {
         const valA = new Date(a.year, (a.month ? a.month - 1 : 0), 1);
         const valB = new Date(b.year, (b.month ? b.month - 1 : 0), 1);
-        return activeFilters.sort === 'newest' ? valB - valA : valA - valB;
+        return activeFilters.sort === 'yearmonth' ? valB - valA : valA - valB;
     });
+
+    // Dynamically regenerate menu items based on the active selection constraints
+    buildDynamicDropdowns();
 
     syncMapVectorMarkers();
 
     if (filteredImages.length > 0) {
-        renderFeaturedSelection(filteredImages[0]);
+        if (isInitialPageLoad) {
+            isInitialPageLoad = false; 
+            
+            const randomPickIndex = Math.floor(Math.random() * filteredImages.length);
+            const initialRandomItem = filteredImages[randomPickIndex];
+            
+            renderFeaturedSelection(initialRandomItem);
+            
+            if (mapInstance) {
+                mapInstance.setView([15.0, 10.0], 2);
+            }
+        } else {
+            renderFeaturedSelection(filteredImages[0]);
+        }
     } else {
         renderEmptyState();
     }
@@ -322,11 +384,18 @@ function syncMapVectorMarkers() {
         });
 
         vectorMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
-        vectorMarker.on('click', () => { renderFeaturedSelection(item); });
+        vectorMarker.on('click', () => { 
+            renderFeaturedSelection(item); 
+            if (mapInstance) {
+                mapInstance.panTo([item.lat, item.lng], { animate: true });
+            }
+        });
 
         markerClusterGroup.addLayer(vectorMarker);
         coordinateBounds.push([item.lat, item.lng]);
     });
+
+    if (isInitialPageLoad) return;
 
     if (filteredImages.length === 1) {
         mapInstance.setView(coordinateBounds[0], 5, { animate: true, duration: 1.25 });
@@ -346,7 +415,6 @@ function renderFeaturedSelection(item) {
         mainImg.src = basePath + item.file; 
         mainImg.alt = item.name;
 
-        // Reset workspace canvas properties automatically whenever switching featured maps
         panelTransform.scale = 1; panelTransform.x = 0; panelTransform.y = 0;
         mainImg.style.transform = `translate(0px, 0px) scale(1)`;
     }
@@ -368,10 +436,6 @@ function renderFeaturedSelection(item) {
     if (containerEl) {
         const itemDescription = item.description && item.description.trim() !== "" ? item.description : "No project description provided for this layout.";
         containerEl.innerHTML = `<p style="line-height: 1.6; color: #334155; font-size: 0.95rem; margin: 0;">${itemDescription}</p>`;
-    }
-
-    if (filteredImages.length > 1 && mapInstance) {
-        mapInstance.panTo([item.lat, item.lng], { animate: true });
     }
 }
 

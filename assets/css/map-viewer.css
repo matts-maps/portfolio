@@ -1,57 +1,199 @@
-/* Container Layout */
 .map-viewer-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 2rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 2rem 1.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* 2-Column Grid Layout */
+/* Map & Info Panel Content Layout Matrix */
 .display-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 2.5rem;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
     align-items: start;
 }
 
-/* Left Panel Map Box */
+/* REMOVED: Border, border-radius, and box-shadow to maximize raw space */
 .main-display-panel {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* REMOVED: Background color placeholder so map image bleeds entirely */
+.image-viewport {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+    background-color: transparent;
+    cursor: grab;
+}
+.image-viewport:active {
+    cursor: grabbing;
+}
+
+/* OPTIMIZED: Uses 100% viewport allocation */
+#main-map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Keeps aspect ratio; change to 'cover' for zero empty space */
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Floating Control Buttons System */
+.floating-btn-group {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    display: flex;
+    gap: 0.4rem;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+.image-viewport.user-active .floating-btn-group {
+    opacity: 1;
+    pointer-events: auto;
+}
+.floating-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #000000;
+    font-size: 0.95rem;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 500px; /* Forces a nice grand scale footprint prior to network streaming completes */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.15s ease;
+}
+.floating-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
 }
 
-.main-display-panel img {
-    width: 100%;
-    height: auto;
-    max-height: 75vh;
-    object-fit: contain;
+/* Fullscreen Modal Control Overrides */
+.modal-top-left, .modal-top-right {
+    position: absolute;
+    top: 0.6rem;
+    z-index: 100000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+.modal-top-left { left: 0.6rem; }
+.modal-top-right { right: 0.6rem; }
+
+.fullscreen-overlay.user-active .modal-top-left,
+.fullscreen-overlay.user-active .modal-top-right {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 6px;
-    display: block;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #000000;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.15s ease;
+}
+.modal-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
 }
 
-/* Sidebar Styling */
+/* Immersive Fullscreen Simulation Modal Module */
+.fullscreen-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.95);
+    z-index: 99999;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.fullscreen-viewport {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    cursor: grab;
+}
+.fullscreen-viewport:active {
+    cursor: grabbing;
+}
+
+/* OPTIMIZED: Clean presentation for fullscreen mapping images */
+#fullscreen-map-image {
+    width: 100%;
+    height: 100%;
+    border: none; /* Secondary defensive reset */
+    object-fit: contain; 
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Sidebar Minimap Layout Layer */
 .sidebar-panel {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
-
 .minimap-container {
     background: #f1f5f9;
-    height: 220px;
+    height: 240px;
     border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    overflow: hidden;
+    z-index: 1;
+}
+#leaflet-minimap {
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 968px) {
+    .display-grid {
+        grid-template-columns: 1fr;
+    }
+    .main-display-panel {
+        min-height: auto;
+    }
+    .image-viewport {
+        height: 380px;
+    }
 }
