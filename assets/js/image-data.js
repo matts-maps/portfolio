@@ -386,9 +386,8 @@ export const images = [
     lng: 174.7645,
     themes: ["Transport"],
     disaster: "None",
-    description: ""
+    description: "Inspired to try my version of this <a href=\"https://somethingaboutmaps.com/Flight-Map\" target=\"_blank\">flight map by Daniel P. Huffman</a> of flights leaving Auckland."
   },
-
   {
     file: "assets/images/maps/all-flights-international-manila-2026.png",
     name: "International flights from Manila in 2026",
@@ -401,9 +400,9 @@ export const images = [
     lng: 120.9842,
     themes: ["Transport"],
     disaster: "None",
-    description: ""
+    description: "This is a second of a \"mini-series\" of flight maps inspired by the original <a href=\"https://somethingaboutmaps.com/Flight-Map\" target=\"_blank\">flight map by Daniel P. Huffman</a>."
   },
-
+  
   {
     file: "assets/images/maps/barry-buddon-half-marathon.png",
     name: "Barry Buddon half marathon",
@@ -525,18 +524,18 @@ export const images = [
   },
 
   {
-    file: "assets/images/maps/loch-maree.png",
-    name: "Loch Maree",
-    continent: "Europe",
-    country: "United Kingdom",
-    location: "Loch Maree",
-    year: 2026,
-    month: 1,
-    lat: 57.7280,
-    lng: -5.5280,
-    themes: ["Landscape"],
-    disaster: "None",
-    description: ""
+    "file": "assets/images/maps/loch-maree.png",
+    "name": "Loch Maree",
+    "continent": "Europe",
+    "country": "United Kingdom",
+    "location": "Loch Maree",
+    "year": 2026,
+    "month": 1,
+    "lat": 57.7280,
+    "lng": -5.5280,
+    "themes": ["Landscape", "Bathymetry"],
+    "disaster": "None",
+    "description": "Inspired by the <a href=\"https://maps.nls.uk/bathymetric/chart/2058\" target=\"_blank\">Bathymetrical Survey of the Fresh-Water Lochs of Scotland</a> that were constructed under the direction of Sir John Murray And Laurence Pullar (1897 - 1909). The uses digitised bathymetric data from the survey with data from OpenStreetMap and other modern day sources."
   },
 
     {
@@ -581,7 +580,7 @@ export const images = [
     lng: 135.5023,
     themes: ["Urban"],
     disaster: "None",
-    description: "Inspired by this map here - <a href=\"https://www.antiquemapsandprints.com/products/osaka-antique-town-city-plan-honshu-japan-1914-old-map-chart-p-6-018241?_pos=16&_sid=afb666c30&_ss=r\" target=\"_blank\">Osaka antique town city plan. Honshu. Japan 1914 old map chart</a> by the Japanese Government Railways."
+    description: "Inspired by the <a href=\"https://www.antiquemapsandprints.com/products/osaka-antique-town-city-plan-honshu-japan-1914-old-map-chart-p-6-018241?_pos=16&_sid=afb666c30&_ss=r\" target=\"_blank\">Osaka antique town city plan</a> by the Japanese Government Railways in 1914. The map uses OpenStreetMap data with the styling of the old map."
   },
 
   {
