@@ -17,6 +17,7 @@ const activeFilters = {
 // Leaflet Engine Control Context Global Holders
 let mapInstance = null;
 let markerClusterGroup = null;
+let activeStarMarker = null; // Independent global holder for the active map star symbol
 
 // Zoom and Pan State Vectors Architecture Tracker
 const panelTransform = { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 };
@@ -43,22 +44,31 @@ function initializeLeafletSystem() {
     const mapNode = document.getElementById('leaflet-minimap');
     if (!mapNode) return;
 
+    // Hard boundary limits spanning the absolute coordinate limits of the planet
+    const globalOuterBounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
+
     mapInstance = L.map('leaflet-minimap', {
         center: [15.0, 10.0],
-        zoom: 2,
+        zoom: 0,                          
         zoomControl: true,
-        minZoom: 1,
-        maxZoom: 11
+        minZoom: 0,                       // Allowed to drop down to zero to fit within compact components
+        maxZoom: 11,
+        maxBounds: globalOuterBounds,     // Lock camera framework inside planetary coordinates
+        maxBoundsViscosity: 1.0,          // Solid bounce back when dragging past world edges
+        worldCopyJump: false              // Keeps marker tracking consistent across continuous wraps
     });
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        noWrap: false,                    // Allows rendering to connect seamlessly across boundaries
+        bounds: globalOuterBounds
     }).addTo(mapInstance);
 
+    // LOCKED IN: Your preferred clustering parameters for balanced global distribution
     markerClusterGroup = L.markerClusterGroup({
         showCoverageOnHover: false,
-        maxClusterRadius: 80,       
-        disableClusteringAtZoom: 7  
+        maxClusterRadius: 20,             // Drastically reduced footprint radius to stop heavy overlapping grouping
+        disableClusteringAtZoom: 2        // Break apart groups quickly near the base global zoom levels
     }).addTo(mapInstance);
 }
 
@@ -207,7 +217,6 @@ function updateDropdownMenuOptions(elementId, optionsList, currentValue) {
     const dropdown = document.getElementById(elementId);
     if (!dropdown) return;
 
-    // Clear everything except the first option ("All")
     dropdown.innerHTML = '<option value="">All</option>';
 
     optionsList.forEach(val => {
@@ -229,7 +238,6 @@ function buildDynamicDropdowns() {
     const dataMapping = { continent: 'continent', country: 'country', disaster: 'disaster', theme: 'themes', year: 'year' };
 
     filterKeys.forEach(key => {
-        // Evaluate what items would match if we ignored ONLY this specific dropdown's filter
         const temporarySubset = images.filter(item => {
             const matchContinent = (key === 'continent' || activeFilters.continent === '' || 
                 (item.continent && String(item.continent).trim() === activeFilters.continent));
@@ -263,7 +271,6 @@ function buildDynamicDropdowns() {
             return matchContinent && matchCountry && matchDisaster && matchTheme && matchYear;
         });
 
-        // Extract values from the calculated temporary subset and update the DOM
         const uniqueValues = extractUniqueValuesFromSubset(temporarySubset, dataMapping[key]);
         updateDropdownMenuOptions('ife-' + key, uniqueValues, activeFilters[key]);
     });
@@ -337,84 +344,101 @@ function processFiltersAndRender() {
         return activeFilters.sort === 'yearmonth' ? valB - valA : valA - valB;
     });
 
-    // Dynamically regenerate menu items based on the active selection constraints
     buildDynamicDropdowns();
-
-    syncMapVectorMarkers();
 
     if (filteredImages.length > 0) {
         if (isInitialPageLoad) {
             isInitialPageLoad = false; 
-            
             const randomPickIndex = Math.floor(Math.random() * filteredImages.length);
-            const initialRandomItem = filteredImages[randomPickIndex];
-            
-            renderFeaturedSelection(initialRandomItem);
-            
-            if (mapInstance) {
-                mapInstance.setView([15.0, 10.0], 2);
-            }
+            renderFeaturedSelection(filteredImages[randomPickIndex]);
         } else {
             renderFeaturedSelection(filteredImages[0]);
         }
     } else {
         renderEmptyState();
     }
+
+    syncMapVectorMarkers();
+
+    // Re-calculates explicit 180W to 180E display bounds across the map container
+    if (mapInstance) {
+        mapInstance.invalidateSize();
+        
+        const strictFullGlobalView = L.latLngBounds(
+            L.latLng(-55, -175), 
+            L.latLng(75, 175)    
+        );
+        
+        mapInstance.fitBounds(strictFullGlobalView, {
+            padding: [0, 0],
+            animate: false,
+            maxZoom: 1          
+        });
+    }
 }
 
 function syncMapVectorMarkers() {
     if (!markerClusterGroup || !mapInstance) return;
+    
     markerClusterGroup.clearLayers();
-
-    if (filteredImages.length === 0) {
-        mapInstance.setView([15.0, 10.0], 2);
-        return;
+    if (activeStarMarker) {
+        mapInstance.removeLayer(activeStarMarker);
+        activeStarMarker = null;
     }
 
-    const coordinateBounds = [];
+    if (filteredImages.length === 0) return;
+
+    const redStarIcon = L.divIcon({
+        html: '<i class="fa-solid fa-star" style="color: #ff0000; font-size: 18px; -webkit-text-stroke: 1.5px #ffffff; display: block;"></i>',
+        className: 'custom-star-marker',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9]
+    });
+
     filteredImages.forEach(item => {
         if (item.lat === undefined || item.lng === undefined) return;
 
-        const vectorMarker = L.circleMarker([item.lat, item.lng], {
-            color: '#d32f2f',       
-            fillColor: '#ef5350',   
-            fillOpacity: 0.65,
-            radius: 6,
-            weight: 2
-        });
+        // Bypass clusters entirely for the active featured star marker
+        if (currentFeaturedItem && item.file === currentFeaturedItem.file) {
+            activeStarMarker = L.marker([item.lat, item.lng], { 
+                icon: redStarIcon,
+                zIndexOffset: 5000 
+            });
 
-        vectorMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
-        vectorMarker.on('click', () => { 
-            renderFeaturedSelection(item); 
-            if (mapInstance) {
-                mapInstance.panTo([item.lat, item.lng], { animate: true });
-            }
-        });
+            activeStarMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
+            activeStarMarker.on('click', () => {
+                if (mapInstance) mapInstance.panTo([item.lat, item.lng], { animate: true });
+            });
 
-        markerClusterGroup.addLayer(vectorMarker);
-        coordinateBounds.push([item.lat, item.lng]);
+            activeStarMarker.addTo(mapInstance);
+        } else {
+            const blueCircleMarker = L.circleMarker([item.lat, item.lng], {
+                color: '#ffffff',     
+                fillColor: '#0055ff', 
+                fillOpacity: 1.0,     
+                radius: 6,
+                weight: 1.5           
+            });
+
+            blueCircleMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
+            blueCircleMarker.on('click', () => { 
+                renderFeaturedSelection(item); 
+                syncMapVectorMarkers();
+                if (mapInstance) mapInstance.panTo([item.lat, item.lng], { animate: true });
+            });
+
+            markerClusterGroup.addLayer(blueCircleMarker);
+        }
     });
-
-    if (isInitialPageLoad) return;
-
-    if (filteredImages.length === 1) {
-        mapInstance.setView(coordinateBounds[0], 5, { animate: true, duration: 1.25 });
-    } else if (coordinateBounds.length > 0) {
-        const boundingBox = L.latLngBounds(coordinateBounds);
-        mapInstance.fitBounds(boundingBox, { padding: [30, 30], maxZoom: 6, animate: true, duration: 1.0 });
-    }
 }
 
 function renderFeaturedSelection(item) {
     currentFeaturedItem = item;
-
     const mainImg = document.getElementById('main-map-image');
     if (mainImg) {
         const isSubfolder = window.location.pathname.includes('/portfolio');
-        const basePath = isSubfolder ? '/portfolio/' : '/';
-        mainImg.src = basePath + item.file; 
+        mainImg.src = (isSubfolder ? '/portfolio/' : '/') + item.file; 
         mainImg.alt = item.name;
-
         panelTransform.scale = 1; panelTransform.x = 0; panelTransform.y = 0;
         mainImg.style.transform = `translate(0px, 0px) scale(1)`;
     }
@@ -429,26 +453,20 @@ function renderFeaturedSelection(item) {
         disasterLabel = Array.isArray(item.disaster) ? item.disaster.join('/') : item.disaster;
     }
     
-    contextLocation = contextLocation + ' · ' + disasterLabel + ' · ' + item.year;
-    document.getElementById('project-location').textContent = contextLocation;
+    document.getElementById('project-location').textContent = contextLocation + ' · ' + disasterLabel + ' · ' + item.year;
 
     const containerEl = document.getElementById('project-description-container');
     if (containerEl) {
-        const itemDescription = item.description && item.description.trim() !== "" ? item.description : "No project description provided for this layout.";
-        containerEl.innerHTML = `<p style="line-height: 1.6; color: #334155; font-size: 0.95rem; margin: 0;">${itemDescription}</p>`;
+        containerEl.innerHTML = `<p style="line-height: 1.6; color: #334155; font-size: 0.95rem; margin: 0;">${item.description || "No project description provided."}</p>`;
     }
 }
 
 function renderEmptyState() {
     currentFeaturedItem = null;
-    const mainImg = document.getElementById('main-map-image');
-    if (mainImg) mainImg.src = "";
-    
+    if (document.getElementById('main-map-image')) document.getElementById('main-map-image').src = "";
     document.getElementById('project-title').textContent = "No Maps Match Selected Criteria";
     document.getElementById('project-location').textContent = "0 Matches Found";
-    
-    const containerEl = document.getElementById('project-description-container');
-    if (containerEl) {
-        containerEl.innerHTML = `<p style="line-height: 1.6; color: #334155; font-size: 0.95rem; margin: 0;">Please adjust or clear your dashboard dropdown filters to see active layouts.</p>`;
+    if (document.getElementById('project-description-container')) {
+        document.getElementById('project-description-container').innerHTML = `<p style="line-height: 1.6; color: #334155; font-size: 0.95rem; margin: 0;">Please adjust or clear filters.</p>`;
     }
 }
