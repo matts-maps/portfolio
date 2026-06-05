@@ -1694,7 +1694,7 @@ export const projects = [
     "modality": [
       "Remote"
     ],
-    "organisation": [],
+    "organisation": [H2H],
     "level": ["National"],
     "startDate": "2026-05-25",
     "endDate": "",
@@ -1718,7 +1718,7 @@ export const projects = [
     "modality": [
       "Remote"
     ],
-    "organisation": [],
+    "organisation": [H2H],
     "level": ["National"],
     "startDate": "2026-05-25",
     "endDate": "",
@@ -1792,10 +1792,9 @@ export const projects = [
     "disaster": ["Conflict"],
     "lat": 50.45,
     "lng": 30.516667,
-    "description": "",
+    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in Ukraine to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
     "type": "Response",
-    "modality": [
-      "Remote"
+    "modality": [      "Remote"
     ],
     "organisation": [
       "EU",
@@ -1821,7 +1820,7 @@ export const projects = [
     "disaster": ["Conflict"],
     "lat": 35.6889,
     "lng": 51.3897,
-    "description": "",
+    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in the Middle East to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
     "type": "Response",
     "modality": [
       "Remote"
