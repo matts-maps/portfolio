@@ -734,6 +734,21 @@ export const images = [
   },
 
   {
+    file: "assets/images/maps/the-jurassic-coast.png",
+    name: "The Jurassic Coast",
+    continent: "Central America",
+    country: ["United Kingdom"],
+    location: "Dorset",
+    year: 2025,
+    month: 12,
+    lat: 50.725,
+    lng: -2.9353,
+    themes: ["Geology"],
+    disaster: "",
+    description: "Where my passion for geography and geology first started."
+  },
+
+  {
     file: "assets/images/maps/2026-micronesia-distances.png",
     name: "Distances from state ports to the outer islands",
     continent: "Oceania",
