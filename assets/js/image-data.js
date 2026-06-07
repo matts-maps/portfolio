@@ -426,8 +426,8 @@ export const images = [
     location: "",
     year: 2016,
     month: 1,
-    lat: 54.7023,
-    lng: -3.2766,
+    lat: 56.480556,
+    lng: -2.754167,
     themes: ["Recreation"],
     disaster: "None",
     description: ""
