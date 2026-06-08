@@ -1694,7 +1694,7 @@ export const projects = [
     "modality": [
       "Remote"
     ],
-    "organisation": [H2H],
+    "organisation": ["H2H"],
     "level": ["National"],
     "startDate": "2026-05-25",
     "endDate": "",
@@ -1718,7 +1718,7 @@ export const projects = [
     "modality": [
       "Remote"
     ],
-    "organisation": [H2H],
+    "organisation": ["H2H"],
     "level": ["National"],
     "startDate": "2026-05-25",
     "endDate": "",
