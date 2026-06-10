@@ -761,6 +761,21 @@ export const images = [
     themes: ["Humanitarian", "Logistics"],
     disaster: "Cyclone",
     description: ""
+  },
+
+  {
+    file: "assets/images/maps/raglan-harbour.png",
+    name: "Whaingaroa/Raglan Harbour",
+    continent: "Oceania",
+    country: "New Zealand",
+    location: "Wahaingaroa/Raglan",
+    year: 2026,
+    month: 6,
+    lat: -37.78897590456054,
+    lng: 174.90706527684853,
+    themes: ["Physical geography"],
+    disaster: "None",
+    description: "Physical geography of Whaingaroa/Raglan Harbour."
   }
 ];
 
