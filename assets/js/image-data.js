@@ -1,4 +1,4 @@
-[
+export const images = [
   {
     "file": "assets/images/maps/2012-brazzaville-munitions.jpg",
     "name": "Distribution and concentrations of reported ordnance (as of 22 March 2012)",
