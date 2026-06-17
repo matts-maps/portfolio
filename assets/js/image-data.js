@@ -981,4 +981,4 @@
     "map_style": "",
     "data_sources": ["LINZ", "OpenStreetMap", "SRTM"]
   }
-]
+];
