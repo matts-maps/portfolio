@@ -1,5 +1,106 @@
 export const projects = [
   {
+    "name": "MapAction Development",
+    "continent": "Europe",
+    "country": "United Kingdom",
+    "location": "",
+    "year": "",
+    "month": "",
+    "themes": [],
+    "disaster": [],
+    "lat": 51.702,
+    "lng": -0.911,
+    "description": "Coordination of organisational technical development",
+    "type": "Training",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
+    "organisation": [MapAction],
+    "level": [],
+    "startDate": "01/07/2006",
+    "endDate": "",
+    "status": "Ongoing",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "MapAction Simexes",
+    "continent": "Europe",
+    "country": "United Kingdom",
+    "location": "",
+    "year": "",
+    "month": "",
+    "themes": [],
+    "disaster": [],
+    "lat": 51.702,
+    "lng": -0.911,
+    "description": "Development and running of annual simulation exercises",
+    "type": "Training",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
+    "organisation": [MapAction],
+    "level": [],
+    "startDate": "01/07/2006",
+    "endDate": "",
+    "status": "Ongoing",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "MapAction Team Training",
+    "continent": "Europe",
+    "country": "",
+    "location": "",
+    "year": "",
+    "month": "",
+    "themes": [],
+    "disaster": [],
+    "lat": 51.702,
+    "lng": -0.911,
+    "description": "Over 100 training events for volunteers and staff",
+    "type": "Training",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
+    "organisation": [MapAction],
+    "level": [],
+    "startDate": "01/07/2006",
+    "endDate": "",
+    "status": "Ongoing",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Data interoperability development",
+    "continent": "Asia",
+    "country": "",
+    "location": "",
+    "year": "2022",
+    "month": "",
+    "themes": [],
+    "disaster": [],
+    "lat": "",
+    "lng": "",
+    "description": "This role involved working across a regional network of civil society organizations and engaging closely with individual NGO/ CSOs (including the Centre for Disaster Preparedness (Philippines), Disaster Preparedness Network (Nepal) and Muslim Foundation for Culture and Development (MFCD)) to develop tools and best practices in data interoperability. These included “Who-What-Where-When-for Whom” (345W) mapping which is used as a preparedness, anticipatory action, response and project planning tool.",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Asian Disaster Reduction and Response Network (ADRRN)"
+    ],
+    "level": ["Regional", "National"],
+    "startDate": "01/01/2022",
+    "endDate": "31/12/2024",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
     "name": "GIS and mapping support, Munitions depot explosion",
     "continent": "Africa",
     "country": "Republic of Congo",
@@ -1605,7 +1706,7 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "Scoping of a Civil Society Organisation engagement platorm for Multilateral Development Banks (MDBs)",
+    "name": "Scoping of a Civil Society Organisation engagement platform for Multilateral Development Banks (MDBs)",
     "continent": "Asia",
     "country": "The Philippines",
     "location": "Manila",
@@ -1837,103 +1938,28 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "MapAction Development",
-    "continent": "Europe",
-    "country": "United Kingdom",
+    "name": "Mapping security incidents",
+    "continent": "Middle East",
+    "country": "oPT",
     "location": "",
-    "year": "",
-    "month": "",
+    "year": "2026",
+    "month": "June",
     "themes": [],
     "disaster": [],
-    "lat": 51.702,
-    "lng": -0.911,
-    "description": "Coordination of organisational technical development",
-    "type": "Training",
-    "modality": [
-      "In-situ",
-      "Remote"
-    ],
-    "organisation": [],
-    "level": [],
-    "startDate": "",
-    "endDate": "",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "MapAction Simexes",
-    "continent": "Europe",
-    "country": "United Kingdom",
-    "location": "",
-    "year": "",
-    "month": "",
-    "themes": [],
-    "disaster": [],
-    "lat": 51.702,
-    "lng": -0.911,
-    "description": "Development and running of annual simulation exercises",
-    "type": "Training",
-    "modality": [
-      "In-situ",
-      "Remote"
-    ],
-    "organisation": [],
-    "level": [],
-    "startDate": "",
-    "endDate": "",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "MapAction Team Training",
-    "continent": "Europe",
-    "country": "",
-    "location": "",
-    "year": "",
-    "month": "",
-    "themes": [],
-    "disaster": [],
-    "lat": 51.702,
-    "lng": -0.911,
-    "description": "Over 100 training events for volunteers and staff",
-    "type": "Training",
-    "modality": [
-      "In-situ",
-      "Remote"
-    ],
-    "organisation": [],
-    "level": [],
-    "startDate": "",
-    "endDate": "",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Data interoperability development",
-    "continent": "Asia",
-    "country": "",
-    "location": "",
-    "year": "",
-    "month": "",
-    "themes": [],
-    "disaster": [],
-    "lat": "",
-    "lng": "",
-    "description": "This role involved working across a regional network of civil society organizations and engaging closely with individual NGO/ CSOs (including the Centre for Disaster Preparedness (Philippines), Disaster Preparedness Network (Nepal) and Muslim Foundation for Culture and Development (MFCD)) to develop tools and best practices in data interoperability. These included “Who-What-Where-When-for Whom” (345W) mapping which is used as a preparedness, anticipatory action, response and project planning tool.",
+    "lat": 31.5075,
+    "lng": 34.459722,
+    "description": "",
     "type": "Preparedness and anticipatory action",
     "modality": [
       "Remote"
     ],
     "organisation": [
-      "Asian Disaster Reduction and Response Network (ADRRN)"
+      "United Nations Department for Safety and Security (UNDSS)"
     ],
-    "level": ["Regional", "National"],
-    "startDate": "01/01/2022",
-    "endDate": "31/12/2024",
-    "status": "Complete",
+    "level": ["National"],
+    "startDate": "",
+    "endDate": "",
+    "status": "Current",
     "parentProject": "",
     "parentProjectDescription": ""
   }
