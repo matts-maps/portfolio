@@ -16,7 +16,7 @@ export const projects = [
       "In-situ",
       "Remote"
     ],
-    "organisation": [MapAction],
+    "organisation": ["MapAction"],
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
@@ -41,7 +41,7 @@ export const projects = [
       "In-situ",
       "Remote"
     ],
-    "organisation": [MapAction],
+    "organisation": ["MapAction"],
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
@@ -66,7 +66,7 @@ export const projects = [
       "In-situ",
       "Remote"
     ],
-    "organisation": [MapAction],
+    "organisation": ["MapAction"],
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
