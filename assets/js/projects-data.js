@@ -22,7 +22,7 @@ export const projects = [
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
-    "status": "Ongoing",
+    "status": "Current",
     "parentProject": "",
     "parentProjectDescription": ""
   },
@@ -49,7 +49,7 @@ export const projects = [
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
-    "status": "Ongoing",
+    "status": "Current",
     "parentProject": "",
     "parentProjectDescription": ""
   },
@@ -76,7 +76,7 @@ export const projects = [
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
-    "status": "Ongoing",
+    "status": "Current",
     "parentProject": "",
     "parentProjectDescription": ""
   },
