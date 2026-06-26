@@ -4,7 +4,7 @@ export const projects = [
     "continent": "Europe",
     "country": "United Kingdom",
     "location": "",
-    "year": "",
+    "year": "2006",
     "month": "",
     "themes": [],
     "disaster": [],
@@ -16,7 +16,9 @@ export const projects = [
       "In-situ",
       "Remote"
     ],
-    "organisation": ["MapAction"],
+    "organisation": [
+      "MapAction"
+    ],
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
@@ -29,7 +31,7 @@ export const projects = [
     "continent": "Europe",
     "country": "United Kingdom",
     "location": "",
-    "year": "",
+    "year": "2006",
     "month": "",
     "themes": [],
     "disaster": [],
@@ -41,7 +43,9 @@ export const projects = [
       "In-situ",
       "Remote"
     ],
-    "organisation": ["MapAction"],
+    "organisation": [
+      "MapAction"
+    ],
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
@@ -54,7 +58,7 @@ export const projects = [
     "continent": "Europe",
     "country": "",
     "location": "",
-    "year": "",
+    "year": "2006",
     "month": "",
     "themes": [],
     "disaster": [],
@@ -66,92 +70,13 @@ export const projects = [
       "In-situ",
       "Remote"
     ],
-    "organisation": ["MapAction"],
+    "organisation": [
+      "MapAction"
+    ],
     "level": [],
     "startDate": "01/07/2006",
     "endDate": "",
     "status": "Ongoing",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Data interoperability development",
-    "continent": "Asia",
-    "country": "",
-    "location": "",
-    "year": "2022",
-    "month": "",
-    "themes": [],
-    "disaster": [],
-    "lat": "",
-    "lng": "",
-    "description": "This role involved working across a regional network of civil society organizations and engaging closely with individual NGO/ CSOs (including the Centre for Disaster Preparedness (Philippines), Disaster Preparedness Network (Nepal) and Muslim Foundation for Culture and Development (MFCD)) to develop tools and best practices in data interoperability. These included “Who-What-Where-When-for Whom” (345W) mapping which is used as a preparedness, anticipatory action, response and project planning tool.",
-    "type": "Preparedness and anticipatory action",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [
-      "Asian Disaster Reduction and Response Network (ADRRN)"
-    ],
-    "level": ["Regional", "National"],
-    "startDate": "01/01/2022",
-    "endDate": "31/12/2024",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "GIS and mapping support, Munitions depot explosion",
-    "continent": "Africa",
-    "country": "Republic of Congo",
-    "location": "Brazzaville",
-    "year": "2012",
-    "month": "March",
-    "themes": [],
-    "disaster": ["Explosion"],
-    "lat": -4.2634,
-    "lng": 15.2429,
-    "description": "Deployment to Brazzaville to provide mapping and information management support to the national government and the international demining teams responsible for clearing the site of unexploded ordnance.",
-    "type": "Response",
-    "modality": [
-      "In-situ"
-    ],
-    "organisation": [
-      "Government of the Republic of Congo",
-      "United Nations Disaster Assessment and Coordination (UNDAC)"
-    ],
-    "level": ["National"],
-    "startDate": "2012-03-12",
-    "endDate": "2012-03-26",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Introduction to humanitarian GIS",
-    "continent": "Europe",
-    "country": "United Kingdom",
-    "location": "London",
-    "year": "2012",
-    "month": "March",
-    "themes": [],
-    "disaster": ["Explosion"],
-    "lat": 51.5013,
-    "lng": -0.1754,
-    "description": "Delivery of twice-yearly introductory data collection, GIS, spatial analysis training for humanitarian practitioners from INGO and NGOs.",
-    "type": "Training",
-    "modality": [
-      "In-situ"
-    ],
-    "organisation": [
-      "Royal Geographical Society (RGS)",
-      "Oxfam",
-      "Save the Children"
-    ],
-    "level": ["National"],
-    "startDate": "2011-01-01",
-    "endDate": "2013-12-31",
-    "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
   },
@@ -178,9 +103,75 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "2011-10-04",
     "endDate": "2011-10-11",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Introduction to humanitarian GIS",
+    "continent": "Europe",
+    "country": "United Kingdom",
+    "location": "London",
+    "year": "2012",
+    "month": "March",
+    "themes": [],
+    "disaster": [
+      "Explosion"
+    ],
+    "lat": 51.5013,
+    "lng": -0.1754,
+    "description": "Delivery of twice-yearly introductory data collection, GIS, spatial analysis training for humanitarian practitioners from INGO and NGOs.",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Royal Geographical Society (RGS)",
+      "Oxfam",
+      "Save the Children"
+    ],
+    "level": [
+      "National"
+    ],
+    "startDate": "2011-01-01",
+    "endDate": "2013-12-31",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "GIS and mapping support, Munitions depot explosion",
+    "continent": "Africa",
+    "country": "Republic of Congo",
+    "location": "Brazzaville",
+    "year": "2012",
+    "month": "March",
+    "themes": [],
+    "disaster": [
+      "Explosion"
+    ],
+    "lat": -4.2634,
+    "lng": 15.2429,
+    "description": "Deployment to Brazzaville to provide mapping and information management support to the national government and the international demining teams responsible for clearing the site of unexploded ordnance.",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Government of the Republic of Congo",
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "National"
+    ],
+    "startDate": "2012-03-12",
+    "endDate": "2012-03-26",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -206,9 +197,46 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "2012-12-10",
     "endDate": "2012-12-15",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Triplex 13",
+    "continent": "Europe",
+    "country": "Germany",
+    "location": "Flensberg",
+    "year": "2013",
+    "month": "September",
+    "themes": [
+      "Simex"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "lat": 54.7936774712711,
+    "lng": 9.44487352665677,
+    "description": "",
+    "type": "Training",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "International Humanitarian Partnership (IHP)",
+      "European Commission's Humanitarian Aid and Civil Protection"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "startDate": "2013-09-29",
+    "endDate": "2013-10-04",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -221,7 +249,9 @@ export const projects = [
     "year": "2013",
     "month": "November",
     "themes": [],
-    "disaster": ["Typhoon"],
+    "disaster": [
+      "Typhoon"
+    ],
     "lat": 11.2433,
     "lng": 125.0033,
     "description": "Deployment to Tacloban, Philippines to deliver humanitarian situational mapping and information management as part of the On-Site Operations Coordination Centre (OSOCC) to National Disaster Risk Reduction and Management Council (NDRRMC), UNOCHA and the INGOs during the disaster response phase. I also provided remote support to field teams, along with recovery phase spatial analysis and mapping delivered for ACAPS and Habitat for Humanity.",
@@ -232,7 +262,9 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -260,89 +292,10 @@ export const projects = [
     "organisation": [
       "International Search and Rescue Advisory Group (INSARAG)"
     ],
-    "level": ["Regional", "National"],
-    "startDate": "",
-    "endDate": "",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Triplex 13",
-    "continent": "Europe",
-    "country": "Germany",
-    "location": "Flensberg",
-    "year": "2013",
-    "month": "September",
-    "themes": [
-      "Simex"
+    "level": [
+      "Regional",
+      "National"
     ],
-    "disaster": ["Cyclone"],
-    "lat": 54.7936774712711,
-    "lng": 9.44487352665677,
-    "description": "",
-    "type": "Training",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [
-      "International Humanitarian Partnership (IHP)",
-      "European Commission's Humanitarian Aid and Civil Protection"
-    ],
-    "level": ["Regional", "National"],
-    "startDate": "2013-09-29",
-    "endDate": "2013-10-04",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Ebola",
-    "continent": "Africa",
-    "country": "Liberia",
-    "location": "Monrovia",
-    "year": "2014",
-    "month": "September",
-    "themes": [],
-    "disaster": ["Ebola"],
-    "lat": 6.3156,
-    "lng": -10.8074,
-    "description": "",
-    "type": "Response",
-    "modality": [
-      "In-situ"
-    ],
-    "organisation": [
-      "United Nations Disaster Assessment and Coordination (UNDAC)",
-      "Government of Liberia"
-    ],
-    "level": ["National"],
-    "startDate": "",
-    "endDate": "",
-    "status": "Complete",
-    "parentProject": "2014 Ebola response in West Africa",
-    "parentProjectDescription": "Throughout 2014 I worked on the coordination, data collection and mapping of the Ebola epidemic in West Africa, initially working remotely with international organisations such as UNOCHA and ACAPS, followed by a deployment to Liberia to provide situational mapping for the Government of Libera, UNDAC and international agencies. I supported and trained staff at the national mapping agency as part of a coordinated handover."
-  },
-  {
-    "name": "Yazidi displacement from Mount Sinjar",
-    "continent": "Middle East",
-    "country": "Iraq",
-    "location": "",
-    "year": "2014",
-    "month": "July",
-    "themes": [],
-    "disaster": ["Conflict"],
-    "lat": 36.366728,
-    "lng": 41.721839,
-    "description": "Preparation of data and map visuals for daily ministerial briefings.",
-    "type": "Response",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [
-      "Department for International Development (DfID)"
-    ],
-    "level": ["National"],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -371,7 +324,10 @@ export const projects = [
     "organisation": [
       "International Humanitarian Partnership (IHP)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "2014-05-01",
     "endDate": "2014-05-04",
     "status": "Complete",
@@ -401,9 +357,73 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "2014-12-08",
     "endDate": "2014-12-13",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Ebola",
+    "continent": "Africa",
+    "country": "Liberia",
+    "location": "Monrovia",
+    "year": "2014",
+    "month": "September",
+    "themes": [],
+    "disaster": [
+      "Ebola"
+    ],
+    "lat": 6.3156,
+    "lng": -10.8074,
+    "description": "",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)",
+      "Government of Liberia"
+    ],
+    "level": [
+      "National"
+    ],
+    "startDate": "",
+    "endDate": "",
+    "status": "Complete",
+    "parentProject": "2014 Ebola response in West Africa",
+    "parentProjectDescription": "Throughout 2014 I worked on the coordination, data collection and mapping of the Ebola epidemic in West Africa, initially working remotely with international organisations such as UNOCHA and ACAPS, followed by a deployment to Liberia to provide situational mapping for the Government of Libera, UNDAC and international agencies. I supported and trained staff at the national mapping agency as part of a coordinated handover."
+  },
+  {
+    "name": "Yazidi displacement from Mount Sinjar",
+    "continent": "Middle East",
+    "country": "Iraq",
+    "location": "",
+    "year": "2014",
+    "month": "July",
+    "themes": [],
+    "disaster": [
+      "Conflict"
+    ],
+    "lat": 36.366728,
+    "lng": 41.721839,
+    "description": "Preparation of data and map visuals for daily ministerial briefings.",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Department for International Development (DfID)"
+    ],
+    "level": [
+      "National"
+    ],
+    "startDate": "",
+    "endDate": "",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -416,7 +436,9 @@ export const projects = [
     "year": "2015",
     "month": "April",
     "themes": [],
-    "disaster": ["Cyclone"],
+    "disaster": [
+      "Cyclone"
+    ],
     "lat": -17.7333,
     "lng": 168.3167,
     "description": "Delivered field level data and mapping support to the National Disaster Management Office of Vanuatu and UNOCHA who led international coordination of the disaster response. My role included delivery of a 3-day field assessment of some of the damaged villages in engagement with local communities on affected islands.",
@@ -428,7 +450,9 @@ export const projects = [
       "Government of Vanuatu",
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -443,7 +467,9 @@ export const projects = [
     "year": "2015",
     "month": "February",
     "themes": [],
-    "disaster": ["Flooding"],
+    "disaster": [
+      "Flooding"
+    ],
     "lat": -13.9626,
     "lng": 33.7741,
     "description": "",
@@ -454,7 +480,9 @@ export const projects = [
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -469,7 +497,9 @@ export const projects = [
     "year": "2015",
     "month": "",
     "themes": [],
-    "disaster": ["Migration"],
+    "disaster": [
+      "Migration"
+    ],
     "lat": 44.817778,
     "lng": 20.456944,
     "description": "Over 2015, I coordinated the GIS field teams in Greece, Serbia and Switzerland supporting UNHCR in the mapping of migrants through Europe.\nThis included creation of maps and databases on migration from Northern and West Africa into Europe.",
@@ -481,7 +511,9 @@ export const projects = [
       "United Nations High Commissioner for Refugees (UNHCR)",
       "Assessment Capacity Project (ACAPS)"
     ],
-    "level": ["Regional"],
+    "level": [
+      "Regional"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -496,7 +528,9 @@ export const projects = [
     "year": "2015",
     "month": "",
     "themes": [],
-    "disaster": ["Migration"],
+    "disaster": [
+      "Migration"
+    ],
     "lat": 37.984167,
     "lng": 23.728056,
     "description": "Over 2015, I coordinated the GIS field teams in Greece, Serbia and Switzerland supporting UNHCR in the mapping of migrants through Europe.\nThis included creation of maps and databases on migration from Northern and West Africa into Europe.",
@@ -508,7 +542,9 @@ export const projects = [
       "United Nations High Commissioner for Refugees (UNHCR)",
       "Assessment Capacity Project (ACAPS)"
     ],
-    "level": ["Regional"],
+    "level": [
+      "Regional"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -523,7 +559,9 @@ export const projects = [
     "year": "2015",
     "month": "",
     "themes": [],
-    "disaster": ["Migration"],
+    "disaster": [
+      "Migration"
+    ],
     "lat": 46.201667,
     "lng": 6.146944,
     "description": "Over 2015, I coordinated the GIS field teams in Greece, Serbia and Switzerland supporting UNHCR in the mapping of migrants through Europe.\nThis included creation of maps and databases on migration from Northern and West Africa into Europe.",
@@ -535,7 +573,9 @@ export const projects = [
       "United Nations High Commissioner for Refugees (UNHCR)",
       "Assessment Capacity Project (ACAPS)"
     ],
-    "level": ["Regional"],
+    "level": [
+      "Regional"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -563,7 +603,10 @@ export const projects = [
     "organisation": [
       "International Humanitarian Partnership (IHP)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -578,7 +621,9 @@ export const projects = [
     "year": "2017",
     "month": "May",
     "themes": [],
-    "disaster": ["Cyclone"],
+    "disaster": [
+      "Cyclone"
+    ],
     "lat": -17.7333,
     "lng": 168.3167,
     "description": "",
@@ -589,9 +634,39 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Hurricane Isacc",
+    "continent": "Caribbean",
+    "country": "Dominica",
+    "location": "",
+    "year": "2018",
+    "month": "September",
+    "themes": [],
+    "disaster": [
+      "Hurricane"
+    ],
+    "lat": 15.416667,
+    "lng": -61.333333,
+    "description": "",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [],
+    "level": [
+      "National"
+    ],
+    "startDate": "2018-09-10",
+    "endDate": "2018-09-17",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -604,7 +679,11 @@ export const projects = [
     "year": "2018",
     "month": "October",
     "themes": [],
-    "disaster": ["Earthquake", "Tsunami", "Liquefaction"],
+    "disaster": [
+      "Earthquake",
+      "Tsunami",
+      "Liquefaction"
+    ],
     "lat": -0.9000437095252369,
     "lng": 119.8763667245295,
     "description": "Analysis and mapping of the Indonesian response to the 2018 Sulawesi earthquake.\nThis included the mapping of damaged buildings from the three events and assessing the humanitarian impacts in the event aftermath.",
@@ -615,7 +694,9 @@ export const projects = [
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -630,7 +711,10 @@ export const projects = [
     "year": "2018",
     "month": "September",
     "themes": [],
-    "disaster": ["Typhoon", "Landslide"],
+    "disaster": [
+      "Typhoon",
+      "Landslide"
+    ],
     "lat": 17.9326405,
     "lng": 121.7995182,
     "description": "",
@@ -641,7 +725,9 @@ export const projects = [
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -669,33 +755,12 @@ export const projects = [
     "organisation": [
       "International Search and Rescue Advisory Group (INSARAG)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Hurricane Isacc",
-    "continent": "Caribbean",
-    "country": "Dominica",
-    "location": "",
-    "year": "2018",
-    "month": "September",
-    "themes": [],
-    "disaster": ["Hurricane"],
-    "lat": 15.416667,
-    "lng": -61.333333,
-    "description": "",
-    "type": "Response",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [],
-    "level": ["National"],
-    "startDate": "2018-09-10",
-    "endDate": "2018-09-17",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -708,7 +773,9 @@ export const projects = [
     "year": "2019",
     "month": "March",
     "themes": [],
-    "disaster": ["Cyclone"],
+    "disaster": [
+      "Cyclone"
+    ],
     "lat": -19.833333,
     "lng": 34.85,
     "description": "Following Cyclone Idai, widespread flooding caused multiple disease outbreaks across the country.\nI provided mapping and analysis to show the spread of the disease and how the health cluster was delivering support based on collated multistakeholder data from a wide range of health organizations.",
@@ -720,7 +787,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -735,7 +804,9 @@ export const projects = [
     "year": "2019",
     "month": "",
     "themes": [],
-    "disaster": ["Earthquake"],
+    "disaster": [
+      "Earthquake"
+    ],
     "lat": 41.3275,
     "lng": 19.8187,
     "description": "",
@@ -746,7 +817,9 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -761,7 +834,9 @@ export const projects = [
     "year": "2019",
     "month": "December",
     "themes": [],
-    "disaster": ["Flooding"],
+    "disaster": [
+      "Flooding"
+    ],
     "lat": 11.5721,
     "lng": 43.1456,
     "description": "",
@@ -772,7 +847,9 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -800,7 +877,10 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -815,7 +895,9 @@ export const projects = [
     "year": "2020",
     "month": "May",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 27.7172,
     "lng": 85.324,
     "description": "",
@@ -826,7 +908,9 @@ export const projects = [
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -841,7 +925,9 @@ export const projects = [
     "year": "2020",
     "month": "May",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": -21.133333,
     "lng": -175.2,
     "description": "",
@@ -852,7 +938,9 @@ export const projects = [
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -867,7 +955,9 @@ export const projects = [
     "year": "2020",
     "month": "May",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 39.016667,
     "lng": 125.7475,
     "description": "",
@@ -878,7 +968,9 @@ export const projects = [
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -893,7 +985,9 @@ export const projects = [
     "year": "2020",
     "month": "August",
     "themes": [],
-    "disaster": ["Explosion"],
+    "disaster": [
+      "Explosion"
+    ],
     "lat": 33.8938,
     "lng": 35.5018,
     "description": "",
@@ -904,7 +998,9 @@ export const projects = [
     "organisation": [
       "United Nations Disaster Assessment and Coordination (UNDAC)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -919,7 +1015,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 4.85165,
     "lng": 31.58247,
     "description": "",
@@ -934,7 +1032,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -949,7 +1049,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 15.508457,
     "lng": 32.522854,
     "description": "",
@@ -964,7 +1066,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -979,7 +1083,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 3.867,
     "lng": 11.517,
     "description": "",
@@ -994,7 +1100,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1009,7 +1117,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 12.1067,
     "lng": 15.0444,
     "description": "",
@@ -1024,7 +1134,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1039,7 +1151,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 9.025,
     "lng": 38.7469,
     "description": "",
@@ -1054,7 +1168,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1069,7 +1185,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 13.5137,
     "lng": 2.1098,
     "description": "",
@@ -1084,7 +1202,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1099,7 +1219,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 2.03711,
     "lng": 45.34375,
     "description": "",
@@ -1114,7 +1236,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1129,7 +1253,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 33.3152,
     "lng": 44.3661,
     "description": "",
@@ -1145,7 +1271,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1160,7 +1288,9 @@ export const projects = [
     "year": "2020",
     "month": "",
     "themes": [],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": 34.5281,
     "lng": 69.1723,
     "description": "",
@@ -1175,7 +1305,9 @@ export const projects = [
       "World Health Organisation (WHO)",
       "the Global Health Cluster"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1190,7 +1322,9 @@ export const projects = [
     "year": "2020",
     "month": "November",
     "themes": [],
-    "disaster": ["Typhoon"],
+    "disaster": [
+      "Typhoon"
+    ],
     "lat": 13.6341923,
     "lng": 123.2454633,
     "description": "",
@@ -1201,7 +1335,9 @@ export const projects = [
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1218,9 +1354,11 @@ export const projects = [
     "themes": [
       "Community"
     ],
-    "disaster": ["Covid-19"],
+    "disaster": [
+      "Covid-19"
+    ],
     "lat": -2.5,
-    "lng": 140.0,
+    "lng": 140,
     "description": "Led the creation of a data collection tool (in multiple languages) for the Community Insights for Covid-19 survey in Asia and the Pacific, looking at the perceptions of Covid-19 within communities across the region.",
     "type": "Response",
     "modality": [
@@ -1229,9 +1367,75 @@ export const projects = [
     "organisation": [
       "Risk Communication and Community Engagement Working Group"
     ],
-    "level": ["Regional"],
+    "level": [
+      "Regional"
+    ],
     "startDate": "",
     "endDate": "",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "ASEAN-ERAT Coaching",
+    "continent": "Asia",
+    "country": "Indonesia",
+    "location": "Jakarta",
+    "year": "2021",
+    "month": "August",
+    "themes": [
+      "Data collection",
+      "Data processing",
+      "Information Management"
+    ],
+    "disaster": [],
+    "lat": -6.192724,
+    "lng": 106.868614,
+    "description": "Coaching and mentoring of ASEAN-ERAT information management staff in the use of GIS for data collection, processing and visualisation to support disaster response operations.",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "startDate": "2021-08-03",
+    "endDate": "2021-08-07",
+    "status": "Complete",
+    "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Typhoon Rai",
+    "continent": "Asia",
+    "country": "The Philippines",
+    "location": "",
+    "year": "2021",
+    "month": "December",
+    "themes": [],
+    "disaster": [
+      "Typhoon"
+    ],
+    "lat": 9.868778879383004,
+    "lng": 124.20833856205954,
+    "description": "",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Centre for Disaster Preparedness (CDP)"
+    ],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "startDate": "2021-12-15",
+    "endDate": "2021-12-22",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -1244,7 +1448,9 @@ export const projects = [
     "year": "2021",
     "month": "",
     "themes": [],
-    "disaster": ["Earthquake"],
+    "disaster": [
+      "Earthquake"
+    ],
     "lat": 18.5944,
     "lng": -72.3074,
     "description": "",
@@ -1255,7 +1461,9 @@ export const projects = [
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1270,7 +1478,9 @@ export const projects = [
     "year": "2021",
     "month": "March",
     "themes": [],
-    "disaster": ["Volcano"],
+    "disaster": [
+      "Volcano"
+    ],
     "lat": 13.333333,
     "lng": -61.183333,
     "description": "Mapping of the humanitarian and environmental impacts of the La Soufrière volcanic eruption in Saint Vincent and the Grenadines, including mapping of damaged buildings, evacuation centres, and ashfall extent.",
@@ -1282,7 +1492,9 @@ export const projects = [
       "Caribbean Disaster Emergency Management Agency (CDEMA)",
       "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1290,33 +1502,7 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "Typhoon Rai",
-    "continent": "Asia",
-    "country": "The Philippines",
-    "location": "",
-    "year": "2021",
-    "month": "December",
-    "themes": [],
-    "disaster": ["Typhoon"],
-    "lat": 9.868778879383004,
-    "lng": 124.20833856205954,
-    "description": "",
-    "type": "Response",
-    "modality": [
-      "In-situ"
-    ],
-    "organisation": [
-      "Centre for Disaster Preparedness (CDP)"
-    ],
-    "level": ["National", "Sub-national"],
-    "startDate": "2021-12-15",
-    "endDate": "2021-12-22",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "ADRRN Community of Practice",
+    "name": "Data interoperability development",
     "continent": "Asia",
     "country": "",
     "location": "",
@@ -1324,47 +1510,22 @@ export const projects = [
     "month": "",
     "themes": [],
     "disaster": [],
-    "lat": 34.0479,
-    "lng": 100.6197,
-    "description": "",
+    "lat": "",
+    "lng": "",
+    "description": "This role involved working across a regional network of civil society organizations and engaging closely with individual NGO/ CSOs (including the Centre for Disaster Preparedness (Philippines), Disaster Preparedness Network (Nepal) and Muslim Foundation for Culture and Development (MFCD)) to develop tools and best practices in data interoperability. These included “Who-What-Where-When-for Whom” (345W) mapping which is used as a preparedness, anticipatory action, response and project planning tool.",
     "type": "Preparedness and anticipatory action",
     "modality": [
       "Remote"
     ],
     "organisation": [
-      "The Asia Disaster Reduction and Response Network (ADRRN)"
+      "Asian Disaster Reduction and Response Network (ADRRN)"
     ],
-    "level": ["National", "Sub-national"],
-    "startDate": "",
-    "endDate": "",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Disaster simulation exercise development",
-    "continent": "",
-    "country": "",
-    "location": "",
-    "year": "2022",
-    "month": "January",
-    "themes": [
-      "Simex"
+    "level": [
+      "Regional",
+      "National"
     ],
-    "disaster": [],
-    "lat": 46.201667,
-    "lng": 6.146944,
-    "description": "Creation of disaster simulation exercise data and maps for use at United Nations Disaster Assessment and Coordination (UNDAC) training simulation exercises, targeting disaster responders such as UN and national disaster management organization (NDMO) staff.",
-    "type": "Training",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [
-      "United Nations Disaster Assessment and Coordination (UNDAC)"
-    ],
-    "level": ["Global"],
-    "startDate": "",
-    "endDate": "",
+    "startDate": "01/01/2022",
+    "endDate": "31/12/2024",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -1392,7 +1553,10 @@ export const projects = [
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "2022-10-03",
     "endDate": "2022-10-07",
     "status": "Complete",
@@ -1400,33 +1564,62 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "ASEAN-ERAT Coaching",
+    "name": "ADRRN Community of Practice",
     "continent": "Asia",
-    "country": "Indonesia",
-    "location": "Jakarta",
-    "year": "2021",
-    "month": "August",
-    "themes": [
-      "Data collection",
-      "Data processing",
-      "Information Management"
-    ],
+    "country": "",
+    "location": "",
+    "year": "2022",
+    "month": "",
+    "themes": [],
     "disaster": [],
-    "lat": -6.192724,
-    "lng": 106.868614,
-    "description": "Coaching and mentoring of ASEAN-ERAT information management staff in the use of GIS for data collection, processing and visualisation to support disaster response operations.",
-    "type": "Training",
+    "lat": 34.0479,
+    "lng": 100.6197,
+    "description": "",
+    "type": "Preparedness and anticipatory action",
     "modality": [
-      "In-situ"
+      "Remote"
     ],
     "organisation": [
-      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+      "The Asia Disaster Reduction and Response Network (ADRRN)"
     ],
-    "level": ["Regional", "National"],
-    "startDate": "2021-08-03",
-    "endDate": "2021-08-07",
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "startDate": "",
+    "endDate": "",
     "status": "Complete",
-    "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Disaster simulation exercise development",
+    "continent": "",
+    "country": "",
+    "location": "",
+    "year": "2022",
+    "month": "January",
+    "themes": [
+      "Simex"
+    ],
+    "disaster": [],
+    "lat": 46.201667,
+    "lng": 6.146944,
+    "description": "Creation of disaster simulation exercise data and maps for use at United Nations Disaster Assessment and Coordination (UNDAC) training simulation exercises, targeting disaster responders such as UN and national disaster management organization (NDMO) staff.",
+    "type": "Training",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "Global"
+    ],
+    "startDate": "",
+    "endDate": "",
+    "status": "Complete",
+    "parentProject": "",
     "parentProjectDescription": ""
   },
   {
@@ -1446,36 +1639,11 @@ export const projects = [
       "Remote"
     ],
     "organisation": [],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Technical and institutional support to the Philippines Disaster Resilience Foundation (PDRF)",
-    "continent": "Asia",
-    "country": "The Philippines",
-    "location": "Clarke City",
-    "year": "2023",
-    "month": "September",
-    "themes": [],
-    "disaster": [],
-    "lat": 15.186,
-    "lng": 120.5596,
-    "description": "Quarterly support for delivery of targeted technical outputs to enhance the resilience of communities and beneficiaries in the Philippines through the private sector members of PDRF, including:\n• Scoping and landscape mapping – organisational level GIS and information management audit.\n• Who-What-Where-When and for Whom (5W) tool development (ArcGIS Online and Survey 123) for tracking member activities and resources.\n• Coaching and mentoring of GIS staff.",
-    "type": "",
-    "modality": [
-      "In-situ",
-      "Remote"
-    ],
-    "organisation": [
-      "Philippines Disaster Resilience Foundation (PDRF)"
-    ],
-    "level": ["National"],
-    "startDate": "01/01/2022",
-    "endDate": "31/12/2024",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -1504,7 +1672,10 @@ export const projects = [
     "organisation": [
       "Start Ready (Nepal)"
     ],
-    "level": ["National", "Sub-national"],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
     "startDate": "Jun-23",
     "endDate": "Aug-23",
     "status": "Complete",
@@ -1535,7 +1706,10 @@ export const projects = [
     "organisation": [
       "Start Forewarn (The Philippines)"
     ],
-    "level": ["National", "Sub-national"],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
     "startDate": "Jun-23",
     "endDate": "Aug-23",
     "status": "Complete",
@@ -1543,54 +1717,30 @@ export const projects = [
     "parentProjectDescription": ""
   },
   {
-    "name": "Scoping and landscape mapping",
+    "name": "Technical and institutional support to the Philippines Disaster Resilience Foundation (PDRF)",
     "continent": "Asia",
     "country": "The Philippines",
     "location": "Clarke City",
     "year": "2023",
-    "month": "October",
+    "month": "September",
     "themes": [],
     "disaster": [],
     "lat": 15.186,
     "lng": 120.5596,
-    "description": "",
-    "type": "Preparedness and anticipatory action",
+    "description": "Quarterly support for delivery of targeted technical outputs to enhance the resilience of communities and beneficiaries in the Philippines through the private sector members of PDRF, including:\n• Scoping and landscape mapping – organisational level GIS and information management audit.\n• Who-What-Where-When and for Whom (5W) tool development (ArcGIS Online and Survey 123) for tracking member activities and resources.\n• Coaching and mentoring of GIS staff.",
+    "type": "",
     "modality": [
-      "In-situ"
+      "In-situ",
+      "Remote"
     ],
     "organisation": [
       "Philippines Disaster Resilience Foundation (PDRF)"
     ],
-    "level": ["National", "Sub-national"],
-    "startDate": "2023-10-22",
-    "endDate": "2023-11-02",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "Partner mapping",
-    "continent": "Asia",
-    "country": "Sri Lanka",
-    "location": "",
-    "year": "2023",
-    "month": "",
-    "themes": [],
-    "disaster": [],
-    "lat": 6.9271,
-    "lng": 79.8612,
-    "description": "",
-    "type": "Response",
-    "modality": [
-      "Remote"
+    "level": [
+      "National"
     ],
-    "organisation": [
-      "Muslim Foundation for Culture and Development (MFCD)",
-      "Asian Disaster Reduction and Response Network (ADRRN)"
-    ],
-    "level": ["Sub-national"],
-    "startDate": "",
-    "endDate": "",
+    "startDate": "01/01/2022",
+    "endDate": "31/12/2024",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -1617,11 +1767,72 @@ export const projects = [
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "2023-05-07",
     "endDate": "2023-05-14",
     "status": "Complete",
     "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Scoping and landscape mapping",
+    "continent": "Asia",
+    "country": "The Philippines",
+    "location": "Clarke City",
+    "year": "2023",
+    "month": "October",
+    "themes": [],
+    "disaster": [],
+    "lat": 15.186,
+    "lng": 120.5596,
+    "description": "",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Philippines Disaster Resilience Foundation (PDRF)"
+    ],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "startDate": "2023-10-22",
+    "endDate": "2023-11-02",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Partner mapping",
+    "continent": "Asia",
+    "country": "Sri Lanka",
+    "location": "",
+    "year": "2023",
+    "month": "",
+    "themes": [],
+    "disaster": [],
+    "lat": 6.9271,
+    "lng": 79.8612,
+    "description": "",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Muslim Foundation for Culture and Development (MFCD)",
+      "Asian Disaster Reduction and Response Network (ADRRN)"
+    ],
+    "level": [
+      "Sub-national"
+    ],
+    "startDate": "",
+    "endDate": "",
+    "status": "Complete",
+    "parentProject": "",
     "parentProjectDescription": ""
   },
   {
@@ -1644,7 +1855,9 @@ export const projects = [
       "Disaster Preparedness Network-Nepal (DPNet)",
       "Asian Disaster Reduction and Response Network (ADRRN)"
     ],
-    "level": ["Sub-national"],
+    "level": [
+      "Sub-national"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1674,7 +1887,10 @@ export const projects = [
     "organisation": [
       "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
     ],
-    "level": ["Regional", "National"],
+    "level": [
+      "Regional",
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1698,7 +1914,10 @@ export const projects = [
       "Remote"
     ],
     "organisation": [],
-    "level": ["National", "Sub-national"],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Complete",
@@ -1724,9 +1943,108 @@ export const projects = [
     "organisation": [
       "Asian Development Bank (ADB)"
     ],
-    "level": ["Regional"],
+    "level": [
+      "Regional"
+    ],
     "startDate": "",
     "endDate": "",
+    "status": "Complete",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
+    "continent": "Europe",
+    "country": "Ukraine",
+    "location": "",
+    "year": "2026",
+    "month": "March",
+    "themes": [
+      "Risk analysis"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "lat": 50.45,
+    "lng": 30.516667,
+    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in Ukraine to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "EU",
+      "Assessment Capacity Project (ACAPS)"
+    ],
+    "level": [
+      "Regional"
+    ],
+    "startDate": "2026-03-14",
+    "endDate": "",
+    "status": "Current",
+    "parentProject": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
+    "continent": "Middle East",
+    "country": "Iran",
+    "location": "",
+    "year": "2026",
+    "month": "March",
+    "themes": [
+      "Risk analysis"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "lat": 35.6889,
+    "lng": 51.3897,
+    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in the Middle East to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "EU",
+      "Assessment Capacity Project (ACAPS)"
+    ],
+    "level": [
+      "Regional"
+    ],
+    "startDate": "2026-03-14",
+    "endDate": "",
+    "status": "Current",
+    "parentProject": "",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "GIS support to Chuuk State following Typhoon Sinlaku",
+    "continent": "Oceania",
+    "country": "Federated States of Micronesia",
+    "location": "",
+    "year": "2026",
+    "month": "April",
+    "themes": [],
+    "disaster": [
+      "Typhoon"
+    ],
+    "lat": 7.416667,
+    "lng": 151.783333,
+    "description": "",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Chuuk State Government",
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
+    ],
+    "level": [
+      "National"
+    ],
+    "startDate": "17/04/2026",
+    "endDate": "05/05/2026",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -1739,7 +2057,9 @@ export const projects = [
     "year": "2026",
     "month": "May",
     "themes": [],
-    "disaster": ["Climate change"],
+    "disaster": [
+      "Climate change"
+    ],
     "lat": 6.801111,
     "lng": -58.155,
     "description": "Mapping of schools at risk to wildfires, coastal and riverine flooding due climate change in Guyana.",
@@ -1748,7 +2068,9 @@ export const projects = [
       "Remote"
     ],
     "organisation": [],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "20/05/2026",
     "endDate": "",
     "status": "Current",
@@ -1763,7 +2085,9 @@ export const projects = [
     "year": "2026",
     "month": "May",
     "themes": [],
-    "disaster": ["Climate change"],
+    "disaster": [
+      "Climate change"
+    ],
     "lat": 13.157778,
     "lng": -61.225556,
     "description": "Mapping of schools at risk to riverine flooding due climate change in Saint Vincent and the Grenadines",
@@ -1772,7 +2096,9 @@ export const projects = [
       "Remote"
     ],
     "organisation": [],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "20/05/2026",
     "endDate": "",
     "status": "Current",
@@ -1787,7 +2113,9 @@ export const projects = [
     "year": "2026",
     "month": "May",
     "themes": [],
-    "disaster": ["Conflict"],
+    "disaster": [
+      "Conflict"
+    ],
     "lat": 33.8938,
     "lng": 35.5018,
     "description": "",
@@ -1795,8 +2123,12 @@ export const projects = [
     "modality": [
       "Remote"
     ],
-    "organisation": ["H2H"],
-    "level": ["National"],
+    "organisation": [
+      "H2H"
+    ],
+    "level": [
+      "National"
+    ],
     "startDate": "2026-05-25",
     "endDate": "",
     "status": "Current",
@@ -1811,7 +2143,9 @@ export const projects = [
     "year": "2026",
     "month": "May",
     "themes": [],
-    "disaster": ["Conflict"],
+    "disaster": [
+      "Conflict"
+    ],
     "lat": 33.5138,
     "lng": 36.2765,
     "description": "",
@@ -1819,8 +2153,12 @@ export const projects = [
     "modality": [
       "Remote"
     ],
-    "organisation": ["H2H"],
-    "level": ["National"],
+    "organisation": [
+      "H2H"
+    ],
+    "level": [
+      "National"
+    ],
     "startDate": "2026-05-25",
     "endDate": "",
     "status": "Current",
@@ -1846,92 +2184,10 @@ export const projects = [
     "organisation": [
       "United Nations Department for Safety and Security (UNDSS)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
-    "endDate": "",
-    "status": "Current",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "GIS support to Chuuk State following Typhoon Sinlaku",
-    "continent": "Oceania",
-    "country": "Federated States of Micronesia",
-    "location": "",
-    "year": "2026",
-    "month": "April",
-    "themes": [],
-    "disaster": ["Typhoon"],
-    "lat": 7.416667,
-    "lng": 151.783333,
-    "description": "",
-    "type": "Response",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [
-      "Chuuk State Government",
-      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
-    ],
-    "level": ["National"],
-    "startDate": "17/04/2026",
-    "endDate": "05/05/2026",
-    "status": "Complete",
-    "parentProject": "",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
-    "continent": "Europe",
-    "country": "Ukraine",
-    "location": "",
-    "year": "2026",
-    "month": "March",
-    "themes": [
-      "Risk analysis"
-    ],
-    "disaster": ["Conflict"],
-    "lat": 50.45,
-    "lng": 30.516667,
-    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in Ukraine to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
-    "type": "Response",
-    "modality": [      "Remote"
-    ],
-    "organisation": [
-      "EU",
-      "Assessment Capacity Project (ACAPS)"
-    ],
-    "level": ["Regional"],
-    "startDate": "2026-03-14",
-    "endDate": "",
-    "status": "Current",
-    "parentProject": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
-    "parentProjectDescription": ""
-  },
-  {
-    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
-    "continent": "Middle East",
-    "country": "Iran",
-    "location": "",
-    "year": "2026",
-    "month": "March",
-    "themes": [
-      "Risk analysis"
-    ],
-    "disaster": ["Conflict"],
-    "lat": 35.6889,
-    "lng": 51.3897,
-    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in the Middle East to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
-    "type": "Response",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [
-      "EU",
-      "Assessment Capacity Project (ACAPS)"
-    ],
-    "level": ["Regional"],
-    "startDate": "2026-03-14",
     "endDate": "",
     "status": "Current",
     "parentProject": "",
@@ -1956,7 +2212,9 @@ export const projects = [
     "organisation": [
       "United Nations Department for Safety and Security (UNDSS)"
     ],
-    "level": ["National"],
+    "level": [
+      "National"
+    ],
     "startDate": "",
     "endDate": "",
     "status": "Current",

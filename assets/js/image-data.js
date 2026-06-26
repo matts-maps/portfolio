@@ -1,3 +1,23 @@
+/**
+ * Images data with enhanced data_sources structure
+ * 
+ * Each image object can include a data_sources array that supports:
+ * 1. Simple string format (backward compatible):
+ *    "data_sources": ["OpenStreetMap", "LINZ"]
+ * 
+ * 2. Object format with name and URL (recommended):
+ *    "data_sources": [
+ *      { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" },
+ *      { "name": "LINZ", "url": "https://www.linz.govt.nz/" }
+ *    ]
+ * 
+ * 3. Mixed format (both simple strings and objects):
+ *    "data_sources": [
+ *      "OpenStreetMap",
+ *      { "name": "LINZ", "url": "https://www.linz.govt.nz/" }
+ *    ]
+ */
+
 export const images = [
   {
     "file": "assets/images/maps/2012-brazzaville-munitions.jpg",
@@ -979,6 +999,10 @@ export const images = [
     "disaster": "None",
     "description": "Physical geography of Whaingaroa/Raglan Harbour.",
     "map_style": "",
-    "data_sources": ["LINZ", "OpenStreetMap", "SRTM"]
+    "data_sources": [
+      { "name": "LINZ", "url": "https://www.linz.govt.nz/" },
+      { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" },
+      { "name": "SRTM", "url": "https://lpdaac.usgs.gov/products/srtmgl1v003/" }
+    ]
   }
 ];
