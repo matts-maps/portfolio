@@ -36,13 +36,6 @@ layout: default
             </div>
 
             {% include image-details-panel.html %}
-
-            <!-- Data Sources Section -->
-            <div id="data-sources-section" class="data-sources-section" style="display: none;">
-                <h4 class="data-sources-title">Data Sources</h4>
-                <ul id="data-sources-list" class="data-sources-list">
-                </ul>
-            </div>
         </aside>
     </section>
 
@@ -116,50 +109,5 @@ layout: default
 
         if (panelViewport) registerInactivityTracker(panelViewport);
         if (fullscreenOverlay) registerInactivityTracker(fullscreenOverlay);
-
-        // Data sources display handler
-        window.displayDataSources = function(dataSources) {
-            const section = document.getElementById("data-sources-section");
-            const list = document.getElementById("data-sources-list");
-
-            if (!dataSources || dataSources.length === 0) {
-                section.style.display = "none";
-                return;
-            }
-
-            list.innerHTML = "";
-            dataSources.forEach(source => {
-                const li = document.createElement("li");
-                
-                if (typeof source === "string") {
-                    // Simple string format
-                    li.textContent = source;
-                } else if (typeof source === "object" && source.name) {
-                    // Object format with optional URL
-                    if (source.url) {
-                        const link = document.createElement("a");
-                        link.href = source.url;
-                        link.target = "_blank";
-                        link.rel = "noopener noreferrer";
-                        link.textContent = source.name;
-                        li.appendChild(link);
-                    } else {
-                        li.textContent = source.name;
-                    }
-                }
-
-                list.appendChild(li);
-            });
-
-            section.style.display = "block";
-        };
-
-        // Clear data sources
-        window.clearDataSources = function() {
-            const section = document.getElementById("data-sources-section");
-            const list = document.getElementById("data-sources-list");
-            list.innerHTML = "";
-            section.style.display = "none";
-        };
     });
 </script>
