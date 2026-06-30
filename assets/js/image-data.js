@@ -618,7 +618,7 @@ export const images = [
     "data_sources": []
   },
   {
-    "file": "assets/images/maps/greece.jpg",
+    "file": "assets/images/maps/greece.png",
     "name": "Physical geography of Greece",
     "continent": "Europe",
     "country": "Greece",
