@@ -618,6 +618,29 @@ export const images = [
     "data_sources": []
   },
   {
+    "file": "assets/images/maps/greece.jpg",
+    "name": "Physical geography of Greece",
+    "continent": "Europe",
+    "country": "Greece",
+    "location": "",
+    "year": 2022,
+    "month": 6,
+    "lat": 39,
+    "lng": 22,
+    "themes": [
+      "Physical geography"
+    ],
+    "disaster": "None",
+    "description": "",
+    "map_style": "",
+    "data_sources": [
+      { "name": "GEBCO", "url": "https://www.gebco.net/" },
+      { "name": "Marine Regions", "url": "https://www.marineregions.org/" },
+      { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" },
+      { "name": "SRTM", "url": "https://lpdaac.usgs.gov/products/srtmgl1v003/" }
+    ]
+  },
+  {
     "file": "assets/images/maps/hanoi.jpg",
     "name": "Hanoi",
     "continent": "Asia",
