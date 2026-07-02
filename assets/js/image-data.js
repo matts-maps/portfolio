@@ -1031,9 +1031,9 @@ export const images = [
   {
     "file": "assets/images/maps/intramuros-sketch-map.png",
     "name": "Intramuros Sketch Map",
-    "continent": "Oceania",
-    "country": "Philippines",
-    "location": "Manila",
+    "continent": "Asia",
+    "country": "The Philippines",
+    "location": "Intramuros, Manila",
     "year": 2026,
     "month": 7,
     "lat": 14.590830,
