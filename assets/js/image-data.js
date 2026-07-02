@@ -1027,5 +1027,26 @@ export const images = [
       { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" },
       { "name": "SRTM", "url": "https://lpdaac.usgs.gov/products/srtmgl1v003/" }
     ]
+  },
+  {
+    "file": "assets/images/maps/intramuros-sketch-map.png",
+    "name": "Intramuros Sketch Map",
+    "continent": "Oceania",
+    "country": "Philippines",
+    "location": "Manila",
+    "year": 2026,
+    "month": 6,
+    "lat": 14.590830,
+    "lng": 120.975000,
+    "themes": [
+      "Physical geography"
+    ],
+    "disaster": "None",
+    "description": "Sketch map of Intramuros, Manila.",
+    "map_style": "Sketch",
+    "data_sources": [
+      { "name": "NAMRIA" },
+      { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" }
+    ]
   }
 ];
