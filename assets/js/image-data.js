@@ -1035,7 +1035,7 @@ export const images = [
     "country": "Philippines",
     "location": "Manila",
     "year": 2026,
-    "month": 6,
+    "month": 7,
     "lat": 14.590830,
     "lng": 120.975000,
     "themes": [
