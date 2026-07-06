@@ -1050,11 +1050,11 @@ export const images = [
     ]
   },
   {
-    "file": "assets/images/maps/pollock-park-sketch-map.png",
-    "name": "Pollock Park Sketch Map",
+    "file": "assets/images/maps/pollok-park-sketch-map.png",
+    "name": "Pollok Park Sketch Map",
     "continent": "Europe",
     "country": "United Kingdom",
-    "location": "Pollock Park, Glasgow",
+    "location": "Pollok Park, Glasgow",
     "year": 2026,
     "month": 7,
     "lat": 55.864237,
@@ -1063,7 +1063,7 @@ export const images = [
       "Physical geography"
     ],
     "disaster": "None",
-    "description": "Sketch map of Pollock Park, Glasgow.",
+    "description": "Sketch map of Pollok Park, Glasgow.",
     "map_style": "Sketch",
     "data_sources": [
       { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" }
