@@ -1048,5 +1048,25 @@ export const images = [
       { "name": "NAMRIA" },
       { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" }
     ]
+  },
+  {
+    "file": "assets/images/maps/pollock-park-sketch-map.png",
+    "name": "Pollock Park Sketch Map",
+    "continent": "Europe",
+    "country": "United Kingdom",
+    "location": "Pollock Park, Glasgow",
+    "year": 2026,
+    "month": 7,
+    "lat": 55.864237,
+    "lng": -4.251806,
+    "themes": [
+      "Physical geography"
+    ],
+    "disaster": "None",
+    "description": "Sketch map of Pollock Park, Glasgow.",
+    "map_style": "Sketch",
+    "data_sources": [
+      { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" }
+    ]
   }
 ];
