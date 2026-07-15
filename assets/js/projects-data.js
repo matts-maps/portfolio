@@ -2220,5 +2220,38 @@ export const projects = [
     "status": "Current",
     "parentProject": "",
     "parentProjectDescription": ""
+  },
+  {
+    "name": "ASEAN-ERAT Level 2 - Information Management training course",
+    "continent": "Asia",
+    "country": "The Philippines",
+    "location": "Manila",
+    "year": "2026",
+    "month": "July",
+    "themes": [
+      "GIS",
+      "Information Management",
+      "QGIS"
+    ],
+    "disaster": [],
+    "lat": 14.5510313,
+    "lng": 121.0264059,
+    "description": "",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "startDate": "2026-07-13",
+    "endDate": "2026-07-117",
+    "status": "Current",
+    "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "parentProjectDescription": ""
   }
 ];
