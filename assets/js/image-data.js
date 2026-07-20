@@ -1068,23 +1068,5 @@ export const images = [
     "data_sources": [
       { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" }
     ]
-  },
-  {
-    "file": "assets/images/maps/coco-grove.png",
-    "name": "Coco",
-    "continent": "Asia",
-    "country": "Philippines",
-    "location": "",
-    "year": 2026,
-    "month": 3,
-    "lat": 14.712546,
-    "lng": 121.640625,
-    "themes": [
-      "Test"
-    ],
-    "disaster": "None",
-    "description": "A test map",
-    "map_style": "Fun",
-    "data_sources": []
   }
 ];
