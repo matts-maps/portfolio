@@ -1,18 +1,10 @@
 import { images } from './image-data.js';
+import { initFilterEngine, SORT } from './filter-engine.js';
 
 // Application State Variables
 let filteredImages = [...images];
 let currentFeaturedItem = null;
 let isInitialPageLoad = true; // Flag to trace first-run initialization states
-
-const activeFilters = {
-    sort: 'yearmonth',
-    continent: '',
-    country: '',
-    disaster: '',
-    theme: '',
-    year: ''
-};
 
 // Leaflet Engine Control Context Global Holders
 let mapInstance = null;
@@ -26,15 +18,26 @@ const modalTransform = { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, sta
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize Interactive Leaflet Map Instance Window
     initializeLeafletSystem();
-    
+
     // 2. Bind Interactive Event Listeners
-    bindInterfaceEvents();
-    
+    bindCarouselEvents();
+
     // 3. Initialize specialized image workspace pan & scaling vectors
     initializeImageInteractionHandlers();
 
     // 4. Run initial filter pass, populate dependent dropdowns, and paint points
-    processFiltersAndRender();
+    initFilterEngine(images, handleFilteredResults, {
+        sortEl: 'ife-sort',
+        resetEl: 'reset-filters',
+        fields: [
+            { key: 'continent', elId: 'ife-continent' },
+            { key: 'country', elId: 'ife-country', arrayValued: true },
+            { key: 'disaster', elId: 'ife-disaster', arrayValued: true, groups: { 'tropical-cyclone': ['Cyclone', 'Hurricane', 'Typhoon'] } },
+            { key: 'theme', prop: 'themes', elId: 'ife-theme', arrayValued: true },
+            { key: 'year', elId: 'ife-year', optionOrder: 'desc-numeric' }
+        ],
+        sort: { alpha: SORT.alpha, theme: SORT.byFirstOf('themes'), yearmonth: SORT.yearmonth }
+    });
 });
 
 /**
@@ -189,110 +192,7 @@ function initializeImageInteractionHandlers() {
     });
 }
 
-/**
- * Extracts unique values from a specific subset array instead of the global image stack
- */
-function extractUniqueValuesFromSubset(subset, key) {
-    const valuesSet = new Set();
-    subset.forEach(item => {
-        const value = item[key];
-        if (value === undefined || value === null) return;
-        if (Array.isArray(value)) {
-            value.forEach(subVal => { 
-                const cleanSub = String(subVal).trim();
-                if (cleanSub && cleanSub !== "None" && cleanSub !== "") valuesSet.add(cleanSub); 
-            });
-        } else {
-            const cleanVal = String(value).trim();
-            if (cleanVal && cleanVal !== "None" && cleanVal !== "") valuesSet.add(cleanVal);
-        }
-    });
-    return [...valuesSet].sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }));
-}
-
-/**
- * Updates dropdown options dynamically while keeping the selected choice active
- */
-function updateDropdownMenuOptions(elementId, optionsList, currentValue) {
-    const dropdown = document.getElementById(elementId);
-    if (!dropdown) return;
-
-    dropdown.innerHTML = '<option value="">All</option>';
-
-    optionsList.forEach(val => {
-        const option = document.createElement('option');
-        option.value = val;
-        option.textContent = val;
-        if (val === currentValue) {
-            option.selected = true;
-        }
-        dropdown.appendChild(option);
-    });
-}
-
-/**
- * Recalculates what options should be visible based on current selections
- */
-function buildDynamicDropdowns() {
-    const filterKeys = ['continent', 'country', 'disaster', 'theme', 'year'];
-    const dataMapping = { continent: 'continent', country: 'country', disaster: 'disaster', theme: 'themes', year: 'year' };
-
-    filterKeys.forEach(key => {
-        const temporarySubset = images.filter(item => {
-            const matchContinent = (key === 'continent' || activeFilters.continent === '' || 
-                (item.continent && String(item.continent).trim() === activeFilters.continent));
-            
-            let matchCountry = key === 'country' || activeFilters.country === '';
-            if (!matchCountry) {
-                matchCountry = item.country.map(c => String(c).trim()).includes(activeFilters.country);
-            }
-
-            let matchDisaster = key === 'disaster' || activeFilters.disaster === '';
-            if (!matchDisaster) {
-                matchDisaster = item.disaster.map(d => String(d).trim()).includes(activeFilters.disaster);
-            }
-
-            const matchTheme = (key === 'theme' || activeFilters.theme === '' ||
-                (item.themes && item.themes.map(t => String(t).trim()).includes(activeFilters.theme)));
-                
-            const matchYear = (key === 'year' || activeFilters.year === '' || 
-                (item.year && String(item.year).trim() === activeFilters.year));
-
-            return matchContinent && matchCountry && matchDisaster && matchTheme && matchYear;
-        });
-
-        const uniqueValues = extractUniqueValuesFromSubset(temporarySubset, dataMapping[key]);
-        updateDropdownMenuOptions('ife-' + key, uniqueValues, activeFilters[key]);
-    });
-}
-
-function bindInterfaceEvents() {
-    const interfaceMap = ['sort', 'continent', 'country', 'disaster', 'theme', 'year'];
-    interfaceMap.forEach(key => {
-        const element = document.getElementById('ife-' + key);
-        if (element) {
-            element.addEventListener('change', (e) => {
-                activeFilters[key] = e.target.value;
-                processFiltersAndRender();
-            });
-        }
-    });
-
-    const resetBtn = document.getElementById('reset-filters');
-    if (resetBtn) {
-        resetBtn.addEventListener('click', () => {
-            interfaceMap.forEach(key => {
-                activeFilters[key] = '';
-                const element = document.getElementById('ife-' + key);
-                if (element) element.value = '';
-            });
-            activeFilters.sort = 'yearmonth';
-            const sortEl = document.getElementById('ife-sort');
-            if (sortEl) sortEl.value = 'yearmonth';
-            processFiltersAndRender();
-        });
-    }
-
+function bindCarouselEvents() {
     // Carousel Left/Right Button Hardware Smooth Scrolling Listeners
     const carouselViewport = document.getElementById('similar-maps-strip-viewport');
     const btnPrev = document.getElementById('carousel-btn-prev');
@@ -308,37 +208,8 @@ function bindInterfaceEvents() {
     }
 }
 
-function processFiltersAndRender() {
-    filteredImages = images.filter(item => {
-        const matchContinent = (activeFilters.continent === '' || 
-            (item.continent && String(item.continent).trim() === activeFilters.continent));
-        
-        let matchCountry = activeFilters.country === '';
-        if (!matchCountry) {
-            matchCountry = item.country.map(c => String(c).trim()).includes(activeFilters.country);
-        }
-
-        let matchDisaster = activeFilters.disaster === '';
-        if (!matchDisaster) {
-            matchDisaster = item.disaster.map(d => String(d).trim()).includes(activeFilters.disaster);
-        }
-
-        const matchTheme = (activeFilters.theme === '' ||
-            (item.themes && item.themes.map(t => String(t).trim()).includes(activeFilters.theme)));
-            
-        const matchYear = (activeFilters.year === '' || 
-            (item.year && String(item.year).trim() === activeFilters.year));
-
-        return matchContinent && matchCountry && matchDisaster && matchTheme && matchYear;
-    });
-
-    filteredImages.sort((a, b) => {
-        const valA = new Date(a.year, (a.month ? a.month - 1 : 0), 1);
-        const valB = new Date(b.year, (b.month ? b.month - 1 : 0), 1);
-        return activeFilters.sort === 'yearmonth' ? valB - valA : valA - valB;
-    });
-
-    buildDynamicDropdowns();
+function handleFilteredResults(filtered) {
+    filteredImages = filtered;
 
     if (filteredImages.length > 0) {
         if (isInitialPageLoad) {
