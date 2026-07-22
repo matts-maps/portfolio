@@ -14,7 +14,7 @@ layout: default
 
 <script type="module">
   import { images } from "{{ site.baseurl }}/assets/js/image-data.js";
-  import { initImageFilterEngine } from "{{ site.baseurl }}/assets/js/image-filter-engine.js";
+  import { initFilterEngine, SORT } from "{{ site.baseurl }}/assets/js/filter-engine.js";
   import { initLightbox, updateLightboxPool, launchLightbox } from "{{ site.baseurl }}/assets/js/image-lightbox.js";
 
   const baseUrl = "{{ site.baseurl }}";
@@ -103,6 +103,23 @@ layout: default
 
   document.addEventListener('DOMContentLoaded', () => {
     initLightbox();
-    initImageFilterEngine(images, renderGrid);
+    initFilterEngine(images, renderGrid, {
+      searchEl: "ife-search",
+      searchFields: ["name", "country", "location"],
+      sortEl: "ife-sort",
+      resetEl: "reset-filters",
+      fields: [
+        { key: "continent", elId: "ife-continent" },
+        { key: "country", elId: "ife-country", arrayValued: true },
+        { key: "disaster", elId: "ife-disaster", arrayValued: true, groups: { "tropical-cyclone": ["Cyclone", "Hurricane", "Typhoon"] } },
+        { key: "theme", prop: "themes", elId: "ife-theme", arrayValued: true },
+        { key: "year", elId: "ife-year", optionOrder: "desc-numeric" }
+      ],
+      sort: {
+        alpha: SORT.alpha,
+        theme: SORT.byFirstOf("themes"),
+        yearmonth: SORT.yearmonth
+      }
+    });
   });
 </script>

@@ -1,151 +1,156 @@
-export function initFilters(items, onChange) {
-  const fSort = document.getElementById("sort-select");
-  const fContinent = document.getElementById("filter-continent");
-  const fCountry = document.getElementById("filter-country");
-  const fDisaster = document.getElementById("filter-disaster"); // <-- Array conversion implemented
-  const fType = document.getElementById("filter-type"); 
-  const fModality = document.getElementById("filter-modality");
-  const fLevel = document.getElementById("filter-level"); 
-  const fStatus = document.getElementById("filter-status");   
-  const btnReset = document.getElementById("reset-filters");
+// Generic filter engine shared by the Projects page and the Home/Map pages.
+// Each page supplies a config describing its own <select>/<input> ids, which
+// data fields they filter, and which sort options it offers.
 
-  /* -----------------------------
-      POPULATE SELECT OPTIONS
-  ----------------------------- */
-  function fill(select, values) {
-    if (!select) return; // Guard check in case element isn't in DOM yet
-    const unique = [...new Set(values)].filter(Boolean).sort();
-    const current = select.value;
+function toArray(v) {
+  if (v === undefined || v === null) return [];
+  return Array.isArray(v) ? v : [v];
+}
 
-    select.innerHTML = `<option value="">All</option>`;
-    unique.forEach(v => select.innerHTML += `<option value="${v}">${v}</option>`);
+function monthNum(m) {
+  if (!m) return 0;
+  const parsed = parseInt(m, 10);
+  if (!isNaN(parsed)) return parsed;
+  const names = {
+    january: 1, february: 2, march: 3, april: 4, may: 5, june: 6,
+    july: 7, august: 8, september: 9, october: 10, november: 11, december: 12
+  };
+  return names[String(m).toLowerCase()] || 0;
+}
 
-    if (unique.includes(current)) select.value = current;
+export const SORT = {
+  alpha: (a, b) => (a.name || "").localeCompare(b.name || ""),
+  year: (a, b) => (Number(b.year) || 0) - (Number(a.year) || 0),
+  yearmonth: (a, b) =>
+    (Number(b.year) || 0) - (Number(a.year) || 0) || monthNum(b.month) - monthNum(a.month),
+  byField: key => (a, b) => (a[key] || "").localeCompare(b[key] || ""),
+  byFirstOf: arrayKey => (a, b) =>
+    ((a[arrayKey] && a[arrayKey][0]) || "").localeCompare((b[arrayKey] && b[arrayKey][0]) || "")
+};
+
+function matchesField(item, field, filterValue) {
+  if (!filterValue) return true;
+  const raw = item[field.prop];
+
+  if (field.groups && field.groups[filterValue]) {
+    const itemValues = field.arrayValued ? toArray(raw) : [raw];
+    return itemValues.some(v => field.groups[filterValue].includes(v));
   }
 
-  function populate(list) {
-    fill(fContinent, list.map(i => i.continent));
-    
-    fill(
-      fCountry, 
-      list.flatMap(i => Array.isArray(i.country) ? i.country : [i.country])
-    );
-    
-    // CHANGED: Flatten the disaster array values for the dropdown selection
-    fill(
-      fDisaster,
-      list.flatMap(i => Array.isArray(i.disaster) ? i.disaster : [i.disaster])
-    );
+  if (field.arrayValued) return toArray(raw).includes(filterValue);
 
-    fill(fType, list.map(i => i.type));
-    
-    fill(
-      fModality,
-      list.flatMap(i => Array.isArray(i.modality) ? i.modality : [i.modality])
-    );
+  return String(raw ?? "") === filterValue;
+}
 
-    fill(
-      fLevel,
-      list.flatMap(i => Array.isArray(i.level) ? i.level : [i.level])
-    );
+function matchesSearch(item, query, searchFields) {
+  if (!query) return true;
+  return searchFields.some(prop =>
+    toArray(item[prop]).some(v => String(v).toLowerCase().includes(query))
+  );
+}
 
-    fill(fStatus, list.map(i => i.status));
+function populateSelect(selectEl, rawValues, selectedValue, { preserve = [], excludeRaw = [], order = "asc" } = {}) {
+  if (!selectEl) return;
+
+  const unique = [...new Set(rawValues)]
+    .filter(v => v !== undefined && v !== null && v !== "")
+    .filter(v => !excludeRaw.includes(v));
+
+  const sorted = order === "desc-numeric"
+    ? unique.sort((a, b) => Number(b) - Number(a))
+    : unique.sort((a, b) => a.toString().localeCompare(b.toString()));
+
+  for (let i = selectEl.options.length - 1; i >= 0; i--) {
+    const val = selectEl.options[i].value;
+    if (val !== "" && !preserve.includes(val)) selectEl.remove(i);
   }
 
-  /* -----------------------------
-      THE FILTER EXECUTION
-  ----------------------------- */
-  function applyFilters() {
-    const filtered = items.filter(i => {
-      // 1. Continent
-      if (fContinent.value && i.continent !== fContinent.value) return false;
+  sorted.forEach(v => selectEl.add(new Option(v, v)));
 
-      // 2. Country (Array support)
-      if (fCountry.value) {
-        const countries = Array.isArray(i.country) ? i.country : [i.country];
-        if (!countries.includes(fCountry.value)) return false;
-      }
+  const validValues = new Set([...sorted.map(String), ...preserve]);
+  selectEl.value = selectedValue && validValues.has(selectedValue) ? selectedValue : "";
+}
 
-      // 3. CHANGED: Disaster (Array support using .includes)
-      if (fDisaster.value) {
-        const disasters = Array.isArray(i.disaster) ? i.disaster : [i.disaster];
-        if (!disasters.includes(fDisaster.value)) return false;
-      }
+function resetControl(el) {
+  if (!el) return;
+  el.value = el.tagName === "SELECT" && el.options.length ? el.options[0].value : "";
+}
 
-      // 4. Type
-      if (fType.value && i.type !== fType.value) return false;
+export function initFilterEngine(items, onChange, config) {
+  const {
+    searchEl: searchElId,
+    searchFields = [],
+    sortEl: sortElId,
+    resetEl: resetElId,
+    fields = [],
+    sort = {}
+  } = config;
 
-      // 5. Modality (Array support)
-      if (fModality.value) {
-        const modalities = Array.isArray(i.modality) ? i.modality : [i.modality];
-        if (!modalities.includes(fModality.value)) return false;
-      }
+  const searchInput = searchElId ? document.getElementById(searchElId) : null;
+  const sortSelect = sortElId ? document.getElementById(sortElId) : null;
+  const resetBtn = resetElId ? document.getElementById(resetElId) : null;
 
-      // 6. Level (Array support)
-      if (fLevel && fLevel.value) {
-        const levels = Array.isArray(i.level) ? i.level : [i.level];
-        if (!levels.includes(fLevel.value)) return false;
-      }
+  const controls = fields.map(field => ({
+    ...field,
+    prop: field.prop || field.key,
+    el: document.getElementById(field.elId)
+  }));
 
-      // 7. Status
-      if (fStatus.value && i.status !== fStatus.value) return false;
+  function currentValues() {
+    const values = {};
+    controls.forEach(c => { values[c.key] = c.el ? c.el.value : ""; });
+    return values;
+  }
 
-      return true;
+  function itemMatches(item, values, skipKey) {
+    return controls.every(c => c.key === skipKey || matchesField(item, c, values[c.key]));
+  }
+
+  function apply() {
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+    const values = currentValues();
+
+    const results = items.filter(item =>
+      matchesSearch(item, query, searchFields) && itemMatches(item, values, null)
+    );
+
+    // Each dropdown's own options are computed from every filter EXCEPT its
+    // own selection, so choosing a value never removes other choices from
+    // that same dropdown.
+    controls.forEach(c => {
+      const subset = items.filter(item =>
+        matchesSearch(item, query, searchFields) && itemMatches(item, values, c.key)
+      );
+      const rawValues = c.arrayValued
+        ? subset.flatMap(item => toArray(item[c.prop]))
+        : subset.map(item => item[c.prop]);
+
+      populateSelect(c.el, rawValues, values[c.key], {
+        preserve: c.groups ? Object.keys(c.groups) : [],
+        excludeRaw: c.groups ? Object.values(c.groups).flat() : [],
+        order: c.optionOrder || "asc"
+      });
     });
 
-    // Repopulate dropdowns based on filtered list
-    populate(filtered);
+    const comparator = sortSelect && sort[sortSelect.value];
+    if (comparator) results.sort(comparator);
 
-    // SORTING
-    if (fSort.value === "alpha") {
-      filtered.sort((a, b) => a.name.localeCompare(b.name));
-    }
-
-    if (fSort.value === "year") {
-      filtered.sort((a, b) => Number(b.year) - Number(a.year));
-    }
-
-    if (fSort.value === "yearmonth") {
-      const monthNum = m => ({
-        january:1,february:2,march:3,april:4,may:5,june:6,
-        july:7,august:8,september:9,october:10,november:11,december:12
-      }[String(m).toLowerCase()] || 0);
-
-      filtered.sort((a, b) =>
-        Number(b.year) - Number(a.year) ||
-        monthNum(b.month) - monthNum(a.month)
-      );
-    }
-
-    if (fSort.value === "type") { 
-      filtered.sort((a, b) => {
-        const aType = a.type || ""; 
-        const bType = b.type || ""; 
-        return aType.localeCompare(bType);
-      });
-    }
-
-    onChange(filtered);
+    onChange(results);
   }
 
-  /* -----------------------------
-      LISTENERS & INITIALIZATION
-  ----------------------------- */
-  const filters = [fSort, fContinent, fCountry, fDisaster, fType, fModality, fLevel, fStatus];
-  filters.forEach(f => {
-    if (f) f.addEventListener("change", applyFilters);
+  [sortSelect, searchInput, ...controls.map(c => c.el)].forEach(el => {
+    if (!el) return;
+    el.addEventListener(el.tagName === "INPUT" ? "input" : "change", apply);
   });
 
-  if (btnReset) {
-    btnReset.addEventListener("click", () => {
-      filters.forEach(f => {
-        if (f) f.value = "";
-      });
-      applyFilters();
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      resetControl(sortSelect);
+      resetControl(searchInput);
+      controls.forEach(c => resetControl(c.el));
+      apply();
     });
   }
 
-  // Initial Run
-  populate(items);
-  applyFilters();
+  apply();
 }

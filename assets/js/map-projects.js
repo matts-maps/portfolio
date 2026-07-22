@@ -1,5 +1,5 @@
-import { initFilters } from "/portfolio/assets/js/filter-engine.js";
-import { projects } from "/portfolio/assets/js/projects-data.js";
+import { initFilterEngine, SORT } from "./filter-engine.js";
+import { projects } from "./projects-data.js";
 
 // Assign unique IDs to every project
 projects.forEach((p, index) => {
@@ -186,13 +186,31 @@ document.addEventListener("DOMContentLoaded", () => {
   -------------------------------------------------- */
   createMarkers();
 
-  initFilters(projects, filtered => {
+  initFilterEngine(projects, filtered => {
     updateMap(filtered);
     updateTable(filtered);
 
     // Show most recent project in panel, but DO NOT zoom map
     if (filtered.length) {
       fillPanelOnly(filtered[0]);
+    }
+  }, {
+    sortEl: "sort-select",
+    resetEl: "reset-filters",
+    fields: [
+      { key: "continent", elId: "filter-continent" },
+      { key: "country", elId: "filter-country", arrayValued: true },
+      { key: "disaster", elId: "filter-disaster", arrayValued: true },
+      { key: "type", elId: "filter-type" },
+      { key: "modality", elId: "filter-modality", arrayValued: true },
+      { key: "level", elId: "filter-level", arrayValued: true },
+      { key: "status", elId: "filter-status" }
+    ],
+    sort: {
+      alpha: SORT.alpha,
+      year: SORT.year,
+      yearmonth: SORT.yearmonth,
+      type: SORT.byField("type")
     }
   });
 
