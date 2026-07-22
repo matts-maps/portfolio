@@ -23,7 +23,7 @@ export const images = [
     "file": "assets/images/maps/2012-brazzaville-munitions.jpg",
     "name": "Distribution and concentrations of reported ordnance (as of 22 March 2012)",
     "continent": "Africa",
-    "country": "Republic of the Congo",
+    "country": ["Republic of the Congo"],
     "location": "Brazzaville",
     "year": 2012,
     "month": 3,
@@ -32,7 +32,7 @@ export const images = [
     "themes": [
       "Humanitarian"
     ],
-    "disaster": "Munitions Explosion",
+    "disaster": ["Munitions Explosion"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -41,7 +41,7 @@ export const images = [
     "file": "assets/images/maps/2014-gaza.jpg",
     "name": "Situational overview (as of 24 July 2014)",
     "continent": "Asia",
-    "country": "Gaza",
+    "country": ["Gaza"],
     "location": "",
     "year": 2014,
     "month": 7,
@@ -52,7 +52,7 @@ export const images = [
       "Displacement",
       "Urban"
     ],
-    "disaster": "Conflict",
+    "disaster": ["Conflict"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -61,7 +61,7 @@ export const images = [
     "file": "assets/images/maps/south-sudan-situational-overview.jpg",
     "name": "Situation overview (as at 5 August 2014)",
     "continent": "Africa",
-    "country": "South Sudan",
+    "country": ["South Sudan"],
     "location": "",
     "year": 2014,
     "month": 8,
@@ -73,7 +73,7 @@ export const images = [
       "Food security",
       "Health"
     ],
-    "disaster": "Conflict",
+    "disaster": ["Conflict"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -82,7 +82,7 @@ export const images = [
     "file": "assets/images/maps/2014-liberia-ebola-humanitarian-presence.jpg",
     "name": "Who, what and where (3W) humanitarian presence (as at 5 September 2014)",
     "continent": "Africa",
-    "country": "Liberia",
+    "country": ["Liberia"],
     "location": "",
     "year": 2014,
     "month": 9,
@@ -92,7 +92,7 @@ export const images = [
       "Health",
       "Humanitarian"
     ],
-    "disaster": "Ebola",
+    "disaster": ["Ebola"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -101,7 +101,7 @@ export const images = [
     "file": "assets/images/maps/2014-liberia-ebola-treatment-units.jpeg",
     "name": "Location and status of Ebola Treatment Units (as of 14 October 2014)",
     "continent": "Africa",
-    "country": "Liberia",
+    "country": ["Liberia"],
     "location": "",
     "year": 2014,
     "month": 10,
@@ -111,7 +111,7 @@ export const images = [
       "Health",
       "Humanitarian"
     ],
-    "disaster": "Ebola",
+    "disaster": ["Ebola"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -120,7 +120,7 @@ export const images = [
     "file": "assets/images/maps/2015-malawi-floods.jpeg",
     "name": "Location of displacement sites - Chickwawa (as of 17 February 2015)",
     "continent": "Africa",
-    "country": "Malawi",
+    "country": ["Malawi"],
     "location": "",
     "year": 2015,
     "month": 2,
@@ -129,7 +129,7 @@ export const images = [
     "themes": [
       "Humanitarian"
     ],
-    "disaster": "Flood",
+    "disaster": ["Flood"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -138,7 +138,7 @@ export const images = [
     "file": "assets/images/maps/2015-vanuatu-wash-distribution.jpeg",
     "name": "Summary of WASH cluster item delivery (as of 25 March 2015)",
     "continent": "Oceania",
-    "country": "Vanuatu",
+    "country": ["Vanuatu"],
     "location": "",
     "year": 2015,
     "month": 3,
@@ -148,7 +148,7 @@ export const images = [
       "WASH",
       "Humanitarian"
     ],
-    "disaster": "Cyclone",
+    "disaster": ["Cyclone"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -157,7 +157,7 @@ export const images = [
     "file": "assets/images/maps/2016-southern-africa-food-security-el-nino.jpg",
     "name": "Southern Africa: Estimated number of current food insecure rural populations (as of 16 Feb 2016)",
     "continent": "Africa",
-    "country": "",
+    "country": [],
     "location": "",
     "year": 2015,
     "month": 3,
@@ -167,7 +167,7 @@ export const images = [
       "El Niño",
       "Humanitarian"
     ],
-    "disaster": "Climate change",
+    "disaster": ["Climate change"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -176,7 +176,7 @@ export const images = [
     "file": "assets/images/maps/2015-european-migration.jpg",
     "name": "European Migrant Crisis: Overview (as of 17 November 2015)",
     "continent": "Europe",
-    "country": "Multiple",
+    "country": ["Multiple"],
     "location": "",
     "year": 2015,
     "month": 11,
@@ -186,7 +186,7 @@ export const images = [
       "Humanitarian",
       "Migration"
     ],
-    "disaster": "Conflict",
+    "disaster": ["Conflict"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -195,7 +195,7 @@ export const images = [
     "file": "assets/images/maps/barry-buddon-half-marathon.png",
     "name": "Barry Buddon half marathon",
     "continent": "Europe",
-    "country": "United Kingdom",
+    "country": ["United Kingdom"],
     "location": "",
     "year": 2016,
     "month": 1,
@@ -204,7 +204,7 @@ export const images = [
     "themes": [
       "Recreation"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -228,7 +228,7 @@ export const images = [
       "Humanitarian",
       "Displacement"
     ],
-    "disaster": "",
+    "disaster": [],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -237,7 +237,7 @@ export const images = [
     "file": "assets/images/maps/glasgow-mono.png",
     "name": "Glasgow monochrome",
     "continent": "Europe",
-    "country": "United Kingdom",
+    "country": ["United Kingdom"],
     "location": "Glasgow",
     "year": 2017,
     "month": 1,
@@ -246,7 +246,7 @@ export const images = [
     "themes": [
       "Urban"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -255,7 +255,7 @@ export const images = [
     "file": "assets/images/maps/2018-dominica-isaac-wind-speed-probabilities.jpeg",
     "name": "Hurricane Isaac - Wind speed probabilities (as at 11 September 2018)",
     "continent": "Caribbean",
-    "country": "Dominica",
+    "country": ["Dominica"],
     "location": "",
     "year": 2018,
     "month": 9,
@@ -265,7 +265,7 @@ export const images = [
       "Humanitarian",
       "Weather"
     ],
-    "disaster": "Hurricane",
+    "disaster": ["Hurricane"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -274,7 +274,7 @@ export const images = [
     "file": "assets/images/maps/2018-philippines-mangkhut-affected-population.jpeg",
     "name": "Affected population (as at 22 September 2018)",
     "continent": "Asia",
-    "country": "The Philippines",
+    "country": ["The Philippines"],
     "location": "",
     "year": 2018,
     "month": 9,
@@ -283,7 +283,7 @@ export const images = [
     "themes": [
       "Humanitarian"
     ],
-    "disaster": "Typhoon",
+    "disaster": ["Typhoon"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -292,7 +292,7 @@ export const images = [
     "file": "assets/images/maps/2018-philippines-mangkhut-agriculture-damage-costs.jpeg",
     "name": "Agriculture damage costs (as at 20 September 2018)",
     "continent": "Asia",
-    "country": "The Philippines",
+    "country": ["The Philippines"],
     "location": "",
     "year": 2018,
     "month": 9,
@@ -301,7 +301,7 @@ export const images = [
     "themes": [
       "Humanitarian"
     ],
-    "disaster": "Typhoon",
+    "disaster": ["Typhoon"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -310,7 +310,7 @@ export const images = [
     "file": "assets/images/maps/2018-philippines-mangkhut-naga.jpeg",
     "name": "Landslide overview (as at 28 September 2018)",
     "continent": "Asia",
-    "country": "The Philippines",
+    "country": ["The Philippines"],
     "location": "Naga City",
     "year": 2018,
     "month": 9,
@@ -333,7 +333,7 @@ export const images = [
     "file": "assets/images/maps/2018-indonesia-idp-camps.jpg",
     "name": "Number of families at IDP camps (as at 22 October 2018)",
     "continent": "Asia",
-    "country": "Indonesia",
+    "country": ["Indonesia"],
     "location": "Palu",
     "year": 2018,
     "month": 10,
@@ -356,7 +356,7 @@ export const images = [
     "file": "assets/images/maps/2018-indonesia-potable-water-distribution-points.jpeg",
     "name": "Location of water distribution points (as of 22 October 2018)",
     "continent": "Asia",
-    "country": "Indonesia",
+    "country": ["Indonesia"],
     "location": "Palu",
     "year": 2018,
     "month": 10,
@@ -366,7 +366,7 @@ export const images = [
       "Humanitarian",
       "WASH"
     ],
-    "disaster": "Earthquake",
+    "disaster": ["Earthquake"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -375,7 +375,7 @@ export const images = [
     "file": "assets/images/maps/2018-indonesia-potable-water-requirements.jpg",
     "name": "Estimated potable water requirements (as at 23 October 2018)",
     "continent": "Asia",
-    "country": "Indonesia",
+    "country": ["Indonesia"],
     "location": "Palu",
     "year": 2018,
     "month": 10,
@@ -385,7 +385,7 @@ export const images = [
       "Humanitarian",
       "WASH"
     ],
-    "disaster": "Earthquake",
+    "disaster": ["Earthquake"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -394,7 +394,7 @@ export const images = [
     "file": "assets/images/maps/2018-indonesia-potable-water-temporary-settlements.jpeg",
     "name": "Estimated potable water requirements - temporary settlements",
     "continent": "Asia",
-    "country": "Indonesia",
+    "country": ["Indonesia"],
     "location": "Palu",
     "year": 2018,
     "month": 10,
@@ -404,7 +404,7 @@ export const images = [
       "Humanitarian",
       "WASH"
     ],
-    "disaster": "Earthquake",
+    "disaster": ["Earthquake"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -413,7 +413,7 @@ export const images = [
     "file": "assets/images/maps/2019-mozambique-idai-who-beira-cholera-cases.jpeg",
     "name": "Cholera cases (as at 2 April 2019)",
     "continent": "Africa",
-    "country": "Mozambique",
+    "country": ["Mozambique"],
     "location": "Beira",
     "year": 2019,
     "month": 4,
@@ -423,7 +423,7 @@ export const images = [
       "Humanitarian",
       "Health"
     ],
-    "disaster": "Cyclone",
+    "disaster": ["Cyclone"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -432,7 +432,7 @@ export const images = [
     "file": "assets/images/maps/2019-mozambique-idai-who-beira-emts-ctcs-health-facilities.jpeg",
     "name": "EMTs, CTCs and health facilities (as at 1 April 2019)",
     "continent": "Africa",
-    "country": "Mozambique",
+    "country": ["Mozambique"],
     "location": "Beira",
     "year": 2019,
     "month": 4,
@@ -442,7 +442,7 @@ export const images = [
       "Humanitarian",
       "Health"
     ],
-    "disaster": "Cyclone",
+    "disaster": ["Cyclone"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -451,7 +451,7 @@ export const images = [
     "file": "assets/images/maps/2019-mozambique-idai-who-sofala-emts-ctcs-health-facilities.jpeg",
     "name": "Health facilities (as at 1 April 2019)",
     "continent": "Africa",
-    "country": "Mozambique",
+    "country": ["Mozambique"],
     "location": "Sofala",
     "year": 2019,
     "month": 4,
@@ -461,7 +461,7 @@ export const images = [
       "Humanitarian",
       "Health"
     ],
-    "disaster": "Cyclone",
+    "disaster": ["Cyclone"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -470,7 +470,7 @@ export const images = [
     "file": "assets/images/maps/2019-mozambique-idai-who-sofala-health-cluster-345w.jpg",
     "name": "Health cluster 4W (as at 1 April 2019)",
     "continent": "Africa",
-    "country": "Mozambique",
+    "country": ["Mozambique"],
     "location": "Sofala",
     "year": 2019,
     "month": 4,
@@ -480,7 +480,7 @@ export const images = [
       "Humanitarian",
       "Health"
     ],
-    "disaster": "Cyclone",
+    "disaster": ["Cyclone"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -489,7 +489,7 @@ export const images = [
     "file": "assets/images/maps/2021-gimac-ethiopia-crops-locusts.jpg",
     "name": "Crops affected by locusts (Jan–Jul 2020)",
     "continent": "Africa",
-    "country": "Ethiopia",
+    "country": ["Ethiopia"],
     "location": "",
     "year": 2020,
     "month": 7,
@@ -499,7 +499,7 @@ export const images = [
       "Humanitarian",
       "Agriculture"
     ],
-    "disaster": "Locusts",
+    "disaster": ["Locusts"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -508,7 +508,7 @@ export const images = [
     "file": "assets/images/maps/2021-gimac-iraq-idp-change.jpg",
     "name": "Tracking changes in the number of IDPs (Aug 2018–Aug 2020)",
     "continent": "Asia",
-    "country": "Iraq",
+    "country": ["Iraq"],
     "location": "",
     "year": 2020,
     "month": 8,
@@ -518,7 +518,7 @@ export const images = [
       "Humanitarian",
       "Displacement"
     ],
-    "disaster": "Conflict",
+    "disaster": ["Conflict"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -527,7 +527,7 @@ export const images = [
     "file": "assets/images/maps/2021-gimac-iraq-shelter-type.jpg",
     "name": "Number of displaced individuals by shelter type (as at 30 August 2020)",
     "continent": "Asia",
-    "country": "Iraq",
+    "country": ["Iraq"],
     "location": "",
     "year": 2020,
     "month": 8,
@@ -537,7 +537,7 @@ export const images = [
       "Humanitarian",
       "Shelter"
     ],
-    "disaster": "Conflict",
+    "disaster": ["Conflict"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -546,7 +546,7 @@ export const images = [
     "file": "assets/images/maps/2021-gimac-ethiopia-commodity-trends.jpg",
     "name": "Commodity trends (Jan 2019–Apr 2020)",
     "continent": "Africa",
-    "country": "Ethiopia",
+    "country": ["Ethiopia"],
     "location": "",
     "year": 2021,
     "month": 4,
@@ -556,7 +556,7 @@ export const images = [
       "Humanitarian",
       "Economy"
     ],
-    "disaster": "Conflict",
+    "disaster": ["Conflict"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -565,7 +565,7 @@ export const images = [
     "file": "assets/images/maps/2021-st-vincent-volcano-situational-overview.jpeg",
     "name": "Situational Overview (as of 21 April 2021)",
     "continent": "Caribbean",
-    "country": "St Vincent and the Grenadines",
+    "country": ["St Vincent and the Grenadines"],
     "location": "",
     "year": 2021,
     "month": 4,
@@ -574,7 +574,7 @@ export const images = [
     "themes": [
       "Humanitarian"
     ],
-    "disaster": "Volcano",
+    "disaster": ["Volcano"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -583,7 +583,7 @@ export const images = [
     "file": "assets/images/maps/2021-gimac-afghanistan.jpg",
     "name": "Projected food insecurity (June–Nov 2021)",
     "continent": "Asia",
-    "country": "Afghanistan",
+    "country": ["Afghanistan"],
     "location": "",
     "year": 2021,
     "month": 6,
@@ -593,7 +593,7 @@ export const images = [
       "Humanitarian",
       "Food security"
     ],
-    "disaster": "Conflict",
+    "disaster": ["Conflict"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -602,7 +602,7 @@ export const images = [
     "file": "assets/images/maps/2021-iraq-security.jpg",
     "name": "Fatalities per event type (Jan 2019–Aug 2020)",
     "continent": "Asia",
-    "country": "Iraq",
+    "country": ["Iraq"],
     "location": "",
     "year": 2021,
     "month": 8,
@@ -612,7 +612,7 @@ export const images = [
       "Humanitarian",
       "Security"
     ],
-    "disaster": "Conflict",
+    "disaster": ["Conflict"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -621,7 +621,7 @@ export const images = [
     "file": "assets/images/maps/greece.png",
     "name": "Physical geography of Greece",
     "continent": "Europe",
-    "country": "Greece",
+    "country": ["Greece"],
     "location": "",
     "year": 2022,
     "month": 6,
@@ -630,7 +630,7 @@ export const images = [
     "themes": [
       "Physical geography"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": [
@@ -644,7 +644,7 @@ export const images = [
     "file": "assets/images/maps/hanoi.jpg",
     "name": "Hanoi",
     "continent": "Asia",
-    "country": "Vietnam",
+    "country": ["Vietnam"],
     "location": "Hanoi",
     "year": 2024,
     "month": 1,
@@ -653,7 +653,7 @@ export const images = [
     "themes": [
       "Urban"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -662,7 +662,7 @@ export const images = [
     "file": "assets/images/maps/makati-osaka.png",
     "name": "Makati",
     "continent": "Asia",
-    "country": "The Philippines",
+    "country": ["The Philippines"],
     "location": "Makati",
     "year": 2024,
     "month": 1,
@@ -671,7 +671,7 @@ export const images = [
     "themes": [
       "Transport"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -680,7 +680,7 @@ export const images = [
     "file": "assets/images/maps/singapore.png",
     "name": "Singapore",
     "continent": "Asia",
-    "country": "Singapore",
+    "country": ["Singapore"],
     "location": "",
     "year": 2024,
     "month": 1,
@@ -689,7 +689,7 @@ export const images = [
     "themes": [
       "Urban"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -698,7 +698,7 @@ export const images = [
     "file": "assets/images/maps/iceland-physical-geography.jpg",
     "name": "Physcial geography of Iceland",
     "continent": "Europe",
-    "country": "Iceland",
+    "country": ["Iceland"],
     "location": "",
     "year": 2024,
     "month": 3,
@@ -707,7 +707,7 @@ export const images = [
     "themes": [
       "Landscape"
     ],
-    "disaster": "",
+    "disaster": [],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -716,7 +716,7 @@ export const images = [
     "file": "assets/images/maps/new-zealand-hexagonal-population.jpg",
     "name": "Estimated population (2023)",
     "continent": "Oceania",
-    "country": "New Zealand",
+    "country": ["New Zealand"],
     "location": "",
     "year": 2024,
     "month": 11,
@@ -725,7 +725,7 @@ export const images = [
     "themes": [
       "Population"
     ],
-    "disaster": "",
+    "disaster": [],
     "description": "Part of the 30 maps in 30 days challenge in 2024.",
     "map_style": "",
     "data_sources": []
@@ -734,7 +734,7 @@ export const images = [
     "file": "assets/images/maps/caledonian-canal-strip-map.png",
     "name": "Caledonian Canal",
     "continent": "Europe",
-    "country": "United Kingdom",
+    "country": ["United Kingdom"],
     "location": "Fort William",
     "year": 2025,
     "month": 1,
@@ -743,7 +743,7 @@ export const images = [
     "themes": [
       "Recreation"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -752,7 +752,7 @@ export const images = [
     "file": "assets/images/maps/glasgow.png",
     "name": "Glasgow",
     "continent": "Europe",
-    "country": "United Kingdom",
+    "country": ["United Kingdom"],
     "location": "Glasgow",
     "year": 2025,
     "month": 1,
@@ -761,7 +761,7 @@ export const images = [
     "themes": [
       "Urban"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -770,7 +770,7 @@ export const images = [
     "file": "assets/images/maps/glencoe-mountain-gathering.png",
     "name": "Glencoe mountain gathering",
     "continent": "Europe",
-    "country": "United Kingdom",
+    "country": ["United Kingdom"],
     "location": "Glencoe",
     "year": 2025,
     "month": 1,
@@ -779,7 +779,7 @@ export const images = [
     "themes": [
       "Recreation"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -788,7 +788,7 @@ export const images = [
     "file": "assets/images/maps/new-zealand-raster.jpg",
     "name": "Aotearoa/New Zealand",
     "continent": "Oceania",
-    "country": "New Zealand",
+    "country": ["New Zealand"],
     "location": "",
     "year": 2025,
     "month": 1,
@@ -797,7 +797,7 @@ export const images = [
     "themes": [
       "Landscape"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "Inspired by this map here - <a href='https://soaratlas.com/maps/oceania-new-zealand-aotearoa-15866?pos=-40.36082373372568%2C173.7623460138845%2C6.64' target='_blank'>Soar Atlas</a>",
     "map_style": "",
     "data_sources": []
@@ -806,7 +806,7 @@ export const images = [
     "file": "assets/images/maps/osaka-new.png",
     "name": "Osaka",
     "continent": "Asia",
-    "country": "Japan",
+    "country": ["Japan"],
     "location": "Osaka",
     "year": 2025,
     "month": 1,
@@ -815,7 +815,7 @@ export const images = [
     "themes": [
       "Urban"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "Inspired by the <a href=\"https://www.antiquemapsandprints.com/products/osaka-antique-town-city-plan-honshu-japan-1914-old-map-chart-p-6-018241?_pos=16&_sid=afb666c30&_ss=r\" target=\"_blank\">Osaka antique town city plan</a> by the Japanese Government Railways in 1914. The map uses OpenStreetMap data with the styling of the old map.",
     "map_style": "",
     "data_sources": []
@@ -824,7 +824,7 @@ export const images = [
     "file": "assets/images/maps/rockwell-sketch.png",
     "name": "Rockwell sketch map",
     "continent": "Asia",
-    "country": "The Philippines",
+    "country": ["The Philippines"],
     "location": "Rockwell, Makati",
     "year": 2025,
     "month": 1,
@@ -833,7 +833,7 @@ export const images = [
     "themes": [
       "Urban"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -853,7 +853,7 @@ export const images = [
     "themes": [
       "Geology"
     ],
-    "disaster": "",
+    "disaster": [],
     "description": "Where my passion for geography and geology first started.",
     "map_style": "",
     "data_sources": []
@@ -862,7 +862,7 @@ export const images = [
     "file": "assets/images/maps/all-flights-international-auckland-2026.png",
     "name": "International flights from Auckland in 2026",
     "continent": "Oceania",
-    "country": "New Zealand",
+    "country": ["New Zealand"],
     "location": "Auckland",
     "year": 2026,
     "month": 1,
@@ -871,7 +871,7 @@ export const images = [
     "themes": [
       "Transport"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "Inspired to try my version of this <a href=\"https://somethingaboutmaps.com/Flight-Map\" target=\"_blank\">flight map by Daniel P. Huffman</a> of flights leaving Auckland.",
     "map_style": "",
     "data_sources": []
@@ -880,7 +880,7 @@ export const images = [
     "file": "assets/images/maps/all-flights-international-manila-2026.png",
     "name": "International flights from Manila in 2026",
     "continent": "Asia",
-    "country": "The Philippines",
+    "country": ["The Philippines"],
     "location": "Manila",
     "year": 2026,
     "month": 1,
@@ -889,7 +889,7 @@ export const images = [
     "themes": [
       "Transport"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "This is a second of a \"mini-series\" of flight maps inspired by the original <a href=\"https://somethingaboutmaps.com/Flight-Map\" target=\"_blank\">flight map by Daniel P. Huffman</a>.",
     "map_style": "",
     "data_sources": []
@@ -898,7 +898,7 @@ export const images = [
     "file": "assets/images/maps/kinloch-10k.png",
     "name": "Kinloch 10km route",
     "continent": "Europe",
-    "country": "New Zealand",
+    "country": ["New Zealand"],
     "location": "Kinloch",
     "year": 2026,
     "month": 1,
@@ -907,7 +907,7 @@ export const images = [
     "themes": [
       "Recreation"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -916,7 +916,7 @@ export const images = [
     "file": "assets/images/maps/liverpool.png",
     "name": "Liverpool",
     "continent": "Europe",
-    "country": "United Kingdom",
+    "country": ["United Kingdom"],
     "location": "Liverpool",
     "year": 2026,
     "month": 1,
@@ -925,7 +925,7 @@ export const images = [
     "themes": [
       "Urban"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -934,7 +934,7 @@ export const images = [
     "file": "assets/images/maps/loch-maree.png",
     "name": "Loch Maree",
     "continent": "Europe",
-    "country": "United Kingdom",
+    "country": ["United Kingdom"],
     "location": "Loch Maree",
     "year": 2026,
     "month": 1,
@@ -944,7 +944,7 @@ export const images = [
       "Landscape",
       "Bathymetry"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "Inspired by the <a href=\"https://maps.nls.uk/bathymetric/chart/2058\" target=\"_blank\">Bathymetrical Survey of the Fresh-Water Lochs of Scotland</a> that were constructed under the direction of Sir John Murray And Laurence Pullar (1897 - 1909). The uses digitised bathymetric data from the survey with data from OpenStreetMap and other modern day sources.",
     "map_style": "",
     "data_sources": []
@@ -953,7 +953,7 @@ export const images = [
     "file": "assets/images/maps/parkrun-taupo.png",
     "name": "Parkrun Taupō",
     "continent": "Oceania",
-    "country": "New Zealand",
+    "country": ["New Zealand"],
     "location": "Taupō",
     "year": 2026,
     "month": 1,
@@ -963,7 +963,7 @@ export const images = [
       "Recreation",
       "Running"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -972,7 +972,7 @@ export const images = [
     "file": "assets/images/maps/2026-micronesia-estimated-damage.png",
     "name": "Estimated damage through satellite obervations (as of 24 April 2026)",
     "continent": "Oceania",
-    "country": "Federated States of Micronesia",
+    "country": ["Federated States of Micronesia"],
     "location": "Chuuk State",
     "year": 2026,
     "month": 4,
@@ -982,7 +982,7 @@ export const images = [
       "Humanitarian",
       "Damage assessment"
     ],
-    "disaster": "Cyclone",
+    "disaster": ["Cyclone"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -991,7 +991,7 @@ export const images = [
     "file": "assets/images/maps/2026-micronesia-distances.png",
     "name": "Distances from state ports to the outer islands",
     "continent": "Oceania",
-    "country": "Federated States of Micronesia",
+    "country": ["Federated States of Micronesia"],
     "location": "Chuuk State",
     "year": 2026,
     "month": 4,
@@ -1001,7 +1001,7 @@ export const images = [
       "Humanitarian",
       "Logistics"
     ],
-    "disaster": "Cyclone",
+    "disaster": ["Cyclone"],
     "description": "",
     "map_style": "",
     "data_sources": []
@@ -1010,7 +1010,7 @@ export const images = [
     "file": "assets/images/maps/raglan-harbour.png",
     "name": "Whaingaroa/Raglan Harbour",
     "continent": "Oceania",
-    "country": "New Zealand",
+    "country": ["New Zealand"],
     "location": "Wahaingaroa/Raglan",
     "year": 2026,
     "month": 6,
@@ -1019,7 +1019,7 @@ export const images = [
     "themes": [
       "Physical geography"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "Physical geography of Whaingaroa/Raglan Harbour.",
     "map_style": "",
     "data_sources": [
@@ -1032,7 +1032,7 @@ export const images = [
     "file": "assets/images/maps/intramuros-sketch-map.png",
     "name": "Intramuros Sketch Map",
     "continent": "Asia",
-    "country": "The Philippines",
+    "country": ["The Philippines"],
     "location": "Intramuros, Manila",
     "year": 2026,
     "month": 7,
@@ -1041,7 +1041,7 @@ export const images = [
     "themes": [
       "Physical geography"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "Sketch map of Intramuros, Manila.",
     "map_style": "Sketch",
     "data_sources": [
@@ -1053,7 +1053,7 @@ export const images = [
     "file": "assets/images/maps/pollok-park-sketch-map.png",
     "name": "Pollok Park Sketch Map",
     "continent": "Europe",
-    "country": "United Kingdom",
+    "country": ["United Kingdom"],
     "location": "Pollok Park, Glasgow",
     "year": 2026,
     "month": 7,
@@ -1062,7 +1062,7 @@ export const images = [
     "themes": [
       "Physical geography"
     ],
-    "disaster": "None",
+    "disaster": ["None"],
     "description": "Sketch map of Pollok Park, Glasgow.",
     "map_style": "Sketch",
     "data_sources": [

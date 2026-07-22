@@ -47,19 +47,19 @@ layout: default
       const line2Parts = [];
 
       // 1. Handle Location and Country combination
+      const countryText = (item.country && item.country.length) ? item.country.join(', ') : 'Global';
       if (item.location) {
-        line2Parts.push(`${item.location}, ${item.country || 'Global'}`);
-      } else if (item.country) {
-        line2Parts.push(item.country);
+        line2Parts.push(`${item.location}, ${countryText}`);
+      } else if (item.country && item.country.length) {
+        line2Parts.push(countryText);
       } else {
         line2Parts.push('Global');
       }
 
-      // 2. Add Disaster if it exists and handles both Single String and Array structures safely
-      if (item.disaster) {
-        const disasterList = Array.isArray(item.disaster) ? item.disaster : [item.disaster];
-        const activeDisasters = disasterList.filter(d => d && d !== 'None');
-        
+      // 2. Add Disaster if it exists
+      if (item.disaster && item.disaster.length) {
+        const activeDisasters = item.disaster.filter(d => d && d !== 'None');
+
         if (activeDisasters.length > 0) {
           line2Parts.push(activeDisasters.join(', '));
         }

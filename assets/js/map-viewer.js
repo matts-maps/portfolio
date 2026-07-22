@@ -243,26 +243,16 @@ function buildDynamicDropdowns() {
                 (item.continent && String(item.continent).trim() === activeFilters.continent));
             
             let matchCountry = key === 'country' || activeFilters.country === '';
-            if (!matchCountry && item.country) {
-                if (Array.isArray(item.country)) {
-                    matchCountry = item.country.map(c => String(c).trim()).includes(activeFilters.country);
-                } else {
-                    matchCountry = String(item.country).trim() === activeFilters.country;
-                }
+            if (!matchCountry) {
+                matchCountry = item.country.map(c => String(c).trim()).includes(activeFilters.country);
             }
-            
+
             let matchDisaster = key === 'disaster' || activeFilters.disaster === '';
-            if (!matchDisaster && item.disaster) {
-                if (Array.isArray(item.disaster)) {
-                    matchDisaster = item.disaster.map(d => String(d).trim()).includes(activeFilters.disaster);
-                } else {
-                    matchDisaster = String(item.disaster).trim() === activeFilters.disaster;
-                }
-            } else if (!matchDisaster && (!item.disaster || item.disaster === "")) {
-                matchDisaster = false;
+            if (!matchDisaster) {
+                matchDisaster = item.disaster.map(d => String(d).trim()).includes(activeFilters.disaster);
             }
-            
-            const matchTheme = (key === 'theme' || activeFilters.theme === '' || 
+
+            const matchTheme = (key === 'theme' || activeFilters.theme === '' ||
                 (item.themes && item.themes.map(t => String(t).trim()).includes(activeFilters.theme)));
                 
             const matchYear = (key === 'year' || activeFilters.year === '' || 
@@ -324,26 +314,16 @@ function processFiltersAndRender() {
             (item.continent && String(item.continent).trim() === activeFilters.continent));
         
         let matchCountry = activeFilters.country === '';
-        if (!matchCountry && item.country) {
-            if (Array.isArray(item.country)) {
-                matchCountry = item.country.map(c => String(c).trim()).includes(activeFilters.country);
-            } else {
-                matchCountry = String(item.country).trim() === activeFilters.country;
-            }
+        if (!matchCountry) {
+            matchCountry = item.country.map(c => String(c).trim()).includes(activeFilters.country);
         }
-        
+
         let matchDisaster = activeFilters.disaster === '';
-        if (!matchDisaster && item.disaster) {
-            if (Array.isArray(item.disaster)) {
-                matchDisaster = item.disaster.map(d => String(d).trim()).includes(activeFilters.disaster);
-            } else {
-                matchDisaster = String(item.disaster).trim() === activeFilters.disaster;
-            }
-        } else if (!matchDisaster && (!item.disaster || item.disaster === "")) {
-            matchDisaster = false;
+        if (!matchDisaster) {
+            matchDisaster = item.disaster.map(d => String(d).trim()).includes(activeFilters.disaster);
         }
-        
-        const matchTheme = (activeFilters.theme === '' || 
+
+        const matchTheme = (activeFilters.theme === '' ||
             (item.themes && item.themes.map(t => String(t).trim()).includes(activeFilters.theme)));
             
         const matchYear = (activeFilters.year === '' || 
@@ -462,11 +442,11 @@ function renderSimilarImagesPanel(currentItem) {
     const relatedList = images.filter(item => {
         if (item.file === currentItem.file) return false; // Skip the active selected image
         
-        const sameCountry = item.country && currentItem.country && 
-            (Array.isArray(item.country) ? item.country.some(c => currentItem.country.includes(c)) : item.country === currentItem.country);
-            
-        const sameDisaster = item.disaster && currentItem.disaster && item.disaster !== "None" && item.disaster !== "" &&
-            (Array.isArray(item.disaster) ? item.disaster.some(d => currentItem.disaster.includes(d)) : item.disaster === currentItem.disaster);
+        const sameCountry = item.country.length > 0 && currentItem.country.length > 0 &&
+            item.country.some(c => currentItem.country.includes(c));
+
+        const sameDisaster = item.disaster.length > 0 && currentItem.disaster.length > 0 &&
+            item.disaster.some(d => d !== "None" && d !== "" && currentItem.disaster.includes(d));
 
         return sameCountry || sameDisaster || (item.continent && item.continent === currentItem.continent);
     }).slice(0, 16); // Upper limit window matching full-width configurations
@@ -538,12 +518,13 @@ function renderFeaturedSelection(item) {
 
     document.getElementById('project-title').textContent = item.name;
     
-    let contextLocation = Array.isArray(item.country) ? item.country.join(', ') : item.country;
+    let contextLocation = item.country.join(', ');
     if (item.location) contextLocation = item.location + ' · ' + contextLocation;
-    
+
     let disasterLabel = 'Standard Map';
-    if (item.disaster && item.disaster !== "None" && item.disaster !== "") {
-        disasterLabel = Array.isArray(item.disaster) ? item.disaster.join('/') : item.disaster;
+    const activeDisasters = item.disaster.filter(d => d && d !== "None");
+    if (activeDisasters.length > 0) {
+        disasterLabel = activeDisasters.join('/');
     }
     
     document.getElementById('project-location').textContent = contextLocation + ' · ' + disasterLabel + ' · ' + item.year;

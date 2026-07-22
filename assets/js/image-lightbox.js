@@ -252,13 +252,19 @@ function updateLightboxDOM() {
   
   if (lightboxDesc) {
     const parts = [];
-    if (item.location && item.country !== "Multiple") {
-      parts.push(`${item.location}, ${item.country}`);
-    } else if (item.country && item.country !== "Multiple") {
-      parts.push(item.country);
+    const countryText = (item.country || []).filter(c => c && c !== "Multiple").join(', ');
+
+    if (item.location && countryText) {
+      parts.push(`${item.location}, ${countryText}`);
+    } else if (countryText) {
+      parts.push(countryText);
+    } else if (item.location) {
+      parts.push(item.location);
     }
-    if (item.disaster && item.disaster !== "None") {
-      parts.push(item.disaster);
+
+    const activeDisasters = (item.disaster || []).filter(d => d && d !== "None");
+    if (activeDisasters.length > 0) {
+      parts.push(activeDisasters.join(', '));
     }
     if (item.year) {
       parts.push(item.year);
