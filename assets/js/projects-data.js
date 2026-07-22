@@ -2250,7 +2250,7 @@ export const projects = [
     ],
     "startDate": "2026-07-13",
     "endDate": "2026-07-117",
-    "status": "Current",
+    "status": "Complete",
     "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
     "parentProjectDescription": ""
   }
