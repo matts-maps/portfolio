@@ -68,13 +68,17 @@ function setupFilterToggle(toggleId, barId) {
 
   const mobileFilterQuery = window.matchMedia("(max-width: 768px)");
 
-  function syncCollapsedState() {
-    const collapsed = mobileFilterQuery.matches;
+  function syncCollapsedState(e) {
+    const collapsed = (e || mobileFilterQuery).matches;
     filterBar.classList.toggle("collapsed", collapsed);
     filterToggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
   }
 
   syncCollapsedState();
+
+  // Re-sync if the viewport crosses the breakpoint after load (e.g. window
+  // resize, tablet rotation) instead of only setting the state once.
+  mobileFilterQuery.addEventListener("change", syncCollapsedState);
 
   filterToggle.addEventListener("click", () => {
     const isCollapsed = filterBar.classList.toggle("collapsed");

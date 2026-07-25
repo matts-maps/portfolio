@@ -32,6 +32,19 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.classList.add("hidden");
   });
 
+  // Tracks the current filtered list so the panel can be (re)populated if
+  // the viewport crosses the mobile breakpoint after load, since on mobile
+  // the panel is never filled in until the user taps a marker/row.
+  let latestFilteredProjects = [];
+
+  mobilePanelQuery.addEventListener("change", (e) => {
+    if (e.matches) {
+      panel.classList.add("hidden");
+    } else if (latestFilteredProjects.length) {
+      fillPanelOnly(latestFilteredProjects[0]);
+    }
+  });
+
   /* --------------------------------------------------
       MAP INITIALIZATION — GLOBAL VIEW
   -------------------------------------------------- */
@@ -203,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initFilterEngine(projects, filtered => {
     updateMap(filtered);
     updateTable(filtered);
+    latestFilteredProjects = filtered;
 
     // Show most recent project in panel, but DO NOT zoom map.
     // Skipped on mobile, where the panel is a bottom sheet that should stay
