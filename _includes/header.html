@@ -10,7 +10,13 @@
       >
     </a>
 
-    <nav class="site-nav">
+    <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav">
       <a href="{{ '/' | relative_url }}">Home</a>
       <a href="{{ '/map-viewer/' | relative_url }}">Map viewer</a>
       <a href="{{ '/webmaps-and-visualisations/' | relative_url }}">Webmaps and visualisations</a>

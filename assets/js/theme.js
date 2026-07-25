@@ -38,3 +38,53 @@ toggle.addEventListener("click", () => {
 
   applyLogo();
 });
+
+// Mobile nav toggle
+const navToggle = document.getElementById("nav-toggle");
+const siteNav = document.getElementById("site-nav");
+
+if (navToggle && siteNav) {
+  navToggle.addEventListener("click", () => {
+    const isOpen = siteNav.classList.toggle("open");
+    navToggle.classList.toggle("open", isOpen);
+    navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
+
+  siteNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      siteNav.classList.remove("open");
+      navToggle.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+// Mobile filter bar collapse (Projects page / image gallery pages)
+function setupFilterToggle(toggleId, barId) {
+  const filterToggle = document.getElementById(toggleId);
+  const filterBar = document.getElementById(barId);
+
+  if (!filterToggle || !filterBar) return;
+
+  const mobileFilterQuery = window.matchMedia("(max-width: 768px)");
+
+  function syncCollapsedState(e) {
+    const collapsed = (e || mobileFilterQuery).matches;
+    filterBar.classList.toggle("collapsed", collapsed);
+    filterToggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+  }
+
+  syncCollapsedState();
+
+  // Re-sync if the viewport crosses the breakpoint after load (e.g. window
+  // resize, tablet rotation) instead of only setting the state once.
+  mobileFilterQuery.addEventListener("change", syncCollapsedState);
+
+  filterToggle.addEventListener("click", () => {
+    const isCollapsed = filterBar.classList.toggle("collapsed");
+    filterToggle.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+  });
+}
+
+setupFilterToggle("project-filter-toggle", "project-filter-bar");
+setupFilterToggle("image-filter-toggle", "image-filter-bar");

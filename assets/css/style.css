@@ -87,6 +87,134 @@ body {
   cursor: pointer;
   color: var(--text);
   padding: 0.25rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.filter-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filter-toggle-icon {
+  transition: transform 0.2s ease;
+}
+
+.filter-toggle[aria-expanded="true"] .filter-toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* --------------------------------------------------
+   HEADER — MOBILE NAV
+-------------------------------------------------- */
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  #site-logo {
+    height: 44px;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .site-nav {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    max-height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    z-index: 199;
+  }
+
+  .site-nav.open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .site-nav a {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 1.1rem;
+  }
+
+  .site-nav .theme-toggle {
+    align-self: flex-start;
+    margin: 0.5rem 1.25rem;
+  }
+
+  .filter-toggle {
+    display: flex;
+  }
+
+  #project-filter-bar.collapsed .filter-group,
+  #project-filter-bar.collapsed #reset-filters {
+    display: none;
+  }
+
+  #image-filter-bar.collapsed .filter-row {
+    display: none;
+  }
 }
 
 /* --------------------------------------------------
@@ -101,11 +229,22 @@ body {
 .hero h1 {
   font-size: 2.8rem;
   margin-bottom: 0.5rem;
+  overflow-wrap: break-word;
 }
 
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
 }
 
 /* --------------------------------------------------
@@ -246,6 +385,13 @@ body {
   border: 1px solid var(--border);
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   background: var(--bg);
+}
+
+@media (max-width: 600px) {
+  #map {
+    height: 65vh;
+    max-height: 500px;
+  }
 }
 
 /* --------------------------------------------------
@@ -390,11 +536,23 @@ body {
   padding: 0 1rem;
 }
 
+.project-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .project-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 2rem;
   table-layout: fixed;
+}
+
+@media (max-width: 700px) {
+  .project-table {
+    min-width: 760px;
+  }
 }
 
 .project-table th,
@@ -425,10 +583,34 @@ body.dark .project-table tr:hover {
    MOBILE — PANEL BOTTOM SHEET
 -------------------------------------------------- */
 
+.panel-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 44px;
+  height: 44px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1;
+}
+
 @media (max-width: 900px) {
 
   #map-and-panel {
     grid-template-columns: 1fr;
+    /* Raised above #project-filter-bar's z-index (150): a position:fixed
+       descendant is still painted within its ancestor's stacking context,
+       so #project-details-panel's own z-index can't win against siblings
+       of #map-and-panel unless this ancestor context is raised too. */
+    z-index: 300;
   }
 
   #projects-map {
@@ -440,6 +622,12 @@ body.dark .project-table tr:hover {
     left: 0;
     right: 0;
     bottom: 0;
+    /* Reset the desktop sidebar's `top` (position: sticky; top: calc(...))
+       so it doesn't combine with `bottom` + `height` here — a fixed element
+       with top, bottom, and height all set ignores `bottom` and anchors to
+       `top` instead, which pinned this "bottom sheet" near the header
+       instead of the bottom of the viewport. */
+    top: auto;
 
     height: 45vh;
     max-height: 60vh;
@@ -456,6 +644,10 @@ body.dark .project-table tr:hover {
 
   #project-details-panel.hidden {
     transform: translateY(110%);
+  }
+
+  .panel-close-btn {
+    display: flex;
   }
 }
 
