@@ -11,12 +11,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const mapEl = document.getElementById("projects-map");
   const tableBody = document.getElementById("project-table-body");
   const panel = document.getElementById("project-details-panel");
+  const closeBtn = document.getElementById("panel-close-btn");
 
   const titleEl = document.getElementById("project-title");
   const metaEl = document.getElementById("project-meta-line");
   const descEl = document.getElementById("project-description");
   const partnersHeading = document.getElementById("partners-heading");
   const partnersList = document.getElementById("project-partners-list");
+
+  const mobilePanelQuery = window.matchMedia("(max-width: 900px)");
+
+  // On mobile the panel is a bottom sheet that should start closed until
+  // the user taps a marker or table row, rather than always covering the
+  // filter bar on load.
+  if (mobilePanelQuery.matches) {
+    panel.classList.add("hidden");
+  }
+
+  closeBtn?.addEventListener("click", () => {
+    panel.classList.add("hidden");
+  });
 
   /* --------------------------------------------------
       MAP INITIALIZATION — GLOBAL VIEW
@@ -190,8 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
     updateMap(filtered);
     updateTable(filtered);
 
-    // Show most recent project in panel, but DO NOT zoom map
-    if (filtered.length) {
+    // Show most recent project in panel, but DO NOT zoom map.
+    // Skipped on mobile, where the panel is a bottom sheet that should stay
+    // closed until the user explicitly taps a marker or table row.
+    if (filtered.length && !mobilePanelQuery.matches) {
       fillPanelOnly(filtered[0]);
     }
   }, {
