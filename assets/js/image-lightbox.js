@@ -15,6 +15,31 @@ let translateY = 0;
 const MIN_SCALE = 1;
 const MAX_SCALE = 5;
 
+// The effective zoom ceiling for the currently-loaded image. Defaults to
+// MAX_SCALE, but is raised (never lowered) so users can always zoom in to
+// the image's true native resolution ("100%"), not just a fixed multiple
+// of however small it was scaled down to fit the viewport.
+let currentMaxScale = MAX_SCALE;
+
+function updateMaxScaleFromImage() {
+  if (!lightboxImg || !lightboxImg.naturalWidth) {
+    currentMaxScale = MAX_SCALE;
+    return;
+  }
+
+  // getBoundingClientRect() reflects any active transform scale, so divide
+  // it out to recover the untransformed ("fit to viewport") rendered size.
+  const rect = lightboxImg.getBoundingClientRect();
+  const fitWidth = rect.width / (scale || 1);
+  if (!fitWidth) {
+    currentMaxScale = MAX_SCALE;
+    return;
+  }
+
+  const nativeScale = lightboxImg.naturalWidth / fitWidth;
+  currentMaxScale = Math.max(MAX_SCALE, nativeScale);
+}
+
 // --- TOUCH STATE (pinch-to-zoom + swipe-to-navigate) ---
 const activePointers = new Map(); // pointerId -> {x, y}
 let pinchStartDistance = null;
@@ -185,7 +210,7 @@ function handleWheel(e) {
   
   // Calculate potential target scale mapping
   let targetScale = scale + (e.deltaY < 0 ? zoomIntensity : -zoomIntensity);
-  targetScale = Math.min(Math.max(MIN_SCALE, targetScale), MAX_SCALE);
+  targetScale = Math.min(Math.max(MIN_SCALE, targetScale), currentMaxScale);
 
   // If zooming out back to baseline, neutralize tracking coordinates
   if (targetScale === 1) {
@@ -249,7 +274,7 @@ function handlePointerMove(e) {
   if (activePointers.size === 2 && pinchStartDistance) {
     const newDistance = getPointerDistance();
     let targetScale = pinchStartScale * (newDistance / pinchStartDistance);
-    targetScale = Math.min(Math.max(MIN_SCALE, targetScale), MAX_SCALE);
+    targetScale = Math.min(Math.max(MIN_SCALE, targetScale), currentMaxScale);
     scale = targetScale;
     applyTransform();
     return;
@@ -333,8 +358,16 @@ function updateLightboxDOM() {
   }
 
   if (lightboxImg) {
+    currentMaxScale = MAX_SCALE; // reset until the new image's real size is known
+    lightboxImg.onload = updateMaxScaleFromImage;
     lightboxImg.src = imgSrc;
     lightboxImg.alt = item.name || item.title || "Full Resolution Map View";
+
+    // If the image is already cached, `load` may not fire again — compute
+    // the ceiling immediately in that case too.
+    if (lightboxImg.complete) {
+      updateMaxScaleFromImage();
+    }
   }
   
   if (lightboxTitle) {
