@@ -229,11 +229,22 @@ body {
 .hero h1 {
   font-size: 2.8rem;
   margin-bottom: 0.5rem;
+  overflow-wrap: break-word;
 }
 
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
 }
 
 /* --------------------------------------------------
