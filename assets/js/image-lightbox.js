@@ -15,6 +15,21 @@ let translateY = 0;
 const MIN_SCALE = 1;
 const MAX_SCALE = 5;
 
+// --- TOUCH STATE (pinch-to-zoom + swipe-to-navigate) ---
+const activePointers = new Map(); // pointerId -> {x, y}
+let pinchStartDistance = null;
+let pinchStartScale = 1;
+let swipeCandidate = false;
+let swipeStartX = 0;
+let swipeStartY = 0;
+const SWIPE_THRESHOLD = 50; // px
+
+function getPointerDistance() {
+  const pts = Array.from(activePointers.values());
+  if (pts.length < 2) return null;
+  return Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+}
+
 function initElements() {
   lightbox = document.getElementById("lightbox");
   lightboxImg = document.getElementById("lightbox-img");
@@ -186,34 +201,110 @@ function handleWheel(e) {
   }
 }
 
-// --- POINTER EVENT HANDLERS FOR SMOOTH PANNING ---
+// --- POINTER EVENT HANDLERS FOR PANNING, PINCH-ZOOM & SWIPE NAVIGATION ---
+// Pointer Events unify mouse/touch/pen, so these also drive touch interaction
+// on phones — mouse-wheel zoom has no touch equivalent, and a single finger
+// can mean "pan" (zoomed in), "pinch" (second finger joins), or "swipe to
+// change image" (not zoomed), so all three share this pointer lifecycle.
 function handlePointerDown(e) {
-  // Only permit panning if the user is currently zoomed into the map canvas
-  if (scale <= 1) return; 
-  
-  isDragging = true;
-  startX = e.clientX - translateX;
-  startY = e.clientY - translateY;
-  
-  if (lightboxImg) {
-    lightboxImg.style.cursor = "grabbing";
-    lightboxImg.setPointerCapture(e.pointerId); // Bind tracking context safely past window edges
+  activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  // Some browsers/situations reject capture of a given pointer id; that's
+  // not fatal to gesture tracking, so don't let it abort the rest of this
+  // handler (which is where the actual pinch/pan/swipe state gets set up).
+  try {
+    if (lightboxImg) lightboxImg.setPointerCapture(e.pointerId);
+  } catch (err) {
+    /* no-op: capture is a nice-to-have, not required for tracking */
+  }
+
+  if (activePointers.size === 2) {
+    isDragging = false;
+    swipeCandidate = false;
+    pinchStartDistance = getPointerDistance();
+    pinchStartScale = scale;
+    return;
+  }
+
+  if (activePointers.size === 1) {
+    pinchStartDistance = null;
+
+    if (scale > 1) {
+      isDragging = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      if (lightboxImg) lightboxImg.style.cursor = "grabbing";
+    } else {
+      // Not zoomed: this could be the start of a swipe to the next/prev image
+      swipeCandidate = true;
+      swipeStartX = e.clientX;
+      swipeStartY = e.clientY;
+    }
   }
 }
 
 function handlePointerMove(e) {
-  if (!isDragging) return;
-  translateX = e.clientX - startX;
-  translateY = e.clientY - startY;
-  applyTransform();
+  if (!activePointers.has(e.pointerId)) return;
+  activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+  if (activePointers.size === 2 && pinchStartDistance) {
+    const newDistance = getPointerDistance();
+    let targetScale = pinchStartScale * (newDistance / pinchStartDistance);
+    targetScale = Math.min(Math.max(MIN_SCALE, targetScale), MAX_SCALE);
+    scale = targetScale;
+    applyTransform();
+    return;
+  }
+
+  if (isDragging) {
+    translateX = e.clientX - startX;
+    translateY = e.clientY - startY;
+    applyTransform();
+  }
 }
 
 function handlePointerUp(e) {
-  if (!isDragging) return;
-  isDragging = false;
-  if (lightboxImg) {
-    lightboxImg.style.cursor = "grab";
-    lightboxImg.releasePointerCapture(e.pointerId);
+  const hadTwoPointers = activePointers.size === 2;
+  const wasSwipeCandidate = swipeCandidate && activePointers.size === 1;
+  const endX = e.clientX;
+  const endY = e.clientY;
+
+  activePointers.delete(e.pointerId);
+  try {
+    if (lightboxImg?.hasPointerCapture?.(e.pointerId)) {
+      lightboxImg.releasePointerCapture(e.pointerId);
+    }
+  } catch (err) {
+    /* no-op */
+  }
+
+  if (activePointers.size < 2) {
+    pinchStartDistance = null;
+  }
+
+  // Pinched back down to (or past) the baseline: snap cleanly to the reset state
+  if (hadTwoPointers && scale <= MIN_SCALE) {
+    resetZoom();
+  }
+
+  if (wasSwipeCandidate && scale <= 1) {
+    const deltaX = endX - swipeStartX;
+    const deltaY = endY - swipeStartY;
+    if (Math.abs(deltaX) > SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY)) {
+      deltaX < 0 ? showNext() : showPrev();
+    }
+  }
+  swipeCandidate = false;
+
+  if (activePointers.size === 1 && scale > 1) {
+    // One finger lifted out of a pinch/pan — resume panning from the
+    // remaining finger's current position instead of dropping the gesture.
+    const remaining = Array.from(activePointers.values())[0];
+    isDragging = true;
+    startX = remaining.x - translateX;
+    startY = remaining.y - translateY;
+  } else {
+    isDragging = false;
+    if (lightboxImg) lightboxImg.style.cursor = scale > 1 ? "grab" : "zoom-in";
   }
 }
 
