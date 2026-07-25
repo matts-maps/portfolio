@@ -41,5 +41,29 @@ export const visualizationProjects = [
         url: "https://sites.google.com/view/rcce-community-insights/" 
       }
     ]
+  },
+  {
+    "name": "",
+    "continent": "Europe",
+    "country": [
+      "Ukraine"
+    ],
+    "location": "",
+    "year": 2026,
+    "month": 7,
+    "lat": 50.459952,
+    "lng": 30.509033,
+    "themes": [
+      "Damage assessments"
+    ],
+    "disaster": "Conflict",
+    "description": "Automatically generated analysis of building damage in Ukraine. The data comes from the ACAPS API.",
+    "screenshot": "",
+    "links": [
+      {
+        "label": "Ukraine Damaged Buildings",
+        "url": "https://matts-maps.github.io/acaps-ukraine-buildings/"
+      }
+    ]
   }
 ];
