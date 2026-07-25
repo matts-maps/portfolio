@@ -58,3 +58,29 @@ if (navToggle && siteNav) {
     });
   });
 }
+
+// Mobile filter bar collapse (Projects page / image gallery pages)
+function setupFilterToggle(toggleId, barId) {
+  const filterToggle = document.getElementById(toggleId);
+  const filterBar = document.getElementById(barId);
+
+  if (!filterToggle || !filterBar) return;
+
+  const mobileFilterQuery = window.matchMedia("(max-width: 768px)");
+
+  function syncCollapsedState() {
+    const collapsed = mobileFilterQuery.matches;
+    filterBar.classList.toggle("collapsed", collapsed);
+    filterToggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+  }
+
+  syncCollapsedState();
+
+  filterToggle.addEventListener("click", () => {
+    const isCollapsed = filterBar.classList.toggle("collapsed");
+    filterToggle.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+  });
+}
+
+setupFilterToggle("project-filter-toggle", "project-filter-bar");
+setupFilterToggle("image-filter-toggle", "image-filter-bar");

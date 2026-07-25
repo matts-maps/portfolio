@@ -128,6 +128,30 @@ body {
   transform: translateY(-7px) rotate(-45deg);
 }
 
+.filter-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filter-toggle-icon {
+  transition: transform 0.2s ease;
+}
+
+.filter-toggle[aria-expanded="true"] .filter-toggle-icon {
+  transform: rotate(180deg);
+}
+
 /* --------------------------------------------------
    HEADER — MOBILE NAV
 -------------------------------------------------- */
@@ -177,6 +201,19 @@ body {
   .site-nav .theme-toggle {
     align-self: flex-start;
     margin: 0.5rem 1.25rem;
+  }
+
+  .filter-toggle {
+    display: flex;
+  }
+
+  #project-filter-bar.collapsed .filter-group,
+  #project-filter-bar.collapsed #reset-filters {
+    display: none;
+  }
+
+  #image-filter-bar.collapsed .filter-row {
+    display: none;
   }
 }
 
