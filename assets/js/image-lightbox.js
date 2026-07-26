@@ -218,12 +218,28 @@ function handleWheel(e) {
     return;
   }
 
-  scale = targetScale;
-  applyTransform();
-  
+  applyScaleAroundScreenCenter(targetScale);
+
   if (lightboxImg) {
     lightboxImg.style.cursor = scale > 1 ? "grab" : "zoom-in";
   }
+}
+
+/**
+ * Changes scale while keeping whatever is currently centered on screen
+ * centered afterward. `transform-origin` is fixed at the image's own
+ * center, so a bare scale change re-anchors zoom there — which, once the
+ * user has panned (translateX/Y != 0), is no longer the screen's actual
+ * center and makes zoom appear to happen from an off-center point (e.g. a
+ * corner) instead. Scaling the existing pan offset by the same ratio as
+ * the scale change keeps the anchor at screen-center regardless of pan.
+ */
+function applyScaleAroundScreenCenter(targetScale) {
+  const ratio = targetScale / scale;
+  translateX *= ratio;
+  translateY *= ratio;
+  scale = targetScale;
+  applyTransform();
 }
 
 // --- POINTER EVENT HANDLERS FOR PANNING, PINCH-ZOOM & SWIPE NAVIGATION ---
@@ -275,8 +291,7 @@ function handlePointerMove(e) {
     const newDistance = getPointerDistance();
     let targetScale = pinchStartScale * (newDistance / pinchStartDistance);
     targetScale = Math.min(Math.max(MIN_SCALE, targetScale), currentMaxScale);
-    scale = targetScale;
-    applyTransform();
+    applyScaleAroundScreenCenter(targetScale);
     return;
   }
 
