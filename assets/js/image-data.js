@@ -695,7 +695,7 @@ export const images = [
     "data_sources": []
   },
   {
-    "file": "assets/images/maps/iceland-physical-geography.jpg",
+    "file": "assets/images/maps/iceland-physical-geography.png",
     "name": "Physcial geography of Iceland",
     "continent": "Europe",
     "country": ["Iceland"],
