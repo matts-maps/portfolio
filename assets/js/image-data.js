@@ -1068,5 +1068,27 @@ export const images = [
     "data_sources": [
       { "name": "OpenStreetMap", "url": "https://www.openstreetmap.org/" }
     ]
+  },
+  {
+    "file": "assets/images/maps/silverstone.png",
+    "name": "Silverstone Circuit",
+    "continent": "Europe",
+    "country": "United Kingdom",
+    "location": "Silverstone",
+    "year": 2026,
+    "month": 8,
+    "lat": 52.069235,
+    "lng": -1.022201,
+    "themes": [
+      "Formula 1"
+    ],
+    "disaster": "None",
+    "description": "Vintage style map of Silverstone - the home of the British Grand Prix./",
+    "map_style": "Vintage",
+    "data_sources": [
+      {
+        "name": "OpenStreetMap"
+      }
+    ]
   }
 ];
