@@ -2095,13 +2095,13 @@ export const projects = [
     "modality": [
       "Remote"
     ],
-    "organisation": [],
+    "organisation": ["The Government of Saint Vincent and the Grenadines"],
     "level": [
       "National"
     ],
     "startDate": "20/05/2026",
-    "endDate": "",
-    "status": "Current",
+    "endDate": "14/08/2026",
+    "status": "Complete",
     "parentProject": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines.",
     "parentProjectDescription": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines."
   },
