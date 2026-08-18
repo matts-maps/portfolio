@@ -2072,7 +2072,7 @@ export const projects = [
       "National"
     ],
     "startDate": "20/05/2026",
-    "endDate": "",
+    "endDate": "14/08/2026",
     "status": "Complete",
     "parentProject": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines.",
     "parentProjectDescription": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines."
@@ -2133,7 +2133,7 @@ export const projects = [
       "National"
     ],
     "startDate": "2026-05-25",
-    "endDate": "",
+    "endDate": "2026-07-31",
     "status": "Current",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -2164,7 +2164,7 @@ export const projects = [
     ],
     "startDate": "2026-05-25",
     "endDate": "",
-    "status": "Current",
+    "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
   },
