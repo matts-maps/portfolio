@@ -1788,11 +1788,7 @@ export const projects = [
     "disaster": [],
     "lat": 15.186,
     "lng": 120.5596,
-    "description": "Quarterly support for delivery of targeted technical outputs to enhance the resilience of communities and beneficiaries in the Philippines through the private sector members of PDRF, including:
-      •	Scoping and landscape mapping – organisational level GIS and information management audit.
-      •	Who-What-Where-When and for Whom (5W) tool development (ArcGIS Online and Survey 123) for tracking member activities and resources.
-      •	Coaching and mentoring of GIS staff.
-    ",
+    "description": "Quarterly support for delivery of targeted technical outputs to enhance the resilience of communities and beneficiaries in the Philippines through the private sector members of PDRF, including:\n• Scoping and landscape mapping – organisational level GIS and information management audit.\n• Who-What-Where-When and for Whom (5W) tool development (ArcGIS Online and Survey 123) for tracking member activities and resources.\n• Coaching and mentoring of GIS staff.",
     "type": "Preparedness and anticipatory action",
     "modality": [
       "In-situ"
