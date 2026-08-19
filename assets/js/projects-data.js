@@ -2175,7 +2175,10 @@ export const projects = [
     "location": "Port-au-Prince",
     "year": "2026",
     "month": "February",
-    "themes": [Security],
+    "themes": [
+      "Data collection",
+      "ArcGIS Pro"
+    ],
     "disaster": [Conflict],
     "lat": 18.5944,
     "lng": -72.3074,
@@ -2203,7 +2206,11 @@ export const projects = [
     "location": "",
     "year": "2026",
     "month": "June",
-    "themes": [Security],
+    "themes": [
+      "Data collection",
+      "ArcGIS Pro",
+      "Dashboards"
+    ],
     "disaster": [Conflict],
     "lat": 31.5075,
     "lng": 34.459722,
