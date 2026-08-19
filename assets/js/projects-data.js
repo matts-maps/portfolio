@@ -2179,7 +2179,9 @@ export const projects = [
       "Data collection",
       "ArcGIS Pro"
     ],
-    "disaster": [Conflict],
+    "disaster": [
+      "Conflict"
+    ],
     "lat": 18.5944,
     "lng": -72.3074,
     "description": "Improving data collection, analysis and visualisation of security incidents that are used to brief national and international staff and visitors in country.",
@@ -2211,7 +2213,9 @@ export const projects = [
       "ArcGIS Pro",
       "Dashboards"
     ],
-    "disaster": [Conflict],
+    "disaster": [
+      "Conflict"
+    ],
     "lat": 31.5075,
     "lng": 34.459722,
     "description": "Improving data collection, analysis and visualisation of security incidents that are used to brief national and international staff and visitors in country.",
