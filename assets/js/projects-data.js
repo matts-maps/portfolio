@@ -1483,7 +1483,7 @@ export const projects = [
     ],
     "lat": 13.333333,
     "lng": -61.183333,
-    "description": "Mapping of the humanitarian and environmental impacts of the La Soufrière volcanic eruption in Saint Vincent and the Grenadines, including mapping of damaged buildings, evacuation centres, and ashfall extent.",
+    "description": "Team leader providing remote GIS support to CDEMA and UNDAC on the humanitarian impact and environmental impact of the La Soufrière volcanic eruption, including mapping of evacuation zones, emergency shelters, health facilities, damaged infrastructure and ash management.",
     "type": "Response",
     "modality": [
       "Remote"
