@@ -1788,7 +1788,11 @@ export const projects = [
     "disaster": [],
     "lat": 15.186,
     "lng": 120.5596,
-    "description": "",
+    "description": "Quarterly support for delivery of targeted technical outputs to enhance the resilience of communities and beneficiaries in the Philippines through the private sector members of PDRF, including:
+      •	Scoping and landscape mapping – organisational level GIS and information management audit.
+      •	Who-What-Where-When and for Whom (5W) tool development (ArcGIS Online and Survey 123) for tracking member activities and resources.
+      •	Coaching and mentoring of GIS staff.
+    ",
     "type": "Preparedness and anticipatory action",
     "modality": [
       "In-situ"
@@ -1841,12 +1845,12 @@ export const projects = [
     "country": "Nepal",
     "location": "",
     "year": "2024",
-    "month": "",
+    "month": "July",
     "themes": [],
     "disaster": [],
     "lat": 28.3949,
     "lng": 84.124,
-    "description": "",
+    "description": "Development and delivery of a training course on using GIS to visualise and communicate risk information effectively training. The course introduced data sourcing and collection (Kobo), analysis and visualisation using QGIS to NGOs and CSOs that could be used in anticipatory action, response and recovery programmes",
     "type": "Preparedness and anticipatory action",
     "modality": [
       "Remote"
@@ -1935,7 +1939,7 @@ export const projects = [
     "disaster": [],
     "lat": 14.58812188,
     "lng": 121.0587666,
-    "description": "",
+    "description": "Completion of a high-level scoping for the development of an Asia-Pacific region-wide, cloud-based, multilingual, self-service engagement platform to map CSOs, private sector actors, and government agencies. The scoping also looked at how the engagement platform could be developed into improving interoperability between other MDBs including Inter-American Development Bank (IADB) and Asian Infrastructure Investment Bank (AIIB).",
     "type": "Development",
     "modality": [
       "Remote"
@@ -2031,7 +2035,7 @@ export const projects = [
     ],
     "lat": 7.416667,
     "lng": 151.783333,
-    "description": "",
+    "description": "Typhoon Sinlaku caused widespread damage to the highly dispersed islands of Chuuk state causing immediate humanitarian needs to the local population from the typhoon and potential longer term environmental impacts of the damaged ships in the lagoon. The need for timely and clear mapping for decision making was needed by UNOCHA and the Chuuk State government.",
     "type": "Response",
     "modality": [
       "Remote"
@@ -2175,11 +2179,11 @@ export const projects = [
     "location": "Port-au-Prince",
     "year": "2026",
     "month": "February",
-    "themes": [],
-    "disaster": [],
+    "themes": [Security],
+    "disaster": [Conflict],
     "lat": 18.5944,
     "lng": -72.3074,
-    "description": "",
+    "description": "Improving data collection, analysis and visualisation of security incidents that are used to brief national and international staff and visitors in country.",
     "type": "Preparedness and anticipatory action",
     "modality": [
       "Remote"
@@ -2190,7 +2194,7 @@ export const projects = [
     "level": [
       "National"
     ],
-    "startDate": "",
+    "startDate": "01/02/2026",
     "endDate": "",
     "status": "Current",
     "parentProject": "",
@@ -2203,11 +2207,11 @@ export const projects = [
     "location": "",
     "year": "2026",
     "month": "June",
-    "themes": [],
-    "disaster": [],
+    "themes": [Security],
+    "disaster": [Conflict],
     "lat": 31.5075,
     "lng": 34.459722,
-    "description": "",
+    "description": "Improving data collection, analysis and visualisation of security incidents that are used to brief national and international staff and visitors in country.",
     "type": "Preparedness and anticipatory action",
     "modality": [
       "Remote"
