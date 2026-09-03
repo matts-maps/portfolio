@@ -189,6 +189,50 @@ async function main() {
   const finalLocations = JSON.parse(fs.readFileSync(path.join(outDir, "locations.json"), "utf8"));
   check("deleted Testland location is gone from final export", !finalLocations.some((l) => l.name === "Testland"));
 
+  console.log("Creating a new parent project and resolving an unresolved-parent warning with it...");
+  await page.click('#tabs button[data-tab="projects"]');
+  await page.fill("#search-projects", "Ebola");
+  await page.waitForTimeout(50);
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const ebolaBanner = await page.textContent("#modal .warn-msg").catch(() => "");
+  check("Ebola shows the unresolved-parent banner before fixing it", ebolaBanner.includes("2014 Ebola response in West Africa"));
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  // Create the missing parent project.
+  await page.fill("#search-projects", "");
+  await page.click('#tab-projects .toolbar button.primary');
+  await page.waitForSelector("#overlay.open");
+  const parentNameField = await fieldByLabel("Name");
+  await (await parentNameField.$("input[type=text]")).fill("2014 Ebola response in West Africa");
+  const parentLocField = await fieldByLabel("Locations");
+  const parentLocInput = await parentLocField.$("input[type=text]");
+  await parentLocInput.fill("Liberia");
+  await (await parentLocField.$('button:has-text("Add")')).click();
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  // Link Ebola to it and confirm the banner clears immediately.
+  await page.fill("#search-projects", "Ebola");
+  await page.waitForTimeout(50);
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const parentPickerField = await fieldByLabel("Parent project");
+  const parentSelect = await parentPickerField.$("select");
+  await parentSelect.selectOption({ label: "2014 Ebola response in West Africa" });
+  await page.waitForTimeout(50);
+  const bannerStillThere = await page.$("#modal .warn-msg");
+  check("unresolved-parent banner disappears once a real parent is picked", bannerStillThere === null);
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.click("#btn-validate");
+  await page.waitForSelector("#issues-panel.open");
+  const issuesAfterParentFix = await page.textContent("#issues-list");
+  check("no more unresolved-parent warning for Ebola after linking it", !issuesAfterParentFix.includes("2014 Ebola response in West Africa"));
+  await page.click("#btn-close-issues");
+
   console.log("Testing that an invalid save (project with zero locations) is blocked...");
   await page.click('#tabs button[data-tab="projects"]');
   await page.fill("#search-projects", "");

@@ -623,7 +623,7 @@ function validateAll() {
         }
       }
     }
-    if (p.legacyParentName) {
+    if (p.legacyParentName && !p.parentId) {
       issues.push({ level: "warning", entity: "projects", id: p.id, message: `Unresolved parent reference: "${p.legacyParentName}" — pick a parent project or clear it` });
     }
   }
@@ -1156,7 +1156,16 @@ function buildProjectForm(body, draft) {
 
   body.appendChild(field("Parent project", "one level only — pick another top-level project, or leave empty", relationPicker({
     multi: false, values: draft.parentId, options: projectOptions(draft.id),
-    onChange: (v) => (draft.parentId = v),
+    onChange: (v) => {
+      draft.parentId = v;
+      // Picking a real parent resolves the migration-era hint - clear it
+      // so the warning banner and "unresolved" issue don't linger once
+      // the actual link is made.
+      if (v && draft.legacyParentName) {
+        draft.legacyParentName = null;
+        renderModal("projects", draft, !state.projects.some((p) => p.id === draft.id), draft.id);
+      }
+    },
   })));
 
   body.appendChild(field("Locations", "at least one required", relationPicker({
