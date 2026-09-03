@@ -2279,8 +2279,8 @@ export const projects = [
       "Data"
     ],
     "disaster": [],
-    "lat": ,
-    "lng": ,
+    "lat": 0,
+    "lng": 0,
     "description": "",
     "type": "Preparedness",
     "modality": [
