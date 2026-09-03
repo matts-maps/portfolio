@@ -3,17 +3,8 @@
     "id": "mapaction-development-2006",
     "name": "MapAction Development",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "United Kingdom",
-        "region": "Northern Europe",
-        "continent": "Europe",
-        "lat": 51.702,
-        "lng": -0.911,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "united-kingdom"
     ],
     "year": 2006,
     "month": null,
@@ -38,17 +29,8 @@
     "id": "mapaction-simexes-2006",
     "name": "MapAction Simexes",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "United Kingdom",
-        "region": "Northern Europe",
-        "continent": "Europe",
-        "lat": 51.702,
-        "lng": -0.911,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "united-kingdom"
     ],
     "year": 2006,
     "month": null,
@@ -73,17 +55,8 @@
     "id": "mapaction-team-training-2006",
     "name": "MapAction Team Training",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Europe",
-        "lat": 51.702,
-        "lng": -0.911,
-        "precision": "region-centroid"
-      }
+    "locationIds": [
+      "europe"
     ],
     "year": 2006,
     "month": null,
@@ -108,17 +81,8 @@
     "id": "undac-induction-2011",
     "name": "UNDAC Induction",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Avonmouth",
-        "state": null,
-        "country": "United Kingdom",
-        "region": "Northern Europe",
-        "continent": "Europe",
-        "lat": 51.5,
-        "lng": -2.7,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "united-kingdom-avonmouth"
     ],
     "year": 2011,
     "month": "October",
@@ -149,17 +113,8 @@
     "id": "introduction-to-humanitarian-gis-2012",
     "name": "Introduction to humanitarian GIS",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "London",
-        "state": null,
-        "country": "United Kingdom",
-        "region": "Northern Europe",
-        "continent": "Europe",
-        "lat": 51.5013,
-        "lng": -0.1754,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "united-kingdom-london"
     ],
     "year": 2012,
     "month": "March",
@@ -189,17 +144,8 @@
     "id": "gis-and-mapping-support-munitions-depot-explosion-2012",
     "name": "GIS and mapping support, Munitions depot explosion",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Brazzaville",
-        "state": null,
-        "country": "Republic of the Congo",
-        "region": null,
-        "continent": "Africa",
-        "lat": -4.2634,
-        "lng": 15.2429,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "republic-of-the-congo-brazzaville"
     ],
     "year": 2012,
     "month": "March",
@@ -228,17 +174,8 @@
     "id": "the-osocc-operational-support-staff-ooss-course-2012",
     "name": "The OSOCC Operational Support Staff (OOSS) course",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Kuopio",
-        "state": null,
-        "country": "Finland",
-        "region": "Northern Europe",
-        "continent": "Europe",
-        "lat": 62.8924,
-        "lng": 27.677,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "finland-kuopio"
     ],
     "year": 2012,
     "month": "December",
@@ -267,17 +204,8 @@
     "id": "triplex-13-2013",
     "name": "Triplex 13",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Flensberg",
-        "state": null,
-        "country": "Germany",
-        "region": "Western Europe",
-        "continent": "Europe",
-        "lat": 54.7936774712711,
-        "lng": 9.44487352665677,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "germany-flensberg"
     ],
     "year": 2013,
     "month": "September",
@@ -309,17 +237,8 @@
     "id": "typhoon-haiyan-2013",
     "name": "Typhoon Haiyan",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Tacloban",
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 11.2433,
-        "lng": 125.0033,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "the-philippines-tacloban"
     ],
     "year": 2013,
     "month": "November",
@@ -347,17 +266,8 @@
     "id": "insarag-exercise-2013",
     "name": "INSARAG Exercise",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Kota Kinabalu",
-        "state": null,
-        "country": "Malaysia",
-        "region": "South-Eastern Asia",
-        "continent": "Asia",
-        "lat": 5.9804,
-        "lng": 116.0735,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "malaysia-kota-kinabalu"
     ],
     "year": 2013,
     "month": "November",
@@ -386,17 +296,8 @@
     "id": "training-support-to-msb-2014",
     "name": "Training support to MSB",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Karlstad",
-        "state": null,
-        "country": "Sweden",
-        "region": "Northern Europe",
-        "continent": "Europe",
-        "lat": 59.3793,
-        "lng": 13.5036,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "sweden-karlstad"
     ],
     "year": 2014,
     "month": "May",
@@ -426,17 +327,8 @@
     "id": "undac-team-leaders-2014",
     "name": "UNDAC Team Leaders",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Spiez",
-        "state": null,
-        "country": "Switzerland",
-        "region": "Western Europe",
-        "continent": "Europe",
-        "lat": 46.8182,
-        "lng": 8.2275,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "switzerland-spiez"
     ],
     "year": 2014,
     "month": "December",
@@ -467,17 +359,8 @@
     "id": "ebola-2014",
     "name": "Ebola",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Monrovia",
-        "state": null,
-        "country": "Liberia",
-        "region": "Western Africa",
-        "continent": "Africa",
-        "lat": 6.3156,
-        "lng": -10.8074,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "liberia-monrovia"
     ],
     "year": 2014,
     "month": "September",
@@ -506,17 +389,8 @@
     "id": "yazidi-displacement-from-mount-sinjar-2014",
     "name": "Yazidi displacement from Mount Sinjar",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Iraq",
-        "region": "Western Asia",
-        "continent": "Asia",
-        "lat": 36.366728,
-        "lng": 41.721839,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "iraq"
     ],
     "year": 2014,
     "month": "July",
@@ -544,17 +418,8 @@
     "id": "cyclone-pam-2015",
     "name": "Cyclone Pam",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Port Vila",
-        "state": null,
-        "country": "Vanuatu",
-        "region": "Melanesia",
-        "continent": "Oceania",
-        "lat": -17.7333,
-        "lng": 168.3167,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "vanuatu-port-vila"
     ],
     "year": 2015,
     "month": "April",
@@ -583,17 +448,8 @@
     "id": "flooding-2015",
     "name": "Flooding",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Lilongwe",
-        "state": null,
-        "country": "Malawi",
-        "region": "Eastern Africa",
-        "continent": "Africa",
-        "lat": -13.9626,
-        "lng": 33.7741,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "malawi-lilongwe"
     ],
     "year": 2015,
     "month": "February",
@@ -621,37 +477,10 @@
     "id": "mediterranean-migration-crisis-2015",
     "name": "Mediterranean Migration Crisis",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Belgrade",
-        "state": null,
-        "country": "Serbia",
-        "region": "Southern Europe",
-        "continent": "Europe",
-        "lat": 44.817778,
-        "lng": 20.456944,
-        "precision": "exact"
-      },
-      {
-        "settlement": "Athens",
-        "state": null,
-        "country": "Greece",
-        "region": "Southern Europe",
-        "continent": "Europe",
-        "lat": 37.984167,
-        "lng": 23.728056,
-        "precision": "exact"
-      },
-      {
-        "settlement": "Geneva",
-        "state": null,
-        "country": "Switzerland",
-        "region": "Western Europe",
-        "continent": "Europe",
-        "lat": 46.201667,
-        "lng": 6.146944,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "serbia-belgrade",
+      "greece-athens",
+      "switzerland-geneva"
     ],
     "year": 2015,
     "month": null,
@@ -680,17 +509,8 @@
     "id": "triplex-16-2016",
     "name": "Triplex 16",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Stavanger",
-        "state": null,
-        "country": "Norway",
-        "region": "Northern Europe",
-        "continent": "Europe",
-        "lat": 58.969,
-        "lng": 5.7331,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "norway-stavanger"
     ],
     "year": 2016,
     "month": "September",
@@ -719,17 +539,8 @@
     "id": "tropical-cyclone-donna-2017",
     "name": "Tropical Cyclone Donna",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Port Vila",
-        "state": null,
-        "country": "Vanuatu",
-        "region": "Melanesia",
-        "continent": "Oceania",
-        "lat": -17.7333,
-        "lng": 168.3167,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "vanuatu-port-vila"
     ],
     "year": 2017,
     "month": "May",
@@ -757,17 +568,8 @@
     "id": "hurricane-isacc-2018",
     "name": "Hurricane Isacc",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Dominica",
-        "region": "Caribbean",
-        "continent": "North America",
-        "lat": 15.416667,
-        "lng": -61.333333,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "dominica"
     ],
     "year": 2018,
     "month": "September",
@@ -793,17 +595,8 @@
     "id": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
     "name": "Sulawesi Earthquake, tsunami and liquefaction response analysis",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Palu",
-        "state": null,
-        "country": "Indonesia",
-        "region": "South-Eastern Asia",
-        "continent": "Asia",
-        "lat": -0.9000437095252369,
-        "lng": 119.8763667245295,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "indonesia-palu"
     ],
     "year": 2018,
     "month": "October",
@@ -833,17 +626,8 @@
     "id": "typhoon-mangkhut-2018",
     "name": "Typhoon Mangkhut",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Manila",
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 17.9326405,
-        "lng": 121.7995182,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "the-philippines-manila"
     ],
     "year": 2018,
     "month": "September",
@@ -872,17 +656,8 @@
     "id": "insarag-exercise-2018",
     "name": "INSARAG Exercise",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Clarke City",
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 15.186,
-        "lng": 120.5596,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "the-philippines-clarke-city"
     ],
     "year": 2018,
     "month": null,
@@ -911,17 +686,8 @@
     "id": "disease-outbreak-mapping-cyclone-idai-2019",
     "name": "Disease outbreak mapping (Cyclone Idai)",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Mozambique",
-        "region": "Eastern Africa",
-        "continent": "Africa",
-        "lat": -19.833333,
-        "lng": 34.85,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "mozambique"
     ],
     "year": 2019,
     "month": "March",
@@ -950,17 +716,8 @@
     "id": "earhquake-2019",
     "name": "Earhquake",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Albania",
-        "region": "Southern Europe",
-        "continent": "Europe",
-        "lat": 41.3275,
-        "lng": 19.8187,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "albania"
     ],
     "year": 2019,
     "month": null,
@@ -988,17 +745,8 @@
     "id": "floods-2019",
     "name": "Floods",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Djibouti",
-        "region": "Eastern Africa",
-        "continent": "Africa",
-        "lat": 11.5721,
-        "lng": 43.1456,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "djibouti"
     ],
     "year": 2019,
     "month": "December",
@@ -1026,17 +774,8 @@
     "id": "assessment-and-analysis-cell-pilot-training-course-2019",
     "name": "Assessment and Analysis Cell Pilot training course",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Tallinn",
-        "state": null,
-        "country": "Estonia",
-        "region": "Northern Europe",
-        "continent": "Europe",
-        "lat": 59.437,
-        "lng": 24.7536,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "estonia-tallinn"
     ],
     "year": 2019,
     "month": "December",
@@ -1065,27 +804,9 @@
     "id": "covid-19-2020",
     "name": "Covid-19",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Nepal",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 27.7172,
-        "lng": 85.324,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Democratic People’s Republic of Korea",
-        "region": null,
-        "continent": "Asia",
-        "lat": 39.016667,
-        "lng": 125.7475,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "nepal",
+      "democratic-peoples-republic-of-korea"
     ],
     "year": 2020,
     "month": "May",
@@ -1113,17 +834,8 @@
     "id": "covid-19-and-tropical-cyclone-harold-2020",
     "name": "Covid-19 and Tropical Cyclone Harold",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Tonga",
-        "region": "Polynesia",
-        "continent": "Oceania",
-        "lat": -21.133333,
-        "lng": -175.2,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "tonga"
     ],
     "year": 2020,
     "month": "May",
@@ -1151,17 +863,8 @@
     "id": "explosion-2020",
     "name": "Explosion",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Beirut",
-        "state": null,
-        "country": "Lebanon",
-        "region": "Western Asia",
-        "continent": "Asia",
-        "lat": 33.8938,
-        "lng": 35.5018,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "lebanon-beirut"
     ],
     "year": 2020,
     "month": "August",
@@ -1189,87 +892,15 @@
     "id": "impact-of-covid-19-visualisations-2020",
     "name": "Impact of Covid-19 visualisations",
     "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "South Sudan",
-        "region": "Eastern Africa",
-        "continent": "Africa",
-        "lat": 4.85165,
-        "lng": 31.58247,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Sudan",
-        "region": "Northern Africa",
-        "continent": "Africa",
-        "lat": 15.508457,
-        "lng": 32.522854,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Cameroon",
-        "region": "Middle Africa",
-        "continent": "Africa",
-        "lat": 3.867,
-        "lng": 11.517,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Chad",
-        "region": "Middle Africa",
-        "continent": "Africa",
-        "lat": 12.1067,
-        "lng": 15.0444,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Ethiopia",
-        "region": "Eastern Africa",
-        "continent": "Africa",
-        "lat": 9.025,
-        "lng": 38.7469,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Niger",
-        "region": "Western Africa",
-        "continent": "Africa",
-        "lat": 13.5137,
-        "lng": 2.1098,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Somalia",
-        "region": "Eastern Africa",
-        "continent": "Africa",
-        "lat": 2.03711,
-        "lng": 45.34375,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Afghanistan",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 34.5281,
-        "lng": 69.1723,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "south-sudan",
+      "sudan",
+      "cameroon",
+      "chad",
+      "ethiopia",
+      "niger",
+      "somalia",
+      "afghanistan"
     ],
     "year": 2020,
     "month": null,
@@ -1301,17 +932,8 @@
     "id": "impact-of-covid-19-visualisations-2020-2",
     "name": "Impact of Covid-19 visualisations",
     "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Iraq",
-        "region": "Western Asia",
-        "continent": "Asia",
-        "lat": 36.366728,
-        "lng": 41.721839,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "iraq"
     ],
     "year": 2020,
     "month": null,
@@ -1343,17 +965,8 @@
     "id": "typhoon-goni-rolly-and-vamco-ulysses-2020",
     "name": "Typhoon Goni (Rolly) and Vamco (Ulysses)",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 13.6341923,
-        "lng": 123.2454633,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "the-philippines"
     ],
     "year": 2020,
     "month": "November",
@@ -1381,17 +994,8 @@
     "id": "community-insights-for-covid-19-2020",
     "name": "Community Insights for Covid-19",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Asia",
-        "lat": -2.5,
-        "lng": 140,
-        "precision": "region-centroid"
-      }
+    "locationIds": [
+      "asia"
     ],
     "year": 2020,
     "month": null,
@@ -1421,17 +1025,8 @@
     "id": "asean-erat-coaching-2021",
     "name": "ASEAN-ERAT Coaching",
     "parentId": "asean-erat-training",
-    "locations": [
-      {
-        "settlement": "Jakarta",
-        "state": null,
-        "country": "Indonesia",
-        "region": "South-Eastern Asia",
-        "continent": "Asia",
-        "lat": -6.192724,
-        "lng": 106.868614,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "indonesia-jakarta"
     ],
     "year": 2021,
     "month": "August",
@@ -1462,17 +1057,8 @@
     "id": "typhoon-rai-2021",
     "name": "Typhoon Rai",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 13.6341923,
-        "lng": 123.2454633,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "the-philippines"
     ],
     "year": 2021,
     "month": "December",
@@ -1501,17 +1087,8 @@
     "id": "earthquake-2021",
     "name": "Earthquake",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Haiti",
-        "region": "Caribbean",
-        "continent": "North America",
-        "lat": 18.5944,
-        "lng": -72.3074,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "haiti"
     ],
     "year": 2021,
     "month": null,
@@ -1539,17 +1116,8 @@
     "id": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption-2021",
     "name": "Humanitarian and environmental impact mapping to the La Soufrière volcanic eruption",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Saint Vincent and the Grenadines",
-        "region": "Caribbean",
-        "continent": "North America",
-        "lat": 13.333333,
-        "lng": -61.183333,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "saint-vincent-and-the-grenadines"
     ],
     "year": 2021,
     "month": "March",
@@ -1578,17 +1146,8 @@
     "id": "data-interoperability-development-2022",
     "name": "Data interoperability development",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Asia",
-        "lat": -2.5,
-        "lng": 140,
-        "precision": "region-centroid"
-      }
+    "locationIds": [
+      "asia"
     ],
     "year": 2022,
     "month": null,
@@ -1615,17 +1174,8 @@
     "id": "asean-erat-level-2-information-management-training-course-2022",
     "name": "ASEAN-ERAT Level 2 - Information Management training course",
     "parentId": "asean-erat-training",
-    "locations": [
-      {
-        "settlement": "Kuala Lumpur",
-        "state": null,
-        "country": "Malaysia",
-        "region": "South-Eastern Asia",
-        "continent": "Asia",
-        "lat": 3.139,
-        "lng": 101.6869,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "malaysia-kuala-lumpur"
     ],
     "year": 2022,
     "month": "October",
@@ -1656,17 +1206,8 @@
     "id": "adrrn-community-of-practice-2022",
     "name": "ADRRN Community of Practice",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Asia",
-        "lat": -2.5,
-        "lng": 140,
-        "precision": "region-centroid"
-      }
+    "locationIds": [
+      "asia"
     ],
     "year": 2022,
     "month": null,
@@ -1693,17 +1234,8 @@
     "id": "disaster-simulation-exercise-development-2022",
     "name": "Disaster simulation exercise development",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": null,
-        "lat": 46.201667,
-        "lng": 6.146944,
-        "precision": "global-centroid"
-      }
+    "locationIds": [
+      "global"
     ],
     "year": 2022,
     "month": "January",
@@ -1731,17 +1263,8 @@
     "id": "hunga-tonga-hunga-ha-apai-volcano-eruption-2022",
     "name": "Hunga Tonga–Hunga Haʻapai volcano eruption",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Tonga",
-        "region": "Polynesia",
-        "continent": "Oceania",
-        "lat": -21.133333,
-        "lng": -175.2,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "tonga"
     ],
     "year": 2022,
     "month": "December",
@@ -1765,17 +1288,8 @@
     "id": "data-and-gis-training-2023",
     "name": "Data and GIS training",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Kathmandu",
-        "state": null,
-        "country": "Nepal",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 27.7172,
-        "lng": 85.324,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "nepal-kathmandu"
     ],
     "year": 2023,
     "month": "July",
@@ -1807,17 +1321,8 @@
     "id": "data-and-gis-training-2023-2",
     "name": "Data and GIS training",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Manila",
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 17.9326405,
-        "lng": 121.7995182,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "the-philippines-manila"
     ],
     "year": 2023,
     "month": "August",
@@ -1849,17 +1354,8 @@
     "id": "technical-and-institutional-support-to-the-philippines-disaster-resilience-foundation-pdrf-2023",
     "name": "Technical and institutional support to the Philippines Disaster Resilience Foundation (PDRF)",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Clarke City",
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 15.186,
-        "lng": 120.5596,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "the-philippines-clarke-city"
     ],
     "year": 2023,
     "month": "September",
@@ -1886,17 +1382,8 @@
     "id": "asean-erat-level-3-team-leaders-pilot-course-2023",
     "name": "ASEAN-ERAT Level 3 - Team Leaders pilot course",
     "parentId": "asean-erat-training",
-    "locations": [
-      {
-        "settlement": "Bogor",
-        "state": null,
-        "country": "Indonesia",
-        "region": "South-Eastern Asia",
-        "continent": "Asia",
-        "lat": -6.595,
-        "lng": 106.8167,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "indonesia-bogor"
     ],
     "year": 2023,
     "month": "May",
@@ -1926,17 +1413,8 @@
     "id": "scoping-and-landscape-mapping-2023",
     "name": "Scoping and landscape mapping",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Clarke City",
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 15.186,
-        "lng": 120.5596,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "the-philippines-clarke-city"
     ],
     "year": 2023,
     "month": "October",
@@ -1963,17 +1441,8 @@
     "id": "partner-mapping-2023",
     "name": "Partner mapping",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Sri Lanka",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 6.9271,
-        "lng": 79.8612,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "sri-lanka"
     ],
     "year": 2023,
     "month": null,
@@ -2000,17 +1469,8 @@
     "id": "partner-mapping-2024",
     "name": "Partner mapping",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Nepal",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 27.7172,
-        "lng": 85.324,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "nepal"
     ],
     "year": 2024,
     "month": "July",
@@ -2037,17 +1497,8 @@
     "id": "aim-net-1-2024",
     "name": "AIM-Net 1",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Pattaya",
-        "state": null,
-        "country": "Thailand",
-        "region": "South-Eastern Asia",
-        "continent": "Asia",
-        "lat": 12.9236,
-        "lng": 100.8825,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "thailand-pattaya"
     ],
     "year": 2024,
     "month": "September",
@@ -2078,17 +1529,8 @@
     "id": "asia-pacific-geonews-2024",
     "name": "Asia-Pacific Geonews",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Asia",
-        "lat": -2.5,
-        "lng": 140,
-        "precision": "region-centroid"
-      }
+    "locationIds": [
+      "asia"
     ],
     "year": 2024,
     "month": "January",
@@ -2113,17 +1555,8 @@
     "id": "scoping-of-a-civil-society-organisation-engagement-platform-for-multilateral-development-banks-mdbs-2025",
     "name": "Scoping of a Civil Society Organisation engagement platform for Multilateral Development Banks (MDBs)",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": "Manila",
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 17.9326405,
-        "lng": 121.7995182,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "the-philippines-manila"
     ],
     "year": 2025,
     "month": "September",
@@ -2149,17 +1582,8 @@
     "id": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026",
     "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Ukraine",
-        "region": "Eastern Europe",
-        "continent": "Europe",
-        "lat": 50.45,
-        "lng": 30.516667,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "ukraine"
     ],
     "year": 2026,
     "month": "March",
@@ -2190,17 +1614,8 @@
     "id": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026-2",
     "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Iran",
-        "region": null,
-        "continent": "Middle East",
-        "lat": 35.6889,
-        "lng": 51.3897,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "iran"
     ],
     "year": 2026,
     "month": "March",
@@ -2231,17 +1646,8 @@
     "id": "gis-support-to-chuuk-state-following-typhoon-sinlaku-2026",
     "name": "GIS support to Chuuk State following Typhoon Sinlaku",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Federated States of Micronesia",
-        "region": null,
-        "continent": "Oceania",
-        "lat": 7.416667,
-        "lng": 151.783333,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "federated-states-of-micronesia"
     ],
     "year": 2026,
     "month": "April",
@@ -2270,17 +1676,8 @@
     "id": "schools-at-risk-to-sea-level-rise-in-guyana-2026",
     "name": "Schools at risk to sea-level rise in Guyana",
     "parentId": "schools-at-exposed-to-climate-change-risks",
-    "locations": [
-      {
-        "settlement": "Georgetown",
-        "state": null,
-        "country": "Guyana",
-        "region": "South America",
-        "continent": "South America",
-        "lat": 6.801111,
-        "lng": -58.155,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "guyana-georgetown"
     ],
     "year": 2026,
     "month": "May",
@@ -2308,17 +1705,8 @@
     "id": "schools-at-risk-to-sea-level-rise-in-saint-vincent-and-the-grenadines-2026",
     "name": "Schools at risk to sea-level rise in Saint Vincent and the Grenadines",
     "parentId": "schools-at-exposed-to-climate-change-risks",
-    "locations": [
-      {
-        "settlement": "Kingstown",
-        "state": null,
-        "country": "Saint Vincent and the Grenadines",
-        "region": "Caribbean",
-        "continent": "North America",
-        "lat": 13.157778,
-        "lng": -61.225556,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "saint-vincent-and-the-grenadines-kingstown"
     ],
     "year": 2026,
     "month": "May",
@@ -2347,17 +1735,8 @@
     "id": "h2h-lebanon-2026",
     "name": "H2H Lebanon",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Lebanon",
-        "region": "Western Asia",
-        "continent": "Asia",
-        "lat": 33.8938,
-        "lng": 35.5018,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "lebanon"
     ],
     "year": 2026,
     "month": "May",
@@ -2385,17 +1764,8 @@
     "id": "h2h-syria-2026",
     "name": "H2H Syria",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Syria",
-        "region": null,
-        "continent": "Middle East",
-        "lat": 33.5138,
-        "lng": 36.2765,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "syria"
     ],
     "year": 2026,
     "month": "May",
@@ -2422,18 +1792,9 @@
   {
     "id": "mapping-security-incidents-2026",
     "name": "Mapping security incidents",
-    "parentId": "security-incident-mapping",
-    "locations": [
-      {
-        "settlement": "Port-au-Prince",
-        "state": null,
-        "country": "Haiti",
-        "region": "Caribbean",
-        "continent": "North America",
-        "lat": 18.5944,
-        "lng": -72.3074,
-        "precision": "exact"
-      }
+    "parentId": null,
+    "locationIds": [
+      "haiti-port-au-prince"
     ],
     "year": 2026,
     "month": "February",
@@ -2463,18 +1824,9 @@
   {
     "id": "mapping-security-incidents-2026-2",
     "name": "Mapping security incidents",
-    "parentId": "security-incident-mapping",
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "oPT",
-        "region": null,
-        "continent": "Middle East",
-        "lat": 31.5075,
-        "lng": 34.459722,
-        "precision": "capital"
-      }
+    "parentId": null,
+    "locationIds": [
+      "opt"
     ],
     "year": 2026,
     "month": "June",
@@ -2506,17 +1858,8 @@
     "id": "asean-erat-level-2-information-management-training-course-2026",
     "name": "ASEAN-ERAT Level 2 - Information Management training course",
     "parentId": "asean-erat-training",
-    "locations": [
-      {
-        "settlement": "Manila",
-        "state": null,
-        "country": "The Philippines",
-        "region": null,
-        "continent": "Asia",
-        "lat": 17.9326405,
-        "lng": 121.7995182,
-        "precision": "exact"
-      }
+    "locationIds": [
+      "the-philippines-manila"
     ],
     "year": 2026,
     "month": "July",
@@ -2544,59 +1887,11 @@
     "sourceRowCount": 1
   },
   {
-    "id": "data-preparedness-for-world-central-kitchen-2026",
-    "name": "Data preparedness for World Central Kitchen",
-    "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Guatemala",
-        "region": "Central America",
-        "continent": "North America",
-        "lat": 13.698889,
-        "lng": -89.191389,
-        "precision": "capital"
-      }
-    ],
-    "year": 2026,
-    "month": "August",
-    "type": "Preparedness",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [
-      "World Central Kitchen"
-    ],
-    "level": [
-      "Regional",
-      "National"
-    ],
-    "themes": [
-      "Data"
-    ],
-    "disaster": [],
-    "status": "Current",
-    "startDate": "2026-08-10",
-    "endDate": null,
-    "description": null,
-    "sourceRowCount": 1
-  },
-  {
     "id": "gis-and-im-support-to-unocha",
     "name": "GIS and IM support to UNOCHA",
     "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Asia-Pacific",
-        "lat": -2.5,
-        "lng": 140,
-        "precision": "region-centroid"
-      }
+    "locationIds": [
+      "asia-pacific"
     ],
     "year": 2020,
     "month": null,
@@ -2618,27 +1913,8 @@
     "name": "Global Information Management Assessment and Analysis Cell on Covid-19 (GIMAC)",
     "parentId": null,
     "isParent": true,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Iraq",
-        "region": "Western Asia",
-        "continent": "Asia",
-        "lat": 33.3406,
-        "lng": 44.4009,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Afghanistan",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 34.5281,
-        "lng": 69.1723,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "global"
     ],
     "year": 2020,
     "month": null,
@@ -2658,27 +1934,8 @@
     "name": "Schools at exposed to climate change risks",
     "parentId": null,
     "isParent": true,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Saint Vincent and the Grenadines",
-        "region": "Caribbean",
-        "continent": "North America",
-        "lat": 13.1553,
-        "lng": -61.2274,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Guyana",
-        "region": "South America",
-        "continent": "South America",
-        "lat": 6.8045,
-        "lng": -58.1553,
-        "precision": "capital"
-      }
+    "locationIds": [
+      "saint-vincent-and-the-grenadines"
     ],
     "year": 2026,
     "month": null,
@@ -2698,17 +1955,8 @@
     "name": "ASEAN-ERAT training",
     "parentId": null,
     "isParent": true,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Asia-Pacific",
-        "lat": -2.5,
-        "lng": 140,
-        "precision": "region-centroid"
-      }
+    "locationIds": [
+      "asia-pacific"
     ],
     "year": null,
     "month": null,
@@ -2717,82 +1965,6 @@
     "organisation": [],
     "level": [],
     "themes": [],
-    "disaster": [],
-    "status": null,
-    "startDate": null,
-    "endDate": null,
-    "description": null
-  },
-  {
-    "id": "aim-net-training",
-    "name": "AIM-Net training",
-    "parentId": null,
-    "isParent": true,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Asia-Pacific",
-        "lat": -2.5,
-        "lng": 140,
-        "precision": "region-centroid"
-      }
-    ],
-    "year": null,
-    "month": null,
-    "type": null,
-    "modality": [],
-    "organisation": [],
-    "level": [],
-    "themes": [],
-    "disaster": [],
-    "status": null,
-    "startDate": null,
-    "endDate": null,
-    "description": null
-  },
-  {
-    "id": "security-incident-mapping",
-    "name": "Security incident mapping for UNDSS",
-    "parentId": null,
-    "isParent": true,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Haiti",
-        "region": "Caribbean",
-        "continent": "North America",
-        "lat": 18.5944,
-        "lng": -72.3074,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "oPT",
-        "region": null,
-        "continent": "Middle East",
-        "lat": 31.5075,
-        "lng": 34.459722,
-        "precision": "capital"
-      }
-    ],
-    "year": 2026,
-    "month": null,
-    "type": null,
-    "modality": [],
-    "organisation": [
-      "United Nations Department for Safety and Security"
-    ],
-    "level": [
-      "National"
-    ],
-    "themes": [
-      "Security"
-    ],
     "disaster": [],
     "status": null,
     "startDate": null,
