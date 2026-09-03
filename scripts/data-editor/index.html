@@ -350,6 +350,7 @@ function serializeProject(p) {
   const out = {
     id: p.id, name: p.name, parentId: p.parentId || null,
   };
+  if (p.isParent) out.isParent = true;
   if (p.legacyParentName) out.legacyParentName = p.legacyParentName;
   Object.assign(out, {
     locationIds: p.locationIds || [],
@@ -624,7 +625,13 @@ function validateAll() {
         if (parent && parent.parentId) {
           issues.push({ level: "error", entity: "projects", id: p.id, message: `Parent "${parent.id}" itself has a parent — nesting only goes one level` });
         }
+        if (parent && !parent.isParent) {
+          issues.push({ level: "error", entity: "projects", id: p.id, message: `Parent "${parent.id}" isn't marked as a Parent project — add it via the Parent projects tab, or repoint this to one that is` });
+        }
       }
+    }
+    if (p.isParent && p.parentId) {
+      issues.push({ level: "error", entity: "projects", id: p.id, message: "Parent project has its own parent — parent projects must be top-level" });
     }
     if (p.legacyParentName && !p.parentId) {
       issues.push({ level: "warning", entity: "projects", id: p.id, message: `Unresolved parent reference: "${p.legacyParentName}" — pick a parent project or clear it` });
@@ -680,10 +687,12 @@ function showIssues(issues) {
  * ------------------------------------------------------------------- */
 /**
  * "parents" isn't its own array in state - it's a filtered view onto
- * state.projects. A project is a "parent project" only once something else
- * actually links to it (parentId === its id) - not merely by being
- * top-level - so the split between the Parent projects tab and the Projects
- * tab is: does anything currently list this project as its parent?
+ * state.projects. Whether a project is a "parent project" is its own
+ * explicit flag (Project.isParent), set once when it's created via the
+ * Parent projects tab's "+ Add new" and never inferred from whether it
+ * currently has children linked to it - a project you just added there
+ * belongs there immediately, before anything is linked to it. The Projects
+ * tab shows every non-parent project, including children of a parent.
  * Everywhere that needs the underlying storage array or a validateAll()
  * entity name should resolve through dataKeyFor rather than assuming
  * tab === state key.
@@ -696,16 +705,12 @@ function tabLabel(tab) {
   return tab === "parents" ? "parent projects" : tab;
 }
 
-function hasChildren(id) {
-  return state.projects.some((p) => p.parentId === id);
-}
-
 function parentProjectsList() {
-  return state.projects.filter((p) => hasChildren(p.id));
+  return state.projects.filter((p) => p.isParent);
 }
 
 function individualProjectsList() {
-  return state.projects.filter((p) => !hasChildren(p.id));
+  return state.projects.filter((p) => !p.isParent);
 }
 
 function switchTab(tab) {
@@ -747,7 +752,7 @@ function renderList(tab) {
   pane.appendChild(toolbar);
 
   if (tab === "parents") {
-    pane.appendChild(el("p", { class: "tab-hint", text: "Shows a project once at least one other project links to it via its Parent project field. A project you just added here will appear once you've linked a child to it from the Projects tab." }));
+    pane.appendChild(el("p", { class: "tab-hint", text: "Projects added here stay here, whether or not a child has been linked to them yet. To link one, open the child project (in the Projects tab) and pick this one from its Parent project field - only projects added here are selectable there." }));
   }
 
   const data =
@@ -1050,9 +1055,10 @@ function locationOptions() {
     .map((l) => ({ id: l.id, label: `${l.name} (${l.type})` }))
     .sort((a, b) => a.label.localeCompare(b.label));
 }
-function projectOptions(excludeId) {
+function projectOptions(excludeId, { onlyParents } = {}) {
   return state.projects
     .filter((p) => p.id !== excludeId)
+    .filter((p) => !onlyParents || p.isParent)
     .map((p) => ({ id: p.id, label: p.year ? `${p.name} (${p.year})` : p.name }))
     .sort((a, b) => a.label.localeCompare(b.label));
 }
@@ -1071,7 +1077,7 @@ function openEditor(tab, id) {
       : { ...byId(state.locations, id) };
   } else if (entity === "projects") {
     draft = isNew
-      ? { id: "", name: "", parentId: null, locationIds: [], year: null, month: "", type: "", modality: [], organisation: [], level: [], themes: [], disaster: [], status: "", startDate: "", endDate: "", description: "" }
+      ? { id: "", name: "", parentId: null, isParent: tab === "parents", locationIds: [], year: null, month: "", type: "", modality: [], organisation: [], level: [], themes: [], disaster: [], status: "", startDate: "", endDate: "", description: "" }
       : { ...byId(state.projects, id) };
   } else {
     draft = isNew
@@ -1091,7 +1097,7 @@ function renderModal(tab, draft, isNew, originalId) {
 
   const body = el("div");
   if (entity === "locations") buildLocationForm(body, draft);
-  else if (entity === "projects") buildProjectForm(body, draft, { hideParentField: tab === "parents" && isNew, tab });
+  else if (entity === "projects") buildProjectForm(body, draft, { tab });
   else buildMapForm(body, draft);
   modal.appendChild(body);
 
@@ -1201,7 +1207,10 @@ function buildLocationForm(body, draft) {
 }
 
 function buildProjectForm(body, draft, opts) {
-  const hideParentField = !!(opts && opts.hideParentField);
+  // A parent project (added via the Parent projects tab) is always
+  // top-level by definition - it never has a Parent project field of its
+  // own, whether it's brand new or being edited afterwards.
+  const hideParentField = !!draft.isParent;
   const modalTab = (opts && opts.tab) || "projects";
   body.appendChild(field("Name", null, textInput(draft.name, (v) => (draft.name = v))));
   body.appendChild(field("ID", "auto-filled from name if left blank on a new entry", textInput(draft.id, (v) => (draft.id = v))));
@@ -1213,10 +1222,10 @@ function buildProjectForm(body, draft, opts) {
   }
 
   if (hideParentField) {
-    body.appendChild(field("Parent project", "left empty — being added as a top-level project; link a child to it afterwards to make it a parent", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
+    body.appendChild(field("Parent project", "left empty — parent projects are always top-level", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
   } else {
-    body.appendChild(field("Parent project", "one level only — pick another top-level project, or leave empty", relationPicker({
-      multi: false, values: draft.parentId, options: projectOptions(draft.id),
+    body.appendChild(field("Parent project", "pick from the projects listed in the Parent projects tab, or leave empty", relationPicker({
+      multi: false, values: draft.parentId, options: projectOptions(draft.id, { onlyParents: true }),
       onChange: (v) => {
         draft.parentId = v;
         // Picking a real parent resolves the migration-era hint - clear it

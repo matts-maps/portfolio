@@ -25,18 +25,19 @@ an extra permission prompt — a zip sidesteps that entirely.)
 - Four tabs — Locations, Projects, Parent projects, Maps — each a searchable
   table. Click a row to edit, or **+ Add new**.
 - **Parent projects** and **Projects** split the same underlying project data
-  by whether anything currently links to it: a project shows in Parent
-  projects once at least one other project picks it as a parent, and in
-  Projects otherwise (that includes ordinary standalone projects and
-  children of a parent alike — only the parents themselves move out).
-  Parent projects has a **Children** column instead of Parent, so the
-  handful of umbrella projects aren't lost among 60-odd ordinary ones.
-  **+ Add new** there hides the Parent project field entirely — a new entry
-  from this tab is always top-level by construction — but it stays in the
-  Projects tab (it has no children yet) until you link a child to it: open
-  that child (in either tab) and pick the new project from its own Parent
-  project field. As soon as that link is made, the parent moves itself into
-  the Parent projects tab automatically.
+  by an explicit flag (`isParent`), not by whether anything happens to be
+  linked to it yet. A project becomes a parent project the moment it's added
+  via **+ Add new** in the Parent projects tab — it shows there immediately,
+  before any child is linked, and never shows in the Projects tab at all.
+  Projects shows everything else: ordinary standalone projects and children
+  of a parent alike. Parent projects has a **Children** column instead of
+  Parent, so the handful of umbrella projects aren't lost among 60-odd
+  ordinary ones. **+ Add new** there also hides the Parent project field
+  entirely — a parent project is always top-level and can never have a
+  parent of its own. To link a child to one: open the child (in the Projects
+  tab) and pick it from that project's own Parent project field — the picker
+  there only offers projects that were added via the Parent projects tab, so
+  there's no way to accidentally point at an ordinary project.
 - Relation pickers for `Project.parentId`, `Project.locationIds`, `Map.projectId`,
   and `Map.locationIds` — search by name, not raw id. No more typing an id from
   memory or getting it wrong.
