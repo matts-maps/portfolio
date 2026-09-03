@@ -502,6 +502,21 @@ body {
   color: #555;
 }
 
+.project-parent-line {
+  margin: 0 0 1rem 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #555;
+  background: rgba(0, 0, 0, 0.03);
+  border-left: 3px solid var(--border);
+  border-radius: 4px;
+}
+
+.project-parent-line strong {
+  font-weight: 600;
+}
+
 .project-description {
   margin-bottom: 1.25rem;
   line-height: 1.55;
