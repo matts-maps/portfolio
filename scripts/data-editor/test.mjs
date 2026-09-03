@@ -46,9 +46,11 @@ async function main() {
 
   const locCount = await page.textContent("#count-locations");
   const projCount = await page.textContent("#count-projects");
+  const parentCount = await page.textContent("#count-parents");
   const mapCount = await page.textContent("#count-maps");
   check("locations count is (93)", locCount.trim() === "(93)");
   check("projects count is (64)", projCount.trim() === "(64)");
+  check("parent projects count is (0) - none of the fixture data has a linked parent yet", parentCount.trim() === "(0)");
   check("maps count is (60)", mapCount.trim() === "(60)");
 
   console.log("Checking issues panel picks up known warnings...");
@@ -250,25 +252,62 @@ async function main() {
   const newParentNameField = await fieldByLabel("Name");
   await (await newParentNameField.$("input[type=text]")).fill("Umbrella test project");
   const newParentLocField = await fieldByLabel("Locations");
-  await (await newParentLocField.$("input[type=text]")).fill("Testland");
+  await (await newParentLocField.$("input[type=text]")).fill("Liberia");
   await (await newParentLocField.$('button:has-text("Add")')).click();
   await page.click("#modal .modal-actions button.primary");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
+  console.log("Confirming it does NOT show in Parent projects yet (it has no children)...");
   await page.fill("#search-parents", "Umbrella");
   await page.waitForTimeout(50);
-  const newParentRow = await page.textContent("#tab-parents tbody tr");
-  check("new project added from the Parents tab shows up there with no children yet", newParentRow.includes("Umbrella test project") && newParentRow.includes("—"));
+  const parentsHitsBeforeLink = await page.$$("#tab-parents tbody tr");
+  check("Parent projects tab has no row for it before any child links to it", parentsHitsBeforeLink.length === 0);
 
-  console.log("Confirming that project also has no parentId (it's not nested under anything)...");
-  await page.click("#tab-parents tbody tr");
+  console.log("Confirming it DOES show in the Projects tab, as an ordinary individual project...");
+  await page.click('#tabs button[data-tab="projects"]');
+  await page.fill("#search-projects", "Umbrella");
+  await page.waitForTimeout(50);
+  const umbrellaInProjects = await page.textContent("#tab-projects tbody tr").catch(() => "");
+  check("Projects tab lists the new project while it has no children", umbrellaInProjects.includes("Umbrella test project"));
+  await page.click("#tab-projects tbody tr");
   await page.waitForSelector("#overlay.open");
-  const editParentFieldRow = await fieldByLabel("Parent project");
-  const editParentSelect = await editParentFieldRow.$("select");
-  const editParentValue = editParentSelect ? await editParentSelect.evaluate((s) => s.value) : null;
-  check("editing it afterwards shows the normal Parent field, currently empty", editParentValue === "");
+  const umbrellaParentFieldRow = await fieldByLabel("Parent project");
+  const umbrellaParentSelect = await umbrellaParentFieldRow.$("select");
+  const umbrellaParentValue = umbrellaParentSelect ? await umbrellaParentSelect.evaluate((s) => s.value) : null;
+  check("it has the normal Parent field, currently empty", umbrellaParentValue === "");
   await page.click("#modal .modal-actions button:has-text('Cancel')");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  console.log("Linking a child to it and confirming it now moves into the Parent projects tab...");
+  await page.fill("#search-projects", "");
+  await page.click('#tab-projects .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  const childNameField = await fieldByLabel("Name");
+  await (await childNameField.$("input[type=text]")).fill("Umbrella child test project");
+  const childParentFieldRow = await fieldByLabel("Parent project");
+  await (await childParentFieldRow.$("select")).selectOption({ label: "Umbrella test project" });
+  const childLocField = await fieldByLabel("Locations");
+  await (await childLocField.$("input[type=text]")).fill("Liberia");
+  await (await childLocField.$('button:has-text("Add")')).click();
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.click('#tabs button[data-tab="parents"]');
+  await page.fill("#search-parents", "Umbrella");
+  await page.waitForTimeout(50);
+  const umbrellaParentRow = await page.textContent("#tab-parents tbody tr").catch(() => "");
+  check("Parent projects tab now lists it, once a child links to it", umbrellaParentRow.includes("Umbrella test project"));
+  check("its Children column shows the newly-linked child", umbrellaParentRow.includes("Umbrella child test project"));
+
+  await page.click('#tabs button[data-tab="projects"]');
+  await page.fill("#search-projects", "Umbrella");
+  await page.waitForTimeout(50);
+  // Compare against each row's Name cell (first <td>) specifically - the child
+  // row's Parent cell legitimately shows the parent's name as text too, so a
+  // whole-row substring check would false-positive on that.
+  const umbrellaProjectNames = await page.$$eval("#tab-projects tbody tr td:first-child", (cells) => cells.map((c) => c.textContent));
+  check("the parent itself no longer appears in the Projects tab", !umbrellaProjectNames.includes("Umbrella test project"));
+  check("the child project still appears in the Projects tab", umbrellaProjectNames.includes("Umbrella child test project"));
 
   console.log("Testing that an invalid save (project with zero locations) is blocked...");
   await page.click('#tabs button[data-tab="projects"]');

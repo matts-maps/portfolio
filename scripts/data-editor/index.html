@@ -120,6 +120,7 @@
   .badge.warn { background: color-mix(in srgb, var(--warn) 20%, transparent); color: var(--warn); }
   .badge.err { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); }
   .empty-hint { color: var(--text-dim); padding: 40px 0; text-align: center; }
+  .tab-hint { color: var(--text-dim); font-size: 12px; margin: -4px 0 12px; }
 
   #welcome { max-width: 640px; margin: 60px auto; text-align: center; }
   #welcome h2 { font-weight: 600; }
@@ -679,9 +680,13 @@ function showIssues(issues) {
  * ------------------------------------------------------------------- */
 /**
  * "parents" isn't its own array in state - it's a filtered view onto
- * state.projects (the top-level ones, parentId === null). Everywhere that
- * needs the underlying storage array or a validateAll() entity name should
- * resolve through this rather than assuming tab === state key.
+ * state.projects. A project is a "parent project" only once something else
+ * actually links to it (parentId === its id) - not merely by being
+ * top-level - so the split between the Parent projects tab and the Projects
+ * tab is: does anything currently list this project as its parent?
+ * Everywhere that needs the underlying storage array or a validateAll()
+ * entity name should resolve through dataKeyFor rather than assuming
+ * tab === state key.
  */
 function dataKeyFor(tab) {
   return tab === "parents" ? "projects" : tab;
@@ -691,8 +696,16 @@ function tabLabel(tab) {
   return tab === "parents" ? "parent projects" : tab;
 }
 
-function topLevelProjects() {
-  return state.projects.filter((p) => !p.parentId);
+function hasChildren(id) {
+  return state.projects.some((p) => p.parentId === id);
+}
+
+function parentProjectsList() {
+  return state.projects.filter((p) => hasChildren(p.id));
+}
+
+function individualProjectsList() {
+  return state.projects.filter((p) => !hasChildren(p.id));
 }
 
 function switchTab(tab) {
@@ -706,8 +719,8 @@ function switchTab(tab) {
 
 function renderCounts() {
   document.getElementById("count-locations").textContent = `(${state.locations.length})`;
-  document.getElementById("count-projects").textContent = `(${state.projects.length})`;
-  document.getElementById("count-parents").textContent = `(${topLevelProjects().length})`;
+  document.getElementById("count-projects").textContent = `(${individualProjectsList().length})`;
+  document.getElementById("count-parents").textContent = `(${parentProjectsList().length})`;
   document.getElementById("count-maps").textContent = `(${state.maps.length})`;
 }
 
@@ -733,7 +746,14 @@ function renderList(tab) {
   ]);
   pane.appendChild(toolbar);
 
-  const data = tab === "parents" ? topLevelProjects() : state[dataKeyFor(tab)];
+  if (tab === "parents") {
+    pane.appendChild(el("p", { class: "tab-hint", text: "Shows a project once at least one other project links to it via its Parent project field. A project you just added here will appear once you've linked a child to it from the Projects tab." }));
+  }
+
+  const data =
+    tab === "parents" ? parentProjectsList() :
+    tab === "projects" ? individualProjectsList() :
+    state[dataKeyFor(tab)];
   const filtered = data.filter((item) => matchesSearch(item, tab, search));
   const table = el("table");
   table.appendChild(renderTableHead(tab));
@@ -1193,7 +1213,7 @@ function buildProjectForm(body, draft, opts) {
   }
 
   if (hideParentField) {
-    body.appendChild(field("Parent project", "left empty — this is being added as a top-level parent project", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
+    body.appendChild(field("Parent project", "left empty — being added as a top-level project; link a child to it afterwards to make it a parent", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
   } else {
     body.appendChild(field("Parent project", "one level only — pick another top-level project, or leave empty", relationPicker({
       multi: false, values: draft.parentId, options: projectOptions(draft.id),
