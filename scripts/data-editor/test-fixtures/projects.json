@@ -1,0 +1,1984 @@
+[
+  {
+    "id": "mapaction-development-2006",
+    "name": "MapAction Development",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "united-kingdom"
+    ],
+    "year": 2006,
+    "month": null,
+    "type": "Training",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
+    "organisation": [
+      "MapAction"
+    ],
+    "level": [],
+    "themes": [],
+    "disaster": [],
+    "status": "Current",
+    "startDate": "01/07/2006",
+    "endDate": null,
+    "description": "Coordination of organisational technical development",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "mapaction-simexes-2006",
+    "name": "MapAction Simexes",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "united-kingdom"
+    ],
+    "year": 2006,
+    "month": null,
+    "type": "Training",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
+    "organisation": [
+      "MapAction"
+    ],
+    "level": [],
+    "themes": [],
+    "disaster": [],
+    "status": "Current",
+    "startDate": "01/07/2006",
+    "endDate": null,
+    "description": "Development and running of annual simulation exercises",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "mapaction-team-training-2006",
+    "name": "MapAction Team Training",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "europe"
+    ],
+    "year": 2006,
+    "month": null,
+    "type": "Training",
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
+    "organisation": [
+      "MapAction"
+    ],
+    "level": [],
+    "themes": [],
+    "disaster": [],
+    "status": "Current",
+    "startDate": "01/07/2006",
+    "endDate": null,
+    "description": "Over 100 training events for volunteers and staff",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "undac-induction-2011",
+    "name": "UNDAC Induction",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "united-kingdom-avonmouth"
+    ],
+    "year": 2011,
+    "month": "October",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "UNDAC methodology",
+      "Google Earth",
+      "GPS"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2011-10-04",
+    "endDate": "2011-10-11",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "introduction-to-humanitarian-gis-2012",
+    "name": "Introduction to humanitarian GIS",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "united-kingdom-london"
+    ],
+    "year": 2012,
+    "month": "March",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Royal Geographical Society (RGS)",
+      "Oxfam",
+      "Save the Children"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Explosion"
+    ],
+    "status": "Complete",
+    "startDate": "2011-01-01",
+    "endDate": "2013-12-31",
+    "description": "Delivery of twice-yearly introductory data collection, GIS, spatial analysis training for humanitarian practitioners from INGO and NGOs.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "gis-and-mapping-support-munitions-depot-explosion-2012",
+    "name": "GIS and mapping support, Munitions depot explosion",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "republic-of-the-congo-brazzaville"
+    ],
+    "year": 2012,
+    "month": "March",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Government of the Republic of Congo",
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Explosion"
+    ],
+    "status": "Complete",
+    "startDate": "2012-03-12",
+    "endDate": "2012-03-26",
+    "description": "Deployment to Brazzaville to provide mapping and information management support to the national government and the international demining teams responsible for clearing the site of unexploded ordnance.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "the-osocc-operational-support-staff-ooss-course-2012",
+    "name": "The OSOCC Operational Support Staff (OOSS) course",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "finland-kuopio"
+    ],
+    "year": 2012,
+    "month": "December",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "Assessment and analysis"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2012-12-10",
+    "endDate": "2012-12-15",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "triplex-13-2013",
+    "name": "Triplex 13",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "germany-flensberg"
+    ],
+    "year": 2013,
+    "month": "September",
+    "type": "Training",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "International Humanitarian Partnership (IHP)",
+      "European Commission's Humanitarian Aid and Civil Protection"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "Simex"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "status": "Complete",
+    "startDate": "2013-09-29",
+    "endDate": "2013-10-04",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "typhoon-haiyan-2013",
+    "name": "Typhoon Haiyan",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines-tacloban"
+    ],
+    "year": 2013,
+    "month": "November",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Typhoon"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Deployment to Tacloban, Philippines to deliver humanitarian situational mapping and information management as part of the On-Site Operations Coordination Centre (OSOCC) to National Disaster Risk Reduction and Management Council (NDRRMC), UNOCHA and the INGOs during the disaster response phase. I also provided remote support to field teams, along with recovery phase spatial analysis and mapping delivered for ACAPS and Habitat for Humanity.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "insarag-exercise-2013",
+    "name": "INSARAG Exercise",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "malaysia-kota-kinabalu"
+    ],
+    "year": 2013,
+    "month": "November",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "International Search and Rescue Advisory Group (INSARAG)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "Simex"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "training-support-to-msb-2014",
+    "name": "Training support to MSB",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "sweden-karlstad"
+    ],
+    "year": 2014,
+    "month": "May",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "International Humanitarian Partnership (IHP)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "GIS",
+      "GPS"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2014-05-01",
+    "endDate": "2014-05-04",
+    "description": "Team lead providing training on data collection (GPS), Excel and visualisation (Google Earth and ArcGIS).",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "undac-team-leaders-2014",
+    "name": "UNDAC Team Leaders",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "switzerland-spiez"
+    ],
+    "year": 2014,
+    "month": "December",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "UNDAC methodology",
+      "Google Earth",
+      "GPS"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2014-12-08",
+    "endDate": "2014-12-13",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "ebola-2014",
+    "name": "Ebola",
+    "parentId": null,
+    "legacyParentName": "2014 Ebola response in West Africa",
+    "locationIds": [
+      "liberia-monrovia"
+    ],
+    "year": 2014,
+    "month": "September",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)",
+      "Government of Liberia"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Ebola"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Throughout 2014 I worked on the coordination, data collection and mapping of the Ebola epidemic in West Africa, initially working remotely with international organisations such as UNOCHA and ACAPS, followed by a deployment to Liberia to provide situational mapping for the Government of Libera, UNDAC and international agencies. I supported and trained staff at the national mapping agency as part of a coordinated handover.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "yazidi-displacement-from-mount-sinjar-2014",
+    "name": "Yazidi displacement from Mount Sinjar",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "iraq"
+    ],
+    "year": 2014,
+    "month": "July",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Department for International Development (DfID)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Preparation of data and map visuals for daily ministerial briefings.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "cyclone-pam-2015",
+    "name": "Cyclone Pam",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "vanuatu-port-vila"
+    ],
+    "year": 2015,
+    "month": "April",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Government of Vanuatu",
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Cyclone"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Delivered field level data and mapping support to the National Disaster Management Office of Vanuatu and UNOCHA who led international coordination of the disaster response. My role included delivery of a 3-day field assessment of some of the damaged villages in engagement with local communities on affected islands.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "flooding-2015",
+    "name": "Flooding",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "malawi-lilongwe"
+    ],
+    "year": 2015,
+    "month": "February",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Flooding"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "mediterranean-migration-crisis-2015",
+    "name": "Mediterranean Migration Crisis",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "serbia-belgrade",
+      "greece-athens",
+      "switzerland-geneva"
+    ],
+    "year": 2015,
+    "month": null,
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations High Commissioner for Refugees (UNHCR)",
+      "Assessment Capacity Project (ACAPS)"
+    ],
+    "level": [
+      "Regional"
+    ],
+    "themes": [],
+    "disaster": [
+      "Migration"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Over 2015, I coordinated the GIS field teams in Greece, Serbia and Switzerland supporting UNHCR in the mapping of migrants through Europe.\nThis included creation of maps and databases on migration from Northern and West Africa into Europe.",
+    "sourceRowCount": 3
+  },
+  {
+    "id": "triplex-16-2016",
+    "name": "Triplex 16",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "norway-stavanger"
+    ],
+    "year": 2016,
+    "month": "September",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "International Humanitarian Partnership (IHP)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "Simex"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data lead for the exercise scenario planning team and exercise controllers for large-scale multinational humanitarian simulation exercise in Norway.\nThis involved leadership and coordination across a wide range of stakeholders and organizations including national disaster agencies, civil defence, NGOs, civil society, UN organizations, development partners, and others.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "tropical-cyclone-donna-2017",
+    "name": "Tropical Cyclone Donna",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "vanuatu-port-vila"
+    ],
+    "year": 2017,
+    "month": "May",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Cyclone"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "hurricane-isacc-2018",
+    "name": "Hurricane Isacc",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "dominica"
+    ],
+    "year": 2018,
+    "month": "September",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Hurricane"
+    ],
+    "status": "Complete",
+    "startDate": "2018-09-10",
+    "endDate": "2018-09-17",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "name": "Sulawesi Earthquake, tsunami and liquefaction response analysis",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "indonesia-palu"
+    ],
+    "year": 2018,
+    "month": "October",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Earthquake",
+      "Tsunami",
+      "Liquefaction"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Analysis and mapping of the Indonesian response to the 2018 Sulawesi earthquake.\nThis included the mapping of damaged buildings from the three events and assessing the humanitarian impacts in the event aftermath.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "typhoon-mangkhut-2018",
+    "name": "Typhoon Mangkhut",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines-manila"
+    ],
+    "year": 2018,
+    "month": "September",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Typhoon",
+      "Landslide"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "insarag-exercise-2018",
+    "name": "INSARAG Exercise",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines-clarke-city"
+    ],
+    "year": 2018,
+    "month": null,
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "International Search and Rescue Advisory Group (INSARAG)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "Simex"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "disease-outbreak-mapping-cyclone-idai-2019",
+    "name": "Disease outbreak mapping (Cyclone Idai)",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "mozambique"
+    ],
+    "year": 2019,
+    "month": "March",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "World Health Organisation (WHO)",
+      "the Global Health Cluster"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Cyclone"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Following Cyclone Idai, widespread flooding caused multiple disease outbreaks across the country.\nI provided mapping and analysis to show the spread of the disease and how the health cluster was delivering support based on collated multistakeholder data from a wide range of health organizations.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "earhquake-2019",
+    "name": "Earhquake",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "albania"
+    ],
+    "year": 2019,
+    "month": null,
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Earthquake"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "floods-2019",
+    "name": "Floods",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "djibouti"
+    ],
+    "year": 2019,
+    "month": "December",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Flooding"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "assessment-and-analysis-cell-pilot-training-course-2019",
+    "name": "Assessment and Analysis Cell Pilot training course",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "estonia-tallinn"
+    ],
+    "year": 2019,
+    "month": "December",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "Assessment and analysis"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "covid-19-2020",
+    "name": "Covid-19",
+    "parentId": null,
+    "legacyParentName": "GIS and IM support to UNOCHA",
+    "locationIds": [
+      "nepal",
+      "democratic-peoples-republic-of-korea"
+    ],
+    "year": 2020,
+    "month": "May",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 2
+  },
+  {
+    "id": "covid-19-and-tropical-cyclone-harold-2020",
+    "name": "Covid-19 and Tropical Cyclone Harold",
+    "parentId": null,
+    "legacyParentName": "GIS and IM support to UNOCHA",
+    "locationIds": [
+      "tonga"
+    ],
+    "year": 2020,
+    "month": "May",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "explosion-2020",
+    "name": "Explosion",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "lebanon-beirut"
+    ],
+    "year": 2020,
+    "month": "August",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Explosion"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "impact-of-covid-19-visualisations-2020",
+    "name": "Impact of Covid-19 visualisations",
+    "parentId": null,
+    "legacyParentName": "Global Information Management Assessment and Analysis Cell on Covid-19 (GIMAC)",
+    "locationIds": [
+      "south-sudan",
+      "sudan",
+      "cameroon",
+      "chad",
+      "ethiopia",
+      "niger",
+      "somalia",
+      "afghanistan"
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
+      "United Nations High Commissioner for Refugees (UNHCR)",
+      "International Organisation for Migration (IOM)",
+      "World Health Organisation (WHO)",
+      "the Global Health Cluster"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "impact-of-covid-19-visualisations-2020-2",
+    "name": "Impact of Covid-19 visualisations",
+    "parentId": null,
+    "legacyParentName": "Global Information Management Assessment and Analysis Cell on Covid-19 (GIMAC)",
+    "locationIds": [
+      "iraq"
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)",
+      "United Nations High CommissionerRefugees (UNHCR)",
+      "United Nations High Commissioner for Refugees (UNHCR)",
+      "International Organisation for Migration (IOM)",
+      "World Health Organisation (WHO)",
+      "the Global Health Cluster"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "typhoon-goni-rolly-and-vamco-ulysses-2020",
+    "name": "Typhoon Goni (Rolly) and Vamco (Ulysses)",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines"
+    ],
+    "year": 2020,
+    "month": "November",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Typhoon"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "community-insights-for-covid-19-2020",
+    "name": "Community Insights for Covid-19",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "asia"
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Risk Communication and Community Engagement Working Group"
+    ],
+    "level": [
+      "Regional"
+    ],
+    "themes": [
+      "Community"
+    ],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Led the creation of a data collection tool (in multiple languages) for the Community Insights for Covid-19 survey in Asia and the Pacific, looking at the perceptions of Covid-19 within communities across the region.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "asean-erat-coaching-2021",
+    "name": "ASEAN-ERAT Coaching",
+    "parentId": null,
+    "legacyParentName": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "locationIds": [
+      "indonesia-jakarta"
+    ],
+    "year": 2021,
+    "month": "August",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "Data collection",
+      "Data processing",
+      "Information Management"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2021-08-03",
+    "endDate": "2021-08-07",
+    "description": "Coaching and mentoring of ASEAN-ERAT information management staff in the use of GIS for data collection, processing and visualisation to support disaster response operations.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "typhoon-rai-2021",
+    "name": "Typhoon Rai",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines"
+    ],
+    "year": 2021,
+    "month": "December",
+    "type": "Response",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Centre for Disaster Preparedness (CDP)"
+    ],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [
+      "Typhoon"
+    ],
+    "status": "Complete",
+    "startDate": "2021-12-15",
+    "endDate": "2021-12-22",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "earthquake-2021",
+    "name": "Earthquake",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "haiti"
+    ],
+    "year": 2021,
+    "month": null,
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Earthquake"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption-2021",
+    "name": "Humanitarian and environmental impact mapping to the La Soufrière volcanic eruption",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "saint-vincent-and-the-grenadines"
+    ],
+    "year": 2021,
+    "month": "March",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Caribbean Disaster Emergency Management Agency (CDEMA)",
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Volcano"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Team leader providing remote GIS support to CDEMA and UNDAC on the humanitarian impact and environmental impact of the La Soufrière volcanic eruption, including mapping of evacuation zones, emergency shelters, health facilities, damaged infrastructure and ash management.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "data-interoperability-development-2022",
+    "name": "Data interoperability development",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "asia"
+    ],
+    "year": 2022,
+    "month": null,
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Asian Disaster Reduction and Response Network (ADRRN)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "01/01/2022",
+    "endDate": "31/12/2024",
+    "description": "This role involved working across a regional network of civil society organizations and engaging closely with individual NGO/ CSOs (including the Centre for Disaster Preparedness (Philippines), Disaster Preparedness Network (Nepal) and Muslim Foundation for Culture and Development (MFCD)) to develop tools and best practices in data interoperability. These included “Who-What-Where-When-for Whom” (345W) mapping which is used as a preparedness, anticipatory action, response and project planning tool.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "asean-erat-level-2-information-management-training-course-2022",
+    "name": "ASEAN-ERAT Level 2 - Information Management training course",
+    "parentId": null,
+    "legacyParentName": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "locationIds": [
+      "malaysia-kuala-lumpur"
+    ],
+    "year": 2022,
+    "month": "October",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "GIS",
+      "QGIS",
+      "Information Management"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2022-10-03",
+    "endDate": "2022-10-07",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "adrrn-community-of-practice-2022",
+    "name": "ADRRN Community of Practice",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "asia"
+    ],
+    "year": 2022,
+    "month": null,
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "The Asia Disaster Reduction and Response Network (ADRRN)"
+    ],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "disaster-simulation-exercise-development-2022",
+    "name": "Disaster simulation exercise development",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "global"
+    ],
+    "year": 2022,
+    "month": "January",
+    "type": "Training",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination (UNDAC)"
+    ],
+    "level": [
+      "Global"
+    ],
+    "themes": [
+      "Simex"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Creation of disaster simulation exercise data and maps for use at United Nations Disaster Assessment and Coordination (UNDAC) training simulation exercises, targeting disaster responders such as UN and national disaster management organization (NDMO) staff.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "hunga-tonga-hunga-ha-apai-volcano-eruption-2022",
+    "name": "Hunga Tonga–Hunga Haʻapai volcano eruption",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "tonga"
+    ],
+    "year": 2022,
+    "month": "December",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "data-and-gis-training-2023",
+    "name": "Data and GIS training",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "nepal-kathmandu"
+    ],
+    "year": 2023,
+    "month": "July",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Start Ready (Nepal)"
+    ],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "themes": [
+      "GIS",
+      "QGIS",
+      "Information Management",
+      "Anticipatory Action"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "Jun-23",
+    "endDate": "Aug-23",
+    "description": "Development and delivery of a training course on using GIS to visualise and communicate risk information effectively.\nThe course introduced data sourcing and collection (Kobo), analysis and visualisation using QGIS to NGOs and CSOs that could be used in anticipatory action, response and recovery programmes.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "data-and-gis-training-2023-2",
+    "name": "Data and GIS training",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines-manila"
+    ],
+    "year": 2023,
+    "month": "August",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Start Forewarn (The Philippines)"
+    ],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "themes": [
+      "Anticipatory Action",
+      "GPS",
+      "Data processing",
+      "Data analysis"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "Jun-23",
+    "endDate": "Aug-23",
+    "description": "The course introduced data sourcing and collection (Kobo), analysis and visualisation using QGIS to NGOs and CSOs that could be used in anticipatory action, response and recovery programmes.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "technical-and-institutional-support-to-the-philippines-disaster-resilience-foundation-pdrf-2023",
+    "name": "Technical and institutional support to the Philippines Disaster Resilience Foundation (PDRF)",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines-clarke-city"
+    ],
+    "year": 2023,
+    "month": "September",
+    "type": null,
+    "modality": [
+      "In-situ",
+      "Remote"
+    ],
+    "organisation": [
+      "Philippines Disaster Resilience Foundation (PDRF)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "01/01/2022",
+    "endDate": "31/12/2024",
+    "description": "Quarterly support for delivery of targeted technical outputs to enhance the resilience of communities and beneficiaries in the Philippines through the private sector members of PDRF, including:\n• Scoping and landscape mapping – organisational level GIS and information management audit.\n• Who-What-Where-When and for Whom (5W) tool development (ArcGIS Online and Survey 123) for tracking member activities and resources.\n• Coaching and mentoring of GIS staff.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "asean-erat-level-3-team-leaders-pilot-course-2023",
+    "name": "ASEAN-ERAT Level 3 - Team Leaders pilot course",
+    "parentId": null,
+    "legacyParentName": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "locationIds": [
+      "indonesia-bogor"
+    ],
+    "year": 2023,
+    "month": "May",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "GIS",
+      "Team leaders"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2023-05-07",
+    "endDate": "2023-05-14",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "scoping-and-landscape-mapping-2023",
+    "name": "Scoping and landscape mapping",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines-clarke-city"
+    ],
+    "year": 2023,
+    "month": "October",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "Philippines Disaster Resilience Foundation (PDRF)"
+    ],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2023-10-22",
+    "endDate": "2023-11-02",
+    "description": "Quarterly support for delivery of targeted technical outputs to enhance the resilience of communities and beneficiaries in the Philippines through the private sector members of PDRF, including:\n• Scoping and landscape mapping – organisational level GIS and information management audit.\n• Who-What-Where-When and for Whom (5W) tool development (ArcGIS Online and Survey 123) for tracking member activities and resources.\n• Coaching and mentoring of GIS staff.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "partner-mapping-2023",
+    "name": "Partner mapping",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "sri-lanka"
+    ],
+    "year": 2023,
+    "month": null,
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Muslim Foundation for Culture and Development (MFCD)",
+      "Asian Disaster Reduction and Response Network (ADRRN)"
+    ],
+    "level": [
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "partner-mapping-2024",
+    "name": "Partner mapping",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "nepal"
+    ],
+    "year": 2024,
+    "month": "July",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Disaster Preparedness Network-Nepal (DPNet)",
+      "Asian Disaster Reduction and Response Network (ADRRN)"
+    ],
+    "level": [
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Development and delivery of a training course on using GIS to visualise and communicate risk information effectively training. The course introduced data sourcing and collection (Kobo), analysis and visualisation using QGIS to NGOs and CSOs that could be used in anticipatory action, response and recovery programmes",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "aim-net-1-2024",
+    "name": "AIM-Net 1",
+    "parentId": null,
+    "legacyParentName": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "locationIds": [
+      "thailand-pattaya"
+    ],
+    "year": 2024,
+    "month": "September",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "GIS",
+      "QGIS",
+      "GPS"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "asia-pacific-geonews-2024",
+    "name": "Asia-Pacific Geonews",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "asia"
+    ],
+    "year": 2024,
+    "month": "January",
+    "type": "Training",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [],
+    "level": [
+      "National",
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "scoping-of-a-civil-society-organisation-engagement-platform-for-multilateral-development-banks-mdbs-2025",
+    "name": "Scoping of a Civil Society Organisation engagement platform for Multilateral Development Banks (MDBs)",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "the-philippines-manila"
+    ],
+    "year": 2025,
+    "month": "September",
+    "type": "Development",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Asian Development Bank (ADB)"
+    ],
+    "level": [
+      "Regional"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "Completion of a high-level scoping for the development of an Asia-Pacific region-wide, cloud-based, multilingual, self-service engagement platform to map CSOs, private sector actors, and government agencies. The scoping also looked at how the engagement platform could be developed into improving interoperability between other MDBs including Inter-American Development Bank (IADB) and Asian Infrastructure Investment Bank (AIIB).",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026",
+    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "ukraine"
+    ],
+    "year": 2026,
+    "month": "March",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "EU",
+      "Assessment Capacity Project (ACAPS)"
+    ],
+    "level": [
+      "Regional"
+    ],
+    "themes": [
+      "Risk analysis"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Current",
+    "startDate": "2026-03-14",
+    "endDate": null,
+    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in Ukraine to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026-2",
+    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "iran"
+    ],
+    "year": 2026,
+    "month": "March",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "EU",
+      "Assessment Capacity Project (ACAPS)"
+    ],
+    "level": [
+      "Regional"
+    ],
+    "themes": [
+      "Risk analysis"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Current",
+    "startDate": "2026-03-14",
+    "endDate": null,
+    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in the Middle East to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "gis-support-to-chuuk-state-following-typhoon-sinlaku-2026",
+    "name": "GIS support to Chuuk State following Typhoon Sinlaku",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "federated-states-of-micronesia"
+    ],
+    "year": 2026,
+    "month": "April",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Chuuk State Government",
+      "UN Office of Coordination for Humanitarian Affairs (UNOCHA)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Typhoon"
+    ],
+    "status": "Complete",
+    "startDate": "17/04/2026",
+    "endDate": "05/05/2026",
+    "description": "Typhoon Sinlaku caused widespread damage to the highly dispersed islands of Chuuk state causing immediate humanitarian needs to the local population from the typhoon and potential longer term environmental impacts of the damaged ships in the lagoon. The need for timely and clear mapping for decision making was needed by UNOCHA and the Chuuk State government.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "schools-at-risk-to-sea-level-rise-in-guyana-2026",
+    "name": "Schools at risk to sea-level rise in Guyana",
+    "parentId": null,
+    "legacyParentName": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines.",
+    "locationIds": [
+      "guyana-georgetown"
+    ],
+    "year": 2026,
+    "month": "May",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "InterWorks"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Climate change"
+    ],
+    "status": "Complete",
+    "startDate": "20/05/2026",
+    "endDate": "14/08/2026",
+    "description": "Mapping of schools at risk to wildfires, coastal and riverine flooding due climate change in Guyana.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "schools-at-risk-to-sea-level-rise-in-saint-vincent-and-the-grenadines-2026",
+    "name": "Schools at risk to sea-level rise in Saint Vincent and the Grenadines",
+    "parentId": null,
+    "legacyParentName": "Schools at risk to climate change in Guyana and Saint Vincent and the Grenadines.",
+    "locationIds": [
+      "saint-vincent-and-the-grenadines-kingstown"
+    ],
+    "year": 2026,
+    "month": "May",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "The Government of Saint Vincent and the Grenadines",
+      "InterWorks"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Climate change"
+    ],
+    "status": "Complete",
+    "startDate": "20/05/2026",
+    "endDate": "14/08/2026",
+    "description": "Mapping of schools at risk to riverine flooding due climate change in Saint Vincent and the Grenadines",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "h2h-lebanon-2026",
+    "name": "H2H Lebanon",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "lebanon"
+    ],
+    "year": 2026,
+    "month": "May",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "H2H"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Complete",
+    "startDate": "2026-05-25",
+    "endDate": "2026-08-30",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "h2h-syria-2026",
+    "name": "H2H Syria",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "syria"
+    ],
+    "year": 2026,
+    "month": "May",
+    "type": "Response",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "H2H"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Complete",
+    "startDate": "2026-05-25",
+    "endDate": "2026-07-31",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "mapping-security-incidents-2026",
+    "name": "Mapping security incidents",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "haiti-port-au-prince"
+    ],
+    "year": 2026,
+    "month": "February",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations Department for Safety and Security (UNDSS)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [
+      "Data collection",
+      "ArcGIS Pro"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Current",
+    "startDate": "01/02/2026",
+    "endDate": null,
+    "description": "Improving data collection, analysis and visualisation of security incidents that are used to brief national and international staff and visitors in country.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "mapping-security-incidents-2026-2",
+    "name": "Mapping security incidents",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "opt"
+    ],
+    "year": 2026,
+    "month": "June",
+    "type": "Preparedness and anticipatory action",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "United Nations Department for Safety and Security (UNDSS)"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [
+      "Data collection",
+      "ArcGIS Pro",
+      "Dashboards"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Current",
+    "startDate": null,
+    "endDate": null,
+    "description": "Improving data collection, analysis and visualisation of security incidents that are used to brief national and international staff and visitors in country.",
+    "sourceRowCount": 1
+  },
+  {
+    "id": "asean-erat-level-2-information-management-training-course-2026",
+    "name": "ASEAN-ERAT Level 2 - Information Management training course",
+    "parentId": null,
+    "legacyParentName": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "locationIds": [
+      "the-philippines-manila"
+    ],
+    "year": 2026,
+    "month": "July",
+    "type": "Training",
+    "modality": [
+      "In-situ"
+    ],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre)"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "GIS",
+      "Information Management",
+      "QGIS"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2026-07-13",
+    "endDate": "2026-07-17",
+    "description": null,
+    "sourceRowCount": 1
+  },
+  {
+    "id": "data-preparedness-for-world-central-kitchen-2026",
+    "name": "Data preparedness for World Central Kitchen",
+    "parentId": null,
+    "legacyParentName": null,
+    "locationIds": [
+      "global"
+    ],
+    "year": 2026,
+    "month": "August",
+    "type": "Preparedness",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "World Central Kitchen"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "themes": [
+      "Data"
+    ],
+    "disaster": [],
+    "status": "Current",
+    "startDate": "2026-08-10",
+    "endDate": null,
+    "description": null,
+    "sourceRowCount": 1
+  }
+]
