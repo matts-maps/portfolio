@@ -928,5 +928,15 @@
     "lat": 21.0285,
     "lng": 105.8542,
     "precision": "exact"
+  },
+  {
+    "id": "guyana",
+    "name": "Guyana",
+    "type": "country",
+    "country": "Guyana",
+    "continent": null,
+    "lat": 6.8045,
+    "lng": -58.1553,
+    "precision": "capital"
   }
 ]
