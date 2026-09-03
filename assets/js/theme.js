@@ -1,4 +1,5 @@
 const toggle = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-toggle-icon");
 const logo = document.getElementById("site-logo");
 
 // Read baseurl from HTML (works locally + GitHub Pages)
@@ -10,6 +11,20 @@ function applyLogo() {
     logo.src = `${BASE}/assets/images/logo/fantail-logo-white.svg`;
   } else {
     logo.src = `${BASE}/assets/images/logo/fantail-logo-black.svg`;
+  }
+}
+
+// Swap toggle icon based on theme: show the moon to switch into dark mode,
+// and the sun to switch into light mode.
+function applyIcon() {
+  if (!themeIcon) return;
+
+  if (document.body.classList.contains("dark")) {
+    themeIcon.classList.remove("fa-moon");
+    themeIcon.classList.add("fa-sun");
+  } else {
+    themeIcon.classList.remove("fa-sun");
+    themeIcon.classList.add("fa-moon");
   }
 }
 
@@ -27,6 +42,7 @@ if (saved === "dark") {
 }
 
 applyLogo();
+applyIcon();
 
 toggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
@@ -37,6 +53,7 @@ toggle.addEventListener("click", () => {
   );
 
   applyLogo();
+  applyIcon();
 });
 
 // Mobile nav toggle
