@@ -215,6 +215,7 @@
     <button data-tab="projects">Projects <span class="count" id="count-projects"></span></button>
     <button data-tab="parents">Parent projects <span class="count" id="count-parents"></span></button>
     <button data-tab="maps">Maps <span class="count" id="count-maps"></span></button>
+    <button data-tab="organisations">Organisations <span class="count" id="count-organisations"></span></button>
   </nav>
 
   <main id="content">
@@ -246,6 +247,7 @@
     <div id="tab-projects" class="tab-pane" style="display:none"></div>
     <div id="tab-parents" class="tab-pane" style="display:none"></div>
     <div id="tab-maps" class="tab-pane" style="display:none"></div>
+    <div id="tab-organisations" class="tab-pane" style="display:none"></div>
   </main>
 </div>
 
@@ -727,6 +729,34 @@ function renderCounts() {
   document.getElementById("count-projects").textContent = `(${individualProjectsList().length})`;
   document.getElementById("count-parents").textContent = `(${parentProjectsList().length})`;
   document.getElementById("count-maps").textContent = `(${state.maps.length})`;
+  document.getElementById("count-organisations").textContent = `(${organisationsList().length})`;
+}
+
+/**
+ * "organisations" isn't a stored entity at all - Project.organisation is
+ * just a free-text tag array (like themes/disaster/modality), same as the
+ * tagInput() autocomplete elsewhere. This tab is a derived management view
+ * over those values: every distinct value in use, which projects use it,
+ * and a rename that applies everywhere at once (so "Hurricane" vs "Cyclone"
+ * vs "Typhoon" style drift can actually be cleaned up, not just avoided
+ * going forward). Deleting one here removes it from every project's
+ * organisation array; it never deletes a project.
+ */
+function organisationsList() {
+  const map = new Map();
+  for (const p of state.projects) {
+    for (const o of p.organisation || []) {
+      if (!map.has(o)) map.set(o, []);
+      map.get(o).push(p);
+    }
+  }
+  return [...map.entries()]
+    .map(([name, projects]) => ({ name, projects: projects.sort((a, b) => a.name.localeCompare(b.name)) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function projectsForOrg(name) {
+  return state.projects.filter((p) => (p.organisation || []).includes(name));
 }
 
 function currentSearch(tab) {
@@ -754,10 +784,14 @@ function renderList(tab) {
   if (tab === "parents") {
     pane.appendChild(el("p", { class: "tab-hint", text: "Projects added here stay here, whether or not a child has been linked to them yet. To link one, open the child project (in the Projects tab) and pick this one from its Parent project field - only projects added here are selectable there." }));
   }
+  if (tab === "organisations") {
+    pane.appendChild(el("p", { class: "tab-hint", text: "Derived from the Organisation field on each project, so an entry only exists here while at least one project uses it. Renaming one updates every project that uses it; deleting removes it from every project without touching the projects themselves." }));
+  }
 
   const data =
     tab === "parents" ? parentProjectsList() :
     tab === "projects" ? individualProjectsList() :
+    tab === "organisations" ? organisationsList() :
     state[dataKeyFor(tab)];
   const filtered = data.filter((item) => matchesSearch(item, tab, search));
   const table = el("table");
@@ -792,11 +826,21 @@ function renderTableHead(tab) {
     tab === "locations" ? ["Name", "ID", "Type", "Country / continent", "Coordinates"] :
     tab === "projects" ? ["Name", "ID", "Year", "Locations", "Parent", "Status"] :
     tab === "parents" ? ["Name", "ID", "Year", "Children", "Locations"] :
+    tab === "organisations" ? ["Organisation", "# Projects", "Projects"] :
     ["Name", "ID", "Kind", "Project", "Locations", "Year"];
   return el("thead", {}, [el("tr", {}, cols.map((c) => el("th", { text: c })))]);
 }
 
 function renderTableRow(item, tab) {
+  if (tab === "organisations") {
+    const tr = el("tr", { onclick: () => openEditor(tab, item.name) });
+    tr.append(
+      el("td", { text: item.name }),
+      el("td", { text: String(item.projects.length) }),
+      el("td", { text: item.projects.map((p) => p.name).join(", ") || "—" })
+    );
+    return tr;
+  }
   const tr = el("tr", { onclick: () => openEditor(tab, item.id) });
   const entity = dataKeyFor(tab);
   const issues = validateAll().filter((i) => i.entity === entity && i.id === item.id);
@@ -1068,6 +1112,10 @@ function closeEditor() {
 }
 
 function openEditor(tab, id) {
+  if (tab === "organisations") {
+    openOrgEditor(id);
+    return;
+  }
   const isNew = id === null;
   const entity = dataKeyFor(tab);
   let draft;
@@ -1186,6 +1234,119 @@ function rewriteReferences(entity, oldId, newId) {
     for (const p of state.projects) if (p.parentId === oldId) p.parentId = newId;
     for (const m of state.maps) if (m.projectId === oldId) m.projectId = newId;
   }
+}
+
+/* --- organisations tab: a rename/merge editor over a derived value, not a stored entity --- */
+function openOrgEditor(name) {
+  const isNew = name === null;
+  const draft = { originalName: name, name: name || "", projectIds: isNew ? [] : projectsForOrg(name).map((p) => p.id) };
+  renderOrgModal(draft, isNew);
+}
+
+function renderOrgModal(draft, isNew) {
+  const modal = document.getElementById("modal");
+  modal.innerHTML = "";
+  modal.appendChild(el("h2", { text: isNew ? "New organisation" : draft.originalName }));
+  modal.appendChild(el("div", {
+    class: "modal-sub",
+    text: isNew ? "Adding to organisations" : `Editing organisations · used by ${draft.projectIds.length} project(s)`,
+  }));
+
+  const body = el("div");
+  body.appendChild(field("Name", "renaming updates every project that uses it", textInput(draft.name, (v) => (draft.name = v))));
+  body.appendChild(field("Projects", "which projects use this organisation - add or remove to reassign it", relationPicker({
+    multi: true, values: draft.projectIds, options: projectOptions(null),
+    onChange: (v) => (draft.projectIds = v),
+  })));
+  modal.appendChild(body);
+
+  const actions = el("div", { class: "modal-actions" });
+  const left = el("div");
+  if (!isNew) {
+    left.appendChild(
+      el("button", {
+        class: "danger",
+        text: "Delete",
+        onclick: () => {
+          if (confirm(`Remove "${draft.originalName}" from all ${draft.projectIds.length} project(s)? This can't be undone here (though git history keeps it). The projects themselves aren't deleted.`)) {
+            for (const p of state.projects) {
+              p.organisation = (p.organisation || []).filter((o) => o !== draft.originalName);
+            }
+            setDirty(true);
+            closeEditor();
+            renderCounts();
+            renderList("organisations");
+          }
+        },
+      })
+    );
+  }
+  const right = el("div", { class: "right" });
+  right.appendChild(el("button", { text: "Cancel", onclick: closeEditor }));
+  right.appendChild(
+    el("button", {
+      class: "primary",
+      text: isNew ? "Add" : "Save changes",
+      onclick: () => commitOrgDraft(draft, isNew),
+    })
+  );
+  actions.append(left, right);
+  modal.appendChild(actions);
+
+  document.getElementById("overlay").classList.add("open");
+}
+
+function commitOrgDraft(draft, isNew) {
+  const name = draft.name.trim();
+  if (!name) {
+    alert("Name is required.");
+    return;
+  }
+  if (draft.projectIds.length === 0) {
+    alert("Pick at least one project - an organisation with no projects has nothing to save.");
+    return;
+  }
+  const selected = new Set(draft.projectIds);
+
+  if (isNew) {
+    // Purely additive: only ever adds `name` to the selected projects.
+    // Never touches an unselected project, even one that already has this
+    // exact name (e.g. the typed name happens to match an existing
+    // organisation) - so this can't silently strip anyone else's tag.
+    for (const p of state.projects) {
+      if (!selected.has(p.id)) continue;
+      const arr = new Set(p.organisation || []);
+      arr.add(name);
+      p.organisation = [...arr];
+    }
+  } else {
+    // Editing/renaming an existing organisation. Only projects that were
+    // originally part of it (recomputed fresh, not trusted from the draft)
+    // are ever removed from - a project outside that set is left alone even
+    // if `name` already matches something it has, so renaming "Cyclone" to
+    // "Hurricane" merges into Hurricane's existing projects rather than
+    // clobbering them.
+    const renamed = draft.originalName && draft.originalName !== name;
+    const original = new Set(projectsForOrg(draft.originalName).map((p) => p.id));
+    for (const p of state.projects) {
+      const wasOriginal = original.has(p.id);
+      const isSelected = selected.has(p.id);
+      if (!wasOriginal && !isSelected) continue;
+      let arr = (p.organisation || []).slice();
+      if (wasOriginal && renamed) arr = arr.filter((o) => o !== draft.originalName);
+      if (isSelected) {
+        if (!arr.includes(name)) arr.push(name);
+      } else {
+        arr = arr.filter((o) => o !== name);
+      }
+      p.organisation = arr;
+    }
+  }
+
+  setDirty(true);
+  closeEditor();
+  renderCounts();
+  renderList("organisations");
 }
 
 /* --- form builders --- */

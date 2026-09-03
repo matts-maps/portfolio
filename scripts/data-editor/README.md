@@ -22,8 +22,8 @@ an extra permission prompt — a zip sidesteps that entirely.)
 
 ## What it does
 
-- Four tabs — Locations, Projects, Parent projects, Maps — each a searchable
-  table. Click a row to edit, or **+ Add new**.
+- Five tabs — Locations, Projects, Parent projects, Maps, Organisations — each
+  a searchable table. Click a row to edit, or **+ Add new**.
 - **Parent projects** and **Projects** split the same underlying project data
   by an explicit flag (`isParent`), not by whether anything happens to be
   linked to it yet. A project becomes a parent project the moment it's added
@@ -44,6 +44,17 @@ an extra permission prompt — a zip sidesteps that entirely.)
 - Tag inputs for `themes`, `disaster`, `modality`, `organisation`, `level` — typing
   suggests values already in use elsewhere, so "Hurricane" vs "Cyclone" vs "Typhoon"
   stays a deliberate choice.
+- **Organisations** isn't a stored entity — `Project.organisation` is just a tag
+  field like the others above — so this tab is a derived view: every distinct
+  value in use, how many projects use it, and which ones. It exists to clean up
+  the drift a free-text field invites. Renaming one in its edit form updates
+  every project that has it; if you rename it to a value that's already in use
+  elsewhere, the two merge — the projects that already had the target name are
+  left alone, so nothing gets silently dropped. **+ Add new** requires picking
+  at least one project up front (an organisation attached to nothing has
+  nowhere to be saved) and is purely additive — it only ever adds the tag to
+  the projects you pick, never removes it from anyone. **Delete** removes the
+  value from every project that has it; the projects themselves aren't touched.
 - A project with an unresolved `legacyParentName` (left over from the migration)
   shows a warning badge in the list and a banner in its edit form, with a button to
   clear the reference once you've either picked a real parent or decided it doesn't
@@ -73,8 +84,10 @@ an extra permission prompt — a zip sidesteps that entirely.)
 zip-download) path end to end against real fixture data in `test-fixtures/`
 (a snapshot of the actual `assets/data/*.json` at the time this was built) —
 load, search, edit a project's locations, add/delete a location, edit a webmap's
-links, save, and confirm an invalid save (a project with zero locations) is
-blocked with the right error. Run it with:
+links, save, add a parent project and link a child to it, manage the Organisations
+tab (rename-as-merge, additive add, delete — checking each leaves unrelated
+projects untouched), and confirm an invalid save (a project with zero locations)
+is blocked with the right error. Run it with:
 
 ```
 npm install playwright   # if not already available

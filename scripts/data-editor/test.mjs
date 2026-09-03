@@ -294,6 +294,100 @@ async function main() {
   const issuesTextAfterBlock = await page.textContent("#issues-list");
   check("blocking issue names the empty-locations project", issuesTextAfterBlock.includes("No locations attached"));
 
+  console.log("Opening the Organisations tab and checking the derived list...");
+  await page.click('#tabs button[data-tab="organisations"]');
+  const orgCount0 = await page.textContent("#count-organisations");
+  check("organisations count is (38)", orgCount0.trim() === "(38)");
+  await page.fill("#search-organisations", "MapAction");
+  await page.waitForTimeout(50);
+  const mapActionRows = await page.$$("#tab-organisations tbody tr");
+  check("exactly one organisation matches \"MapAction\"", mapActionRows.length === 1);
+  const mapActionRowText = await page.textContent("#tab-organisations tbody tr");
+  check("MapAction row lists its 3 projects", mapActionRowText.includes("MapAction Development"));
+  const mapActionCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  check("MapAction's project count cell reads 3", mapActionCountCell === "3");
+  await page.click("#tab-organisations tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const orgModalTitle = await page.textContent("#modal h2");
+  check("organisation modal titled after the organisation", orgModalTitle.trim() === "MapAction");
+  const orgModalSub = await page.textContent("#modal .modal-sub");
+  check("organisation modal sub-text shows usage count", orgModalSub.includes("used by 3 project(s)"));
+  const orgProjectsField = await fieldByLabel("Projects");
+  const orgProjectChips = await orgProjectsField.$$eval(".chip", (nodes) => nodes.length);
+  check("organisation modal preloads its 3 linked projects", orgProjectChips === 3);
+
+  console.log("Renaming MapAction into an existing organisation (merge) without touching its selection...");
+  const orgNameField = await fieldByLabel("Name");
+  await orgNameField.$eval("input[type=text]", (el) => (el.value = ""));
+  await (await orgNameField.$("input[type=text]")).fill("World Health Organisation (WHO)");
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  const orgCount1 = await page.textContent("#count-organisations");
+  check("organisation count drops by one after the merge (MapAction absorbed)", orgCount1.trim() === "(37)");
+  await page.fill("#search-organisations", "MapAction");
+  await page.waitForTimeout(50);
+  const mapActionRowsAfter = await page.$$("#tab-organisations tbody tr");
+  check("MapAction no longer appears as its own organisation", mapActionRowsAfter.length === 0);
+  await page.fill("#search-organisations", "World Health Organisation");
+  await page.waitForTimeout(50);
+  const whoNameCell = await page.$eval("#tab-organisations tbody tr td:nth-child(1)", (td) => td.textContent.trim());
+  check("WHO row is present after the merge", whoNameCell === "World Health Organisation (WHO)");
+  const whoCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  check("WHO's project count cell reads 6 (its original 3 plus the merged-in 3)", whoCountCell === "6");
+
+  console.log("Adding a brand-new organisation additively, onto a project that already has other tags...");
+  await page.click('#tab-organisations .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  const newOrgTitle = await page.textContent("#modal h2");
+  check("new organisation modal titled generically", newOrgTitle.trim() === "New organisation");
+  await page.fill("#modal .field input[type=text]", "Test Org Additive"); // name field is first text input
+  const newOrgProjectsField = await fieldByLabel("Projects");
+  const newOrgProjectInput = await newOrgProjectsField.$("input[type=text]");
+  await newOrgProjectInput.fill("MapAction Development (2006)");
+  await (await newOrgProjectsField.$('button:has-text("Add")')).click();
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  const orgCount2 = await page.textContent("#count-organisations");
+  check("organisation count rises by one after the additive add", orgCount2.trim() === "(38)");
+
+  console.log("Confirming the additive add didn't disturb the project's existing (merged) organisation tag...");
+  await page.click('#tabs button[data-tab="projects"]');
+  await page.fill("#search-projects", "MapAction Development");
+  await page.waitForTimeout(50);
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const mdOrgField = await fieldByLabel("Organisation");
+  const mdOrgValues = await mdOrgField.$$eval(".chip", (nodes) => nodes.map((n) => n.childNodes[0].textContent));
+  check("MapAction Development kept its merged WHO tag", mdOrgValues.includes("World Health Organisation (WHO)"));
+  check("MapAction Development also picked up the new additive tag", mdOrgValues.includes("Test Org Additive"));
+  check("MapAction Development has exactly those two organisation tags (no stray duplicate/removal)", mdOrgValues.length === 2);
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  console.log("Deleting the additive organisation and confirming it's gone everywhere, cleanly...");
+  await page.click('#tabs button[data-tab="organisations"]');
+  await page.fill("#search-organisations", "Test Org Additive");
+  await page.waitForTimeout(50);
+  await page.click("#tab-organisations tbody tr");
+  await page.waitForSelector("#overlay.open");
+  await page.click('#modal .modal-actions button:has-text("Delete")'); // global dialog handler accepts the confirm()
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+  const orgCount3 = await page.textContent("#count-organisations");
+  check("organisation count drops back to (37) after delete", orgCount3.trim() === "(37)");
+
+  await page.click('#tabs button[data-tab="projects"]');
+  await page.fill("#search-projects", "MapAction Development");
+  await page.waitForTimeout(50);
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const mdOrgFieldAfterDelete = await fieldByLabel("Organisation");
+  const mdOrgValuesAfterDelete = await mdOrgFieldAfterDelete.$$eval(".chip", (nodes) => nodes.map((n) => n.childNodes[0].textContent));
+  check("MapAction Development lost only the deleted tag", mdOrgValuesAfterDelete.length === 1 && mdOrgValuesAfterDelete[0] === "World Health Organisation (WHO)");
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
   await browser.close();
 
   check("no uncaught page errors", consoleErrors.length === 0);
