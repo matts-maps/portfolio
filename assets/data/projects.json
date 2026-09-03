@@ -2622,12 +2622,22 @@
       {
         "settlement": null,
         "state": null,
-        "country": null,
-        "region": null,
-        "continent": null,
-        "lat": 46.201667,
-        "lng": 6.146944,
-        "precision": "global-centroid"
+        "country": "Iraq",
+        "region": "Western Asia",
+        "continent": "Asia",
+        "lat": 33.3406,
+        "lng": 44.4009,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Afghanistan",
+        "region": "Southern Asia",
+        "continent": "Asia",
+        "lat": 34.5281,
+        "lng": 69.1723,
+        "precision": "capital"
       }
     ],
     "year": 2020,
@@ -2655,8 +2665,18 @@
         "country": "Saint Vincent and the Grenadines",
         "region": "Caribbean",
         "continent": "North America",
-        "lat": 13.333333,
-        "lng": -61.183333,
+        "lat": 13.1553,
+        "lng": -61.2274,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Guyana",
+        "region": "South America",
+        "continent": "South America",
+        "lat": 6.8045,
+        "lng": -58.1553,
         "precision": "capital"
       }
     ],
