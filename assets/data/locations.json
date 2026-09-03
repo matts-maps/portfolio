@@ -1,0 +1,932 @@
+[
+  {
+    "id": "afghanistan",
+    "name": "Afghanistan",
+    "type": "country",
+    "country": "Afghanistan",
+    "continent": "Asia",
+    "lat": 34.5281,
+    "lng": 69.1723,
+    "precision": "capital"
+  },
+  {
+    "id": "africa",
+    "name": "Africa",
+    "type": "region",
+    "country": null,
+    "continent": "Africa",
+    "lat": -27.6673164,
+    "lng": 24.8456952,
+    "precision": "region-centroid"
+  },
+  {
+    "id": "albania",
+    "name": "Albania",
+    "type": "country",
+    "country": "Albania",
+    "continent": "Europe",
+    "lat": 41.3275,
+    "lng": 19.8187,
+    "precision": "capital"
+  },
+  {
+    "id": "asia",
+    "name": "Asia",
+    "type": "region",
+    "country": null,
+    "continent": "Asia",
+    "lat": -2.5,
+    "lng": 140,
+    "precision": "region-centroid"
+  },
+  {
+    "id": "asia-pacific",
+    "name": "Asia-Pacific",
+    "type": "region",
+    "country": null,
+    "continent": "Asia-Pacific",
+    "lat": -2.5,
+    "lng": 140,
+    "precision": "region-centroid"
+  },
+  {
+    "id": "cameroon",
+    "name": "Cameroon",
+    "type": "country",
+    "country": "Cameroon",
+    "continent": "Africa",
+    "lat": 3.867,
+    "lng": 11.517,
+    "precision": "capital"
+  },
+  {
+    "id": "chad",
+    "name": "Chad",
+    "type": "country",
+    "country": "Chad",
+    "continent": "Africa",
+    "lat": 12.1067,
+    "lng": 15.0444,
+    "precision": "capital"
+  },
+  {
+    "id": "democratic-peoples-republic-of-korea",
+    "name": "Democratic People’s Republic of Korea",
+    "type": "country",
+    "country": "Democratic People’s Republic of Korea",
+    "continent": "Asia",
+    "lat": 39.016667,
+    "lng": 125.7475,
+    "precision": "capital"
+  },
+  {
+    "id": "djibouti",
+    "name": "Djibouti",
+    "type": "country",
+    "country": "Djibouti",
+    "continent": "Africa",
+    "lat": 11.5721,
+    "lng": 43.1456,
+    "precision": "capital"
+  },
+  {
+    "id": "dominica",
+    "name": "Dominica",
+    "type": "country",
+    "country": "Dominica",
+    "continent": "Caribbean",
+    "lat": 15.416667,
+    "lng": -61.333333,
+    "precision": "capital"
+  },
+  {
+    "id": "el-salvador",
+    "name": "El Salvador",
+    "type": "country",
+    "country": "El Salvador",
+    "continent": "Central America",
+    "lat": 13.698889,
+    "lng": -89.191389,
+    "precision": "capital"
+  },
+  {
+    "id": "estonia-tallinn",
+    "name": "Tallinn",
+    "type": "site",
+    "country": "Estonia",
+    "continent": "Europe",
+    "lat": 59.437,
+    "lng": 24.7536,
+    "precision": "exact"
+  },
+  {
+    "id": "ethiopia",
+    "name": "Ethiopia",
+    "type": "country",
+    "country": "Ethiopia",
+    "continent": "Africa",
+    "lat": 9.025,
+    "lng": 38.7469,
+    "precision": "capital"
+  },
+  {
+    "id": "europe",
+    "name": "Europe",
+    "type": "region",
+    "country": null,
+    "continent": "Europe",
+    "lat": 51.702,
+    "lng": -0.911,
+    "precision": "region-centroid"
+  },
+  {
+    "id": "federated-states-of-micronesia",
+    "name": "Federated States of Micronesia",
+    "type": "country",
+    "country": "Federated States of Micronesia",
+    "continent": "Oceania",
+    "lat": 7.416667,
+    "lng": 151.783333,
+    "precision": "capital"
+  },
+  {
+    "id": "federated-states-of-micronesia-chuuk-state",
+    "name": "Chuuk State",
+    "type": "site",
+    "country": "Federated States of Micronesia",
+    "continent": "Oceania",
+    "lat": 7.42269,
+    "lng": 151.76077,
+    "precision": "exact"
+  },
+  {
+    "id": "finland-kuopio",
+    "name": "Kuopio",
+    "type": "site",
+    "country": "Finland",
+    "continent": "Europe",
+    "lat": 62.8924,
+    "lng": 27.677,
+    "precision": "exact"
+  },
+  {
+    "id": "gaza",
+    "name": "Gaza",
+    "type": "country",
+    "country": "Gaza",
+    "continent": "Asia",
+    "lat": 31.52,
+    "lng": 34.45,
+    "precision": "capital"
+  },
+  {
+    "id": "germany-flensberg",
+    "name": "Flensberg",
+    "type": "site",
+    "country": "Germany",
+    "continent": "Europe",
+    "lat": 54.7936774712711,
+    "lng": 9.44487352665677,
+    "precision": "exact"
+  },
+  {
+    "id": "global",
+    "name": "Global",
+    "type": "global",
+    "country": null,
+    "continent": null,
+    "lat": 46.201667,
+    "lng": 6.146944,
+    "precision": "global-centroid"
+  },
+  {
+    "id": "greece",
+    "name": "Greece",
+    "type": "country",
+    "country": "Greece",
+    "continent": "Europe",
+    "lat": 39,
+    "lng": 22,
+    "precision": "capital"
+  },
+  {
+    "id": "greece-athens",
+    "name": "Athens",
+    "type": "site",
+    "country": "Greece",
+    "continent": "Europe",
+    "lat": 37.984167,
+    "lng": 23.728056,
+    "precision": "exact"
+  },
+  {
+    "id": "guatemala",
+    "name": "Guatemala",
+    "type": "country",
+    "country": "Guatemala",
+    "continent": "Central America",
+    "lat": 13.698889,
+    "lng": -89.191389,
+    "precision": "capital"
+  },
+  {
+    "id": "guyana-georgetown",
+    "name": "Georgetown",
+    "type": "site",
+    "country": "Guyana",
+    "continent": "South America",
+    "lat": 6.801111,
+    "lng": -58.155,
+    "precision": "exact"
+  },
+  {
+    "id": "haiti",
+    "name": "Haiti",
+    "type": "country",
+    "country": "Haiti",
+    "continent": "Caribbean",
+    "lat": 18.5944,
+    "lng": -72.3074,
+    "precision": "capital"
+  },
+  {
+    "id": "haiti-port-au-prince",
+    "name": "Port-au-Prince",
+    "type": "site",
+    "country": "Haiti",
+    "continent": "Caribbean",
+    "lat": 18.5944,
+    "lng": -72.3074,
+    "precision": "exact"
+  },
+  {
+    "id": "honduras",
+    "name": "Honduras",
+    "type": "country",
+    "country": "Honduras",
+    "continent": "Central America",
+    "lat": 13.698889,
+    "lng": -89.191389,
+    "precision": "capital"
+  },
+  {
+    "id": "iceland",
+    "name": "Iceland",
+    "type": "country",
+    "country": "Iceland",
+    "continent": "Europe",
+    "lat": 65,
+    "lng": -18,
+    "precision": "capital"
+  },
+  {
+    "id": "indonesia-bogor",
+    "name": "Bogor",
+    "type": "site",
+    "country": "Indonesia",
+    "continent": "Asia",
+    "lat": -6.595,
+    "lng": 106.8167,
+    "precision": "exact"
+  },
+  {
+    "id": "indonesia-jakarta",
+    "name": "Jakarta",
+    "type": "site",
+    "country": "Indonesia",
+    "continent": "Asia",
+    "lat": -6.192724,
+    "lng": 106.868614,
+    "precision": "exact"
+  },
+  {
+    "id": "indonesia-palu",
+    "name": "Palu",
+    "type": "site",
+    "country": "Indonesia",
+    "continent": "Asia",
+    "lat": -0.9000437095252369,
+    "lng": 119.8763667245295,
+    "precision": "exact"
+  },
+  {
+    "id": "iran",
+    "name": "Iran",
+    "type": "country",
+    "country": "Iran",
+    "continent": "Middle East",
+    "lat": 35.6889,
+    "lng": 51.3897,
+    "precision": "capital"
+  },
+  {
+    "id": "iraq",
+    "name": "Iraq",
+    "type": "country",
+    "country": "Iraq",
+    "continent": "Middle East",
+    "lat": 36.366728,
+    "lng": 41.721839,
+    "precision": "capital"
+  },
+  {
+    "id": "japan-osaka",
+    "name": "Osaka",
+    "type": "site",
+    "country": "Japan",
+    "continent": "Asia",
+    "lat": 34.6937,
+    "lng": 135.5023,
+    "precision": "exact"
+  },
+  {
+    "id": "lebanon",
+    "name": "Lebanon",
+    "type": "country",
+    "country": "Lebanon",
+    "continent": "Middle East",
+    "lat": 33.8938,
+    "lng": 35.5018,
+    "precision": "capital"
+  },
+  {
+    "id": "lebanon-beirut",
+    "name": "Beirut",
+    "type": "site",
+    "country": "Lebanon",
+    "continent": "Middle East",
+    "lat": 33.8938,
+    "lng": 35.5018,
+    "precision": "exact"
+  },
+  {
+    "id": "liberia",
+    "name": "Liberia",
+    "type": "country",
+    "country": "Liberia",
+    "continent": "Africa",
+    "lat": 6.4281,
+    "lng": -9.4295,
+    "precision": "capital"
+  },
+  {
+    "id": "liberia-monrovia",
+    "name": "Monrovia",
+    "type": "site",
+    "country": "Liberia",
+    "continent": "Africa",
+    "lat": 6.3156,
+    "lng": -10.8074,
+    "precision": "exact"
+  },
+  {
+    "id": "malawi",
+    "name": "Malawi",
+    "type": "country",
+    "country": "Malawi",
+    "continent": "Africa",
+    "lat": -13.2543,
+    "lng": 34.3015,
+    "precision": "capital"
+  },
+  {
+    "id": "malawi-lilongwe",
+    "name": "Lilongwe",
+    "type": "site",
+    "country": "Malawi",
+    "continent": "Africa",
+    "lat": -13.9626,
+    "lng": 33.7741,
+    "precision": "exact"
+  },
+  {
+    "id": "malaysia-kota-kinabalu",
+    "name": "Kota Kinabalu",
+    "type": "site",
+    "country": "Malaysia",
+    "continent": "Asia",
+    "lat": 5.9804,
+    "lng": 116.0735,
+    "precision": "exact"
+  },
+  {
+    "id": "malaysia-kuala-lumpur",
+    "name": "Kuala Lumpur",
+    "type": "site",
+    "country": "Malaysia",
+    "continent": "Asia",
+    "lat": 3.139,
+    "lng": 101.6869,
+    "precision": "exact"
+  },
+  {
+    "id": "mozambique",
+    "name": "Mozambique",
+    "type": "country",
+    "country": "Mozambique",
+    "continent": "Africa",
+    "lat": -19.833333,
+    "lng": 34.85,
+    "precision": "capital"
+  },
+  {
+    "id": "mozambique-beira",
+    "name": "Beira",
+    "type": "site",
+    "country": "Mozambique",
+    "continent": "Africa",
+    "lat": -19.8333,
+    "lng": 34.85,
+    "precision": "exact"
+  },
+  {
+    "id": "mozambique-sofala",
+    "name": "Sofala",
+    "type": "site",
+    "country": "Mozambique",
+    "continent": "Africa",
+    "lat": -19.1211,
+    "lng": 34.844,
+    "precision": "exact"
+  },
+  {
+    "id": "nepal",
+    "name": "Nepal",
+    "type": "country",
+    "country": "Nepal",
+    "continent": "Asia",
+    "lat": 27.7172,
+    "lng": 85.324,
+    "precision": "capital"
+  },
+  {
+    "id": "nepal-kathmandu",
+    "name": "Kathmandu",
+    "type": "site",
+    "country": "Nepal",
+    "continent": "Asia",
+    "lat": 27.7172,
+    "lng": 85.324,
+    "precision": "exact"
+  },
+  {
+    "id": "new-zealand",
+    "name": "New Zealand",
+    "type": "country",
+    "country": "New Zealand",
+    "continent": "Oceania",
+    "lat": -42.25,
+    "lng": 173.25,
+    "precision": "capital"
+  },
+  {
+    "id": "new-zealand-auckland",
+    "name": "Auckland",
+    "type": "site",
+    "country": "New Zealand",
+    "continent": "Oceania",
+    "lat": -36.8509,
+    "lng": 174.7645,
+    "precision": "exact"
+  },
+  {
+    "id": "new-zealand-kinloch",
+    "name": "Kinloch",
+    "type": "site",
+    "country": "New Zealand",
+    "continent": "Europe",
+    "lat": -38.661,
+    "lng": 175.942,
+    "precision": "exact"
+  },
+  {
+    "id": "new-zealand-taupo",
+    "name": "Taupō",
+    "type": "site",
+    "country": "New Zealand",
+    "continent": "Oceania",
+    "lat": -38.6857,
+    "lng": 176.0702,
+    "precision": "exact"
+  },
+  {
+    "id": "new-zealand-wahaingaroa-raglan",
+    "name": "Wahaingaroa/Raglan",
+    "type": "site",
+    "country": "New Zealand",
+    "continent": "Oceania",
+    "lat": -37.78897590456054,
+    "lng": 174.90706527684853,
+    "precision": "exact"
+  },
+  {
+    "id": "niger",
+    "name": "Niger",
+    "type": "country",
+    "country": "Niger",
+    "continent": "Africa",
+    "lat": 13.5137,
+    "lng": 2.1098,
+    "precision": "capital"
+  },
+  {
+    "id": "norway-stavanger",
+    "name": "Stavanger",
+    "type": "site",
+    "country": "Norway",
+    "continent": "Europe",
+    "lat": 58.969,
+    "lng": 5.7331,
+    "precision": "exact"
+  },
+  {
+    "id": "opt",
+    "name": "oPT",
+    "type": "country",
+    "country": "oPT",
+    "continent": "Middle East",
+    "lat": 31.5075,
+    "lng": 34.459722,
+    "precision": "capital"
+  },
+  {
+    "id": "republic-of-the-congo-brazzaville",
+    "name": "Brazzaville",
+    "type": "site",
+    "country": "Republic of the Congo",
+    "continent": "Africa",
+    "lat": -4.2634,
+    "lng": 15.2429,
+    "precision": "exact"
+  },
+  {
+    "id": "saint-vincent-and-the-grenadines",
+    "name": "Saint Vincent and the Grenadines",
+    "type": "country",
+    "country": "Saint Vincent and the Grenadines",
+    "continent": "Caribbean",
+    "lat": 13.333333,
+    "lng": -61.183333,
+    "precision": "capital"
+  },
+  {
+    "id": "saint-vincent-and-the-grenadines-kingstown",
+    "name": "Kingstown",
+    "type": "site",
+    "country": "Saint Vincent and the Grenadines",
+    "continent": "Caribbean",
+    "lat": 13.157778,
+    "lng": -61.225556,
+    "precision": "exact"
+  },
+  {
+    "id": "serbia-belgrade",
+    "name": "Belgrade",
+    "type": "site",
+    "country": "Serbia",
+    "continent": "Europe",
+    "lat": 44.817778,
+    "lng": 20.456944,
+    "precision": "exact"
+  },
+  {
+    "id": "singapore",
+    "name": "Singapore",
+    "type": "country",
+    "country": "Singapore",
+    "continent": "Asia",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "precision": "capital"
+  },
+  {
+    "id": "somalia",
+    "name": "Somalia",
+    "type": "country",
+    "country": "Somalia",
+    "continent": "Africa",
+    "lat": 2.03711,
+    "lng": 45.34375,
+    "precision": "capital"
+  },
+  {
+    "id": "south-sudan",
+    "name": "South Sudan",
+    "type": "country",
+    "country": "South Sudan",
+    "continent": "Africa",
+    "lat": 4.85165,
+    "lng": 31.58247,
+    "precision": "capital"
+  },
+  {
+    "id": "sri-lanka",
+    "name": "Sri Lanka",
+    "type": "country",
+    "country": "Sri Lanka",
+    "continent": "Asia",
+    "lat": 6.9271,
+    "lng": 79.8612,
+    "precision": "capital"
+  },
+  {
+    "id": "sudan",
+    "name": "Sudan",
+    "type": "country",
+    "country": "Sudan",
+    "continent": "Africa",
+    "lat": 15.508457,
+    "lng": 32.522854,
+    "precision": "capital"
+  },
+  {
+    "id": "sweden-karlstad",
+    "name": "Karlstad",
+    "type": "site",
+    "country": "Sweden",
+    "continent": "Europe",
+    "lat": 59.3793,
+    "lng": 13.5036,
+    "precision": "exact"
+  },
+  {
+    "id": "switzerland-geneva",
+    "name": "Geneva",
+    "type": "site",
+    "country": "Switzerland",
+    "continent": "Europe",
+    "lat": 46.201667,
+    "lng": 6.146944,
+    "precision": "exact"
+  },
+  {
+    "id": "switzerland-spiez",
+    "name": "Spiez",
+    "type": "site",
+    "country": "Switzerland",
+    "continent": "Europe",
+    "lat": 46.8182,
+    "lng": 8.2275,
+    "precision": "exact"
+  },
+  {
+    "id": "syria",
+    "name": "Syria",
+    "type": "country",
+    "country": "Syria",
+    "continent": "Middle East",
+    "lat": 33.5138,
+    "lng": 36.2765,
+    "precision": "capital"
+  },
+  {
+    "id": "thailand-pattaya",
+    "name": "Pattaya",
+    "type": "site",
+    "country": "Thailand",
+    "continent": "Asia",
+    "lat": 12.9236,
+    "lng": 100.8825,
+    "precision": "exact"
+  },
+  {
+    "id": "the-philippines",
+    "name": "The Philippines",
+    "type": "country",
+    "country": "The Philippines",
+    "continent": "Asia",
+    "lat": 13.6341923,
+    "lng": 123.2454633,
+    "precision": "capital"
+  },
+  {
+    "id": "the-philippines-clarke-city",
+    "name": "Clarke City",
+    "type": "site",
+    "country": "The Philippines",
+    "continent": "Asia",
+    "lat": 15.186,
+    "lng": 120.5596,
+    "precision": "exact"
+  },
+  {
+    "id": "the-philippines-intramuros-manila",
+    "name": "Intramuros, Manila",
+    "type": "site",
+    "country": "The Philippines",
+    "continent": "Asia",
+    "lat": 14.59083,
+    "lng": 120.975,
+    "precision": "exact"
+  },
+  {
+    "id": "the-philippines-makati",
+    "name": "Makati",
+    "type": "site",
+    "country": "The Philippines",
+    "continent": "Asia",
+    "lat": 14.5547,
+    "lng": 121.0244,
+    "precision": "exact"
+  },
+  {
+    "id": "the-philippines-manila",
+    "name": "Manila",
+    "type": "site",
+    "country": "The Philippines",
+    "continent": "Asia",
+    "lat": 17.9326405,
+    "lng": 121.7995182,
+    "precision": "exact"
+  },
+  {
+    "id": "the-philippines-naga-city",
+    "name": "Naga City",
+    "type": "site",
+    "country": "The Philippines",
+    "continent": "Asia",
+    "lat": 13.6192,
+    "lng": 123.1814,
+    "precision": "exact"
+  },
+  {
+    "id": "the-philippines-rockwell-makati",
+    "name": "Rockwell, Makati",
+    "type": "site",
+    "country": "The Philippines",
+    "continent": "Asia",
+    "lat": 14.5663,
+    "lng": 121.0365,
+    "precision": "exact"
+  },
+  {
+    "id": "the-philippines-tacloban",
+    "name": "Tacloban",
+    "type": "site",
+    "country": "The Philippines",
+    "continent": "Asia",
+    "lat": 11.2433,
+    "lng": 125.0033,
+    "precision": "exact"
+  },
+  {
+    "id": "tonga",
+    "name": "Tonga",
+    "type": "country",
+    "country": "Tonga",
+    "continent": "Oceania",
+    "lat": -21.133333,
+    "lng": -175.2,
+    "precision": "capital"
+  },
+  {
+    "id": "ukraine",
+    "name": "Ukraine",
+    "type": "country",
+    "country": "Ukraine",
+    "continent": "Europe",
+    "lat": 50.45,
+    "lng": 30.516667,
+    "precision": "capital"
+  },
+  {
+    "id": "united-kingdom",
+    "name": "United Kingdom",
+    "type": "country",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 51.702,
+    "lng": -0.911,
+    "precision": "capital"
+  },
+  {
+    "id": "united-kingdom-avonmouth",
+    "name": "Avonmouth",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 51.5,
+    "lng": -2.7,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-dorset",
+    "name": "Dorset",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Central America",
+    "lat": 50.725,
+    "lng": -2.9353,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-fort-william",
+    "name": "Fort William",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 56.8198,
+    "lng": -5.1052,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-glasgow",
+    "name": "Glasgow",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 55.8642,
+    "lng": -4.2518,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-glencoe",
+    "name": "Glencoe",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 56.682,
+    "lng": -5.102,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-liverpool",
+    "name": "Liverpool",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 53.4084,
+    "lng": -2.9916,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-loch-maree",
+    "name": "Loch Maree",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 57.728,
+    "lng": -5.528,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-london",
+    "name": "London",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 51.5013,
+    "lng": -0.1754,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-pollok-park-glasgow",
+    "name": "Pollok Park, Glasgow",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 55.864237,
+    "lng": -4.251806,
+    "precision": "exact"
+  },
+  {
+    "id": "united-kingdom-silverstone",
+    "name": "Silverstone",
+    "type": "site",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "lat": 52.069235,
+    "lng": -1.022201,
+    "precision": "exact"
+  },
+  {
+    "id": "vanuatu",
+    "name": "Vanuatu",
+    "type": "country",
+    "country": "Vanuatu",
+    "continent": "Oceania",
+    "lat": -15.3767,
+    "lng": 166.9592,
+    "precision": "capital"
+  },
+  {
+    "id": "vanuatu-port-vila",
+    "name": "Port Vila",
+    "type": "site",
+    "country": "Vanuatu",
+    "continent": "Oceania",
+    "lat": -17.7333,
+    "lng": 168.3167,
+    "precision": "exact"
+  },
+  {
+    "id": "vietnam-hanoi",
+    "name": "Hanoi",
+    "type": "site",
+    "country": "Vietnam",
+    "continent": "Asia",
+    "lat": 21.0285,
+    "lng": 105.8542,
+    "precision": "exact"
+  }
+]

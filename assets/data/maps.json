@@ -1,0 +1,1338 @@
+[
+  {
+    "id": "2012-brazzaville-munitions",
+    "kind": "map",
+    "name": "Distribution and concentrations of reported ordnance (as of 22 March 2012)",
+    "file": "assets/images/maps/2012-brazzaville-munitions.jpg",
+    "projectId": "gis-and-mapping-support-munitions-depot-explosion-2012",
+    "locationIds": [],
+    "year": 2012,
+    "month": 3,
+    "themes": [
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Munitions Explosion"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2014-gaza",
+    "kind": "map",
+    "name": "Situational overview (as of 24 July 2014)",
+    "file": "assets/images/maps/2014-gaza.jpg",
+    "projectId": null,
+    "locationIds": [
+      "gaza"
+    ],
+    "year": 2014,
+    "month": 7,
+    "themes": [
+      "Humanitarian",
+      "Displacement",
+      "Urban"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "south-sudan-situational-overview",
+    "kind": "map",
+    "name": "Situation overview (as at 5 August 2014)",
+    "file": "assets/images/maps/south-sudan-situational-overview.jpg",
+    "projectId": null,
+    "locationIds": [
+      "south-sudan"
+    ],
+    "year": 2014,
+    "month": 8,
+    "themes": [
+      "Humanitarian",
+      "Displacement",
+      "Food security",
+      "Health"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2014-liberia-ebola-humanitarian-presence",
+    "kind": "map",
+    "name": "Who, what and where (3W) humanitarian presence (as at 5 September 2014)",
+    "file": "assets/images/maps/2014-liberia-ebola-humanitarian-presence.jpg",
+    "projectId": null,
+    "locationIds": [
+      "liberia"
+    ],
+    "year": 2014,
+    "month": 9,
+    "themes": [
+      "Health",
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Ebola"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2014-liberia-ebola-treatment-units",
+    "kind": "map",
+    "name": "Location and status of Ebola Treatment Units (as of 14 October 2014)",
+    "file": "assets/images/maps/2014-liberia-ebola-treatment-units.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "liberia"
+    ],
+    "year": 2014,
+    "month": 10,
+    "themes": [
+      "Health",
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Ebola"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2015-malawi-floods",
+    "kind": "map",
+    "name": "Location of displacement sites - Chickwawa (as of 17 February 2015)",
+    "file": "assets/images/maps/2015-malawi-floods.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "malawi"
+    ],
+    "year": 2015,
+    "month": 2,
+    "themes": [
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Flood"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2015-vanuatu-wash-distribution",
+    "kind": "map",
+    "name": "Summary of WASH cluster item delivery (as of 25 March 2015)",
+    "file": "assets/images/maps/2015-vanuatu-wash-distribution.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "vanuatu"
+    ],
+    "year": 2015,
+    "month": 3,
+    "themes": [
+      "WASH",
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2016-southern-africa-food-security-el-nino",
+    "kind": "map",
+    "name": "Southern Africa: Estimated number of current food insecure rural populations (as of 16 Feb 2016)",
+    "file": "assets/images/maps/2016-southern-africa-food-security-el-nino.jpg",
+    "projectId": null,
+    "locationIds": [
+      "africa"
+    ],
+    "year": 2015,
+    "month": 3,
+    "themes": [
+      "El Niño",
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Climate change"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2015-european-migration",
+    "kind": "map",
+    "name": "European Migrant Crisis: Overview (as of 17 November 2015)",
+    "file": "assets/images/maps/2015-european-migration.jpg",
+    "projectId": null,
+    "locationIds": [
+      "europe"
+    ],
+    "year": 2015,
+    "month": 11,
+    "themes": [
+      "Humanitarian",
+      "Migration"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "barry-buddon-half-marathon",
+    "kind": "map",
+    "name": "Barry Buddon half marathon",
+    "file": "assets/images/maps/barry-buddon-half-marathon.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom"
+    ],
+    "year": 2016,
+    "month": 1,
+    "themes": [
+      "Recreation"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2016-northern-triangle-people-in-need",
+    "kind": "map",
+    "name": "El Salvador, Guatemala and Honduras - People in need (as of 11 November 2016)",
+    "file": "assets/images/maps/2016-northern-triangle-people-in-need.jpg",
+    "projectId": null,
+    "locationIds": [
+      "el-salvador",
+      "guatemala",
+      "honduras"
+    ],
+    "year": 2016,
+    "month": 11,
+    "themes": [
+      "Population",
+      "Humanitarian",
+      "Displacement"
+    ],
+    "disaster": [],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "glasgow-mono",
+    "kind": "map",
+    "name": "Glasgow monochrome",
+    "file": "assets/images/maps/glasgow-mono.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-glasgow"
+    ],
+    "year": 2017,
+    "month": 1,
+    "themes": [
+      "Urban"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2018-dominica-isaac-wind-speed-probabilities",
+    "kind": "map",
+    "name": "Hurricane Isaac - Wind speed probabilities (as at 11 September 2018)",
+    "file": "assets/images/maps/2018-dominica-isaac-wind-speed-probabilities.jpeg",
+    "projectId": "hurricane-isacc-2018",
+    "locationIds": [],
+    "year": 2018,
+    "month": 9,
+    "themes": [
+      "Humanitarian",
+      "Weather"
+    ],
+    "disaster": [
+      "Hurricane"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2018-philippines-mangkhut-affected-population",
+    "kind": "map",
+    "name": "Affected population (as at 22 September 2018)",
+    "file": "assets/images/maps/2018-philippines-mangkhut-affected-population.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "the-philippines"
+    ],
+    "year": 2018,
+    "month": 9,
+    "themes": [
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Typhoon"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2018-philippines-mangkhut-agriculture-damage-costs",
+    "kind": "map",
+    "name": "Agriculture damage costs (as at 20 September 2018)",
+    "file": "assets/images/maps/2018-philippines-mangkhut-agriculture-damage-costs.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "the-philippines"
+    ],
+    "year": 2018,
+    "month": 9,
+    "themes": [
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Typhoon"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2018-philippines-mangkhut-naga",
+    "kind": "map",
+    "name": "Landslide overview (as at 28 September 2018)",
+    "file": "assets/images/maps/2018-philippines-mangkhut-naga.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "the-philippines-naga-city"
+    ],
+    "year": 2018,
+    "month": 9,
+    "themes": [
+      "Humanitarian",
+      "Food security",
+      "WASH"
+    ],
+    "disaster": [
+      "Typhoon",
+      "Landslide"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2018-indonesia-idp-camps",
+    "kind": "map",
+    "name": "Number of families at IDP camps (as at 22 October 2018)",
+    "file": "assets/images/maps/2018-indonesia-idp-camps.jpg",
+    "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "locationIds": [],
+    "year": 2018,
+    "month": 10,
+    "themes": [
+      "Humanitarian",
+      "Displacement"
+    ],
+    "disaster": [
+      "Earthquake",
+      "Tsunami",
+      "Liquefaction"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2018-indonesia-potable-water-distribution-points",
+    "kind": "map",
+    "name": "Location of water distribution points (as of 22 October 2018)",
+    "file": "assets/images/maps/2018-indonesia-potable-water-distribution-points.jpeg",
+    "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "locationIds": [],
+    "year": 2018,
+    "month": 10,
+    "themes": [
+      "Humanitarian",
+      "WASH"
+    ],
+    "disaster": [
+      "Earthquake"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2018-indonesia-potable-water-requirements",
+    "kind": "map",
+    "name": "Estimated potable water requirements (as at 23 October 2018)",
+    "file": "assets/images/maps/2018-indonesia-potable-water-requirements.jpg",
+    "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "locationIds": [],
+    "year": 2018,
+    "month": 10,
+    "themes": [
+      "Humanitarian",
+      "WASH"
+    ],
+    "disaster": [
+      "Earthquake"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2018-indonesia-potable-water-temporary-settlements",
+    "kind": "map",
+    "name": "Estimated potable water requirements - temporary settlements",
+    "file": "assets/images/maps/2018-indonesia-potable-water-temporary-settlements.jpeg",
+    "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "locationIds": [],
+    "year": 2018,
+    "month": 10,
+    "themes": [
+      "Humanitarian",
+      "WASH"
+    ],
+    "disaster": [
+      "Earthquake"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2019-mozambique-idai-who-beira-cholera-cases",
+    "kind": "map",
+    "name": "Cholera cases (as at 2 April 2019)",
+    "file": "assets/images/maps/2019-mozambique-idai-who-beira-cholera-cases.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "mozambique-beira"
+    ],
+    "year": 2019,
+    "month": 4,
+    "themes": [
+      "Humanitarian",
+      "Health"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2019-mozambique-idai-who-beira-emts-ctcs-health-facilities",
+    "kind": "map",
+    "name": "EMTs, CTCs and health facilities (as at 1 April 2019)",
+    "file": "assets/images/maps/2019-mozambique-idai-who-beira-emts-ctcs-health-facilities.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "mozambique-beira"
+    ],
+    "year": 2019,
+    "month": 4,
+    "themes": [
+      "Humanitarian",
+      "Health"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2019-mozambique-idai-who-sofala-emts-ctcs-health-facilities",
+    "kind": "map",
+    "name": "Health facilities (as at 1 April 2019)",
+    "file": "assets/images/maps/2019-mozambique-idai-who-sofala-emts-ctcs-health-facilities.jpeg",
+    "projectId": null,
+    "locationIds": [
+      "mozambique-sofala"
+    ],
+    "year": 2019,
+    "month": 4,
+    "themes": [
+      "Humanitarian",
+      "Health"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2019-mozambique-idai-who-sofala-health-cluster-345w",
+    "kind": "map",
+    "name": "Health cluster 4W (as at 1 April 2019)",
+    "file": "assets/images/maps/2019-mozambique-idai-who-sofala-health-cluster-345w.jpg",
+    "projectId": null,
+    "locationIds": [
+      "mozambique-sofala"
+    ],
+    "year": 2019,
+    "month": 4,
+    "themes": [
+      "Humanitarian",
+      "Health"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2021-gimac-ethiopia-crops-locusts",
+    "kind": "map",
+    "name": "Crops affected by locusts (Jan–Jul 2020)",
+    "file": "assets/images/maps/2021-gimac-ethiopia-crops-locusts.jpg",
+    "projectId": "impact-of-covid-19-visualisations-2020",
+    "locationIds": [],
+    "year": 2020,
+    "month": 7,
+    "themes": [
+      "Humanitarian",
+      "Agriculture"
+    ],
+    "disaster": [
+      "Locusts"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2021-gimac-iraq-idp-change",
+    "kind": "map",
+    "name": "Tracking changes in the number of IDPs (Aug 2018–Aug 2020)",
+    "file": "assets/images/maps/2021-gimac-iraq-idp-change.jpg",
+    "projectId": "impact-of-covid-19-visualisations-2020-2",
+    "locationIds": [],
+    "year": 2020,
+    "month": 8,
+    "themes": [
+      "Humanitarian",
+      "Displacement"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2021-gimac-iraq-shelter-type",
+    "kind": "map",
+    "name": "Number of displaced individuals by shelter type (as at 30 August 2020)",
+    "file": "assets/images/maps/2021-gimac-iraq-shelter-type.jpg",
+    "projectId": "impact-of-covid-19-visualisations-2020-2",
+    "locationIds": [],
+    "year": 2020,
+    "month": 8,
+    "themes": [
+      "Humanitarian",
+      "Shelter"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2021-gimac-ethiopia-commodity-trends",
+    "kind": "map",
+    "name": "Commodity trends (Jan 2019–Apr 2020)",
+    "file": "assets/images/maps/2021-gimac-ethiopia-commodity-trends.jpg",
+    "projectId": null,
+    "locationIds": [
+      "ethiopia"
+    ],
+    "year": 2021,
+    "month": 4,
+    "themes": [
+      "Humanitarian",
+      "Economy"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2021-st-vincent-volcano-situational-overview",
+    "kind": "map",
+    "name": "Situational Overview (as of 21 April 2021)",
+    "file": "assets/images/maps/2021-st-vincent-volcano-situational-overview.jpeg",
+    "projectId": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption-2021",
+    "locationIds": [],
+    "year": 2021,
+    "month": 4,
+    "themes": [
+      "Humanitarian"
+    ],
+    "disaster": [
+      "Volcano"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2021-gimac-afghanistan",
+    "kind": "map",
+    "name": "Projected food insecurity (June–Nov 2021)",
+    "file": "assets/images/maps/2021-gimac-afghanistan.jpg",
+    "projectId": null,
+    "locationIds": [
+      "afghanistan"
+    ],
+    "year": 2021,
+    "month": 6,
+    "themes": [
+      "Humanitarian",
+      "Food security"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2021-iraq-security",
+    "kind": "map",
+    "name": "Fatalities per event type (Jan 2019–Aug 2020)",
+    "file": "assets/images/maps/2021-iraq-security.jpg",
+    "projectId": null,
+    "locationIds": [
+      "iraq"
+    ],
+    "year": 2021,
+    "month": 8,
+    "themes": [
+      "Humanitarian",
+      "Security"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "greece",
+    "kind": "map",
+    "name": "Physical geography of Greece",
+    "file": "assets/images/maps/greece.png",
+    "projectId": null,
+    "locationIds": [
+      "greece"
+    ],
+    "year": 2022,
+    "month": 6,
+    "themes": [
+      "Physical geography"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": [
+      {
+        "name": "GEBCO",
+        "url": "https://www.gebco.net/"
+      },
+      {
+        "name": "Marine Regions",
+        "url": "https://www.marineregions.org/"
+      },
+      {
+        "name": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/"
+      },
+      {
+        "name": "SRTM",
+        "url": "https://lpdaac.usgs.gov/products/srtmgl1v003/"
+      }
+    ]
+  },
+  {
+    "id": "hanoi",
+    "kind": "map",
+    "name": "Hanoi",
+    "file": "assets/images/maps/hanoi.jpg",
+    "projectId": null,
+    "locationIds": [
+      "vietnam-hanoi"
+    ],
+    "year": 2024,
+    "month": 1,
+    "themes": [
+      "Urban"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "makati-osaka",
+    "kind": "map",
+    "name": "Makati",
+    "file": "assets/images/maps/makati-osaka.png",
+    "projectId": null,
+    "locationIds": [
+      "the-philippines-makati"
+    ],
+    "year": 2024,
+    "month": 1,
+    "themes": [
+      "Transport"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "singapore",
+    "kind": "map",
+    "name": "Singapore",
+    "file": "assets/images/maps/singapore.png",
+    "projectId": null,
+    "locationIds": [
+      "singapore"
+    ],
+    "year": 2024,
+    "month": 1,
+    "themes": [
+      "Urban"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "iceland-physical-geography",
+    "kind": "map",
+    "name": "Physcial geography of Iceland",
+    "file": "assets/images/maps/iceland-physical-geography.png",
+    "projectId": null,
+    "locationIds": [
+      "iceland"
+    ],
+    "year": 2024,
+    "month": 3,
+    "themes": [
+      "Landscape"
+    ],
+    "disaster": [],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "new-zealand-hexagonal-population",
+    "kind": "map",
+    "name": "Estimated population (2023)",
+    "file": "assets/images/maps/new-zealand-hexagonal-population.jpg",
+    "projectId": null,
+    "locationIds": [
+      "new-zealand"
+    ],
+    "year": 2024,
+    "month": 11,
+    "themes": [
+      "Population"
+    ],
+    "disaster": [],
+    "description": "Part of the 30 maps in 30 days challenge in 2024.",
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "caledonian-canal-strip-map",
+    "kind": "map",
+    "name": "Caledonian Canal",
+    "file": "assets/images/maps/caledonian-canal-strip-map.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-fort-william"
+    ],
+    "year": 2025,
+    "month": 1,
+    "themes": [
+      "Recreation"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "glasgow",
+    "kind": "map",
+    "name": "Glasgow",
+    "file": "assets/images/maps/glasgow.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-glasgow"
+    ],
+    "year": 2025,
+    "month": 1,
+    "themes": [
+      "Urban"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "glencoe-mountain-gathering",
+    "kind": "map",
+    "name": "Glencoe mountain gathering",
+    "file": "assets/images/maps/glencoe-mountain-gathering.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-glencoe"
+    ],
+    "year": 2025,
+    "month": 1,
+    "themes": [
+      "Recreation"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "new-zealand-raster",
+    "kind": "map",
+    "name": "Aotearoa/New Zealand",
+    "file": "assets/images/maps/new-zealand-raster.jpg",
+    "projectId": null,
+    "locationIds": [
+      "new-zealand"
+    ],
+    "year": 2025,
+    "month": 1,
+    "themes": [
+      "Landscape"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Inspired by this map here - <a href='https://soaratlas.com/maps/oceania-new-zealand-aotearoa-15866?pos=-40.36082373372568%2C173.7623460138845%2C6.64' target='_blank'>Soar Atlas</a>",
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "osaka-new",
+    "kind": "map",
+    "name": "Osaka",
+    "file": "assets/images/maps/osaka-new.png",
+    "projectId": null,
+    "locationIds": [
+      "japan-osaka"
+    ],
+    "year": 2025,
+    "month": 1,
+    "themes": [
+      "Urban"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Inspired by the <a href=\"https://www.antiquemapsandprints.com/products/osaka-antique-town-city-plan-honshu-japan-1914-old-map-chart-p-6-018241?_pos=16&_sid=afb666c30&_ss=r\" target=\"_blank\">Osaka antique town city plan</a> by the Japanese Government Railways in 1914. The map uses OpenStreetMap data with the styling of the old map.",
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "rockwell-sketch",
+    "kind": "map",
+    "name": "Rockwell sketch map",
+    "file": "assets/images/maps/rockwell-sketch.png",
+    "projectId": null,
+    "locationIds": [
+      "the-philippines-rockwell-makati"
+    ],
+    "year": 2025,
+    "month": 1,
+    "themes": [
+      "Urban"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "the-jurassic-coast",
+    "kind": "map",
+    "name": "The Jurassic Coast",
+    "file": "assets/images/maps/the-jurassic-coast.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-dorset"
+    ],
+    "year": 2025,
+    "month": 12,
+    "themes": [
+      "Geology"
+    ],
+    "disaster": [],
+    "description": "Where my passion for geography and geology first started.",
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "all-flights-international-auckland-2026",
+    "kind": "map",
+    "name": "International flights from Auckland in 2026",
+    "file": "assets/images/maps/all-flights-international-auckland-2026.png",
+    "projectId": null,
+    "locationIds": [
+      "new-zealand-auckland"
+    ],
+    "year": 2026,
+    "month": 1,
+    "themes": [
+      "Transport"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Inspired to try my version of this <a href=\"https://somethingaboutmaps.com/Flight-Map\" target=\"_blank\">flight map by Daniel P. Huffman</a> of flights leaving Auckland.",
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "all-flights-international-manila-2026",
+    "kind": "map",
+    "name": "International flights from Manila in 2026",
+    "file": "assets/images/maps/all-flights-international-manila-2026.png",
+    "projectId": "asean-erat-level-2-information-management-training-course-2026",
+    "locationIds": [],
+    "year": 2026,
+    "month": 1,
+    "themes": [
+      "Transport"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "This is a second of a \"mini-series\" of flight maps inspired by the original <a href=\"https://somethingaboutmaps.com/Flight-Map\" target=\"_blank\">flight map by Daniel P. Huffman</a>.",
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "kinloch-10k",
+    "kind": "map",
+    "name": "Kinloch 10km route",
+    "file": "assets/images/maps/kinloch-10k.png",
+    "projectId": null,
+    "locationIds": [
+      "new-zealand-kinloch"
+    ],
+    "year": 2026,
+    "month": 1,
+    "themes": [
+      "Recreation"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "liverpool",
+    "kind": "map",
+    "name": "Liverpool",
+    "file": "assets/images/maps/liverpool.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-liverpool"
+    ],
+    "year": 2026,
+    "month": 1,
+    "themes": [
+      "Urban"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "loch-maree",
+    "kind": "map",
+    "name": "Loch Maree",
+    "file": "assets/images/maps/loch-maree.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-loch-maree"
+    ],
+    "year": 2026,
+    "month": 1,
+    "themes": [
+      "Landscape",
+      "Bathymetry"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Inspired by the <a href=\"https://maps.nls.uk/bathymetric/chart/2058\" target=\"_blank\">Bathymetrical Survey of the Fresh-Water Lochs of Scotland</a> that were constructed under the direction of Sir John Murray And Laurence Pullar (1897 - 1909). The uses digitised bathymetric data from the survey with data from OpenStreetMap and other modern day sources.",
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "parkrun-taupo",
+    "kind": "map",
+    "name": "Parkrun Taupō",
+    "file": "assets/images/maps/parkrun-taupo.png",
+    "projectId": null,
+    "locationIds": [
+      "new-zealand-taupo"
+    ],
+    "year": 2026,
+    "month": 1,
+    "themes": [
+      "Recreation",
+      "Running"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2026-micronesia-estimated-damage",
+    "kind": "map",
+    "name": "Estimated damage through satellite obervations (as of 24 April 2026)",
+    "file": "assets/images/maps/2026-micronesia-estimated-damage.png",
+    "projectId": null,
+    "locationIds": [
+      "federated-states-of-micronesia-chuuk-state"
+    ],
+    "year": 2026,
+    "month": 4,
+    "themes": [
+      "Humanitarian",
+      "Damage assessment"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "2026-micronesia-distances",
+    "kind": "map",
+    "name": "Distances from state ports to the outer islands",
+    "file": "assets/images/maps/2026-micronesia-distances.png",
+    "projectId": null,
+    "locationIds": [
+      "federated-states-of-micronesia-chuuk-state"
+    ],
+    "year": 2026,
+    "month": 4,
+    "themes": [
+      "Humanitarian",
+      "Logistics"
+    ],
+    "disaster": [
+      "Cyclone"
+    ],
+    "description": null,
+    "map_style": null,
+    "data_sources": []
+  },
+  {
+    "id": "raglan-harbour",
+    "kind": "map",
+    "name": "Whaingaroa/Raglan Harbour",
+    "file": "assets/images/maps/raglan-harbour.png",
+    "projectId": null,
+    "locationIds": [
+      "new-zealand-wahaingaroa-raglan"
+    ],
+    "year": 2026,
+    "month": 6,
+    "themes": [
+      "Physical geography"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Physical geography of Whaingaroa/Raglan Harbour.",
+    "map_style": null,
+    "data_sources": [
+      {
+        "name": "LINZ",
+        "url": "https://www.linz.govt.nz/"
+      },
+      {
+        "name": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/"
+      },
+      {
+        "name": "SRTM",
+        "url": "https://lpdaac.usgs.gov/products/srtmgl1v003/"
+      }
+    ]
+  },
+  {
+    "id": "intramuros-sketch-map",
+    "kind": "map",
+    "name": "Intramuros Sketch Map",
+    "file": "assets/images/maps/intramuros-sketch-map.png",
+    "projectId": null,
+    "locationIds": [
+      "the-philippines-intramuros-manila"
+    ],
+    "year": 2026,
+    "month": 7,
+    "themes": [
+      "Physical geography"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Sketch map of Intramuros, Manila.",
+    "map_style": "Sketch",
+    "data_sources": [
+      {
+        "name": "NAMRIA"
+      },
+      {
+        "name": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/"
+      }
+    ]
+  },
+  {
+    "id": "pollok-park-sketch-map",
+    "kind": "map",
+    "name": "Pollok Park Sketch Map",
+    "file": "assets/images/maps/pollok-park-sketch-map.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-pollok-park-glasgow"
+    ],
+    "year": 2026,
+    "month": 7,
+    "themes": [
+      "Physical geography"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Sketch map of Pollok Park, Glasgow.",
+    "map_style": "Sketch",
+    "data_sources": [
+      {
+        "name": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/"
+      }
+    ]
+  },
+  {
+    "id": "silverstone",
+    "kind": "map",
+    "name": "Silverstone Circuit",
+    "file": "assets/images/maps/silverstone.png",
+    "projectId": null,
+    "locationIds": [
+      "united-kingdom-silverstone"
+    ],
+    "year": 2026,
+    "month": 8,
+    "themes": [
+      "Formula 1"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Vintage style map of Silverstone - the home of the British Grand Prix./",
+    "map_style": "Vintage",
+    "data_sources": [
+      {
+        "name": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/"
+      }
+    ]
+  },
+  {
+    "id": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption",
+    "kind": "webmap",
+    "name": "Humanitarian and environmental impact mapping to the La Soufrière volcanic eruption",
+    "file": null,
+    "projectId": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption-2021",
+    "locationIds": [],
+    "year": 2021,
+    "month": 3,
+    "themes": [
+      "Humanitarian",
+      "Displacement"
+    ],
+    "disaster": [
+      "Volcano"
+    ],
+    "description": "Interactive mapping and spatial visualizations capturing the environmental fallout and population displacement patterns following the La Soufrière eruption.",
+    "screenshot": null,
+    "links": [
+      {
+        "label": "La Soufrière volcano",
+        "url": "https://mapaction.maps.arcgis.com/home/webscene/viewer.html?webscene=319c676a2b034edeb40ef3d00ac4fbcc&_ga=2.220957080.1405317380.1621374070-1796227178.1597106685"
+      }
+    ],
+    "embeddable": true
+  },
+  {
+    "id": "community-insights-for-covid-19-dashboard",
+    "kind": "webmap",
+    "name": "Community Insights for COVID-19 Dashboard",
+    "file": null,
+    "projectId": null,
+    "locationIds": [
+      "asia-pacific"
+    ],
+    "year": 2020,
+    "month": 6,
+    "themes": [
+      "Humanitarian",
+      "Displacement"
+    ],
+    "disaster": [
+      "COVID-19"
+    ],
+    "description": "The dashboard aims to look at the results of the Community Insights for COVID-19 survey that aims to understand what people already know and still want to know about COVID-19. My role in this dashboard was to design the Kobotoolbox survey that was used to collect the data.",
+    "screenshot": "covid-community-insights.png",
+    "links": [
+      {
+        "label": "Community insights for COVID-19",
+        "url": "https://sites.google.com/view/rcce-community-insights/"
+      }
+    ],
+    "embeddable": false
+  },
+  {
+    "id": "ukraine-damaged-buildings",
+    "kind": "webmap",
+    "name": null,
+    "file": null,
+    "projectId": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026",
+    "locationIds": [],
+    "year": 2026,
+    "month": 7,
+    "themes": [
+      "Damage assessments"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": "Automatically generated analysis of building damage in Ukraine. The data comes from the ACAPS API.",
+    "screenshot": null,
+    "links": [
+      {
+        "label": "Ukraine Damaged Buildings",
+        "url": "https://matts-maps.github.io/acaps-ukraine-buildings/"
+      }
+    ],
+    "embeddable": true
+  },
+  {
+    "id": "ukraine-damaged-buildings-2",
+    "kind": "webmap",
+    "name": null,
+    "file": null,
+    "projectId": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026",
+    "locationIds": [],
+    "year": 2026,
+    "month": 7,
+    "themes": [
+      "Damage assessments"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "description": "Automatically generated analysis of building damage in Ukraine. The data comes from the ACAPS API.",
+    "screenshot": null,
+    "links": [
+      {
+        "label": "Ukraine Damaged Buildings",
+        "url": "https://matts-maps.github.io/acaps-ukraine-buildings/"
+      }
+    ],
+    "embeddable": true
+  }
+]
