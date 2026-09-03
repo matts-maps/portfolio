@@ -388,6 +388,76 @@ async function main() {
   await page.click("#modal .modal-actions button:has-text('Cancel')");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
+  console.log("Opening a new Location and filling coordinates from the reference Country data...");
+  await page.click('#tabs button[data-tab="locations"]');
+  await page.click('#tab-locations .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  await page.fill("#modal .field input[type=text]", "Test Capital City"); // Name is the first text input
+  const countryField = await fieldByLabel("Country");
+  await (await countryField.$("input[type=text]")).fill("Kenya");
+  await (await countryField.$('button:has-text("Fill lat/lng from capital")')).click();
+  await page.waitForTimeout(50);
+  const latAfterCountryFill = await page.$$eval("#modal input[type=number]", (els) => els[0].value);
+  const lngAfterCountryFill = await page.$$eval("#modal input[type=number]", (els) => els[1].value);
+  check("filling from Kenya's capital sets latitude", Number(latAfterCountryFill) === -1.2833);
+  check("filling from Kenya's capital sets longitude", Number(lngAfterCountryFill) === 36.8167);
+  const precisionField = await fieldByLabel("Precision");
+  const precisionAfterCountryFill = await precisionField.$eval("select", (el) => el.value);
+  check("filling from a capital sets precision to \"capital\"", precisionAfterCountryFill === "capital");
+
+  console.log("Switching to a bogus country name and confirming the fill button refuses rather than guessing...");
+  const countryFieldAfterFill = await fieldByLabel("Country"); // re-fetch: the successful fill above re-rendered the modal
+  await (await countryFieldAfterFill.$("input[type=text]")).fill("Not A Real Country");
+  const dialogCountBeforeBadCountry = dialogs.length;
+  await (await countryFieldAfterFill.$('button:has-text("Fill lat/lng from capital")')).click();
+  await page.waitForTimeout(100);
+  check("an unmatched country name is refused with an alert, not silently applied", dialogs.length === dialogCountBeforeBadCountry + 1);
+
+  console.log("Switching type to Region and picking a UN-geoscheme region...");
+  // Every select-driven change here (the Type switch, the Region pick) fires
+  // its own renderModal() to keep other fields in sync, which detaches any
+  // element handle captured beforehand - so each field is re-fetched fresh
+  // right before it's touched, rather than reused across the re-render.
+  await (await (await fieldByLabel("Type")).$("select")).selectOption("region");
+  await page.waitForTimeout(50);
+  const regionFieldInitial = await fieldByLabel("Region");
+  check("Region field appears once type is switched to \"region\"", regionFieldInitial !== null);
+  await (await regionFieldInitial.$("select")).selectOption({ label: "Southern Asia (Asia)" });
+  await page.waitForTimeout(50);
+  const continentFieldAfterRegionPick = await fieldByLabel("Continent");
+  const continentValueAfterRegionPick = await continentFieldAfterRegionPick.$eval("input[type=text]", (el) => el.value);
+  check("picking a region sets Continent to that region's continent", continentValueAfterRegionPick === "Asia");
+
+  const regionFieldAfterPick = await fieldByLabel("Region"); // re-fetch: the select's onchange above re-rendered the modal
+  await (await regionFieldAfterPick.$('button:has-text("Fill lat/lng from region centroid")')).click();
+  await page.waitForTimeout(50);
+  const latAfterRegionFill = await page.$$eval("#modal input[type=number]", (els) => els[0].value);
+  const lngAfterRegionFill = await page.$$eval("#modal input[type=number]", (els) => els[1].value);
+  check("filling from Southern Asia's centroid sets latitude", Number(latAfterRegionFill) === 24.7283);
+  check("filling from Southern Asia's centroid sets longitude", Number(lngAfterRegionFill) === 76.62);
+  const precisionFieldAfterRegionFill = await fieldByLabel("Precision");
+  check("filling from a region centroid sets precision to \"region-centroid\"", (await precisionFieldAfterRegionFill.$eval("select", (el) => el.value)) === "region-centroid");
+
+  console.log("Switching type back to country and filling coordinates from a typed Continent...");
+  await (await (await fieldByLabel("Type")).$("select")).selectOption("country");
+  await page.waitForTimeout(50);
+  const continentFieldForContinentFill = await fieldByLabel("Continent");
+  await (await continentFieldForContinentFill.$("input[type=text]")).fill("Africa");
+  await (await continentFieldForContinentFill.$('button:has-text("Fill lat/lng from continent centroid")')).click();
+  await page.waitForTimeout(50);
+  const latAfterContinentFill = await page.$$eval("#modal input[type=number]", (els) => els[0].value);
+  const lngAfterContinentFill = await page.$$eval("#modal input[type=number]", (els) => els[1].value);
+  check("filling from Africa's continent centroid sets latitude", Number(latAfterContinentFill) === 1.7725);
+  check("filling from Africa's continent centroid sets longitude", Number(lngAfterContinentFill) === 17.7511);
+  const precisionFieldAfterContinentFill = await fieldByLabel("Precision");
+  check("filling from a continent centroid sets precision to \"continent-centroid\"", (await precisionFieldAfterContinentFill.$eval("select", (el) => el.value)) === "continent-centroid");
+
+  console.log("Discarding this scratch location without saving...");
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+  const locCountAfterScratch = await page.textContent("#count-locations");
+  check("cancelling the scratch location didn't add it", locCountAfterScratch.trim() === "(93)");
+
   await browser.close();
 
   check("no uncaught page errors", consoleErrors.length === 0);

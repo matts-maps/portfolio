@@ -59,6 +59,21 @@ an extra permission prompt — a zip sidesteps that entirely.)
   shows a warning badge in the list and a banner in its edit form, with a button to
   clear the reference once you've either picked a real parent or decided it doesn't
   need one.
+- A Location's **Country** and **Continent** fields autocomplete against a
+  reference list (249 countries/territories with ISO3 + capital; the 7
+  continents) embedded in the page — typing still accepts anything, this is
+  suggestion, not enforcement, so existing values that don't match exactly
+  (older canonicalisations, edge cases) are never silently touched. Each field
+  has a **Fill lat/lng from…** button: Country fills from that country's
+  capital and sets precision to `capital`; Continent fills from a continent-
+  average-of-capitals centroid and sets precision to `continent-centroid`
+  (new precision value, alongside the existing `region-centroid` and
+  `global-centroid`). A location of type **region** gets a third, ephemeral
+  **Region** selector — the 25 UN-geoscheme regions (e.g. "Southern Asia"),
+  not a field the schema stores — picking one sets Continent to match and its
+  own fill button sets precision to `region-centroid`. None of these buttons
+  fire automatically; they're explicit actions so a fill never silently
+  overwrites coordinates you've already set by hand.
 - **Check for issues** runs the same checks as `scripts/migrate/validate.mjs` — every
   `locationId`/`projectId` reference resolves, every project has at least one
   location, parent nesting is at most one level, no duplicate ids. **Save** refuses
@@ -72,9 +87,10 @@ an extra permission prompt — a zip sidesteps that entirely.)
 - The folder handle isn't remembered between page loads (no IndexedDB persistence
   yet) — you re-pick the folder each time you open the page in Chrome/Edge. Minor
   friction, not a correctness issue.
-- No visual "where is this on the map" preview when setting lat/lng — you're
-  entering coordinates by hand (or copying them from somewhere else), same as
-  today.
+- No visual "where is this on the map" preview when setting lat/lng. Country/
+  Continent/Region now offer a one-click fill for their capital or centroid
+  coordinates (see above), but an exact site — the common case for `type:
+  "site"` locations — is still typed or pasted in by hand.
 - It edits three files as one unit but doesn't itself run `git` — commit and push
   your changes the normal way once you're happy with them.
 
@@ -86,7 +102,9 @@ zip-download) path end to end against real fixture data in `test-fixtures/`
 load, search, edit a project's locations, add/delete a location, edit a webmap's
 links, save, add a parent project and link a child to it, manage the Organisations
 tab (rename-as-merge, additive add, delete — checking each leaves unrelated
-projects untouched), and confirm an invalid save (a project with zero locations)
+projects untouched), fill a Location's coordinates from a Country/Region/
+Continent pick (including that an unmatched name is refused rather than
+silently applied), and confirm an invalid save (a project with zero locations)
 is blocked with the right error. Run it with:
 
 ```
