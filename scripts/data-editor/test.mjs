@@ -304,7 +304,7 @@ async function main() {
   check("exactly one organisation matches \"MapAction\"", mapActionRows.length === 1);
   const mapActionRowText = await page.textContent("#tab-organisations tbody tr");
   check("MapAction row lists its 3 projects", mapActionRowText.includes("MapAction Development"));
-  const mapActionCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  const mapActionCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(3)", (td) => td.textContent.trim());
   check("MapAction's project count cell reads 3", mapActionCountCell === "3");
   await page.click("#tab-organisations tbody tr");
   await page.waitForSelector("#overlay.open");
@@ -333,7 +333,7 @@ async function main() {
   await page.waitForTimeout(50);
   const whoNameCell = await page.$eval("#tab-organisations tbody tr td:nth-child(1)", (td) => td.textContent.trim());
   check("WHO row is present after the merge", whoNameCell === "World Health Organisation (WHO)");
-  const whoCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  const whoCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(3)", (td) => td.textContent.trim());
   check("WHO's project count cell reads 6 (its original 3 plus the merged-in 3)", whoCountCell === "6");
 
   console.log("Adding a brand-new organisation additively, onto a project that already has other tags...");
@@ -457,6 +457,73 @@ async function main() {
   await page.waitForSelector("#overlay.open", { state: "hidden" });
   const locCountAfterScratch = await page.textContent("#count-locations");
   check("cancelling the scratch location didn't add it", locCountAfterScratch.trim() === "(93)");
+
+  console.log("Setting an Abbreviation on an organisation whose name doesn't already spell one out...");
+  await page.click('#tabs button[data-tab="organisations"]');
+  await page.fill("#search-organisations", "the Global Health Cluster");
+  await page.waitForTimeout(50);
+  const ghcAbbrevCellBefore = await page.$eval("#tab-organisations tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  check("Global Health Cluster starts with no abbreviation shown", ghcAbbrevCellBefore === "—");
+  await page.click("#tab-organisations tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const ghcAbbrevFieldBefore = await fieldByLabel("Abbreviation");
+  const ghcAbbrevValueBefore = await ghcAbbrevFieldBefore.$eval("input[type=text]", (el) => el.value);
+  check("its Abbreviation field opens blank", ghcAbbrevValueBefore === "");
+  await (await ghcAbbrevFieldBefore.$("input[type=text]")).fill("GHC");
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  const ghcAbbrevCellAfter = await page.$eval("#tab-organisations tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  check("the Abbreviation column now shows GHC", ghcAbbrevCellAfter === "GHC");
+
+  console.log("Searching by abbreviation alone (not a substring of the full name)...");
+  await page.fill("#search-organisations", "GHC");
+  await page.waitForTimeout(50);
+  const ghcSearchRows = await page.$$("#tab-organisations tbody tr");
+  check("searching \"GHC\" finds it via the abbreviation, even though the name doesn't contain it", ghcSearchRows.length === 1);
+  const ghcSearchNameCell = await page.$eval("#tab-organisations tbody tr td:nth-child(1)", (td) => td.textContent.trim());
+  check("the abbreviation search match is the right organisation", ghcSearchNameCell === "the Global Health Cluster");
+
+  console.log("Merging a second organisation into it, leaving Abbreviation untouched, and checking GHC survives...");
+  await page.fill("#search-organisations", "Asian Disaster Reduction");
+  await page.waitForTimeout(50);
+  await page.click("#tab-organisations tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const adrrnNameField = await fieldByLabel("Name");
+  const adrrnAbbrevField = await fieldByLabel("Abbreviation");
+  const adrrnAbbrevValue = await adrrnAbbrevField.$eval("input[type=text]", (el) => el.value);
+  check("ADRRN itself has no abbreviation set (nothing to accidentally carry over)", adrrnAbbrevValue === "");
+  await adrrnNameField.$eval("input[type=text]", (el) => (el.value = ""));
+  await (await adrrnNameField.$("input[type=text]")).fill("the Global Health Cluster"); // merge, Abbreviation field left blank
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.fill("#search-organisations", "the Global Health Cluster");
+  await page.waitForTimeout(50);
+  const ghcAbbrevCellAfterMerge = await page.$eval("#tab-organisations tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  check("merging in a blank-abbreviation org didn't blank out GHC's existing abbreviation", ghcAbbrevCellAfterMerge === "GHC");
+  const ghcCountCellAfterMerge = await page.$eval("#tab-organisations tbody tr td:nth-child(3)", (td) => td.textContent.trim());
+  check("Global Health Cluster now has 6 projects (its original 3 plus ADRRN's 3)", ghcCountCellAfterMerge === "6");
+
+  console.log("Deleting it and confirming the abbreviation is actually gone, not just hidden...");
+  await page.click("#tab-organisations tbody tr");
+  await page.waitForSelector("#overlay.open");
+  await page.click('#modal .modal-actions button:has-text("Delete")'); // global dialog handler accepts the confirm()
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.click('#tab-organisations .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  await page.fill("#modal .field input[type=text]", "the Global Health Cluster"); // Name is the first text input
+  const reAddedProjectsField = await fieldByLabel("Projects");
+  await (await reAddedProjectsField.$("input[type=text]")).fill("MapAction Development (2006)");
+  await (await reAddedProjectsField.$('button:has-text("Add")')).click();
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.fill("#search-organisations", "the Global Health Cluster");
+  await page.waitForTimeout(50);
+  const ghcAbbrevCellAfterRecreate = await page.$eval("#tab-organisations tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  check("re-creating the same-named organisation from scratch does not resurrect the deleted abbreviation", ghcAbbrevCellAfterRecreate === "—");
 
   await browser.close();
 

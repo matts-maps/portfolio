@@ -55,6 +55,16 @@ an extra permission prompt — a zip sidesteps that entirely.)
   nowhere to be saved) and is purely additive — it only ever adds the tag to
   the projects you pick, never removes it from anyone. **Delete** removes the
   value from every project that has it; the projects themselves aren't touched.
+  Each organisation also has an optional **Abbreviation** field (e.g. "GHC" for
+  "the Global Health Cluster"), stored separately in `assets/data/organisations.json`
+  since it isn't part of `Project` — a new, optional 4th data file (sparse: only
+  organisations with an abbreviation set get an entry; a missing file just means
+  none are set yet). It shows as its own table column and is searchable
+  alongside the name. Renaming/merging follows the same non-destructive rule as
+  project membership: merging into an organisation that already has an
+  abbreviation never blanks it out just because the merged-in one didn't have
+  one. Deleting an organisation clears its abbreviation for good — re-adding one
+  with the same name later starts blank, it doesn't come back.
 - A project with an unresolved `legacyParentName` (left over from the migration)
   shows a warning badge in the list and a banner in its edit form, with a button to
   clear the reference once you've either picked a real parent or decided it doesn't
@@ -102,10 +112,11 @@ zip-download) path end to end against real fixture data in `test-fixtures/`
 load, search, edit a project's locations, add/delete a location, edit a webmap's
 links, save, add a parent project and link a child to it, manage the Organisations
 tab (rename-as-merge, additive add, delete — checking each leaves unrelated
-projects untouched), fill a Location's coordinates from a Country/Region/
-Continent pick (including that an unmatched name is refused rather than
-silently applied), and confirm an invalid save (a project with zero locations)
-is blocked with the right error. Run it with:
+projects untouched — plus setting/searching/merging/deleting an Abbreviation
+without it leaking onto the wrong organisation or surviving a delete), fill a
+Location's coordinates from a Country/Region/Continent pick (including that an
+unmatched name is refused rather than silently applied), and confirm an invalid
+save (a project with zero locations) is blocked with the right error. Run it with:
 
 ```
 npm install playwright   # if not already available

@@ -236,6 +236,7 @@
             <label>locations.json <input type="file" id="file-locations" accept=".json"></label>
             <label>projects.json <input type="file" id="file-projects" accept=".json"></label>
             <label>maps.json <input type="file" id="file-maps" accept=".json"></label>
+            <label>organisations.json (optional) <input type="file" id="file-organisations" accept=".json"></label>
             <button id="btn-load-fallback" style="margin-top:6px">Load</button>
           </div>
         </div>
@@ -270,6 +271,12 @@ const state = {
   locations: [],
   projects: [],
   maps: [],
+  // organisations.json is optional metadata, not one of the three core
+  // files - see the load/save functions below. It only ever holds entries
+  // for organisations that have an abbreviation set; Project.organisation
+  // itself stays a plain tag field, so an org with no abbreviation has no
+  // entry here at all.
+  organisations: [],
   dirHandle: null,   // File System Access API handle, when available
   mode: null,         // "fsapi" | "fallback"
   dirty: false,
@@ -415,7 +422,17 @@ function serializeMap(m) {
   return out;
 }
 
+function serializeOrganisation(o) {
+  return { name: o.name, abbreviation: o.abbreviation };
+}
+
 function toJson(list, kind) {
+  if (kind === "organisations") {
+    // Sorted at serialize time (not kept sorted in state) so diffs stay
+    // clean regardless of the order entries were added/edited in.
+    const sorted = [...list].sort((a, b) => a.name.localeCompare(b.name));
+    return JSON.stringify(sorted.map(serializeOrganisation), null, 2) + "\n";
+  }
   const fn = kind === "locations" ? serializeLocation : kind === "projects" ? serializeProject : serializeMap;
   return JSON.stringify(list.map(fn), null, 2) + "\n";
 }
@@ -435,19 +452,37 @@ async function readFileHandle(dirHandle, name) {
   return JSON.parse(await file.text());
 }
 
+/**
+ * organisations.json is optional metadata (abbreviations) that didn't
+ * exist before this feature - a repo checked out before it won't have the
+ * file yet. Missing-file is the one error this swallows; anything else
+ * (malformed JSON, permission trouble) still surfaces to the caller like
+ * the other three files' reads do.
+ */
+async function readOrganisationsFile(dirHandle) {
+  try {
+    return await readFileHandle(dirHandle, "organisations.json");
+  } catch (err) {
+    if (err && err.name === "NotFoundError") return [];
+    throw err;
+  }
+}
+
 async function loadFromDirectory() {
   try {
     const dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
-    const [locations, projects, maps] = await Promise.all([
+    const [locations, projects, maps, organisations] = await Promise.all([
       readFileHandle(dirHandle, "locations.json"),
       readFileHandle(dirHandle, "projects.json"),
       readFileHandle(dirHandle, "maps.json"),
+      readOrganisationsFile(dirHandle),
     ]);
     state.dirHandle = dirHandle;
     state.mode = "fsapi";
     state.locations = locations;
     state.projects = projects;
     state.maps = maps;
+    state.organisations = organisations;
     setSourceLabel(`${dirHandle.name || "assets/data"} (live — saves write straight back)`);
     afterLoad();
   } catch (err) {
@@ -465,18 +500,21 @@ function loadFromFileInputs() {
     projects: document.getElementById("file-projects").files[0],
     maps: document.getElementById("file-maps").files[0],
   };
+  const organisationsFile = document.getElementById("file-organisations").files[0]; // optional
   if (!files.locations || !files.projects || !files.maps) {
     alert("Pick all three files first: locations.json, projects.json, maps.json.");
     return;
   }
   const readOne = (file) =>
     file.text().then((t) => JSON.parse(t));
-  Promise.all([readOne(files.locations), readOne(files.projects), readOne(files.maps)])
-    .then(([locations, projects, maps]) => {
+  const readOrganisations = organisationsFile ? readOne(organisationsFile) : Promise.resolve([]);
+  Promise.all([readOne(files.locations), readOne(files.projects), readOne(files.maps), readOrganisations])
+    .then(([locations, projects, maps, organisations]) => {
       state.mode = "fallback";
       state.locations = locations;
       state.projects = projects;
       state.maps = maps;
+      state.organisations = organisations;
       setSourceLabel("loaded manually — saving downloads updated files");
       afterLoad();
     })
@@ -508,23 +546,25 @@ async function save() {
       await writeFileHandle(state.dirHandle, "locations.json", toJson(state.locations, "locations"));
       await writeFileHandle(state.dirHandle, "projects.json", toJson(state.projects, "projects"));
       await writeFileHandle(state.dirHandle, "maps.json", toJson(state.maps, "maps"));
+      await writeFileHandle(state.dirHandle, "organisations.json", toJson(state.organisations, "organisations"));
       setDirty(false);
     } catch (err) {
       alert("Save failed: " + err.message);
     }
   } else {
-    // A single zip, not three separate <a download> clicks: Chrome (and
+    // A single zip, not four separate <a download> clicks: Chrome (and
     // others) block a page from firing more than one download per user
-    // gesture without an extra permission prompt, so three simultaneous
-    // downloads would silently lose two of them for a lot of users.
+    // gesture without an extra permission prompt, so four simultaneous
+    // downloads would silently lose most of them for a lot of users.
     const zipBlob = buildZip([
       { name: "locations.json", text: toJson(state.locations, "locations") },
       { name: "projects.json", text: toJson(state.projects, "projects") },
       { name: "maps.json", text: toJson(state.maps, "maps") },
+      { name: "organisations.json", text: toJson(state.organisations, "organisations") },
     ]);
     downloadBlob("fantail-data-export.zip", zipBlob);
     setDirty(false);
-    alert("Downloaded fantail-data-export.zip — unzip it and move the three .json files into assets/data/, replacing the originals.");
+    alert("Downloaded fantail-data-export.zip — unzip it and move the .json files into assets/data/, replacing the originals.");
   }
 }
 
@@ -781,12 +821,38 @@ function organisationsList() {
     }
   }
   return [...map.entries()]
-    .map(([name, projects]) => ({ name, projects: projects.sort((a, b) => a.name.localeCompare(b.name)) }))
+    .map(([name, projects]) => ({
+      name,
+      projects: projects.sort((a, b) => a.name.localeCompare(b.name)),
+      abbreviation: getAbbreviation(name),
+    }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 function projectsForOrg(name) {
   return state.projects.filter((p) => (p.organisation || []).includes(name));
+}
+
+function getAbbreviation(name) {
+  const entry = state.organisations.find((o) => o.name === name);
+  return entry ? entry.abbreviation : "";
+}
+
+/** Upserts, or removes (blank value), the abbreviation entry for `name`. */
+function setAbbreviation(name, value) {
+  const trimmed = (value || "").trim();
+  const idx = state.organisations.findIndex((o) => o.name === name);
+  if (!trimmed) {
+    if (idx !== -1) state.organisations.splice(idx, 1);
+    return;
+  }
+  if (idx !== -1) state.organisations[idx].abbreviation = trimmed;
+  else state.organisations.push({ name, abbreviation: trimmed });
+}
+
+function removeAbbreviation(name) {
+  const idx = state.organisations.findIndex((o) => o.name === name);
+  if (idx !== -1) state.organisations.splice(idx, 1);
 }
 
 function currentSearch(tab) {
@@ -844,6 +910,12 @@ function renderList(tab) {
 
 function matchesSearch(item, tab, search) {
   if (!search) return true;
+  if (tab === "organisations") {
+    // Matches on the abbreviation too, since it's often not a substring of
+    // the full name (a spelled-out name and its acronym are just two
+    // different strings for the same organisation).
+    return [item.name, item.abbreviation].filter(Boolean).join(" ").toLowerCase().includes(search);
+  }
   const hay = [item.id, item.name, item.country, item.continent, item.type]
     .filter(Boolean)
     .join(" ")
@@ -856,7 +928,7 @@ function renderTableHead(tab) {
     tab === "locations" ? ["Name", "ID", "Type", "Country / continent", "Coordinates"] :
     tab === "projects" ? ["Name", "ID", "Year", "Locations", "Parent", "Status"] :
     tab === "parents" ? ["Name", "ID", "Year", "Children", "Locations"] :
-    tab === "organisations" ? ["Organisation", "# Projects", "Projects"] :
+    tab === "organisations" ? ["Organisation", "Abbreviation", "# Projects", "Projects"] :
     ["Name", "ID", "Kind", "Project", "Locations", "Year"];
   return el("thead", {}, [el("tr", {}, cols.map((c) => el("th", { text: c })))]);
 }
@@ -866,6 +938,7 @@ function renderTableRow(item, tab) {
     const tr = el("tr", { onclick: () => openEditor(tab, item.name) });
     tr.append(
       el("td", { text: item.name }),
+      el("td", { text: item.abbreviation || "—" }),
       el("td", { text: String(item.projects.length) }),
       el("td", { text: item.projects.map((p) => p.name).join(", ") || "—" })
     );
@@ -1269,7 +1342,12 @@ function rewriteReferences(entity, oldId, newId) {
 /* --- organisations tab: a rename/merge editor over a derived value, not a stored entity --- */
 function openOrgEditor(name) {
   const isNew = name === null;
-  const draft = { originalName: name, name: name || "", projectIds: isNew ? [] : projectsForOrg(name).map((p) => p.id) };
+  const draft = {
+    originalName: name,
+    name: name || "",
+    projectIds: isNew ? [] : projectsForOrg(name).map((p) => p.id),
+    abbreviation: isNew ? "" : getAbbreviation(name),
+  };
   renderOrgModal(draft, isNew);
 }
 
@@ -1284,6 +1362,7 @@ function renderOrgModal(draft, isNew) {
 
   const body = el("div");
   body.appendChild(field("Name", "renaming updates every project that uses it", textInput(draft.name, (v) => (draft.name = v))));
+  body.appendChild(field("Abbreviation", "optional - e.g. \"UNDAC\". Leaving this blank on a rename won't erase an abbreviation the target name already has", textInput(draft.abbreviation, (v) => (draft.abbreviation = v))));
   body.appendChild(field("Projects", "which projects use this organisation - add or remove to reassign it", relationPicker({
     multi: true, values: draft.projectIds, options: projectOptions(null),
     onChange: (v) => (draft.projectIds = v),
@@ -1302,6 +1381,7 @@ function renderOrgModal(draft, isNew) {
             for (const p of state.projects) {
               p.organisation = (p.organisation || []).filter((o) => o !== draft.originalName);
             }
+            removeAbbreviation(draft.originalName);
             setDirty(true);
             closeEditor();
             renderCounts();
@@ -1370,6 +1450,26 @@ function commitOrgDraft(draft, isNew) {
         arr = arr.filter((o) => o !== name);
       }
       p.organisation = arr;
+    }
+  }
+
+  const newAbbreviation = (draft.abbreviation || "").trim();
+  if (isNew) {
+    if (newAbbreviation) setAbbreviation(name, newAbbreviation);
+  } else {
+    const renamed = draft.originalName && draft.originalName !== name;
+    if (renamed) {
+      removeAbbreviation(draft.originalName);
+      // Only write into the (possibly merge-)target when the field is
+      // actually non-empty - same shape as the project-membership merge
+      // fix above: an empty field here must never blank out an
+      // abbreviation the target already had as a separate, pre-existing
+      // organisation.
+      if (newAbbreviation) setAbbreviation(name, newAbbreviation);
+    } else {
+      // Editing in place, not a rename - the field is authoritative,
+      // including clearing it back to blank.
+      setAbbreviation(name, newAbbreviation);
     }
   }
 
