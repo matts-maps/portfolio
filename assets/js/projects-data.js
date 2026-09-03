@@ -2133,8 +2133,8 @@ export const projects = [
       "National"
     ],
     "startDate": "2026-05-25",
-    "endDate": "2026-07-31",
-    "status": "Current",
+    "endDate": "2026-08-30",
+    "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
   },
@@ -2163,7 +2163,7 @@ export const projects = [
       "National"
     ],
     "startDate": "2026-05-25",
-    "endDate": "",
+    "endDate": "2026-07-31",
     "status": "Complete",
     "parentProject": "",
     "parentProjectDescription": ""
@@ -2263,9 +2263,40 @@ export const projects = [
       "National"
     ],
     "startDate": "2026-07-13",
-    "endDate": "2026-07-117",
+    "endDate": "2026-07-17",
     "status": "Complete",
     "parentProject": "Training delivery, The ASEAN Coordinating Centre for Humanitarian Assistance on disaster management (the AHA centre), ASEAN region, 2021-2024",
+    "parentProjectDescription": ""
+  },
+  {
+    "name": "Data preparedness for World Central Kitchen",
+    "continent": "",
+    "country": "",
+    "location": "",
+    "year": "2026",
+    "month": "August",
+    "themes": [
+      "Data"
+    ],
+    "disaster": [],
+    "lat": ,
+    "lng": ,
+    "description": "",
+    "type": "Preparedness",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "World Central Kitchen"
+    ],
+    "level": [
+      "Regional",
+      "National"
+    ],
+    "startDate": "2026-08-10",
+    "endDate": "",
+    "status": "Current",
+    "parentProject": "Data preparedness for World Central Kitchen",
     "parentProjectDescription": ""
   }
 ];
