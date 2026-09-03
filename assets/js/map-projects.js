@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const titleEl = document.getElementById("project-title");
   const metaEl = document.getElementById("project-meta-line");
+  const parentLineEl = document.getElementById("project-parent-line");
+  const parentValueEl = document.getElementById("project-parent-value");
   const descEl = document.getElementById("project-description");
   const partnersHeading = document.getElementById("partners-heading");
   const partnersList = document.getElementById("project-partners-list");
@@ -120,6 +122,19 @@ document.addEventListener("DOMContentLoaded", () => {
       p.type,
       p.disaster
     ].filter(Boolean).join(" · ");
+
+    // "Part of" note — shown only for projects that belong to a wider,
+    // multi-country programme (e.g. entries duplicated per-country that
+    // share a parentProject name), tying them back together in the panel.
+    if (p.parentProject && p.parentProject.trim() !== "") {
+      const parentDescription = p.parentProjectDescription?.trim();
+      parentValueEl.textContent = parentDescription
+        ? `${p.parentProject.trim()} — ${parentDescription}`
+        : p.parentProject.trim();
+      parentLineEl.style.display = "block";
+    } else {
+      parentLineEl.style.display = "none";
+    }
 
     descEl.textContent = p.description || "";
 
