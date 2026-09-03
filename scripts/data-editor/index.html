@@ -212,6 +212,7 @@
   <nav id="tabs" style="display:none">
     <button data-tab="locations">Locations <span class="count" id="count-locations"></span></button>
     <button data-tab="projects">Projects <span class="count" id="count-projects"></span></button>
+    <button data-tab="parents">Parent projects <span class="count" id="count-parents"></span></button>
     <button data-tab="maps">Maps <span class="count" id="count-maps"></span></button>
   </nav>
 
@@ -242,6 +243,7 @@
 
     <div id="tab-locations" class="tab-pane" style="display:none"></div>
     <div id="tab-projects" class="tab-pane" style="display:none"></div>
+    <div id="tab-parents" class="tab-pane" style="display:none"></div>
     <div id="tab-maps" class="tab-pane" style="display:none"></div>
   </main>
 </div>
@@ -675,6 +677,24 @@ function showIssues(issues) {
 /* ---------------------------------------------------------------------
  * Tabs / list rendering
  * ------------------------------------------------------------------- */
+/**
+ * "parents" isn't its own array in state - it's a filtered view onto
+ * state.projects (the top-level ones, parentId === null). Everywhere that
+ * needs the underlying storage array or a validateAll() entity name should
+ * resolve through this rather than assuming tab === state key.
+ */
+function dataKeyFor(tab) {
+  return tab === "parents" ? "projects" : tab;
+}
+
+function tabLabel(tab) {
+  return tab === "parents" ? "parent projects" : tab;
+}
+
+function topLevelProjects() {
+  return state.projects.filter((p) => !p.parentId);
+}
+
 function switchTab(tab) {
   state.activeTab = tab;
   document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
@@ -687,6 +707,7 @@ function switchTab(tab) {
 function renderCounts() {
   document.getElementById("count-locations").textContent = `(${state.locations.length})`;
   document.getElementById("count-projects").textContent = `(${state.projects.length})`;
+  document.getElementById("count-parents").textContent = `(${topLevelProjects().length})`;
   document.getElementById("count-maps").textContent = `(${state.maps.length})`;
 }
 
@@ -704,7 +725,7 @@ function renderList(tab) {
     el("input", {
       type: "search",
       id: `search-${tab}`,
-      placeholder: `Search ${tab}…`,
+      placeholder: `Search ${tabLabel(tab)}…`,
       value: search,
       oninput: () => renderList(tab),
     }),
@@ -712,7 +733,7 @@ function renderList(tab) {
   ]);
   pane.appendChild(toolbar);
 
-  const data = state[tab];
+  const data = tab === "parents" ? topLevelProjects() : state[dataKeyFor(tab)];
   const filtered = data.filter((item) => matchesSearch(item, tab, search));
   const table = el("table");
   table.appendChild(renderTableHead(tab));
@@ -745,13 +766,15 @@ function renderTableHead(tab) {
   const cols =
     tab === "locations" ? ["Name", "ID", "Type", "Country / continent", "Coordinates"] :
     tab === "projects" ? ["Name", "ID", "Year", "Locations", "Parent", "Status"] :
+    tab === "parents" ? ["Name", "ID", "Year", "Children", "Locations"] :
     ["Name", "ID", "Kind", "Project", "Locations", "Year"];
   return el("thead", {}, [el("tr", {}, cols.map((c) => el("th", { text: c })))]);
 }
 
 function renderTableRow(item, tab) {
   const tr = el("tr", { onclick: () => openEditor(tab, item.id) });
-  const issues = validateAll().filter((i) => i.entity === tab && i.id === item.id);
+  const entity = dataKeyFor(tab);
+  const issues = validateAll().filter((i) => i.entity === entity && i.id === item.id);
   const badge = issues.length
     ? el("span", { class: `badge ${issues.some((i) => i.level === "error") ? "err" : "warn"}`, text: issues.length })
     : null;
@@ -774,6 +797,17 @@ function renderTableRow(item, tab) {
       el("td", { text: locNames || "—" }),
       el("td", { text: parentName }),
       el("td", { text: item.status || "" })
+    );
+  } else if (tab === "parents") {
+    const locNames = (item.locationIds || []).map((id) => byId(state.locations, id)?.name || id).join(", ");
+    const children = state.projects.filter((p) => p.parentId === item.id);
+    const childText = children.length ? children.map((c) => c.name).join(", ") : "—";
+    tr.append(
+      el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
+      el("td", { class: "id-cell", text: item.id }),
+      el("td", { text: item.year ?? "" }),
+      el("td", { text: childText }),
+      el("td", { text: locNames || "—" })
     );
   } else {
     const proj = item.projectId ? (byId(state.projects, item.projectId)?.name || item.projectId) : "—";
@@ -1009,12 +1043,13 @@ function closeEditor() {
 
 function openEditor(tab, id) {
   const isNew = id === null;
+  const entity = dataKeyFor(tab);
   let draft;
-  if (tab === "locations") {
+  if (entity === "locations") {
     draft = isNew
       ? { id: "", name: "", type: "country", country: "", continent: "", lat: null, lng: null, precision: "capital" }
       : { ...byId(state.locations, id) };
-  } else if (tab === "projects") {
+  } else if (entity === "projects") {
     draft = isNew
       ? { id: "", name: "", parentId: null, locationIds: [], year: null, month: "", type: "", modality: [], organisation: [], level: [], themes: [], disaster: [], status: "", startDate: "", endDate: "", description: "" }
       : { ...byId(state.projects, id) };
@@ -1028,14 +1063,15 @@ function openEditor(tab, id) {
 }
 
 function renderModal(tab, draft, isNew, originalId) {
+  const entity = dataKeyFor(tab);
   const modal = document.getElementById("modal");
   modal.innerHTML = "";
   modal.appendChild(el("h2", { text: isNew ? `New ${singular(tab)}` : draft.name || draft.id }));
-  modal.appendChild(el("div", { class: "modal-sub", text: isNew ? `Adding to ${tab}` : `Editing ${tab} · id: ${draft.id}` }));
+  modal.appendChild(el("div", { class: "modal-sub", text: isNew ? `Adding to ${tabLabel(tab)}` : `Editing ${tabLabel(tab)} · id: ${draft.id}` }));
 
   const body = el("div");
-  if (tab === "locations") buildLocationForm(body, draft);
-  else if (tab === "projects") buildProjectForm(body, draft);
+  if (entity === "locations") buildLocationForm(body, draft);
+  else if (entity === "projects") buildProjectForm(body, draft, { hideParentField: tab === "parents" && isNew, tab });
   else buildMapForm(body, draft);
   modal.appendChild(body);
 
@@ -1048,7 +1084,7 @@ function renderModal(tab, draft, isNew, originalId) {
         text: "Delete",
         onclick: () => {
           if (confirm(`Delete "${draft.name || draft.id}"? This can't be undone here (though git history keeps it).`)) {
-            state[tab] = state[tab].filter((x) => x.id !== originalId);
+            state[entity] = state[entity].filter((x) => x.id !== originalId);
             setDirty(true);
             closeEditor();
             renderCounts();
@@ -1074,11 +1110,10 @@ function renderModal(tab, draft, isNew, originalId) {
 }
 
 function singular(tab) {
-  return tab === "locations" ? "location" : tab === "projects" ? "project" : "map";
+  return tab === "locations" ? "location" : tab === "projects" ? "project" : tab === "parents" ? "parent project" : "map";
 }
 
-function ensureId(tab, draft) {
-  const list = state[tab];
+function ensureId(list, draft) {
   const existingIds = list.map((x) => x.id);
   if (!draft.id) {
     draft.id = uniqueSlug(slugify(draft.name), existingIds, null);
@@ -1090,12 +1125,13 @@ function ensureId(tab, draft) {
 }
 
 function commitDraft(tab, draft, isNew, originalId) {
-  if (!draft.name && tab !== "maps") {
+  const entity = dataKeyFor(tab);
+  if (!draft.name && entity !== "maps") {
     alert("Name is required.");
     return;
   }
-  const list = state[tab];
-  ensureId(tab, draft);
+  const list = state[entity];
+  ensureId(list, draft);
   const clashesWithOther = list.some((x) => x.id === draft.id && x.id !== originalId);
   if (clashesWithOther) {
     alert(`ID "${draft.id}" is already used by another ${singular(tab)}. Pick a different id.`);
@@ -1108,7 +1144,7 @@ function commitDraft(tab, draft, isNew, originalId) {
     const idx = list.findIndex((x) => x.id === originalId);
     list[idx] = draft;
     // if the id changed, fix up anything referencing the old id
-    if (draft.id !== originalId) rewriteReferences(tab, originalId, draft.id);
+    if (draft.id !== originalId) rewriteReferences(entity, originalId, draft.id);
   }
   setDirty(true);
   closeEditor();
@@ -1116,11 +1152,11 @@ function commitDraft(tab, draft, isNew, originalId) {
   renderList(tab);
 }
 
-function rewriteReferences(tab, oldId, newId) {
-  if (tab === "locations") {
+function rewriteReferences(entity, oldId, newId) {
+  if (entity === "locations") {
     for (const p of state.projects) p.locationIds = (p.locationIds || []).map((x) => (x === oldId ? newId : x));
     for (const m of state.maps) m.locationIds = (m.locationIds || []).map((x) => (x === oldId ? newId : x));
-  } else if (tab === "projects") {
+  } else if (entity === "projects") {
     for (const p of state.projects) if (p.parentId === oldId) p.parentId = newId;
     for (const m of state.maps) if (m.projectId === oldId) m.projectId = newId;
   }
@@ -1144,29 +1180,35 @@ function buildLocationForm(body, draft) {
   body.appendChild(row3);
 }
 
-function buildProjectForm(body, draft) {
+function buildProjectForm(body, draft, opts) {
+  const hideParentField = !!(opts && opts.hideParentField);
+  const modalTab = (opts && opts.tab) || "projects";
   body.appendChild(field("Name", null, textInput(draft.name, (v) => (draft.name = v))));
   body.appendChild(field("ID", "auto-filled from name if left blank on a new entry", textInput(draft.id, (v) => (draft.id = v))));
 
   if (draft.legacyParentName) {
     const banner = el("div", { class: "warn-msg", text: `⚠ Unresolved parent from migration: "${draft.legacyParentName}". Pick a parent below, or clear it.` });
-    const clearBtn = el("button", { text: "Clear unresolved reference", onclick: () => { draft.legacyParentName = null; renderModal("projects", draft, false, draft.id); } });
+    const clearBtn = el("button", { text: "Clear unresolved reference", onclick: () => { draft.legacyParentName = null; renderModal(modalTab, draft, false, draft.id); } });
     body.appendChild(field("", null, el("div", {}, [banner, clearBtn])));
   }
 
-  body.appendChild(field("Parent project", "one level only — pick another top-level project, or leave empty", relationPicker({
-    multi: false, values: draft.parentId, options: projectOptions(draft.id),
-    onChange: (v) => {
-      draft.parentId = v;
-      // Picking a real parent resolves the migration-era hint - clear it
-      // so the warning banner and "unresolved" issue don't linger once
-      // the actual link is made.
-      if (v && draft.legacyParentName) {
-        draft.legacyParentName = null;
-        renderModal("projects", draft, !state.projects.some((p) => p.id === draft.id), draft.id);
-      }
-    },
-  })));
+  if (hideParentField) {
+    body.appendChild(field("Parent project", "left empty — this is being added as a top-level parent project", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
+  } else {
+    body.appendChild(field("Parent project", "one level only — pick another top-level project, or leave empty", relationPicker({
+      multi: false, values: draft.parentId, options: projectOptions(draft.id),
+      onChange: (v) => {
+        draft.parentId = v;
+        // Picking a real parent resolves the migration-era hint - clear it
+        // so the warning banner and "unresolved" issue don't linger once
+        // the actual link is made.
+        if (v && draft.legacyParentName) {
+          draft.legacyParentName = null;
+          renderModal(modalTab, draft, !state.projects.some((p) => p.id === draft.id), draft.id);
+        }
+      },
+    })));
+  }
 
   body.appendChild(field("Locations", "at least one required", relationPicker({
     multi: true, values: draft.locationIds, options: locationOptions(),

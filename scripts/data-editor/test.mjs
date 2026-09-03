@@ -233,6 +233,43 @@ async function main() {
   check("no more unresolved-parent warning for Ebola after linking it", !issuesAfterParentFix.includes("2014 Ebola response in West Africa"));
   await page.click("#btn-close-issues");
 
+  console.log("Checking the Parent projects tab shows the new parent with its child...");
+  await page.click('#tabs button[data-tab="parents"]');
+  await page.fill("#search-parents", "Ebola");
+  await page.waitForTimeout(50);
+  const parentsRowText = await page.textContent("#tab-parents tbody tr");
+  check("parents tab lists the new Ebola parent project", parentsRowText.includes("2014 Ebola response in West Africa"));
+  check("parents tab shows the linked child in the Children column", parentsRowText.includes("Ebola") && parentsRowText.split("2014 Ebola response in West Africa")[1].length > 0);
+
+  console.log("Adding a new project from the Parent projects tab (Parent field should be hidden)...");
+  await page.fill("#search-parents", "");
+  await page.click('#tab-parents .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  const parentFieldFromTab = await fieldByLabel("Parent project");
+  check("Parent project field has no picker when adding from the Parents tab", (await parentFieldFromTab.$("select")) === null);
+  const newParentNameField = await fieldByLabel("Name");
+  await (await newParentNameField.$("input[type=text]")).fill("Umbrella test project");
+  const newParentLocField = await fieldByLabel("Locations");
+  await (await newParentLocField.$("input[type=text]")).fill("Testland");
+  await (await newParentLocField.$('button:has-text("Add")')).click();
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.fill("#search-parents", "Umbrella");
+  await page.waitForTimeout(50);
+  const newParentRow = await page.textContent("#tab-parents tbody tr");
+  check("new project added from the Parents tab shows up there with no children yet", newParentRow.includes("Umbrella test project") && newParentRow.includes("—"));
+
+  console.log("Confirming that project also has no parentId (it's not nested under anything)...");
+  await page.click("#tab-parents tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const editParentFieldRow = await fieldByLabel("Parent project");
+  const editParentSelect = await editParentFieldRow.$("select");
+  const editParentValue = editParentSelect ? await editParentSelect.evaluate((s) => s.value) : null;
+  check("editing it afterwards shows the normal Parent field, currently empty", editParentValue === "");
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
   console.log("Testing that an invalid save (project with zero locations) is blocked...");
   await page.click('#tabs button[data-tab="projects"]');
   await page.fill("#search-projects", "");

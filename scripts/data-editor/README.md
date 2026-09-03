@@ -22,8 +22,16 @@ an extra permission prompt — a zip sidesteps that entirely.)
 
 ## What it does
 
-- Three tabs — Locations, Projects, Maps — each a searchable table. Click a row to
-  edit, or **+ Add new**.
+- Four tabs — Locations, Projects, Parent projects, Maps — each a searchable
+  table. Click a row to edit, or **+ Add new**.
+- **Parent projects** is a filtered view onto the same project data (every
+  project with no parent of its own), with a **Children** column instead of
+  Parent, so the handful of umbrella/parent projects aren't lost in the full
+  Projects list. **+ Add new** here opens the same project form with the
+  Parent project field hidden entirely — a new entry from this tab is always
+  top-level by construction. Once it exists, link a child to it the normal
+  way: open the child in the Projects tab and pick it from that project's own
+  Parent project field.
 - Relation pickers for `Project.parentId`, `Project.locationIds`, `Map.projectId`,
   and `Map.locationIds` — search by name, not raw id. No more typing an id from
   memory or getting it wrong.
