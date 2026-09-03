@@ -3,15 +3,20 @@
 //
 // One-way migration from the legacy flat arrays (assets/js/image-data.js,
 // assets/js/projects-data.js, assets/js/webmaps-and-visualisations-data.js)
-// into the normalised, linked structure described in
+// into the normalised structure described in
 // claude/data-model-redesign-2026-09.md:
 //
-//   assets/data/locations.json   - the shared Location catalog
-//   assets/data/projects.json    - Project records, locationIds[] instead
-//                                   of one duplicate row per country
+//   assets/data/projects.json    - Project records, an embedded
+//                                   locations[] array instead of one
+//                                   duplicate row per country
 //   assets/data/maps.json        - MapItem records (both static maps and
 //                                   webmap visualisations), with an
 //                                   optional projectId link
+//
+// There is no shared Location catalog/locations.json (removed 3 September
+// 2026, see the design doc's "Location data entry" section) - each
+// Project/MapItem carries its own locations[] directly, entered inline
+// rather than picked from a separate tab.
 //
 // This script is READ-ONLY with respect to the legacy files - it does not
 // touch image-data.js, projects-data.js or webmaps-and-visualisations-data.js,
@@ -33,7 +38,7 @@ import path from "node:path";
 import fs from "node:fs";
 
 import { cleanStr, toArray, slugify, uniqueSlug, parseYear, stableKey } from "./lib/text.mjs";
-import { LocationCatalog } from "./lib/locations.mjs";
+import { LocationBuilder, stripLocationKey, locationsShareAPlace } from "./lib/locations.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -50,16 +55,13 @@ async function main() {
     path.join(REPO_ROOT, "assets/js/webmaps-and-visualisations-data.js")
   );
 
-  const catalog = new LocationCatalog();
+  const locationBuilder = new LocationBuilder();
   const flags = []; // ambiguous/missing-location cases, collected as we go
 
-  const mergedProjects = buildProjects(projects, catalog, flags);
-  const maps = buildMaps({ images, visualizationProjects, catalog, flags, mergedProjects });
-
-  const locations = catalog.toArray();
+  const mergedProjects = buildProjects(projects, locationBuilder, flags);
+  const maps = buildMaps({ images, visualizationProjects, locationBuilder, flags, mergedProjects });
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  writeJson(path.join(OUT_DIR, "locations.json"), locations);
   writeJson(
     path.join(OUT_DIR, "projects.json"),
     mergedProjects.map(({ _mergeKey, ...p }) => p) // strip internal bookkeeping field
@@ -72,13 +74,12 @@ async function main() {
     visualizationProjects,
     mergedProjects,
     maps,
-    locations,
-    catalog,
+    locationBuilder,
     flags,
   });
   fs.writeFileSync(path.join(OUT_DIR, "migration-report.md"), report, "utf8");
 
-  console.log(`Wrote ${locations.length} locations, ${mergedProjects.length} projects, ${maps.length} maps to ${path.relative(REPO_ROOT, OUT_DIR)}/`);
+  console.log(`Wrote ${mergedProjects.length} projects, ${maps.length} maps to ${path.relative(REPO_ROOT, OUT_DIR)}/`);
   console.log(`See ${path.relative(REPO_ROOT, path.join(OUT_DIR, "migration-report.md"))} for what needs a manual look.`);
 }
 
@@ -88,7 +89,7 @@ function writeJson(filePath, data) {
 
 // ---------------------------------------------------------------------------
 // Projects: collapse the "one duplicate row per country" pattern into one
-// record per logical project, with a locationIds[] array.
+// record per logical project, with an embedded locations[] array.
 // ---------------------------------------------------------------------------
 
 // Fields that legitimately vary between rows that are really the SAME
@@ -99,7 +100,7 @@ function writeJson(filePath, data) {
 // makes two rows "the same project".
 const LOCATION_FIELDS = new Set(["country", "location", "lat", "lng", "continent"]);
 
-function buildProjects(rawProjects, catalog, flags) {
+function buildProjects(rawProjects, locationBuilder, flags) {
   const groups = new Map(); // mergeKey -> { rows: [...] }
 
   for (const row of rawProjects) {
@@ -119,13 +120,16 @@ function buildProjects(rawProjects, catalog, flags) {
     const first = rows[0];
     const name = cleanStr(first.name);
 
-    const locationIds = [];
+    // Scoped to this one project's rows - the GIMAC pattern (one row per
+    // country, same project) dedupes/conflict-checks within this array;
+    // it's never compared against any other project's locations, since
+    // each project embeds its own copy rather than sharing a catalog.
+    const locationEntries = [];
     for (const row of rows) {
       const sourceLabel = `project "${name}" (${cleanStr(row.country) || cleanStr(row.location) || "no country"})`;
-      for (const id of catalog.resolve(row, { sourceLabel, flags })) {
-        if (!locationIds.includes(id)) locationIds.push(id);
-      }
+      locationBuilder.resolve(row, { sourceLabel, flags, existingEntries: locationEntries });
     }
+    const locations = locationEntries.map(stripLocationKey);
 
     const year = parseYear(first.year);
     const baseSlug = slugify(name) || "project";
@@ -139,7 +143,7 @@ function buildProjects(rawProjects, catalog, flags) {
       name,
       parentId: null, // resolved in the second pass below
       legacyParentName: cleanStr(first.parentProject) || null,
-      locationIds,
+      locations,
       year,
       month: cleanStr(first.month) || null,
       type: cleanStr(first.type) || null,
@@ -273,15 +277,15 @@ function buildProjects(rawProjects, catalog, flags) {
 // best-effort (and clearly-flagged) attempt to link each one to a project.
 // ---------------------------------------------------------------------------
 
-function buildMaps({ images, visualizationProjects, catalog, flags, mergedProjects }) {
+function buildMaps({ images, visualizationProjects, locationBuilder, flags, mergedProjects }) {
   const usedSlugs = new Set();
   const maps = [];
 
   for (const row of images) {
-    maps.push(buildOneMap(row, { kind: "map", catalog, flags, usedSlugs, mergedProjects }));
+    maps.push(buildOneMap(row, { kind: "map", locationBuilder, flags, usedSlugs, mergedProjects }));
   }
   for (const row of visualizationProjects) {
-    maps.push(buildOneMap(row, { kind: "webmap", catalog, flags, usedSlugs, mergedProjects }));
+    maps.push(buildOneMap(row, { kind: "webmap", locationBuilder, flags, usedSlugs, mergedProjects }));
   }
   return maps;
 }
@@ -291,7 +295,7 @@ function idFromFile(file) {
   return slugify(base.replace(/\.[a-z0-9]+$/i, ""));
 }
 
-function buildOneMap(row, { kind, catalog, flags, usedSlugs, mergedProjects }) {
+function buildOneMap(row, { kind, locationBuilder, flags, usedSlugs, mergedProjects }) {
   const name = cleanStr(row.name);
 
   let baseId;
@@ -310,7 +314,9 @@ function buildOneMap(row, { kind, catalog, flags, usedSlugs, mergedProjects }) {
   const id = uniqueSlug(baseId, usedSlugs);
 
   const sourceLabel = `${kind} "${name || id}"`;
-  const locationIds = catalog.resolve(row, { sourceLabel, flags });
+  const locationEntries = [];
+  locationBuilder.resolve(row, { sourceLabel, flags, existingEntries: locationEntries });
+  const locations = locationEntries.map(stripLocationKey);
 
   const map = {
     id,
@@ -318,7 +324,7 @@ function buildOneMap(row, { kind, catalog, flags, usedSlugs, mergedProjects }) {
     name: name || null,
     file: kind === "map" ? cleanStr(row.file) || null : null,
     projectId: null,
-    locationIds,
+    locations,
     year: parseYear(row.year),
     month: parseYear(row.month) ?? (cleanStr(row.month) || null),
     themes: toArray(row.themes),
@@ -340,14 +346,14 @@ function buildOneMap(row, { kind, catalog, flags, usedSlugs, mergedProjects }) {
   // otherwise leave it for manual confirmation (see the report).
   if (map.year) {
     const candidates = mergedProjects.filter(
-      (p) => p.year === map.year && p.locationIds.some((l) => locationIds.includes(l))
+      (p) => p.year === map.year && locationsShareAPlace(p.locations, locations)
     );
     if (candidates.length === 1) {
       map.projectId = candidates[0].id;
       // Per the design doc, a map inherits its project's location(s) by
       // default - so once we're confident of the link, drop the map's own
       // copy rather than duplicating it.
-      map.locationIds = [];
+      map.locations = [];
     } else if (candidates.length > 1) {
       flags.push({
         type: "ambiguous_project_match",
@@ -370,8 +376,7 @@ function buildReport({
   visualizationProjects,
   mergedProjects,
   maps,
-  locations,
-  catalog,
+  locationBuilder,
   flags,
 }) {
   const lines = [];
@@ -390,7 +395,6 @@ function buildReport({
   push(`| Map/image rows | ${images.length} | |`);
   push(`| Webmap/viz rows | ${visualizationProjects.length} | |`);
   push(`| Maps total | | ${maps.length} |`);
-  push(`| Locations | | ${locations.length} |`);
   push();
 
   const collapsedGroups = mergedProjects.filter((p) => p.sourceRowCount > 1);
@@ -399,10 +403,10 @@ function buildReport({
   if (collapsedGroups.length === 0) {
     push(`None found.`);
   } else {
-    push(`${collapsedGroups.length} project(s) were previously stored as multiple duplicate rows (one per country) and are now a single record with a \`locationIds\` array:`);
+    push(`${collapsedGroups.length} project(s) were previously stored as multiple duplicate rows (one per country) and are now a single record with an embedded \`locations\` array:`);
     push();
     for (const p of collapsedGroups) {
-      push(`- **${p.name}** (\`${p.id}\`): ${p.sourceRowCount} rows -> 1 project, ${p.locationIds.length} locations`);
+      push(`- **${p.name}** (\`${p.id}\`): ${p.sourceRowCount} rows -> 1 project, ${p.locations.length} locations`);
     }
   }
   push();
@@ -472,10 +476,10 @@ function buildReport({
 
   push(`## Non-country values stripped from a \`country\` field`);
   push();
-  if (catalog.nonCountryValuesStripped.length === 0) {
+  if (locationBuilder.nonCountryValuesStripped.length === 0) {
     push(`None found.`);
   } else {
-    for (const item of catalog.nonCountryValuesStripped) {
+    for (const item of locationBuilder.nonCountryValuesStripped) {
       push(`- "${item.value}" on ${item.fromRecord} - not a real single country, fell back to region/global instead.`);
     }
   }
@@ -483,14 +487,14 @@ function buildReport({
 
   push(`## Coordinate conflicts`);
   push();
-  push(`Same place, meaningfully different coordinates seen on different rows (first-seen coordinate wins in the output):`);
+  push(`Same place, meaningfully different coordinates seen on different rows of the SAME project (first-seen coordinate wins in the output) - locations aren't shared across different projects any more, so this only checks within one project's own rows:`);
   push();
-  if (catalog.coordinateConflicts.length === 0) {
+  if (locationBuilder.coordinateConflicts.length === 0) {
     push(`None found.`);
   } else {
-    for (const c of catalog.coordinateConflicts) {
+    for (const c of locationBuilder.coordinateConflicts) {
       push(
-        `- **${c.locationId}**: kept (${c.existing.lat}, ${c.existing.lng}), ` +
+        `- **${c.location}**: kept (${c.existing.lat}, ${c.existing.lng}), ` +
           `also saw (${c.conflicting.lat}, ${c.conflicting.lng}) from ${c.fromRecord}`
       );
     }

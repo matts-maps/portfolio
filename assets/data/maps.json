@@ -5,7 +5,7 @@
     "name": "Distribution and concentrations of reported ordnance (as of 22 March 2012)",
     "file": "assets/images/maps/2012-brazzaville-munitions.jpg",
     "projectId": "gis-and-mapping-support-munitions-depot-explosion-2012",
-    "locationIds": [],
+    "locations": [],
     "year": 2012,
     "month": 3,
     "themes": [
@@ -24,8 +24,17 @@
     "name": "Situational overview (as of 24 July 2014)",
     "file": "assets/images/maps/2014-gaza.jpg",
     "projectId": null,
-    "locationIds": [
-      "gaza"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Gaza",
+        "region": null,
+        "continent": "Asia",
+        "lat": 31.52,
+        "lng": 34.45,
+        "precision": "capital"
+      }
     ],
     "year": 2014,
     "month": 7,
@@ -47,8 +56,17 @@
     "name": "Situation overview (as at 5 August 2014)",
     "file": "assets/images/maps/south-sudan-situational-overview.jpg",
     "projectId": null,
-    "locationIds": [
-      "south-sudan"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "South Sudan",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": 4.85165,
+        "lng": 31.58247,
+        "precision": "capital"
+      }
     ],
     "year": 2014,
     "month": 8,
@@ -71,8 +89,17 @@
     "name": "Who, what and where (3W) humanitarian presence (as at 5 September 2014)",
     "file": "assets/images/maps/2014-liberia-ebola-humanitarian-presence.jpg",
     "projectId": null,
-    "locationIds": [
-      "liberia"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Liberia",
+        "region": "Western Africa",
+        "continent": "Africa",
+        "lat": 6.4281,
+        "lng": -9.4295,
+        "precision": "capital"
+      }
     ],
     "year": 2014,
     "month": 9,
@@ -93,8 +120,17 @@
     "name": "Location and status of Ebola Treatment Units (as of 14 October 2014)",
     "file": "assets/images/maps/2014-liberia-ebola-treatment-units.jpeg",
     "projectId": null,
-    "locationIds": [
-      "liberia"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Liberia",
+        "region": "Western Africa",
+        "continent": "Africa",
+        "lat": 6.4281,
+        "lng": -9.4295,
+        "precision": "capital"
+      }
     ],
     "year": 2014,
     "month": 10,
@@ -115,8 +151,17 @@
     "name": "Location of displacement sites - Chickwawa (as of 17 February 2015)",
     "file": "assets/images/maps/2015-malawi-floods.jpeg",
     "projectId": null,
-    "locationIds": [
-      "malawi"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Malawi",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": -13.2543,
+        "lng": 34.3015,
+        "precision": "capital"
+      }
     ],
     "year": 2015,
     "month": 2,
@@ -136,8 +181,17 @@
     "name": "Summary of WASH cluster item delivery (as of 25 March 2015)",
     "file": "assets/images/maps/2015-vanuatu-wash-distribution.jpeg",
     "projectId": null,
-    "locationIds": [
-      "vanuatu"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Vanuatu",
+        "region": "Melanesia",
+        "continent": "Oceania",
+        "lat": -15.3767,
+        "lng": 166.9592,
+        "precision": "capital"
+      }
     ],
     "year": 2015,
     "month": 3,
@@ -158,8 +212,17 @@
     "name": "Southern Africa: Estimated number of current food insecure rural populations (as of 16 Feb 2016)",
     "file": "assets/images/maps/2016-southern-africa-food-security-el-nino.jpg",
     "projectId": null,
-    "locationIds": [
-      "africa"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": null,
+        "region": null,
+        "continent": "Africa",
+        "lat": -27.6673164,
+        "lng": 24.8456952,
+        "precision": "region-centroid"
+      }
     ],
     "year": 2015,
     "month": 3,
@@ -180,8 +243,17 @@
     "name": "European Migrant Crisis: Overview (as of 17 November 2015)",
     "file": "assets/images/maps/2015-european-migration.jpg",
     "projectId": null,
-    "locationIds": [
-      "europe"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": null,
+        "region": null,
+        "continent": "Europe",
+        "lat": 51.702,
+        "lng": -0.911,
+        "precision": "region-centroid"
+      }
     ],
     "year": 2015,
     "month": 11,
@@ -202,8 +274,17 @@
     "name": "Barry Buddon half marathon",
     "file": "assets/images/maps/barry-buddon-half-marathon.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 51.702,
+        "lng": -0.911,
+        "precision": "capital"
+      }
     ],
     "year": 2016,
     "month": 1,
@@ -223,10 +304,37 @@
     "name": "El Salvador, Guatemala and Honduras - People in need (as of 11 November 2016)",
     "file": "assets/images/maps/2016-northern-triangle-people-in-need.jpg",
     "projectId": null,
-    "locationIds": [
-      "el-salvador",
-      "guatemala",
-      "honduras"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "El Salvador",
+        "region": "Central America",
+        "continent": "North America",
+        "lat": 13.698889,
+        "lng": -89.191389,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Guatemala",
+        "region": "Central America",
+        "continent": "North America",
+        "lat": 13.698889,
+        "lng": -89.191389,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Honduras",
+        "region": "Central America",
+        "continent": "North America",
+        "lat": 13.698889,
+        "lng": -89.191389,
+        "precision": "capital"
+      }
     ],
     "year": 2016,
     "month": 11,
@@ -246,8 +354,17 @@
     "name": "Glasgow monochrome",
     "file": "assets/images/maps/glasgow-mono.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-glasgow"
+    "locations": [
+      {
+        "settlement": "Glasgow",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 55.8642,
+        "lng": -4.2518,
+        "precision": "exact"
+      }
     ],
     "year": 2017,
     "month": 1,
@@ -267,7 +384,7 @@
     "name": "Hurricane Isaac - Wind speed probabilities (as at 11 September 2018)",
     "file": "assets/images/maps/2018-dominica-isaac-wind-speed-probabilities.jpeg",
     "projectId": "hurricane-isacc-2018",
-    "locationIds": [],
+    "locations": [],
     "year": 2018,
     "month": 9,
     "themes": [
@@ -287,8 +404,17 @@
     "name": "Affected population (as at 22 September 2018)",
     "file": "assets/images/maps/2018-philippines-mangkhut-affected-population.jpeg",
     "projectId": null,
-    "locationIds": [
-      "the-philippines"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "The Philippines",
+        "region": null,
+        "continent": "Asia",
+        "lat": 13.6341923,
+        "lng": 123.2454633,
+        "precision": "capital"
+      }
     ],
     "year": 2018,
     "month": 9,
@@ -308,8 +434,17 @@
     "name": "Agriculture damage costs (as at 20 September 2018)",
     "file": "assets/images/maps/2018-philippines-mangkhut-agriculture-damage-costs.jpeg",
     "projectId": null,
-    "locationIds": [
-      "the-philippines"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "The Philippines",
+        "region": null,
+        "continent": "Asia",
+        "lat": 13.6341923,
+        "lng": 123.2454633,
+        "precision": "capital"
+      }
     ],
     "year": 2018,
     "month": 9,
@@ -329,8 +464,17 @@
     "name": "Landslide overview (as at 28 September 2018)",
     "file": "assets/images/maps/2018-philippines-mangkhut-naga.jpeg",
     "projectId": null,
-    "locationIds": [
-      "the-philippines-naga-city"
+    "locations": [
+      {
+        "settlement": "Naga City",
+        "state": null,
+        "country": "The Philippines",
+        "region": null,
+        "continent": "Asia",
+        "lat": 13.6192,
+        "lng": 123.1814,
+        "precision": "exact"
+      }
     ],
     "year": 2018,
     "month": 9,
@@ -353,7 +497,7 @@
     "name": "Number of families at IDP camps (as at 22 October 2018)",
     "file": "assets/images/maps/2018-indonesia-idp-camps.jpg",
     "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
-    "locationIds": [],
+    "locations": [],
     "year": 2018,
     "month": 10,
     "themes": [
@@ -375,7 +519,7 @@
     "name": "Location of water distribution points (as of 22 October 2018)",
     "file": "assets/images/maps/2018-indonesia-potable-water-distribution-points.jpeg",
     "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
-    "locationIds": [],
+    "locations": [],
     "year": 2018,
     "month": 10,
     "themes": [
@@ -395,7 +539,7 @@
     "name": "Estimated potable water requirements (as at 23 October 2018)",
     "file": "assets/images/maps/2018-indonesia-potable-water-requirements.jpg",
     "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
-    "locationIds": [],
+    "locations": [],
     "year": 2018,
     "month": 10,
     "themes": [
@@ -415,7 +559,7 @@
     "name": "Estimated potable water requirements - temporary settlements",
     "file": "assets/images/maps/2018-indonesia-potable-water-temporary-settlements.jpeg",
     "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
-    "locationIds": [],
+    "locations": [],
     "year": 2018,
     "month": 10,
     "themes": [
@@ -435,8 +579,17 @@
     "name": "Cholera cases (as at 2 April 2019)",
     "file": "assets/images/maps/2019-mozambique-idai-who-beira-cholera-cases.jpeg",
     "projectId": null,
-    "locationIds": [
-      "mozambique-beira"
+    "locations": [
+      {
+        "settlement": "Beira",
+        "state": null,
+        "country": "Mozambique",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": -19.8333,
+        "lng": 34.85,
+        "precision": "exact"
+      }
     ],
     "year": 2019,
     "month": 4,
@@ -457,8 +610,17 @@
     "name": "EMTs, CTCs and health facilities (as at 1 April 2019)",
     "file": "assets/images/maps/2019-mozambique-idai-who-beira-emts-ctcs-health-facilities.jpeg",
     "projectId": null,
-    "locationIds": [
-      "mozambique-beira"
+    "locations": [
+      {
+        "settlement": "Beira",
+        "state": null,
+        "country": "Mozambique",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": -19.8333,
+        "lng": 34.85,
+        "precision": "exact"
+      }
     ],
     "year": 2019,
     "month": 4,
@@ -479,8 +641,17 @@
     "name": "Health facilities (as at 1 April 2019)",
     "file": "assets/images/maps/2019-mozambique-idai-who-sofala-emts-ctcs-health-facilities.jpeg",
     "projectId": null,
-    "locationIds": [
-      "mozambique-sofala"
+    "locations": [
+      {
+        "settlement": "Sofala",
+        "state": null,
+        "country": "Mozambique",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": -19.1211,
+        "lng": 34.844,
+        "precision": "exact"
+      }
     ],
     "year": 2019,
     "month": 4,
@@ -501,8 +672,17 @@
     "name": "Health cluster 4W (as at 1 April 2019)",
     "file": "assets/images/maps/2019-mozambique-idai-who-sofala-health-cluster-345w.jpg",
     "projectId": null,
-    "locationIds": [
-      "mozambique-sofala"
+    "locations": [
+      {
+        "settlement": "Sofala",
+        "state": null,
+        "country": "Mozambique",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": -19.1211,
+        "lng": 34.844,
+        "precision": "exact"
+      }
     ],
     "year": 2019,
     "month": 4,
@@ -523,7 +703,7 @@
     "name": "Crops affected by locusts (Jan–Jul 2020)",
     "file": "assets/images/maps/2021-gimac-ethiopia-crops-locusts.jpg",
     "projectId": "impact-of-covid-19-visualisations-2020",
-    "locationIds": [],
+    "locations": [],
     "year": 2020,
     "month": 7,
     "themes": [
@@ -543,7 +723,7 @@
     "name": "Tracking changes in the number of IDPs (Aug 2018–Aug 2020)",
     "file": "assets/images/maps/2021-gimac-iraq-idp-change.jpg",
     "projectId": "impact-of-covid-19-visualisations-2020-2",
-    "locationIds": [],
+    "locations": [],
     "year": 2020,
     "month": 8,
     "themes": [
@@ -563,7 +743,7 @@
     "name": "Number of displaced individuals by shelter type (as at 30 August 2020)",
     "file": "assets/images/maps/2021-gimac-iraq-shelter-type.jpg",
     "projectId": "impact-of-covid-19-visualisations-2020-2",
-    "locationIds": [],
+    "locations": [],
     "year": 2020,
     "month": 8,
     "themes": [
@@ -583,8 +763,17 @@
     "name": "Commodity trends (Jan 2019–Apr 2020)",
     "file": "assets/images/maps/2021-gimac-ethiopia-commodity-trends.jpg",
     "projectId": null,
-    "locationIds": [
-      "ethiopia"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Ethiopia",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": 9.025,
+        "lng": 38.7469,
+        "precision": "capital"
+      }
     ],
     "year": 2021,
     "month": 4,
@@ -605,7 +794,7 @@
     "name": "Situational Overview (as of 21 April 2021)",
     "file": "assets/images/maps/2021-st-vincent-volcano-situational-overview.jpeg",
     "projectId": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption-2021",
-    "locationIds": [],
+    "locations": [],
     "year": 2021,
     "month": 4,
     "themes": [
@@ -624,8 +813,17 @@
     "name": "Projected food insecurity (June–Nov 2021)",
     "file": "assets/images/maps/2021-gimac-afghanistan.jpg",
     "projectId": null,
-    "locationIds": [
-      "afghanistan"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Afghanistan",
+        "region": "Southern Asia",
+        "continent": "Asia",
+        "lat": 34.5281,
+        "lng": 69.1723,
+        "precision": "capital"
+      }
     ],
     "year": 2021,
     "month": 6,
@@ -646,8 +844,17 @@
     "name": "Fatalities per event type (Jan 2019–Aug 2020)",
     "file": "assets/images/maps/2021-iraq-security.jpg",
     "projectId": null,
-    "locationIds": [
-      "iraq"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Iraq",
+        "region": "Western Asia",
+        "continent": "Asia",
+        "lat": 36.366728,
+        "lng": 41.721839,
+        "precision": "capital"
+      }
     ],
     "year": 2021,
     "month": 8,
@@ -668,8 +875,17 @@
     "name": "Physical geography of Greece",
     "file": "assets/images/maps/greece.png",
     "projectId": null,
-    "locationIds": [
-      "greece"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Greece",
+        "region": "Southern Europe",
+        "continent": "Europe",
+        "lat": 39,
+        "lng": 22,
+        "precision": "capital"
+      }
     ],
     "year": 2022,
     "month": 6,
@@ -706,8 +922,17 @@
     "name": "Hanoi",
     "file": "assets/images/maps/hanoi.jpg",
     "projectId": null,
-    "locationIds": [
-      "vietnam-hanoi"
+    "locations": [
+      {
+        "settlement": "Hanoi",
+        "state": null,
+        "country": "Vietnam",
+        "region": null,
+        "continent": "Asia",
+        "lat": 21.0285,
+        "lng": 105.8542,
+        "precision": "exact"
+      }
     ],
     "year": 2024,
     "month": 1,
@@ -727,8 +952,17 @@
     "name": "Makati",
     "file": "assets/images/maps/makati-osaka.png",
     "projectId": null,
-    "locationIds": [
-      "the-philippines-makati"
+    "locations": [
+      {
+        "settlement": "Makati",
+        "state": null,
+        "country": "The Philippines",
+        "region": null,
+        "continent": "Asia",
+        "lat": 14.5547,
+        "lng": 121.0244,
+        "precision": "exact"
+      }
     ],
     "year": 2024,
     "month": 1,
@@ -748,8 +982,17 @@
     "name": "Singapore",
     "file": "assets/images/maps/singapore.png",
     "projectId": null,
-    "locationIds": [
-      "singapore"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Singapore",
+        "region": "South-Eastern Asia",
+        "continent": "Asia",
+        "lat": 1.3521,
+        "lng": 103.8198,
+        "precision": "capital"
+      }
     ],
     "year": 2024,
     "month": 1,
@@ -769,8 +1012,17 @@
     "name": "Physcial geography of Iceland",
     "file": "assets/images/maps/iceland-physical-geography.png",
     "projectId": null,
-    "locationIds": [
-      "iceland"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Iceland",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 65,
+        "lng": -18,
+        "precision": "capital"
+      }
     ],
     "year": 2024,
     "month": 3,
@@ -788,8 +1040,17 @@
     "name": "Estimated population (2023)",
     "file": "assets/images/maps/new-zealand-hexagonal-population.jpg",
     "projectId": null,
-    "locationIds": [
-      "new-zealand"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "New Zealand",
+        "region": "Australia and New Zealand",
+        "continent": "Oceania",
+        "lat": -42.25,
+        "lng": 173.25,
+        "precision": "capital"
+      }
     ],
     "year": 2024,
     "month": 11,
@@ -807,8 +1068,17 @@
     "name": "Caledonian Canal",
     "file": "assets/images/maps/caledonian-canal-strip-map.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-fort-william"
+    "locations": [
+      {
+        "settlement": "Fort William",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 56.8198,
+        "lng": -5.1052,
+        "precision": "exact"
+      }
     ],
     "year": 2025,
     "month": 1,
@@ -828,8 +1098,17 @@
     "name": "Glasgow",
     "file": "assets/images/maps/glasgow.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-glasgow"
+    "locations": [
+      {
+        "settlement": "Glasgow",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 55.8642,
+        "lng": -4.2518,
+        "precision": "exact"
+      }
     ],
     "year": 2025,
     "month": 1,
@@ -849,8 +1128,17 @@
     "name": "Glencoe mountain gathering",
     "file": "assets/images/maps/glencoe-mountain-gathering.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-glencoe"
+    "locations": [
+      {
+        "settlement": "Glencoe",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 56.682,
+        "lng": -5.102,
+        "precision": "exact"
+      }
     ],
     "year": 2025,
     "month": 1,
@@ -870,8 +1158,17 @@
     "name": "Aotearoa/New Zealand",
     "file": "assets/images/maps/new-zealand-raster.jpg",
     "projectId": null,
-    "locationIds": [
-      "new-zealand"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "New Zealand",
+        "region": "Australia and New Zealand",
+        "continent": "Oceania",
+        "lat": -42.25,
+        "lng": 173.25,
+        "precision": "capital"
+      }
     ],
     "year": 2025,
     "month": 1,
@@ -891,8 +1188,17 @@
     "name": "Osaka",
     "file": "assets/images/maps/osaka-new.png",
     "projectId": null,
-    "locationIds": [
-      "japan-osaka"
+    "locations": [
+      {
+        "settlement": "Osaka",
+        "state": null,
+        "country": "Japan",
+        "region": "Eastern Asia",
+        "continent": "Asia",
+        "lat": 34.6937,
+        "lng": 135.5023,
+        "precision": "exact"
+      }
     ],
     "year": 2025,
     "month": 1,
@@ -912,8 +1218,17 @@
     "name": "Rockwell sketch map",
     "file": "assets/images/maps/rockwell-sketch.png",
     "projectId": null,
-    "locationIds": [
-      "the-philippines-rockwell-makati"
+    "locations": [
+      {
+        "settlement": "Rockwell, Makati",
+        "state": null,
+        "country": "The Philippines",
+        "region": null,
+        "continent": "Asia",
+        "lat": 14.5663,
+        "lng": 121.0365,
+        "precision": "exact"
+      }
     ],
     "year": 2025,
     "month": 1,
@@ -933,8 +1248,17 @@
     "name": "The Jurassic Coast",
     "file": "assets/images/maps/the-jurassic-coast.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-dorset"
+    "locations": [
+      {
+        "settlement": "Dorset",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 50.725,
+        "lng": -2.9353,
+        "precision": "exact"
+      }
     ],
     "year": 2025,
     "month": 12,
@@ -952,8 +1276,17 @@
     "name": "International flights from Auckland in 2026",
     "file": "assets/images/maps/all-flights-international-auckland-2026.png",
     "projectId": null,
-    "locationIds": [
-      "new-zealand-auckland"
+    "locations": [
+      {
+        "settlement": "Auckland",
+        "state": null,
+        "country": "New Zealand",
+        "region": "Australia and New Zealand",
+        "continent": "Oceania",
+        "lat": -36.8509,
+        "lng": 174.7645,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 1,
@@ -973,7 +1306,7 @@
     "name": "International flights from Manila in 2026",
     "file": "assets/images/maps/all-flights-international-manila-2026.png",
     "projectId": "asean-erat-level-2-information-management-training-course-2026",
-    "locationIds": [],
+    "locations": [],
     "year": 2026,
     "month": 1,
     "themes": [
@@ -992,8 +1325,17 @@
     "name": "Kinloch 10km route",
     "file": "assets/images/maps/kinloch-10k.png",
     "projectId": null,
-    "locationIds": [
-      "new-zealand-kinloch"
+    "locations": [
+      {
+        "settlement": "Kinloch",
+        "state": null,
+        "country": "New Zealand",
+        "region": "Australia and New Zealand",
+        "continent": "Oceania",
+        "lat": -38.661,
+        "lng": 175.942,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 1,
@@ -1013,8 +1355,17 @@
     "name": "Liverpool",
     "file": "assets/images/maps/liverpool.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-liverpool"
+    "locations": [
+      {
+        "settlement": "Liverpool",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 53.4084,
+        "lng": -2.9916,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 1,
@@ -1034,8 +1385,17 @@
     "name": "Loch Maree",
     "file": "assets/images/maps/loch-maree.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-loch-maree"
+    "locations": [
+      {
+        "settlement": "Loch Maree",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 57.728,
+        "lng": -5.528,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 1,
@@ -1056,8 +1416,17 @@
     "name": "Parkrun Taupō",
     "file": "assets/images/maps/parkrun-taupo.png",
     "projectId": null,
-    "locationIds": [
-      "new-zealand-taupo"
+    "locations": [
+      {
+        "settlement": "Taupō",
+        "state": null,
+        "country": "New Zealand",
+        "region": "Australia and New Zealand",
+        "continent": "Oceania",
+        "lat": -38.6857,
+        "lng": 176.0702,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 1,
@@ -1078,8 +1447,17 @@
     "name": "Estimated damage through satellite obervations (as of 24 April 2026)",
     "file": "assets/images/maps/2026-micronesia-estimated-damage.png",
     "projectId": null,
-    "locationIds": [
-      "federated-states-of-micronesia-chuuk-state"
+    "locations": [
+      {
+        "settlement": "Chuuk State",
+        "state": null,
+        "country": "Federated States of Micronesia",
+        "region": null,
+        "continent": "Oceania",
+        "lat": 7.42269,
+        "lng": 151.76077,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 4,
@@ -1100,8 +1478,17 @@
     "name": "Distances from state ports to the outer islands",
     "file": "assets/images/maps/2026-micronesia-distances.png",
     "projectId": null,
-    "locationIds": [
-      "federated-states-of-micronesia-chuuk-state"
+    "locations": [
+      {
+        "settlement": "Chuuk State",
+        "state": null,
+        "country": "Federated States of Micronesia",
+        "region": null,
+        "continent": "Oceania",
+        "lat": 7.42269,
+        "lng": 151.76077,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 4,
@@ -1122,8 +1509,17 @@
     "name": "Whaingaroa/Raglan Harbour",
     "file": "assets/images/maps/raglan-harbour.png",
     "projectId": null,
-    "locationIds": [
-      "new-zealand-wahaingaroa-raglan"
+    "locations": [
+      {
+        "settlement": "Wahaingaroa/Raglan",
+        "state": null,
+        "country": "New Zealand",
+        "region": "Australia and New Zealand",
+        "continent": "Oceania",
+        "lat": -37.78897590456054,
+        "lng": 174.90706527684853,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 6,
@@ -1156,8 +1552,17 @@
     "name": "Intramuros Sketch Map",
     "file": "assets/images/maps/intramuros-sketch-map.png",
     "projectId": null,
-    "locationIds": [
-      "the-philippines-intramuros-manila"
+    "locations": [
+      {
+        "settlement": "Intramuros, Manila",
+        "state": null,
+        "country": "The Philippines",
+        "region": null,
+        "continent": "Asia",
+        "lat": 14.59083,
+        "lng": 120.975,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 7,
@@ -1185,8 +1590,17 @@
     "name": "Pollok Park Sketch Map",
     "file": "assets/images/maps/pollok-park-sketch-map.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-pollok-park-glasgow"
+    "locations": [
+      {
+        "settlement": "Pollok Park, Glasgow",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 55.864237,
+        "lng": -4.251806,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 7,
@@ -1211,8 +1625,17 @@
     "name": "Silverstone Circuit",
     "file": "assets/images/maps/silverstone.png",
     "projectId": null,
-    "locationIds": [
-      "united-kingdom-silverstone"
+    "locations": [
+      {
+        "settlement": "Silverstone",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 52.069235,
+        "lng": -1.022201,
+        "precision": "exact"
+      }
     ],
     "year": 2026,
     "month": 8,
@@ -1237,7 +1660,7 @@
     "name": "Humanitarian and environmental impact mapping to the La Soufrière volcanic eruption",
     "file": null,
     "projectId": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption-2021",
-    "locationIds": [],
+    "locations": [],
     "year": 2021,
     "month": 3,
     "themes": [
@@ -1263,8 +1686,17 @@
     "name": "Community Insights for COVID-19 Dashboard",
     "file": null,
     "projectId": null,
-    "locationIds": [
-      "asia-pacific"
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": null,
+        "region": null,
+        "continent": "Asia-Pacific",
+        "lat": -2.5,
+        "lng": 140,
+        "precision": "region-centroid"
+      }
     ],
     "year": 2020,
     "month": 6,
@@ -1291,7 +1723,7 @@
     "name": null,
     "file": null,
     "projectId": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026",
-    "locationIds": [],
+    "locations": [],
     "year": 2026,
     "month": 7,
     "themes": [
@@ -1316,7 +1748,7 @@
     "name": null,
     "file": null,
     "projectId": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026",
-    "locationIds": [],
+    "locations": [],
     "year": 2026,
     "month": 7,
     "themes": [

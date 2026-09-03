@@ -38,17 +38,14 @@ async function main() {
 
   console.log("Loading via fallback file inputs...");
   await page.click("#btn-show-fallback");
-  await page.setInputFiles("#file-locations", path.join(FIXTURES, "locations.json"));
   await page.setInputFiles("#file-projects", path.join(FIXTURES, "projects.json"));
   await page.setInputFiles("#file-maps", path.join(FIXTURES, "maps.json"));
   await page.click("#btn-load-fallback");
   await page.waitForSelector("#tabs button.active");
 
-  const locCount = await page.textContent("#count-locations");
   const projCount = await page.textContent("#count-projects");
   const parentCount = await page.textContent("#count-parents");
   const mapCount = await page.textContent("#count-maps");
-  check("locations count is (93)", locCount.trim() === "(93)");
   check("projects count is (64)", projCount.trim() === "(64)");
   check("parent projects count is (0) - none of the fixture data has a linked parent yet", parentCount.trim() === "(0)");
   check("maps count is (60)", mapCount.trim() === "(60)");
@@ -81,44 +78,79 @@ async function main() {
     return null;
   };
 
-  const locField0 = await fieldByLabel("Locations");
-  const chipCount = await locField0.$$eval(".chip", (nodes) => nodes.length);
-  check("location chips rendered (8 countries)", chipCount === 8);
+  /** Same as fieldByLabel, but scoped to one location-card handle - needed
+   * once a modal has more than one card, since every card repeats the same
+   * field labels (Settlement, Country, Region, ...). */
+  const fieldInCard = async (card, labelPrefix) => {
+    const fields = await card.$$(".field");
+    for (const f of fields) {
+      const label = await f.$eval("label", (l) => l.childNodes[0]?.textContent || "").catch(() => "");
+      if (label.startsWith(labelPrefix)) return f;
+    }
+    return null;
+  };
 
-  console.log("Editing that project (add a location, change description) and saving...");
+  const locationCards = () => page.$$(".locations-section .location-card");
+  const latLngOf = async (card) => {
+    const vals = await card.$$eval("input[type=number]", (els) => els.map((e) => e.value));
+    return { lat: vals[0], lng: vals[1] };
+  };
+
+  const cards0 = await locationCards();
+  check("location cards rendered (8 countries)", cards0.length === 8);
+
+  console.log("Editing that project's name, and adding Iraq as a 9th location...");
   const nameField = await fieldByLabel("Name");
   await nameField.$eval("input[type=text]", (el) => (el.value = "")); // clear first
   await (await nameField.$("input[type=text]")).fill("Impact of Covid-19 visualisations (edited)");
 
-  const locField = await fieldByLabel("Locations");
-  const locInput = await locField.$("input[type=text]");
-  await locInput.fill("Iraq");
-  const addBtn = await locField.$('button:has-text("Add")');
-  await addBtn.click();
+  await page.click('.locations-section button:has-text("+ Add location")');
+  await page.waitForTimeout(50);
+  let cards = await locationCards();
+  check("a 9th location card appeared", cards.length === 9);
+  let newCard = cards[cards.length - 1];
+  const newCardCountryField = await fieldInCard(newCard, "Country");
+  await (await newCardCountryField.$("input[type=text]")).fill("Iraq");
+  await page.waitForTimeout(50);
+
+  // Re-fetch: typing Country doesn't re-render the modal (it updates
+  // Region/Continent's DOM nodes directly so focus isn't lost mid-keystroke
+  // - see index.html), so these handles are still live, but re-fetch the
+  // card anyway to stay consistent with the re-render-triggering steps below.
+  cards = await locationCards();
+  newCard = cards[cards.length - 1];
+  const regionAfterCountryPick = await (await fieldInCard(newCard, "Region")).$eval("input[type=text]", (el) => el.value);
+  const continentAfterCountryPick = await (await fieldInCard(newCard, "Continent")).$eval("input[type=text]", (el) => el.value);
+  check("picking Iraq auto-fills Region to Western Asia", regionAfterCountryPick === "Western Asia");
+  check("picking Iraq auto-fills Continent to Asia", continentAfterCountryPick === "Asia");
+
+  const newCardCountryFieldAgain = await fieldInCard(newCard, "Country"); // fresh, though unchanged since the last fetch
+  await (await newCardCountryFieldAgain.$('button:has-text("Fill lat/lng from capital")')).click();
+  await page.waitForTimeout(50);
+  cards = await locationCards();
+  newCard = cards[cards.length - 1];
+  const iraqLatLng = await latLngOf(newCard);
+  check("filling from Iraq's capital sets latitude", Number(iraqLatLng.lat) === 33.3406);
+  check("filling from Iraq's capital sets longitude", Number(iraqLatLng.lng) === 44.4009);
+  const iraqPrecision = await (await fieldInCard(newCard, "Precision")).$eval("select", (el) => el.value);
+  check("filling from a capital sets precision to \"capital\"", iraqPrecision === "capital");
+
   await page.click("#modal .modal-actions button.primary");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
   const statusText = await page.textContent("#status");
   check("status shows unsaved changes after edit", statusText.includes("Unsaved"));
 
-  console.log("Adding a brand new location...");
-  await page.click('#tabs button[data-tab="locations"]');
-  await page.click('#tab-locations .toolbar button.primary'); // + Add new
-  await page.waitForSelector("#overlay.open");
-  await page.fill("#modal .field input[type=text]", "Testland"); // name field
-  const latInputs = await page.$$("#modal input[type=number]");
-  await latInputs[0].fill("12.34");
-  await latInputs[1].fill("56.78");
-  await page.click("#modal .modal-actions button.primary");
-  await page.waitForSelector("#overlay.open", { state: "hidden" });
-  const newLocCount = await page.textContent("#count-locations");
-  check("location count incremented after add", newLocCount.trim() === "(94)");
-
   console.log("Triggering Save and capturing the downloaded zip...");
   const downloadPromise = page.waitForEvent("download");
   await page.click("#btn-save");
   const download = await downloadPromise;
   const outDir = path.join(__dirname, "test-output");
+  // Wipe any stale files from a previous run (e.g. a leftover locations.json
+  // from before locations were embedded) rather than just creating the dir -
+  // otherwise a stale file can make a "the zip doesn't contain X" check pass
+  // or fail for the wrong reason.
+  fs.rmSync(outDir, { recursive: true, force: true });
   fs.mkdirSync(outDir, { recursive: true });
   const zipPath = path.join(outDir, "export.zip");
   await download.saveAs(zipPath);
@@ -127,23 +159,19 @@ async function main() {
   const { execSync } = await import("node:child_process");
   execSync(`unzip -o -q "${zipPath}" -d "${outDir}"`);
   const savedFiles = {
-    "locations.json": path.join(outDir, "locations.json"),
     "projects.json": path.join(outDir, "projects.json"),
     "maps.json": path.join(outDir, "maps.json"),
   };
-  check("zip contains all three json files", Object.values(savedFiles).every((p) => fs.existsSync(p)));
+  check("zip contains projects.json and maps.json (no locations.json any more)", Object.values(savedFiles).every((p) => fs.existsSync(p)));
+  check("zip does not contain a locations.json", !fs.existsSync(path.join(outDir, "locations.json")));
 
-  const savedLocations = JSON.parse(fs.readFileSync(savedFiles["locations.json"], "utf8"));
   const savedProjects = JSON.parse(fs.readFileSync(savedFiles["projects.json"], "utf8"));
-  const savedMaps = JSON.parse(fs.readFileSync(savedFiles["maps.json"], "utf8"));
-
-  check("saved locations count is 94", savedLocations.length === 94);
   check("saved projects count is still 64 (edited, not added)", savedProjects.length === 64);
-  check("new Testland location present", savedLocations.some((l) => l.name === "Testland" && l.lat === 12.34 && l.lng === 56.78));
   const gimac = savedProjects.find((p) => p.name.startsWith("Impact of Covid-19"));
   check("GIMAC project name edit persisted", gimac.name === "Impact of Covid-19 visualisations (edited)");
-  check("GIMAC project now has 9 locations (Iraq added)", gimac.locationIds.length === 9);
-  check("GIMAC locationIds still all resolve", gimac.locationIds.every((id) => savedLocations.some((l) => l.id === id)));
+  check("GIMAC project now has 9 locations (Iraq added)", gimac.locations.length === 9);
+  const savedIraq = gimac.locations.find((l) => l.country === "Iraq");
+  check("the added Iraq location is embedded directly on the project, coordinates and all", !!savedIraq && savedIraq.lat === 33.3406 && savedIraq.lng === 44.4009 && savedIraq.region === "Western Asia" && savedIraq.continent === "Asia");
 
   console.log("Editing a webmap (kind switch, links editor)...");
   await page.click('#tabs button[data-tab="maps"]');
@@ -167,17 +195,6 @@ async function main() {
   await page.click("#modal .modal-actions button.primary");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
-  console.log("Deleting the newly-added Testland location...");
-  await page.click('#tabs button[data-tab="locations"]');
-  await page.fill("#search-locations", "Testland");
-  await page.waitForTimeout(50);
-  await page.click("#tab-locations tbody tr");
-  await page.waitForSelector("#overlay.open");
-  await page.click('#modal .modal-actions button:has-text("Delete")'); // global dialog handler accepts the confirm()
-  await page.waitForSelector("#overlay.open", { state: "hidden" });
-  const afterDeleteCount = await page.textContent("#count-locations");
-  check("location count back to 93 after delete", afterDeleteCount.trim() === "(93)");
-
   console.log("Final save with the webmap link added...");
   const finalDownload = page.waitForEvent("download");
   await page.click("#btn-save");
@@ -188,8 +205,9 @@ async function main() {
   const finalMaps = JSON.parse(fs.readFileSync(path.join(outDir, "maps.json"), "utf8"));
   const editedWebmap = finalMaps.find((m) => (m.links || []).some((l) => l.url === "https://example.com/test"));
   check("webmap link edit persisted through a second save", !!editedWebmap);
-  const finalLocations = JSON.parse(fs.readFileSync(path.join(outDir, "locations.json"), "utf8"));
-  check("deleted Testland location is gone from final export", !finalLocations.some((l) => l.name === "Testland"));
+  const finalProjects = JSON.parse(fs.readFileSync(path.join(outDir, "projects.json"), "utf8"));
+  const finalGimac = finalProjects.find((p) => p.name.startsWith("Impact of Covid-19"));
+  check("GIMAC's 9 embedded locations (Iraq included) survived the second save too", finalGimac.locations.length === 9);
 
   console.log("Checking Ebola shows an unresolved-parent banner before its parent exists...");
   await page.click('#tabs button[data-tab="projects"]');
@@ -210,9 +228,11 @@ async function main() {
   check("Parent project field has no picker when adding from the Parents tab", (await parentFieldFromTab.$("select")) === null);
   const parentNameField = await fieldByLabel("Name");
   await (await parentNameField.$("input[type=text]")).fill("2014 Ebola response in West Africa");
-  const parentLocField = await fieldByLabel("Locations");
-  await (await parentLocField.$("input[type=text]")).fill("Liberia");
-  await (await parentLocField.$('button:has-text("Add")')).click();
+  await page.click('.locations-section button:has-text("+ Add location")');
+  await page.waitForTimeout(50);
+  const parentCards = await locationCards();
+  const parentCard = parentCards[parentCards.length - 1];
+  await (await (await fieldInCard(parentCard, "Country")).$("input[type=text]")).fill("Liberia");
   await page.click("#modal .modal-actions button.primary");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
@@ -273,17 +293,15 @@ async function main() {
   await page.waitForSelector("#overlay.open");
   let removed = 0;
   for (let i = 0; i < 20; i++) {
-    const removeBtn = await page.$('#modal .chips .chip button');
+    const removeBtn = await page.$(".locations-section .location-card button.danger");
     if (!removeBtn) break;
-    const fieldEl = await removeBtn.evaluateHandle((btn) => btn.closest(".field"));
-    const labelText = await fieldEl.evaluate((f) => f.querySelector("label")?.textContent || "");
-    if (!labelText.startsWith("Locations")) break;
     await removeBtn.click();
+    await page.waitForTimeout(20);
     removed += 1;
   }
   await page.click("#modal .modal-actions button.primary");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
-  check("removed at least one location chip", removed > 0);
+  check("removed at least one location card", removed > 0);
 
   const dialogCountBeforeSave = dialogs.length;
   await page.click("#btn-save"); // should be blocked - no download event should fire
@@ -388,75 +406,95 @@ async function main() {
   await page.click("#modal .modal-actions button:has-text('Cancel')");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
-  console.log("Opening a new Location and filling coordinates from the reference Country data...");
-  await page.click('#tabs button[data-tab="locations"]');
-  await page.click('#tab-locations .toolbar button.primary'); // + Add new
+  console.log("Opening a new project and testing inline location entry against the reference Country/Region/Continent data...");
+  await page.click('#tabs button[data-tab="projects"]');
+  await page.fill("#search-projects", "");
+  const projectCountBeforeScratch = (await page.textContent("#count-projects")).trim();
+  await page.click('#tab-projects .toolbar button.primary'); // + Add new
   await page.waitForSelector("#overlay.open");
-  await page.fill("#modal .field input[type=text]", "Test Capital City"); // Name is the first text input
+  await page.fill("#modal .field input[type=text]", "Scratch project for location testing"); // Name is the first text input
+  await page.click('.locations-section button:has-text("+ Add location")');
+  await page.waitForTimeout(50);
+
+  check("a fresh location card has a Settlement field", (await fieldByLabel("Settlement")) !== null);
+  check("a fresh location card has a State field", (await fieldByLabel("State")) !== null);
+
+  console.log("Filling coordinates from the reference Country data...");
   const countryField = await fieldByLabel("Country");
   await (await countryField.$("input[type=text]")).fill("Kenya");
   await (await countryField.$('button:has-text("Fill lat/lng from capital")')).click();
   await page.waitForTimeout(50);
-  const latAfterCountryFill = await page.$$eval("#modal input[type=number]", (els) => els[0].value);
-  const lngAfterCountryFill = await page.$$eval("#modal input[type=number]", (els) => els[1].value);
-  check("filling from Kenya's capital sets latitude", Number(latAfterCountryFill) === -1.2833);
-  check("filling from Kenya's capital sets longitude", Number(lngAfterCountryFill) === 36.8167);
-  const precisionField = await fieldByLabel("Precision");
-  const precisionAfterCountryFill = await precisionField.$eval("select", (el) => el.value);
+  let scratchCards = await locationCards();
+  let scratchCard = scratchCards[0];
+  let latLng = await latLngOf(scratchCard);
+  check("filling from Kenya's capital sets latitude", Number(latLng.lat) === -1.2833);
+  check("filling from Kenya's capital sets longitude", Number(latLng.lng) === 36.8167);
+  const precisionAfterCountryFill = await (await fieldInCard(scratchCard, "Precision")).$eval("select", (el) => el.value);
   check("filling from a capital sets precision to \"capital\"", precisionAfterCountryFill === "capital");
 
   console.log("Switching to a bogus country name and confirming the fill button refuses rather than guessing...");
-  const countryFieldAfterFill = await fieldByLabel("Country"); // re-fetch: the successful fill above re-rendered the modal
+  const countryFieldAfterFill = await fieldInCard(scratchCard, "Country"); // re-fetch: the successful fill above re-rendered the modal
   await (await countryFieldAfterFill.$("input[type=text]")).fill("Not A Real Country");
   const dialogCountBeforeBadCountry = dialogs.length;
   await (await countryFieldAfterFill.$('button:has-text("Fill lat/lng from capital")')).click();
   await page.waitForTimeout(100);
   check("an unmatched country name is refused with an alert, not silently applied", dialogs.length === dialogCountBeforeBadCountry + 1);
 
-  console.log("Switching type to Region and picking a UN-geoscheme region...");
-  // Every select-driven change here (the Type switch, the Region pick) fires
-  // its own renderModal() to keep other fields in sync, which detaches any
-  // element handle captured beforehand - so each field is re-fetched fresh
-  // right before it's touched, rather than reused across the re-render.
-  await (await (await fieldByLabel("Type")).$("select")).selectOption("region");
+  console.log("Filling coordinates directly from a typed Region...");
+  const regionFieldForFill = await fieldInCard(scratchCard, "Region");
+  await (await regionFieldForFill.$("input[type=text]")).fill("Southern Asia");
+  await (await regionFieldForFill.$('button:has-text("Fill lat/lng from region centroid")')).click();
   await page.waitForTimeout(50);
-  const regionFieldInitial = await fieldByLabel("Region");
-  check("Region field appears once type is switched to \"region\"", regionFieldInitial !== null);
-  await (await regionFieldInitial.$("select")).selectOption({ label: "Southern Asia (Asia)" });
-  await page.waitForTimeout(50);
-  const continentFieldAfterRegionPick = await fieldByLabel("Continent");
-  const continentValueAfterRegionPick = await continentFieldAfterRegionPick.$eval("input[type=text]", (el) => el.value);
-  check("picking a region sets Continent to that region's continent", continentValueAfterRegionPick === "Asia");
+  scratchCards = await locationCards();
+  scratchCard = scratchCards[0];
+  latLng = await latLngOf(scratchCard);
+  check("filling from Southern Asia's centroid sets latitude", Number(latLng.lat) === 24.7283);
+  check("filling from Southern Asia's centroid sets longitude", Number(latLng.lng) === 76.62);
+  const precisionAfterRegionFill = await (await fieldInCard(scratchCard, "Precision")).$eval("select", (el) => el.value);
+  check("filling from a region centroid sets precision to \"region-centroid\"", precisionAfterRegionFill === "region-centroid");
 
-  const regionFieldAfterPick = await fieldByLabel("Region"); // re-fetch: the select's onchange above re-rendered the modal
-  await (await regionFieldAfterPick.$('button:has-text("Fill lat/lng from region centroid")')).click();
+  console.log("Filling coordinates directly from a typed Continent...");
+  const continentFieldForFill = await fieldInCard(scratchCard, "Continent");
+  await (await continentFieldForFill.$("input[type=text]")).fill("Africa");
+  await (await continentFieldForFill.$('button:has-text("Fill lat/lng from continent centroid")')).click();
   await page.waitForTimeout(50);
-  const latAfterRegionFill = await page.$$eval("#modal input[type=number]", (els) => els[0].value);
-  const lngAfterRegionFill = await page.$$eval("#modal input[type=number]", (els) => els[1].value);
-  check("filling from Southern Asia's centroid sets latitude", Number(latAfterRegionFill) === 24.7283);
-  check("filling from Southern Asia's centroid sets longitude", Number(lngAfterRegionFill) === 76.62);
-  const precisionFieldAfterRegionFill = await fieldByLabel("Precision");
-  check("filling from a region centroid sets precision to \"region-centroid\"", (await precisionFieldAfterRegionFill.$eval("select", (el) => el.value)) === "region-centroid");
+  scratchCards = await locationCards();
+  scratchCard = scratchCards[0];
+  latLng = await latLngOf(scratchCard);
+  check("filling from Africa's continent centroid sets latitude", Number(latLng.lat) === 1.7725);
+  check("filling from Africa's continent centroid sets longitude", Number(latLng.lng) === 17.7511);
+  const precisionAfterContinentFill = await (await fieldInCard(scratchCard, "Precision")).$eval("select", (el) => el.value);
+  check("filling from a continent centroid sets precision to \"continent-centroid\"", precisionAfterContinentFill === "continent-centroid");
 
-  console.log("Switching type back to country and filling coordinates from a typed Continent...");
-  await (await (await fieldByLabel("Type")).$("select")).selectOption("country");
+  console.log("Adding a second location card to check the auto-populate never overwrites an existing value...");
+  await page.click('.locations-section button:has-text("+ Add location")');
   await page.waitForTimeout(50);
-  const continentFieldForContinentFill = await fieldByLabel("Continent");
-  await (await continentFieldForContinentFill.$("input[type=text]")).fill("Africa");
-  await (await continentFieldForContinentFill.$('button:has-text("Fill lat/lng from continent centroid")')).click();
+  let cardsNow = await locationCards();
+  check("a second location card was added", cardsNow.length === 2);
+  let card2 = cardsNow[1];
+  const card2Region = await fieldInCard(card2, "Region");
+  await (await card2Region.$("input[type=text]")).fill("Custom Region Text");
+  const card2Country = await fieldInCard(card2, "Country");
+  await (await card2Country.$("input[type=text]")).fill("Nigeria"); // maps to Western Africa / Africa
   await page.waitForTimeout(50);
-  const latAfterContinentFill = await page.$$eval("#modal input[type=number]", (els) => els[0].value);
-  const lngAfterContinentFill = await page.$$eval("#modal input[type=number]", (els) => els[1].value);
-  check("filling from Africa's continent centroid sets latitude", Number(latAfterContinentFill) === 1.7725);
-  check("filling from Africa's continent centroid sets longitude", Number(lngAfterContinentFill) === 17.7511);
-  const precisionFieldAfterContinentFill = await fieldByLabel("Precision");
-  check("filling from a continent centroid sets precision to \"continent-centroid\"", (await precisionFieldAfterContinentFill.$eval("select", (el) => el.value)) === "continent-centroid");
+  cardsNow = await locationCards();
+  card2 = cardsNow[1];
+  const card2RegionAfter = await (await fieldInCard(card2, "Region")).$eval("input[type=text]", (el) => el.value);
+  const card2ContinentAfter = await (await fieldInCard(card2, "Continent")).$eval("input[type=text]", (el) => el.value);
+  check("a Region that was already filled in is never overwritten by picking a Country", card2RegionAfter === "Custom Region Text");
+  check("Continent still auto-fills from Country when it was blank, even though Region wasn't touched", card2ContinentAfter === "Africa");
 
-  console.log("Discarding this scratch location without saving...");
+  console.log("Removing the second card and discarding this scratch project without saving...");
+  const removeBtn2 = await card2.$("button.danger");
+  await removeBtn2.click();
+  await page.waitForTimeout(50);
+  const cardsAfterRemove = await locationCards();
+  check("removing the second card leaves exactly one", cardsAfterRemove.length === 1);
+
   await page.click("#modal .modal-actions button:has-text('Cancel')");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
-  const locCountAfterScratch = await page.textContent("#count-locations");
-  check("cancelling the scratch location didn't add it", locCountAfterScratch.trim() === "(93)");
+  const projectCountAfterScratch = (await page.textContent("#count-projects")).trim();
+  check("cancelling the scratch project didn't add it", projectCountAfterScratch === projectCountBeforeScratch);
 
   console.log("Setting an Abbreviation on an organisation whose name doesn't already spell one out...");
   await page.click('#tabs button[data-tab="organisations"]');

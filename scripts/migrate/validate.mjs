@@ -3,14 +3,22 @@
 //
 // Referential-integrity check for the migrated data. Not specific to the
 // migration itself - this is the same check worth running in CI (or a
-// pre-commit hook) once you're hand-editing locations.json/projects.json/
-// maps.json directly, per the design doc's "editing tooling" option 3.
+// pre-commit hook) once you're hand-editing projects.json/maps.json
+// directly, per the design doc's "editing tooling" option 3.
+//
+// There's no locations.json/shared Location catalog to cross-reference any
+// more (removed 3 September 2026, see the design doc's "Location data
+// entry" section) - each Project/MapItem carries its own embedded
+// locations[] array, so this checks that array's own shape instead of a
+// reference into a separate file.
 //
 // Checks:
-//   - every locationId referenced by a project or map exists in locations.json
 //   - every projectId referenced by a map exists in projects.json
 //   - every project's parentId exists, and nesting is at most one level
-//   - every project has at least one locationId
+//   - every project has at least one usable location entry (something more
+//     than every field left blank)
+//   - a standalone map (no projectId) has at least one usable location
+//     entry of its own to inherit nothing from
 //   - no duplicate ids within a file
 //
 // Exit code is non-zero if any check fails, so this is CI-friendly.
@@ -46,26 +54,37 @@ function checkDuplicateIds(records, fileName, errors) {
   }
 }
 
+/** A location entry counts as usable once ANY field is set - a name, a
+ * coordinate, or a precision (a migrated "we truly don't know where this
+ * is" global-centroid placeholder has coordinates/precision but no
+ * descriptive field, and should still count rather than fail validation).
+ * Only an entry where literally everything is blank doesn't count -
+ * matches the data-editor's own locationEntryIsUsable(). */
+function usableLocations(entries) {
+  return (entries || []).filter(
+    (l) => l && (l.settlement || l.state || l.country || l.region || l.continent || l.precision || typeof l.lat === "number" || typeof l.lng === "number")
+  );
+}
+
 function main() {
-  const locations = readJson("locations.json");
   const projects = readJson("projects.json");
   const maps = readJson("maps.json");
 
   const errors = [];
-  checkDuplicateIds(locations, "locations.json", errors);
+  const warnings = [];
   checkDuplicateIds(projects, "projects.json", errors);
   checkDuplicateIds(maps, "maps.json", errors);
 
-  const locationIds = new Set(locations.map((l) => l.id));
   const projectIds = new Set(projects.map((p) => p.id));
 
   for (const p of projects) {
-    if (!p.locationIds || p.locationIds.length === 0) {
-      errors.push(`projects.json: "${p.id}" has no locationIds`);
+    const usable = usableLocations(p.locations);
+    if (usable.length === 0) {
+      errors.push(`projects.json: "${p.id}" has no locations`);
     }
-    for (const lid of p.locationIds || []) {
-      if (!locationIds.has(lid)) {
-        errors.push(`projects.json: "${p.id}" references missing location "${lid}"`);
+    for (const l of usable) {
+      if (typeof l.lat !== "number" || typeof l.lng !== "number") {
+        warnings.push(`projects.json: "${p.id}" has a location with no lat/lng`);
       }
     }
     if (p.parentId) {
@@ -84,18 +103,23 @@ function main() {
     if (m.projectId && !projectIds.has(m.projectId)) {
       errors.push(`maps.json: "${m.id}" references missing project "${m.projectId}"`);
     }
-    if (!m.projectId && (!m.locationIds || m.locationIds.length === 0)) {
-      errors.push(`maps.json: "${m.id}" is standalone (no projectId) but has no locationIds to inherit from`);
+    const usable = usableLocations(m.locations);
+    if (!m.projectId && usable.length === 0) {
+      errors.push(`maps.json: "${m.id}" is standalone (no projectId) but has no locations to inherit from`);
     }
-    for (const lid of m.locationIds || []) {
-      if (!locationIds.has(lid)) {
-        errors.push(`maps.json: "${m.id}" references missing location "${lid}"`);
+    for (const l of usable) {
+      if (typeof l.lat !== "number" || typeof l.lng !== "number") {
+        warnings.push(`maps.json: "${m.id}" has a location with no lat/lng`);
       }
     }
   }
 
   if (errors.length === 0) {
-    console.log(`OK - ${locations.length} locations, ${projects.length} projects, ${maps.length} maps, no referential-integrity issues.`);
+    console.log(`OK - ${projects.length} projects, ${maps.length} maps, no referential-integrity issues.`);
+    if (warnings.length > 0) {
+      console.log(`${warnings.length} warning(s) (locations with no coordinates yet - not blocking):`);
+      for (const w of warnings) console.log(`  - ${w}`);
+    }
     process.exit(0);
   }
 

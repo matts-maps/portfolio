@@ -162,6 +162,12 @@
   .field textarea { min-height: 64px; resize: vertical; }
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .locations-section { margin-bottom: 12px; }
+  .location-card {
+    border: 1px solid var(--border); border-radius: 8px; padding: 12px;
+    margin-bottom: 10px; background: color-mix(in srgb, var(--chip-bg) 45%, transparent);
+  }
+  .location-card .field:last-child { margin-bottom: 8px; }
   .field.error input, .field.error select { border-color: var(--danger); }
   .field .error-msg { color: var(--danger); font-size: 11px; margin-top: 3px; }
   .field .warn-msg { color: var(--warn); font-size: 11px; margin-top: 3px; }
@@ -211,7 +217,6 @@
 
 <div id="layout">
   <nav id="tabs" style="display:none">
-    <button data-tab="locations">Locations <span class="count" id="count-locations"></span></button>
     <button data-tab="projects">Projects <span class="count" id="count-projects"></span></button>
     <button data-tab="parents">Parent projects <span class="count" id="count-parents"></span></button>
     <button data-tab="maps">Maps <span class="count" id="count-maps"></span></button>
@@ -221,7 +226,7 @@
   <main id="content">
     <div id="welcome">
       <h2>Open your data folder</h2>
-      <p>This edits <code>assets/data/locations.json</code>, <code>projects.json</code>, and <code>maps.json</code> in place — no server, no upload, nothing leaves your machine.</p>
+      <p>This edits <code>assets/data/projects.json</code> and <code>maps.json</code> in place — no server, no upload, nothing leaves your machine.</p>
       <div class="choice">
         <div>
           <h3>Open folder (recommended)</h3>
@@ -230,10 +235,9 @@
         </div>
         <div>
           <h3>Load files manually</h3>
-          <p>Works in any browser. Saving downloads three updated files for you to move into <code>assets/data</code> yourself.</p>
+          <p>Works in any browser. Saving downloads updated files for you to move into <code>assets/data</code> yourself.</p>
           <button id="btn-show-fallback">Load JSON files…</button>
           <div id="fallback-inputs">
-            <label>locations.json <input type="file" id="file-locations" accept=".json"></label>
             <label>projects.json <input type="file" id="file-projects" accept=".json"></label>
             <label>maps.json <input type="file" id="file-maps" accept=".json"></label>
             <label>organisations.json (optional) <input type="file" id="file-organisations" accept=".json"></label>
@@ -244,7 +248,6 @@
       <p><small class="muted" id="fsapi-note"></small></p>
     </div>
 
-    <div id="tab-locations" class="tab-pane" style="display:none"></div>
     <div id="tab-projects" class="tab-pane" style="display:none"></div>
     <div id="tab-parents" class="tab-pane" style="display:none"></div>
     <div id="tab-maps" class="tab-pane" style="display:none"></div>
@@ -268,10 +271,9 @@
  * State
  * ------------------------------------------------------------------- */
 const state = {
-  locations: [],
   projects: [],
   maps: [],
-  // organisations.json is optional metadata, not one of the three core
+  // organisations.json is optional metadata, not one of the two core
   // files - see the load/save functions below. It only ever holds entries
   // for organisations that have an abbreviation set; Project.organisation
   // itself stays a plain tag field, so an org with no abbreviation has no
@@ -280,10 +282,18 @@ const state = {
   dirHandle: null,   // File System Access API handle, when available
   mode: null,         // "fsapi" | "fallback"
   dirty: false,
-  activeTab: "locations",
+  activeTab: "projects",
 };
 
-const LOCATION_TYPES = ["site", "country", "region", "global"];
+// Locations are no longer a shared, separately-stored entity (see the
+// design doc's "Location data entry" section, 3 September 2026) - each
+// Project/MapItem carries its own embedded `locations` array instead of a
+// locationIds[] pointing at assets/data/locations.json, which no longer
+// exists. An embedded location entry is
+// {settlement, state, country, region, continent, lat, lng, precision} -
+// every field but lat/lng/precision is free text and independently
+// optional; MapItem's array being empty still means "inherit from the
+// linked project" exactly as locationIds used to.
 const PRECISIONS = ["exact", "capital", "region-centroid", "continent-centroid", "global-centroid"];
 
 /* ---------------------------------------------------------------------
@@ -314,6 +324,27 @@ function findRegion(name) {
   if (!name) return null;
   const norm = name.trim().toLowerCase();
   return REF_REGIONS.find((r) => r.name.toLowerCase() === norm) || null;
+}
+
+/* ---------------------------------------------------------------------
+ * Country -> UN-geoscheme-region lookup, for the Location entry's
+ * "picking a country fills in Region/Continent" auto-populate. Built from
+ * the standard UN M49 geographic regions (the same scheme REF_REGIONS'
+ * 25 entries are already named after) - not derived from either file Matt
+ * supplied, since neither one actually lists which countries belong to
+ * which region (see the design doc's "Location data entry" section).
+ * A handful of uninhabited/no-data territories (Antarctica, Bouvet Island,
+ * Heard Island and McDonald Islands, Tokelau, US Minor Outlying Islands -
+ * the same ones with a null capital in REF_COUNTRIES) are deliberately
+ * left out rather than guessed at.
+ * ------------------------------------------------------------------- */
+const COUNTRY_TO_REGION = {"Afghanistan":"Southern Asia","Albania":"Southern Europe","Algeria":"Northern Africa","American Samoa":"Polynesia","Andorra":"Southern Europe","Angola":"Middle Africa","Anguilla":"Caribbean","Antigua and Barbuda":"Caribbean","Argentina":"South America","Armenia":"Western Asia","Aruba":"Caribbean","Australia":"Australia and New Zealand","Austria":"Western Europe","Azerbaijan":"Western Asia","Bahamas":"Caribbean","Bahrain":"Western Asia","Bangladesh":"Southern Asia","Barbados":"Caribbean","Belarus":"Eastern Europe","Belgium":"Western Europe","Belize":"Central America","Benin":"Western Africa","Bermuda":"North America","Bhutan":"Southern Asia","Bolivia, Plurinational State of":"South America","Bonaire, Sint Eustatius and Saba":"Caribbean","Bosnia and Herzegovina":"Southern Europe","Botswana":"Southern Africa","Brazil":"South America","British Indian Ocean Territory":"Eastern Africa","Brunei Darussalam":"South-Eastern Asia","Bulgaria":"Eastern Europe","Burkina Faso":"Western Africa","Burundi":"Eastern Africa","Cabo Verde":"Western Africa","Cambodia":"South-Eastern Asia","Cameroon":"Middle Africa","Canada":"North America","Cayman Islands":"Caribbean","Central African Republic":"Middle Africa","Chad":"Middle Africa","Chile":"South America","China":"Eastern Asia","Christmas Island":"Australia and New Zealand","Cocos (Keeling) Islands":"Australia and New Zealand","Colombia":"South America","Comoros":"Eastern Africa","Congo":"Middle Africa","Congo, The Democratic Republic of the":"Middle Africa","Cook Islands":"Polynesia","Costa Rica":"Central America","Croatia":"Southern Europe","Cuba":"Caribbean","Curaçao":"Caribbean","Cyprus":"Western Asia","Czechia":"Eastern Europe","Côte d'Ivoire":"Western Africa","Denmark":"Northern Europe","Djibouti":"Eastern Africa","Dominica":"Caribbean","Dominican Republic":"Caribbean","Ecuador":"South America","Egypt":"Northern Africa","El Salvador":"Central America","Equatorial Guinea":"Middle Africa","Eritrea":"Eastern Africa","Estonia":"Northern Europe","Eswatini":"Southern Africa","Ethiopia":"Eastern Africa","Falkland Islands (Malvinas)":"South America","Faroe Islands":"Northern Europe","Fiji":"Melanesia","Finland":"Northern Europe","France":"Western Europe","French Guiana":"South America","French Polynesia":"Polynesia","French Southern Territories":"Eastern Africa","Gabon":"Middle Africa","Gambia":"Western Africa","Georgia":"Western Asia","Germany":"Western Europe","Ghana":"Western Africa","Gibraltar":"Southern Europe","Greece":"Southern Europe","Greenland":"North America","Grenada":"Caribbean","Guadeloupe":"Caribbean","Guam":"Micronesia","Guatemala":"Central America","Guernsey":"Northern Europe","Guinea":"Western Africa","Guinea-Bissau":"Western Africa","Guyana":"South America","Haiti":"Caribbean","Holy See (Vatican City State)":"Southern Europe","Honduras":"Central America","Hong Kong":"Eastern Asia","Hungary":"Eastern Europe","Iceland":"Northern Europe","India":"Southern Asia","Indonesia":"South-Eastern Asia","Iran, Islamic Republic of":"Southern Asia","Iraq":"Western Asia","Ireland":"Northern Europe","Isle of Man":"Northern Europe","Israel":"Western Asia","Italy":"Southern Europe","Jamaica":"Caribbean","Japan":"Eastern Asia","Jersey":"Northern Europe","Jordan":"Western Asia","Kazakhstan":"Central Asia","Kenya":"Eastern Africa","Kiribati":"Micronesia","Korea, Democratic People's Republic of":"Eastern Asia","Korea, Republic of":"Eastern Asia","Kuwait":"Western Asia","Kyrgyzstan":"Central Asia","Lao People's Democratic Republic":"South-Eastern Asia","Latvia":"Northern Europe","Lebanon":"Western Asia","Lesotho":"Southern Africa","Liberia":"Western Africa","Libya":"Northern Africa","Liechtenstein":"Western Europe","Lithuania":"Northern Europe","Luxembourg":"Western Europe","Macao":"Eastern Asia","Madagascar":"Eastern Africa","Malawi":"Eastern Africa","Malaysia":"South-Eastern Asia","Maldives":"Southern Asia","Mali":"Western Africa","Malta":"Southern Europe","Marshall Islands":"Micronesia","Martinique":"Caribbean","Mauritania":"Western Africa","Mauritius":"Eastern Africa","Mayotte":"Eastern Africa","Mexico":"Central America","Micronesia, Federated States of":"Micronesia","Moldova, Republic of":"Eastern Europe","Monaco":"Western Europe","Mongolia":"Eastern Asia","Montenegro":"Southern Europe","Montserrat":"Caribbean","Morocco":"Northern Africa","Mozambique":"Eastern Africa","Myanmar":"South-Eastern Asia","Namibia":"Southern Africa","Nauru":"Polynesia","Nepal":"Southern Asia","Netherlands":"Western Europe","New Caledonia":"Melanesia","New Zealand":"Australia and New Zealand","Nicaragua":"Central America","Niger":"Western Africa","Nigeria":"Western Africa","Niue":"Polynesia","Norfolk Island":"Australia and New Zealand","North Macedonia":"Southern Europe","Northern Mariana Islands":"Micronesia","Norway":"Northern Europe","Oman":"Western Asia","Pakistan":"Southern Asia","Palau":"Micronesia","Palestine, State of":"Western Asia","Panama":"Central America","Papua New Guinea":"Melanesia","Paraguay":"South America","Peru":"South America","Philippines":"South-Eastern Asia","Pitcairn":"Polynesia","Poland":"Eastern Europe","Portugal":"Southern Europe","Puerto Rico":"Caribbean","Qatar":"Western Asia","Romania":"Eastern Europe","Russian Federation":"Eastern Europe","Rwanda":"Eastern Africa","Réunion":"Eastern Africa","Saint Barthélemy":"Caribbean","Saint Helena, Ascension and Tristan da Cunha":"Western Africa","Saint Kitts and Nevis":"Caribbean","Saint Lucia":"Caribbean","Saint Martin (French part)":"Caribbean","Saint Pierre and Miquelon":"North America","Saint Vincent and the Grenadines":"Caribbean","Samoa":"Polynesia","San Marino":"Southern Europe","Sao Tome and Principe":"Middle Africa","Saudi Arabia":"Western Asia","Senegal":"Western Africa","Serbia":"Southern Europe","Seychelles":"Eastern Africa","Sierra Leone":"Western Africa","Singapore":"South-Eastern Asia","Sint Maarten (Dutch part)":"Caribbean","Slovakia":"Eastern Europe","Slovenia":"Southern Europe","Solomon Islands":"Melanesia","Somalia":"Eastern Africa","South Africa":"Southern Africa","South Georgia and the South Sandwich Islands":"South America","South Sudan":"Eastern Africa","Spain":"Southern Europe","Sri Lanka":"Southern Asia","Sudan":"Northern Africa","Suriname":"South America","Svalbard and Jan Mayen":"Northern Europe","Sweden":"Northern Europe","Switzerland":"Western Europe","Syrian Arab Republic":"Western Asia","Taiwan, Province of China":"Eastern Asia","Tajikistan":"Central Asia","Tanzania, United Republic of":"Eastern Africa","Thailand":"South-Eastern Asia","Timor-Leste":"South-Eastern Asia","Togo":"Western Africa","Tonga":"Polynesia","Trinidad and Tobago":"Caribbean","Tunisia":"Northern Africa","Turkmenistan":"Central Asia","Turks and Caicos Islands":"Caribbean","Tuvalu":"Polynesia","Türkiye":"Western Asia","Uganda":"Eastern Africa","Ukraine":"Eastern Europe","United Arab Emirates":"Western Asia","United Kingdom":"Northern Europe","United States":"North America","Uruguay":"South America","Uzbekistan":"Central Asia","Vanuatu":"Melanesia","Venezuela, Bolivarian Republic of":"South America","Viet Nam":"South-Eastern Asia","Virgin Islands, British":"Caribbean","Virgin Islands, U.S.":"Caribbean","Wallis and Futuna":"Polynesia","Western Sahara":"Northern Africa","Yemen":"Western Asia","Zambia":"Eastern Africa","Zimbabwe":"Eastern Africa","Åland Islands":"Northern Europe"};
+
+/** Country name (any case/whitespace) -> its UN-geoscheme region name, or null. */
+function findCountryRegion(name) {
+  const match = findCountry(name);
+  if (!match) return null;
+  return COUNTRY_TO_REGION[match.name] || null;
 }
 
 /* ---------------------------------------------------------------------
@@ -376,13 +407,18 @@ function byId(list, id) {
 /* ---------------------------------------------------------------------
  * Canonical field order for output (keeps git diffs clean & consistent)
  * ------------------------------------------------------------------- */
-function serializeLocation(l) {
-  const out = {
-    id: l.id, name: l.name, type: l.type,
-    country: l.country || null, continent: l.continent || null,
-    lat: l.lat, lng: l.lng, precision: l.precision,
+/** Strips the editor-only `_key` bookkeeping field and normalises blanks to null. */
+function serializeLocationEntry(l) {
+  return {
+    settlement: l.settlement || null,
+    state: l.state || null,
+    country: l.country || null,
+    region: l.region || null,
+    continent: l.continent || null,
+    lat: typeof l.lat === "number" ? l.lat : null,
+    lng: typeof l.lng === "number" ? l.lng : null,
+    precision: l.precision || null,
   };
-  return out;
 }
 
 function serializeProject(p) {
@@ -392,7 +428,7 @@ function serializeProject(p) {
   if (p.isParent) out.isParent = true;
   if (p.legacyParentName) out.legacyParentName = p.legacyParentName;
   Object.assign(out, {
-    locationIds: p.locationIds || [],
+    locations: (p.locations || []).map(serializeLocationEntry),
     year: p.year ?? null, month: p.month || null,
     type: p.type || null, modality: p.modality || [], organisation: p.organisation || [],
     level: p.level || [], themes: p.themes || [], disaster: p.disaster || [],
@@ -406,7 +442,7 @@ function serializeProject(p) {
 function serializeMap(m) {
   const out = {
     id: m.id, kind: m.kind, name: m.name || null, file: m.kind === "map" ? (m.file || null) : null,
-    projectId: m.projectId || null, locationIds: m.locationIds || [],
+    projectId: m.projectId || null, locations: (m.locations || []).map(serializeLocationEntry),
     year: m.year ?? null, month: m.month || null,
     themes: m.themes || [], disaster: m.disaster || [],
     description: m.description || null,
@@ -433,7 +469,7 @@ function toJson(list, kind) {
     const sorted = [...list].sort((a, b) => a.name.localeCompare(b.name));
     return JSON.stringify(sorted.map(serializeOrganisation), null, 2) + "\n";
   }
-  const fn = kind === "locations" ? serializeLocation : kind === "projects" ? serializeProject : serializeMap;
+  const fn = kind === "projects" ? serializeProject : serializeMap;
   return JSON.stringify(list.map(fn), null, 2) + "\n";
 }
 
@@ -471,15 +507,13 @@ async function readOrganisationsFile(dirHandle) {
 async function loadFromDirectory() {
   try {
     const dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
-    const [locations, projects, maps, organisations] = await Promise.all([
-      readFileHandle(dirHandle, "locations.json"),
+    const [projects, maps, organisations] = await Promise.all([
       readFileHandle(dirHandle, "projects.json"),
       readFileHandle(dirHandle, "maps.json"),
       readOrganisationsFile(dirHandle),
     ]);
     state.dirHandle = dirHandle;
     state.mode = "fsapi";
-    state.locations = locations;
     state.projects = projects;
     state.maps = maps;
     state.organisations = organisations;
@@ -489,29 +523,27 @@ async function loadFromDirectory() {
     if (err && err.name === "AbortError") return; // user cancelled the picker
     alert(
       "Couldn't open that folder as assets/data. Make sure you selected the folder " +
-        "containing locations.json, projects.json and maps.json.\n\n" + err.message
+        "containing projects.json and maps.json.\n\n" + err.message
     );
   }
 }
 
 function loadFromFileInputs() {
   const files = {
-    locations: document.getElementById("file-locations").files[0],
     projects: document.getElementById("file-projects").files[0],
     maps: document.getElementById("file-maps").files[0],
   };
   const organisationsFile = document.getElementById("file-organisations").files[0]; // optional
-  if (!files.locations || !files.projects || !files.maps) {
-    alert("Pick all three files first: locations.json, projects.json, maps.json.");
+  if (!files.projects || !files.maps) {
+    alert("Pick both files first: projects.json, maps.json.");
     return;
   }
   const readOne = (file) =>
     file.text().then((t) => JSON.parse(t));
   const readOrganisations = organisationsFile ? readOne(organisationsFile) : Promise.resolve([]);
-  Promise.all([readOne(files.locations), readOne(files.projects), readOne(files.maps), readOrganisations])
-    .then(([locations, projects, maps, organisations]) => {
+  Promise.all([readOne(files.projects), readOne(files.maps), readOrganisations])
+    .then(([projects, maps, organisations]) => {
       state.mode = "fallback";
-      state.locations = locations;
       state.projects = projects;
       state.maps = maps;
       state.organisations = organisations;
@@ -543,7 +575,6 @@ async function save() {
 
   if (state.mode === "fsapi") {
     try {
-      await writeFileHandle(state.dirHandle, "locations.json", toJson(state.locations, "locations"));
       await writeFileHandle(state.dirHandle, "projects.json", toJson(state.projects, "projects"));
       await writeFileHandle(state.dirHandle, "maps.json", toJson(state.maps, "maps"));
       await writeFileHandle(state.dirHandle, "organisations.json", toJson(state.organisations, "organisations"));
@@ -552,12 +583,11 @@ async function save() {
       alert("Save failed: " + err.message);
     }
   } else {
-    // A single zip, not four separate <a download> clicks: Chrome (and
+    // A single zip, not three separate <a download> clicks: Chrome (and
     // others) block a page from firing more than one download per user
-    // gesture without an extra permission prompt, so four simultaneous
+    // gesture without an extra permission prompt, so simultaneous
     // downloads would silently lose most of them for a lot of users.
     const zipBlob = buildZip([
-      { name: "locations.json", text: toJson(state.locations, "locations") },
       { name: "projects.json", text: toJson(state.projects, "projects") },
       { name: "maps.json", text: toJson(state.maps, "maps") },
       { name: "organisations.json", text: toJson(state.organisations, "organisations") },
@@ -658,22 +688,28 @@ function buildZip(files) {
 /* ---------------------------------------------------------------------
  * Validation (mirrors scripts/migrate/validate.mjs)
  * ------------------------------------------------------------------- */
+/**
+ * A location entry counts as "usable" once ANY field is set - a name
+ * (Settlement/State/Country/Region/Continent), coordinates, or a precision.
+ * That last part matters for a migrated "we truly don't know where this
+ * is" global-centroid placeholder, which has coordinates and a precision
+ * but no descriptive field at all - it's meant to still count, so it shows
+ * up for a human to fix rather than silently failing validation. What
+ * doesn't count is an entry where literally everything is still blank,
+ * which is what's left right after clicking "+ Add location" and nothing
+ * else.
+ */
+function locationEntryIsUsable(l) {
+  return !!(
+    l &&
+    (l.settlement || l.state || l.country || l.region || l.continent || l.precision || typeof l.lat === "number" || typeof l.lng === "number")
+  );
+}
+
 function validateAll() {
   const issues = [];
-  const locationIds = new Set(state.locations.map((l) => l.id));
   const projectIds = new Set(state.projects.map((p) => p.id));
   const mapIds = new Set();
-
-  const seenLoc = new Set();
-  for (const l of state.locations) {
-    if (seenLoc.has(l.id)) issues.push({ level: "error", entity: "locations", id: l.id, message: `Duplicate id "${l.id}"` });
-    seenLoc.add(l.id);
-    if (!l.name) issues.push({ level: "error", entity: "locations", id: l.id, message: "Missing name" });
-    if (!LOCATION_TYPES.includes(l.type)) issues.push({ level: "error", entity: "locations", id: l.id, message: `Invalid type "${l.type}"` });
-    if (typeof l.lat !== "number" || typeof l.lng !== "number" || Number.isNaN(l.lat) || Number.isNaN(l.lng)) {
-      issues.push({ level: "error", entity: "locations", id: l.id, message: "Missing or invalid lat/lng" });
-    }
-  }
 
   const seenProj = new Set();
   for (const p of state.projects) {
@@ -681,11 +717,14 @@ function validateAll() {
     if (seenProj.has(p.id)) issues.push({ level: "error", entity: "projects", id: p.id, message: `Duplicate id "${p.id}"` });
     seenProj.add(p.id);
     if (!p.name) issues.push({ level: "error", entity: "projects", id: p.id, message: "Missing name" });
-    if (!p.locationIds || p.locationIds.length === 0) {
+    const usableLocations = (p.locations || []).filter(locationEntryIsUsable);
+    if (usableLocations.length === 0) {
       issues.push({ level: "error", entity: "projects", id: p.id, message: "No locations attached" });
     }
-    for (const lid of p.locationIds || []) {
-      if (!locationIds.has(lid)) issues.push({ level: "error", entity: "projects", id: p.id, message: `References missing location "${lid}"` });
+    for (const l of usableLocations) {
+      if (typeof l.lat !== "number" || typeof l.lng !== "number" || Number.isNaN(l.lat) || Number.isNaN(l.lng)) {
+        issues.push({ level: "warning", entity: "projects", id: p.id, message: `Location "${locationLabel(l)}" has no coordinates - use a "Fill lat/lng from…" button or enter them by hand` });
+      }
     }
     if (p.parentId) {
       if (p.parentId === p.id) {
@@ -719,11 +758,14 @@ function validateAll() {
     if (m.projectId && !projectIds.has(m.projectId)) {
       issues.push({ level: "error", entity: "maps", id: m.id, message: `References missing project "${m.projectId}"` });
     }
-    if (!m.projectId && (!m.locationIds || m.locationIds.length === 0)) {
+    const usableMapLocations = (m.locations || []).filter(locationEntryIsUsable);
+    if (!m.projectId && usableMapLocations.length === 0) {
       issues.push({ level: "error", entity: "maps", id: m.id, message: "Standalone (no project) but has no locations to inherit from" });
     }
-    for (const lid of m.locationIds || []) {
-      if (!locationIds.has(lid)) issues.push({ level: "error", entity: "maps", id: m.id, message: `References missing location "${lid}"` });
+    for (const l of usableMapLocations) {
+      if (typeof l.lat !== "number" || typeof l.lng !== "number" || Number.isNaN(l.lat) || Number.isNaN(l.lng)) {
+        issues.push({ level: "warning", entity: "maps", id: m.id, message: `Location "${locationLabel(l)}" has no coordinates - use a "Fill lat/lng from…" button or enter them by hand` });
+      }
     }
     if (m.kind === "map" && !m.file) issues.push({ level: "warning", entity: "maps", id: m.id, message: "No image file set" });
   }
@@ -769,6 +811,16 @@ function showIssues(issues) {
  * entity name should resolve through dataKeyFor rather than assuming
  * tab === state key.
  */
+/** Best short label for one embedded location entry, most-specific first. */
+function locationLabel(l) {
+  if (!l) return "(unspecified)";
+  return l.settlement || l.country || l.region || l.continent || (l.state ? `(${l.state})` : null) || "(unspecified)";
+}
+function locationsSummary(locations) {
+  const usable = (locations || []).filter(locationEntryIsUsable);
+  return usable.map(locationLabel).join(", ");
+}
+
 function dataKeyFor(tab) {
   return tab === "parents" ? "projects" : tab;
 }
@@ -795,7 +847,6 @@ function switchTab(tab) {
 }
 
 function renderCounts() {
-  document.getElementById("count-locations").textContent = `(${state.locations.length})`;
   document.getElementById("count-projects").textContent = `(${individualProjectsList().length})`;
   document.getElementById("count-parents").textContent = `(${parentProjectsList().length})`;
   document.getElementById("count-maps").textContent = `(${state.maps.length})`;
@@ -916,7 +967,11 @@ function matchesSearch(item, tab, search) {
     // different strings for the same organisation).
     return [item.name, item.abbreviation].filter(Boolean).join(" ").toLowerCase().includes(search);
   }
-  const hay = [item.id, item.name, item.country, item.continent, item.type]
+  const locationText = (item.locations || [])
+    .flatMap((l) => [l.settlement, l.state, l.country, l.region, l.continent])
+    .filter(Boolean)
+    .join(" ");
+  const hay = [item.id, item.name, item.type, locationText]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
@@ -925,7 +980,6 @@ function matchesSearch(item, tab, search) {
 
 function renderTableHead(tab) {
   const cols =
-    tab === "locations" ? ["Name", "ID", "Type", "Country / continent", "Coordinates"] :
     tab === "projects" ? ["Name", "ID", "Year", "Locations", "Parent", "Status"] :
     tab === "parents" ? ["Name", "ID", "Year", "Children", "Locations"] :
     tab === "organisations" ? ["Organisation", "Abbreviation", "# Projects", "Projects"] :
@@ -951,16 +1005,8 @@ function renderTableRow(item, tab) {
     ? el("span", { class: `badge ${issues.some((i) => i.level === "error") ? "err" : "warn"}`, text: issues.length })
     : null;
 
-  if (tab === "locations") {
-    tr.append(
-      el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
-      el("td", { class: "id-cell", text: item.id }),
-      el("td", { text: item.type }),
-      el("td", { text: [item.country, item.continent].filter(Boolean).join(" / ") }),
-      el("td", { text: (item.lat ?? "?") + ", " + (item.lng ?? "?") })
-    );
-  } else if (tab === "projects") {
-    const locNames = (item.locationIds || []).map((id) => byId(state.locations, id)?.name || id).join(", ");
+  if (tab === "projects") {
+    const locNames = locationsSummary(item.locations);
     const parentName = item.parentId ? (byId(state.projects, item.parentId)?.name || item.parentId) : "—";
     tr.append(
       el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
@@ -971,7 +1017,7 @@ function renderTableRow(item, tab) {
       el("td", { text: item.status || "" })
     );
   } else if (tab === "parents") {
-    const locNames = (item.locationIds || []).map((id) => byId(state.locations, id)?.name || id).join(", ");
+    const locNames = locationsSummary(item.locations);
     const children = state.projects.filter((p) => p.parentId === item.id);
     const childText = children.length ? children.map((c) => c.name).join(", ") : "—";
     tr.append(
@@ -983,9 +1029,8 @@ function renderTableRow(item, tab) {
     );
   } else {
     const proj = item.projectId ? (byId(state.projects, item.projectId)?.name || item.projectId) : "—";
-    const locNames = (item.locationIds || []).length
-      ? item.locationIds.map((id) => byId(state.locations, id)?.name || id).join(", ")
-      : item.projectId ? "(inherits from project)" : "—";
+    const ownLocNames = locationsSummary(item.locations);
+    const locNames = ownLocNames || (item.projectId ? "(inherits from project)" : "—");
     tr.append(
       el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
       el("td", { class: "id-cell", text: item.id }),
@@ -1034,6 +1079,20 @@ function selectInput(value, options, onChange) {
   }
   sel.value = value || options[0];
   sel.addEventListener("change", () => onChange(sel.value));
+  return sel;
+}
+
+/** Like selectInput, but allows (and defaults to) no selection at all - for
+ * fields like a location entry's Precision, which starts unset until a
+ * "Fill lat/lng from…" button picks one. */
+function selectInputNullable(value, options, onChange) {
+  const sel = el("select");
+  sel.appendChild(el("option", { value: "", text: "— not set —", ...(value ? {} : { selected: "selected" }) }));
+  for (const opt of options) {
+    sel.appendChild(el("option", { value: opt, text: opt, ...(opt === value ? { selected: "selected" } : {}) }));
+  }
+  sel.value = value || "";
+  sel.addEventListener("change", () => onChange(sel.value || null));
   return sel;
 }
 
@@ -1197,11 +1256,6 @@ function allValuesFor(field) {
   return [...vals].sort();
 }
 
-function locationOptions() {
-  return state.locations
-    .map((l) => ({ id: l.id, label: `${l.name} (${l.type})` }))
-    .sort((a, b) => a.label.localeCompare(b.label));
-}
 function projectOptions(excludeId, { onlyParents } = {}) {
   return state.projects
     .filter((p) => p.id !== excludeId)
@@ -1214,6 +1268,19 @@ function closeEditor() {
   document.getElementById("overlay").classList.remove("open");
 }
 
+/**
+ * A shallow `{...original}` copy would still share the SAME `locations`
+ * array (and entries) as the stored record - and unlike the tag fields
+ * (which always get reassigned to a brand-new array via tagInput's
+ * onChange), the location cards below push/splice `draft.locations` in
+ * place, which would otherwise mutate live state before Save/Cancel is
+ * even clicked. Clone the array and every entry so editing a draft can
+ * never leak into the stored record until commitDraft() actually applies it.
+ */
+function cloneDraftWithLocations(original) {
+  return { ...original, locations: (original.locations || []).map((l) => ({ ...l })) };
+}
+
 function openEditor(tab, id) {
   if (tab === "organisations") {
     openOrgEditor(id);
@@ -1222,18 +1289,14 @@ function openEditor(tab, id) {
   const isNew = id === null;
   const entity = dataKeyFor(tab);
   let draft;
-  if (entity === "locations") {
+  if (entity === "projects") {
     draft = isNew
-      ? { id: "", name: "", type: "country", country: "", continent: "", lat: null, lng: null, precision: "capital" }
-      : { ...byId(state.locations, id) };
-  } else if (entity === "projects") {
-    draft = isNew
-      ? { id: "", name: "", parentId: null, isParent: tab === "parents", locationIds: [], year: null, month: "", type: "", modality: [], organisation: [], level: [], themes: [], disaster: [], status: "", startDate: "", endDate: "", description: "" }
-      : { ...byId(state.projects, id) };
+      ? { id: "", name: "", parentId: null, isParent: tab === "parents", locations: [], year: null, month: "", type: "", modality: [], organisation: [], level: [], themes: [], disaster: [], status: "", startDate: "", endDate: "", description: "" }
+      : cloneDraftWithLocations(byId(state.projects, id));
   } else {
     draft = isNew
-      ? { id: "", kind: "map", name: "", file: "", projectId: null, locationIds: [], year: null, month: "", themes: [], disaster: [], description: "", map_style: "", data_sources: [], screenshot: "", links: [], embeddable: true }
-      : { ...byId(state.maps, id) };
+      ? { id: "", kind: "map", name: "", file: "", projectId: null, locations: [], year: null, month: "", themes: [], disaster: [], description: "", map_style: "", data_sources: [], screenshot: "", links: [], embeddable: true }
+      : cloneDraftWithLocations(byId(state.maps, id));
   }
   const originalId = draft.id;
   renderModal(tab, draft, isNew, originalId);
@@ -1247,8 +1310,7 @@ function renderModal(tab, draft, isNew, originalId) {
   modal.appendChild(el("div", { class: "modal-sub", text: isNew ? `Adding to ${tabLabel(tab)}` : `Editing ${tabLabel(tab)} · id: ${draft.id}` }));
 
   const body = el("div");
-  if (entity === "locations") buildLocationForm(body, draft);
-  else if (entity === "projects") buildProjectForm(body, draft, { tab });
+  if (entity === "projects") buildProjectForm(body, draft, { tab });
   else buildMapForm(body, draft);
   modal.appendChild(body);
 
@@ -1287,7 +1349,7 @@ function renderModal(tab, draft, isNew, originalId) {
 }
 
 function singular(tab) {
-  return tab === "locations" ? "location" : tab === "projects" ? "project" : tab === "parents" ? "parent project" : "map";
+  return tab === "projects" ? "project" : tab === "parents" ? "parent project" : "map";
 }
 
 function ensureId(list, draft) {
@@ -1330,10 +1392,7 @@ function commitDraft(tab, draft, isNew, originalId) {
 }
 
 function rewriteReferences(entity, oldId, newId) {
-  if (entity === "locations") {
-    for (const p of state.projects) p.locationIds = (p.locationIds || []).map((x) => (x === oldId ? newId : x));
-    for (const m of state.maps) m.locationIds = (m.locationIds || []).map((x) => (x === oldId ? newId : x));
-  } else if (entity === "projects") {
+  if (entity === "projects") {
     for (const p of state.projects) if (p.parentId === oldId) p.parentId = newId;
     for (const m of state.maps) if (m.projectId === oldId) m.projectId = newId;
   }
@@ -1480,112 +1539,171 @@ function commitOrgDraft(draft, isNew) {
 }
 
 /* --- form builders --- */
-function buildLocationForm(body, draft) {
-  // Re-rendering the whole modal (rather than just updating draft.type) is
-  // needed here, same as the map form's kind switch below - the Region
-  // selector only makes sense for type "region" and needs to appear/
-  // disappear as the type changes.
-  const rerenderLocationModal = () =>
-    renderModal("locations", draft, !state.locations.some((l) => l.id === draft.id), draft.id);
 
-  body.appendChild(field("Name", null, textInput(draft.name, (v) => (draft.name = v))));
-  body.appendChild(field("ID", "auto-filled from name if left blank on a new entry", textInput(draft.id, (v) => (draft.id = v))));
-  const row = el("div", { class: "row2" });
-  row.appendChild(field("Type", null, selectInput(draft.type, LOCATION_TYPES, (v) => { draft.type = v; rerenderLocationModal(); })));
-  row.appendChild(field("Precision", null, selectInput(draft.precision, PRECISIONS, (v) => (draft.precision = v))));
-  body.appendChild(row);
+/**
+ * Inline, repeatable location entry - used from both the Project/Parent
+ * project form (required, at least one) and the Map form (optional; an
+ * empty array means "inherit from the linked project", same as the old
+ * empty locationIds[] did). Replaces the old standalone Locations tab and
+ * its relation-picker: creating a location now happens directly inside the
+ * record that uses it (see the design doc's "Location data entry" section,
+ * 3 September 2026) rather than needing a separate tab visit first.
+ *
+ * Each entry is {settlement, state, country, region, continent, lat, lng,
+ * precision} - every field but the coordinates/precision is free text and
+ * independently optional, so a project can mix a precisely-sited entry
+ * with a country-only one. Country/Region/Continent stay free-text with
+ * autocomplete (not strict dropdowns) for the same reason the old Location
+ * form did: an enforced dropdown would silently reset a value that doesn't
+ * match the reference spelling exactly.
+ */
+function buildLocationsField(body, draft, rerender, { hint }) {
+  if (!draft.locations) draft.locations = [];
 
-  const countryField = el("div");
-  countryField.appendChild(textInput(draft.country, (v) => (draft.country = v), { list: "dl-country-name" }));
-  countryField.appendChild(el("div", { style: "margin-top:6px" }, [
-    el("button", {
-      text: "Fill lat/lng from capital",
-      onclick: () => {
-        const match = findCountry(draft.country);
-        if (!match || match.lat == null) {
-          alert(`No capital coordinates on file for "${draft.country || "(blank)"}" - check it matches one of the 249 reference countries/territories exactly, or enter coordinates by hand.`);
-          return;
-        }
-        draft.lat = match.lat;
-        draft.lng = match.lng;
-        draft.precision = "capital";
-        rerenderLocationModal();
-      },
-    }),
+  const section = el("div", { class: "locations-section" });
+  section.appendChild(el("label", { style: "display:block;font-size:12px;font-weight:600;margin-bottom:6px" }, [
+    document.createTextNode("Locations"),
+    hint ? el("span", { class: "hint", text: " " + hint }) : null,
   ]));
-  body.appendChild(field("Country", "for site/country types - type to search", countryField));
-  body.appendChild(datalistFor("dl-country-name", REF_COUNTRIES.map((c) => c.name)));
 
-  const continentField = el("div");
-  continentField.appendChild(textInput(draft.continent, (v) => (draft.continent = v), { list: "dl-continent-name" }));
-  continentField.appendChild(el("div", { style: "margin-top:6px" }, [
-    el("button", {
-      text: "Fill lat/lng from continent centroid",
-      onclick: () => {
-        const match = findContinent(draft.continent);
-        if (!match) {
-          alert(`"${draft.continent || "(blank)"}" doesn't match one of the 7 reference continents exactly.`);
-          return;
+  // Shared datalists, appended once per modal rather than once per card -
+  // duplicate `id`s across multiple location cards would otherwise collide.
+  section.appendChild(datalistFor("dl-country-name", REF_COUNTRIES.map((c) => c.name)));
+  section.appendChild(datalistFor("dl-region-name", REF_REGIONS.map((r) => r.name)));
+  section.appendChild(datalistFor("dl-continent-name", REF_CONTINENTS.map((c) => c.name)));
+
+  draft.locations.forEach((entry, idx) => {
+    section.appendChild(buildLocationEntryCard(entry, idx, draft, rerender));
+  });
+
+  section.appendChild(el("button", {
+    text: "+ Add location",
+    onclick: () => {
+      draft.locations.push({ settlement: null, state: null, country: null, region: null, continent: null, lat: null, lng: null, precision: null });
+      rerender();
+    },
+  }));
+
+  body.appendChild(section);
+}
+
+function buildLocationEntryCard(entry, idx, draft, rerender) {
+  const card = el("div", { class: "location-card" });
+
+  const row1 = el("div", { class: "row2" });
+  row1.appendChild(field("Settlement", "optional — a specific place/site", textInput(entry.settlement, (v) => (entry.settlement = v))));
+  row1.appendChild(field("State", "optional — province/state, free text", textInput(entry.state, (v) => (entry.state = v))));
+  card.appendChild(row1);
+
+  // Region/Continent input nodes are referenced directly (not through a
+  // full-modal re-render) so picking a Country can fill them in live
+  // without dropping focus mid-keystroke - the same reason the org tab's
+  // rename flow re-fetches fields instead of holding onto stale handles,
+  // just approached from the other direction here.
+  const regionInput = textInput(entry.region, (v) => (entry.region = v), { list: "dl-region-name" });
+  const continentInput = textInput(entry.continent, (v) => (entry.continent = v), { list: "dl-continent-name" });
+
+  const countryInput = textInput(entry.country, (v) => {
+    entry.country = v;
+    // Non-destructive: only fills Region/Continent while they're still
+    // blank. Never overwrites a value already there, typed by hand or
+    // left over from editing a different country in - same rule the old
+    // Location form used for its "Fill lat/lng from…" buttons.
+    const region = findCountryRegion(v);
+    if (region) {
+      if (!entry.region) {
+        entry.region = region;
+        regionInput.value = region;
+      }
+      if (!entry.continent) {
+        const regionMatch = findRegion(region);
+        if (regionMatch) {
+          entry.continent = regionMatch.continent;
+          continentInput.value = regionMatch.continent;
         }
-        draft.lat = match.lat;
-        draft.lng = match.lng;
-        draft.precision = "continent-centroid";
-        rerenderLocationModal();
-      },
-    }),
-  ]));
-  body.appendChild(field("Continent", null, continentField));
-  body.appendChild(datalistFor("dl-continent-name", REF_CONTINENTS.map((c) => c.name)));
-
-  if (draft.type === "region") {
-    // Not a stored field - Location has no separate "region" concept, this
-    // is purely a shortcut for picking the right Continent and a sensible
-    // starting coordinate for a UN-geoscheme-sized area. draft._selectedRegion
-    // is stashed on the draft object so the choice survives the re-render
-    // that picking a region triggers (to refresh the Continent field above)
-    // - serializeLocation() only ever reads the real schema fields, so this
-    // extra property never reaches the saved JSON.
-    const regionField = el("div");
-    const regionSelect = el("select");
-    regionSelect.appendChild(el("option", { value: "", text: "— pick a region —" }));
-    for (const r of REF_REGIONS) {
-      regionSelect.appendChild(
-        el("option", { value: r.name, text: `${r.name} (${r.continent})`, ...(r.name === draft._selectedRegion ? { selected: "selected" } : {}) })
-      );
+      }
     }
-    regionSelect.value = draft._selectedRegion || "";
-    regionSelect.addEventListener("change", () => {
-      draft._selectedRegion = regionSelect.value;
-      const match = findRegion(regionSelect.value);
-      if (match) draft.continent = match.continent;
-      rerenderLocationModal();
-    });
-    regionField.appendChild(regionSelect);
-    regionField.appendChild(
-      el("div", { style: "margin-top:6px" }, [
-        el("button", {
-          text: "Fill lat/lng from region centroid",
-          onclick: () => {
-            const match = findRegion(draft._selectedRegion);
-            if (!match) {
-              alert("Pick a region above first.");
-              return;
-            }
-            draft.lat = match.lat;
-            draft.lng = match.lng;
-            draft.precision = "region-centroid";
-            rerenderLocationModal();
-          },
-        }),
-      ])
-    );
-    body.appendChild(field("Region", "UN geoscheme sub-region - not saved as its own field, just here to set Continent and a starting coordinate", regionField));
-  }
+  }, { list: "dl-country-name" });
 
-  const row3 = el("div", { class: "row2" });
-  row3.appendChild(field("Latitude", null, numberInput(draft.lat, (v) => (draft.lat = v))));
-  row3.appendChild(field("Longitude", null, numberInput(draft.lng, (v) => (draft.lng = v))));
-  body.appendChild(row3);
+  const countryWrap = el("div", {}, [
+    countryInput,
+    el("div", { style: "margin-top:6px" }, [
+      el("button", {
+        text: "Fill lat/lng from capital",
+        onclick: () => {
+          const match = findCountry(entry.country);
+          if (!match || match.lat == null) {
+            alert(`No capital coordinates on file for "${entry.country || "(blank)"}" - check it matches one of the 249 reference countries/territories exactly, or enter coordinates by hand.`);
+            return;
+          }
+          entry.lat = match.lat;
+          entry.lng = match.lng;
+          entry.precision = "capital";
+          rerender();
+        },
+      }),
+    ]),
+  ]);
+  card.appendChild(field("Country", "type to search", countryWrap));
+
+  const regionWrap = el("div", {}, [
+    regionInput,
+    el("div", { style: "margin-top:6px" }, [
+      el("button", {
+        text: "Fill lat/lng from region centroid",
+        onclick: () => {
+          const match = findRegion(entry.region);
+          if (!match) {
+            alert(`"${entry.region || "(blank)"}" doesn't match one of the 25 reference UN-geoscheme regions exactly.`);
+            return;
+          }
+          entry.lat = match.lat;
+          entry.lng = match.lng;
+          entry.precision = "region-centroid";
+          rerender();
+        },
+      }),
+    ]),
+  ]);
+  card.appendChild(field("Region", "auto-fills from Country when both are still blank; UN geoscheme sub-region, freely editable", regionWrap));
+
+  const continentWrap = el("div", {}, [
+    continentInput,
+    el("div", { style: "margin-top:6px" }, [
+      el("button", {
+        text: "Fill lat/lng from continent centroid",
+        onclick: () => {
+          const match = findContinent(entry.continent);
+          if (!match) {
+            alert(`"${entry.continent || "(blank)"}" doesn't match one of the 7 reference continents exactly.`);
+            return;
+          }
+          entry.lat = match.lat;
+          entry.lng = match.lng;
+          entry.precision = "continent-centroid";
+          rerender();
+        },
+      }),
+    ]),
+  ]);
+  card.appendChild(field("Continent", "auto-fills from Country when still blank", continentWrap));
+
+  const row3 = el("div", { class: "row3" });
+  row3.appendChild(field("Latitude", null, numberInput(entry.lat, (v) => (entry.lat = v))));
+  row3.appendChild(field("Longitude", null, numberInput(entry.lng, (v) => (entry.lng = v))));
+  row3.appendChild(field("Precision", null, selectInputNullable(entry.precision, PRECISIONS, (v) => (entry.precision = v))));
+  card.appendChild(row3);
+
+  card.appendChild(el("button", {
+    class: "danger",
+    text: "Remove this location",
+    onclick: () => {
+      draft.locations.splice(idx, 1);
+      rerender();
+    },
+  }));
+
+  return card;
 }
 
 function buildProjectForm(body, draft, opts) {
@@ -1621,10 +1739,7 @@ function buildProjectForm(body, draft, opts) {
     })));
   }
 
-  body.appendChild(field("Locations", "at least one required", relationPicker({
-    multi: true, values: draft.locationIds, options: locationOptions(),
-    onChange: (v) => (draft.locationIds = v),
-  })));
+  buildLocationsField(body, draft, () => renderModal(modalTab, draft, !state.projects.some((p) => p.id === draft.id), draft.id), { hint: "at least one required" });
 
   const row = el("div", { class: "row2" });
   row.appendChild(field("Year", null, numberInput(draft.year, (v) => (draft.year = v))));
@@ -1670,10 +1785,7 @@ function buildMapForm(body, draft) {
     multi: false, values: draft.projectId, options: projectOptions(null),
     onChange: (v) => (draft.projectId = v),
   })));
-  body.appendChild(field("Locations", "leave empty to inherit the linked project's locations; required if standalone", relationPicker({
-    multi: true, values: draft.locationIds, options: locationOptions(),
-    onChange: (v) => (draft.locationIds = v),
-  })));
+  buildLocationsField(body, draft, () => renderModal("maps", draft, !state.maps.some((m) => m.id === draft.id), draft.id), { hint: "leave empty to inherit the linked project's locations; required if standalone" });
 
   const row = el("div", { class: "row2" });
   row.appendChild(field("Year", null, numberInput(draft.year, (v) => (draft.year = v))));
