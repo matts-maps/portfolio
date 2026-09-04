@@ -444,7 +444,7 @@ function serializeMap(m) {
     id: m.id, kind: m.kind, name: m.name || null, file: m.kind === "map" ? (m.file || null) : null,
     projectId: m.projectId || null, locations: (m.locations || []).map(serializeLocationEntry),
     year: m.year ?? null, month: m.month || null,
-    themes: m.themes || [], disaster: m.disaster || [],
+    organisation: m.organisation || [], themes: m.themes || [], disaster: m.disaster || [],
     description: m.description || null,
   };
   if (m.kind === "map") {
@@ -854,27 +854,35 @@ function renderCounts() {
 }
 
 /**
- * "organisations" isn't a stored entity at all - Project.organisation is
- * just a free-text tag array (like themes/disaster/modality), same as the
- * tagInput() autocomplete elsewhere. This tab is a derived management view
- * over those values: every distinct value in use, which projects use it,
- * and a rename that applies everywhere at once (so "Hurricane" vs "Cyclone"
- * vs "Typhoon" style drift can actually be cleaned up, not just avoided
- * going forward). Deleting one here removes it from every project's
- * organisation array; it never deletes a project.
+ * "organisations" isn't a stored entity at all - Project.organisation and
+ * MapItem.organisation are just free-text tag arrays (like themes/disaster/
+ * modality), same as the tagInput() autocomplete elsewhere. This tab is a
+ * derived management view over those values: every distinct value in use,
+ * which projects and maps use it, and a rename that applies everywhere at
+ * once (so "Hurricane" vs "Cyclone" vs "Typhoon" style drift can actually
+ * be cleaned up, not just avoided going forward). Deleting one here removes
+ * it from every project's and map's organisation array; it never deletes
+ * the project or map itself.
  */
 function organisationsList() {
   const map = new Map();
   for (const p of state.projects) {
     for (const o of p.organisation || []) {
-      if (!map.has(o)) map.set(o, []);
-      map.get(o).push(p);
+      if (!map.has(o)) map.set(o, { projects: [], maps: [] });
+      map.get(o).projects.push(p);
+    }
+  }
+  for (const m of state.maps) {
+    for (const o of m.organisation || []) {
+      if (!map.has(o)) map.set(o, { projects: [], maps: [] });
+      map.get(o).maps.push(m);
     }
   }
   return [...map.entries()]
-    .map(([name, projects]) => ({
+    .map(([name, { projects, maps }]) => ({
       name,
       projects: projects.sort((a, b) => a.name.localeCompare(b.name)),
+      maps: maps.sort((a, b) => (a.name || "").localeCompare(b.name || "")),
       abbreviation: getAbbreviation(name),
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -882,6 +890,10 @@ function organisationsList() {
 
 function projectsForOrg(name) {
   return state.projects.filter((p) => (p.organisation || []).includes(name));
+}
+
+function mapsForOrg(name) {
+  return state.maps.filter((m) => (m.organisation || []).includes(name));
 }
 
 function getAbbreviation(name) {
@@ -913,7 +925,11 @@ function currentSearch(tab) {
 
 function renderList(tab) {
   const pane = document.getElementById(`tab-${tab}`);
-  const search = currentSearch(tab) || "";
+  // Read the current search text before clearing the pane below - once
+  // that runs, the search input (and currentSearch's lookup of it) is gone,
+  // and a full rerender (after save/add/delete) would otherwise silently
+  // drop whatever the user had typed.
+  const search = currentSearch(tab);
   pane.innerHTML = "";
 
   const toolbar = el("div", { class: "toolbar" }, [
@@ -922,7 +938,12 @@ function renderList(tab) {
       id: `search-${tab}`,
       placeholder: `Search ${tabLabel(tab)}…`,
       value: search,
-      oninput: () => renderList(tab),
+      // Only the results below get rebuilt on each keystroke - the search
+      // input itself is never touched again after this initial render, so
+      // it never loses focus/caret position while typing. (It used to call
+      // renderList(tab) here, which rebuilt this very input from scratch on
+      // every keystroke and dropped focus after the first character.)
+      oninput: () => renderListResults(tab),
     }),
     el("button", { class: "primary", text: "+ Add new", onclick: () => openEditor(tab, null) }),
   ]);
@@ -935,11 +956,24 @@ function renderList(tab) {
     pane.appendChild(el("p", { class: "tab-hint", text: "Derived from the Organisation field on each project, so an entry only exists here while at least one project uses it. Renaming one updates every project that uses it; deleting removes it from every project without touching the projects themselves." }));
   }
 
-  const data =
+  pane.appendChild(el("div", { id: `list-results-${tab}` }));
+  renderListResults(tab);
+}
+
+/** Rebuilds just the table/empty-state for `tab`, leaving the toolbar (and
+ *  its search input) untouched - see the comment on renderList's oninput. */
+function renderListResults(tab) {
+  const results = document.getElementById(`list-results-${tab}`);
+  const search = currentSearch(tab) || "";
+  results.innerHTML = "";
+
+  const data = sortForTab(
     tab === "parents" ? parentProjectsList() :
     tab === "projects" ? individualProjectsList() :
     tab === "organisations" ? organisationsList() :
-    state[dataKeyFor(tab)];
+    state[dataKeyFor(tab)],
+    tab
+  );
   const filtered = data.filter((item) => matchesSearch(item, tab, search));
   const table = el("table");
   table.appendChild(renderTableHead(tab));
@@ -948,15 +982,19 @@ function renderList(tab) {
     tbody.appendChild(renderTableRow(item, tab));
   }
   table.appendChild(tbody);
-  pane.appendChild(table);
+  results.appendChild(table);
 
   if (filtered.length === 0) {
-    pane.appendChild(el("div", { class: "empty-hint", text: data.length === 0 ? "Nothing here yet." : "No matches." }));
+    results.appendChild(el("div", { class: "empty-hint", text: data.length === 0 ? "Nothing here yet." : "No matches." }));
   }
+}
 
-  // preserve search-box focus/caret across re-renders triggered by typing
-  const box = document.getElementById(`search-${tab}`);
-  if (document.activeElement === box) return;
+/** Alphabetical by name (case-insensitive), falling back to id for the rare
+ *  record with no name yet, so a still-unnamed draft doesn't jump around. */
+function sortForTab(data, tab) {
+  return [...data].sort((a, b) =>
+    (a.name || a.id || "").localeCompare(b.name || b.id || "", undefined, { sensitivity: "base" })
+  );
 }
 
 function matchesSearch(item, tab, search) {
@@ -971,7 +1009,8 @@ function matchesSearch(item, tab, search) {
     .flatMap((l) => [l.settlement, l.state, l.country, l.region, l.continent])
     .filter(Boolean)
     .join(" ");
-  const hay = [item.id, item.name, item.type, locationText]
+  const orgText = (item.organisation || []).join(" ");
+  const hay = [item.id, item.name, item.type, locationText, orgText]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
@@ -982,8 +1021,8 @@ function renderTableHead(tab) {
   const cols =
     tab === "projects" ? ["Name", "ID", "Year", "Locations", "Parent", "Status"] :
     tab === "parents" ? ["Name", "ID", "Year", "Children", "Locations"] :
-    tab === "organisations" ? ["Organisation", "Abbreviation", "# Projects", "Projects"] :
-    ["Name", "ID", "Kind", "Project", "Locations", "Year"];
+    tab === "organisations" ? ["Organisation", "Abbreviation", "# Projects", "Projects", "# Maps", "Maps"] :
+    ["Name", "ID", "Kind", "Project", "Organisation", "Locations", "Year"];
   return el("thead", {}, [el("tr", {}, cols.map((c) => el("th", { text: c })))]);
 }
 
@@ -994,7 +1033,9 @@ function renderTableRow(item, tab) {
       el("td", { text: item.name }),
       el("td", { text: item.abbreviation || "—" }),
       el("td", { text: String(item.projects.length) }),
-      el("td", { text: item.projects.map((p) => p.name).join(", ") || "—" })
+      el("td", { text: item.projects.map((p) => p.name).join(", ") || "—" }),
+      el("td", { text: String(item.maps.length) }),
+      el("td", { text: item.maps.map((m) => m.name || "(untitled)").join(", ") || "—" })
     );
     return tr;
   }
@@ -1036,6 +1077,7 @@ function renderTableRow(item, tab) {
       el("td", { class: "id-cell", text: item.id }),
       el("td", { text: item.kind }),
       el("td", { text: proj }),
+      el("td", { text: (item.organisation || []).join(", ") || "—" }),
       el("td", { text: locNames }),
       el("td", { text: item.year ?? "" })
     );
@@ -1295,7 +1337,7 @@ function openEditor(tab, id) {
       : cloneDraftWithLocations(byId(state.projects, id));
   } else {
     draft = isNew
-      ? { id: "", kind: "map", name: "", file: "", projectId: null, locations: [], year: null, month: "", themes: [], disaster: [], description: "", map_style: "", data_sources: [], screenshot: "", links: [], embeddable: true }
+      ? { id: "", kind: "map", name: "", file: "", projectId: null, locations: [], year: null, month: "", organisation: [], themes: [], disaster: [], description: "", map_style: "", data_sources: [], screenshot: "", links: [], embeddable: true }
       : cloneDraftWithLocations(byId(state.maps, id));
   }
   const originalId = draft.id;
@@ -1405,6 +1447,7 @@ function openOrgEditor(name) {
     originalName: name,
     name: name || "",
     projectIds: isNew ? [] : projectsForOrg(name).map((p) => p.id),
+    mapCount: isNew ? 0 : mapsForOrg(name).length,
     abbreviation: isNew ? "" : getAbbreviation(name),
   };
   renderOrgModal(draft, isNew);
@@ -1416,16 +1459,21 @@ function renderOrgModal(draft, isNew) {
   modal.appendChild(el("h2", { text: isNew ? "New organisation" : draft.originalName }));
   modal.appendChild(el("div", {
     class: "modal-sub",
-    text: isNew ? "Adding to organisations" : `Editing organisations · used by ${draft.projectIds.length} project(s)`,
+    text: isNew
+      ? "Adding to organisations"
+      : `Editing organisations · used by ${draft.projectIds.length} project(s)${draft.mapCount ? `, ${draft.mapCount} map(s)` : ""}`,
   }));
 
   const body = el("div");
-  body.appendChild(field("Name", "renaming updates every project that uses it", textInput(draft.name, (v) => (draft.name = v))));
+  body.appendChild(field("Name", "renaming updates every project (and map) that uses it", textInput(draft.name, (v) => (draft.name = v))));
   body.appendChild(field("Abbreviation", "optional - e.g. \"UNDAC\". Leaving this blank on a rename won't erase an abbreviation the target name already has", textInput(draft.abbreviation, (v) => (draft.abbreviation = v))));
   body.appendChild(field("Projects", "which projects use this organisation - add or remove to reassign it", relationPicker({
     multi: true, values: draft.projectIds, options: projectOptions(null),
     onChange: (v) => (draft.projectIds = v),
   })));
+  if (draft.mapCount) {
+    body.appendChild(el("p", { class: "tab-hint", text: `Also used by ${draft.mapCount} map(s) - a rename or delete here updates those too, but they aren't listed individually here; edit a map directly to add or remove this tag from just that one.` }));
+  }
   modal.appendChild(body);
 
   const actions = el("div", { class: "modal-actions" });
@@ -1436,9 +1484,14 @@ function renderOrgModal(draft, isNew) {
         class: "danger",
         text: "Delete",
         onclick: () => {
-          if (confirm(`Remove "${draft.originalName}" from all ${draft.projectIds.length} project(s)? This can't be undone here (though git history keeps it). The projects themselves aren't deleted.`)) {
+          const mapUses = mapsForOrg(draft.originalName);
+          const usesText = `${draft.projectIds.length} project(s)${mapUses.length ? `, ${mapUses.length} map(s)` : ""}`;
+          if (confirm(`Remove "${draft.originalName}" from all ${usesText}? This can't be undone here (though git history keeps it). The projects/maps themselves aren't deleted.`)) {
             for (const p of state.projects) {
               p.organisation = (p.organisation || []).filter((o) => o !== draft.originalName);
+            }
+            for (const m of state.maps) {
+              m.organisation = (m.organisation || []).filter((o) => o !== draft.originalName);
             }
             removeAbbreviation(draft.originalName);
             setDirty(true);
@@ -1471,7 +1524,11 @@ function commitOrgDraft(draft, isNew) {
     alert("Name is required.");
     return;
   }
-  if (draft.projectIds.length === 0) {
+  // A brand-new organisation only has this modal's Projects picker to attach
+  // it to anything, so it needs at least one; an existing one being renamed
+  // can legitimately have zero projects if it's only ever used on maps
+  // (added there directly), in which case there's nothing to guard against.
+  if (draft.projectIds.length === 0 && (isNew || draft.mapCount === 0)) {
     alert("Pick at least one project - an organisation with no projects has nothing to save.");
     return;
   }
@@ -1509,6 +1566,20 @@ function commitOrgDraft(draft, isNew) {
         arr = arr.filter((o) => o !== name);
       }
       p.organisation = arr;
+    }
+
+    // Maps have no picker of their own in this modal (only projects do) -
+    // a rename/merge just carries every map that had the old name straight
+    // over to the new one, same as the "wasOriginal" side of the project
+    // loop above, so a map's tag never silently drifts out of sync with the
+    // project-level rename.
+    if (renamed) {
+      for (const m of state.maps) {
+        if (!(m.organisation || []).includes(draft.originalName)) continue;
+        const arr = new Set((m.organisation || []).filter((o) => o !== draft.originalName));
+        arr.add(name);
+        m.organisation = [...arr];
+      }
     }
   }
 
@@ -1792,6 +1863,7 @@ function buildMapForm(body, draft) {
   row.appendChild(field("Month", null, textInput(draft.month, (v) => (draft.month = v))));
   body.appendChild(row);
 
+  body.appendChild(field("Organisation", null, tagInput(draft.organisation, allValuesFor("organisation"), (v) => (draft.organisation = v))));
   body.appendChild(field("Themes", null, tagInput(draft.themes, allValuesFor("themes"), (v) => (draft.themes = v))));
   body.appendChild(field("Disaster", null, tagInput(draft.disaster, allValuesFor("disaster"), (v) => (draft.disaster = v))));
   body.appendChild(field("Description", null, textArea(draft.description, (v) => (draft.description = v))));

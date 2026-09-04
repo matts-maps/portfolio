@@ -25,7 +25,7 @@ prompt — a zip sidesteps that entirely.)
 ## What it does
 
 - Four tabs — Projects, Parent projects, Maps, Organisations — each a searchable
-  table. Click a row to edit, or **+ Add new**.
+  table, sorted alphabetically by name. Click a row to edit, or **+ Add new**.
 - **Parent projects** and **Projects** split the same underlying project data
   by an explicit flag (`isParent`), not by whether anything happens to be
   linked to it yet. A project becomes a parent project the moment it's added
@@ -75,17 +75,22 @@ prompt — a zip sidesteps that entirely.)
 - Tag inputs for `themes`, `disaster`, `modality`, `organisation`, `level` — typing
   suggests values already in use elsewhere, so "Hurricane" vs "Cyclone" vs "Typhoon"
   stays a deliberate choice.
-- **Organisations** isn't a stored entity — `Project.organisation` is just a tag
-  field like the others above — so this tab is a derived view: every distinct
-  value in use, how many projects use it, and which ones. It exists to clean up
-  the drift a free-text field invites. Renaming one in its edit form updates
-  every project that has it; if you rename it to a value that's already in use
-  elsewhere, the two merge — the projects that already had the target name are
+- **Organisations** isn't a stored entity — `Project.organisation` and
+  `MapItem.organisation` are just tag fields like the others above — so this
+  tab is a derived view: every distinct value in use, how many projects and
+  maps use it, and which ones. It exists to clean up the drift a free-text
+  field invites. Renaming one in its edit form updates every project and map
+  that has it; if you rename it to a value that's already in use elsewhere,
+  the two merge — the projects/maps that already had the target name are
   left alone, so nothing gets silently dropped. **+ Add new** requires picking
   at least one project up front (an organisation attached to nothing has
   nowhere to be saved) and is purely additive — it only ever adds the tag to
-  the projects you pick, never removes it from anyone. **Delete** removes the
-  value from every project that has it; the projects themselves aren't touched.
+  the projects you pick, never removes it from anyone. Maps aren't pickable
+  from this modal — tag a map with an organisation from the map's own edit
+  form instead; once it's tagged, renaming or deleting that organisation here
+  carries the map along automatically, it's just not individually listed in
+  the picker. **Delete** removes the value from every project and map that
+  has it; the projects/maps themselves aren't touched.
   Each organisation also has an optional **Abbreviation** field (e.g. "GHC" for
   "the Global Health Cluster"), stored separately in `assets/data/organisations.json`
   since it isn't part of `Project` — a sparse, optional data file (only
@@ -129,15 +134,20 @@ prompt — a zip sidesteps that entirely.)
 `test.mjs` is a Playwright smoke test that exercises the fallback (file-input +
 zip-download) path end to end against real fixture data in `test-fixtures/`
 (a snapshot of the actual `assets/data/*.json` at the time this was built) —
-load, search, open a project and check its embedded location cards render, add
-a location card and confirm the Country → Region/Continent auto-populate (and
-that it never overwrites an existing value), fill a location's coordinates from
-each of Country/Region/Continent (including that an unmatched name is refused
-rather than silently applied), edit a webmap's links, save, add a parent project
-and link a child to it, manage the Organisations tab (rename-as-merge, additive
-add, delete — checking each leaves unrelated projects untouched — plus setting/
-searching/merging/deleting an Abbreviation without it leaking onto the wrong
-organisation or surviving a delete), and confirm an invalid save (a project with
+load, confirm the Projects table renders alphabetically sorted, search by
+*typing* into a search box character-by-character (rather than setting its
+value in one shot) to catch focus being dropped mid-keystroke, open a project
+and check its embedded location cards render, add a location card and confirm
+the Country → Region/Continent auto-populate (and that it never overwrites an
+existing value), fill a location's coordinates from each of Country/Region/
+Continent (including that an unmatched name is refused rather than silently
+applied), edit a webmap's links and tag it with an Organisation, save, add a
+parent project and link a child to it, manage the Organisations tab
+(rename-as-merge, additive add, delete — checking each leaves unrelated
+projects and maps untouched, and that a rename/merge/delete carries a tagged
+map along even though maps aren't individually pickable in that modal — plus
+setting/searching/merging/deleting an Abbreviation without it leaking onto the
+wrong organisation or surviving a delete), and confirm an invalid save (a project with
 zero usable locations) is blocked with the right error. Run it with:
 
 ```

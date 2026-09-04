@@ -50,6 +50,19 @@ async function main() {
   check("parent projects count is (0) - none of the fixture data has a linked parent yet", parentCount.trim() === "(0)");
   check("maps count is (60)", mapCount.trim() === "(60)");
 
+  console.log("Checking the Projects table is sorted alphabetically...");
+  // The name cell can be prefixed with an issue-count badge (e.g. an
+  // unresolved-parent warning) with no separating whitespace, so strip that
+  // off before comparing rather than reading the cell's raw textContent.
+  const projectNames = await page.$$eval("#tab-projects tbody tr td:first-child", (cells) =>
+    cells.map((c) => {
+      const badge = c.querySelector(".badge");
+      return badge ? c.textContent.slice(badge.textContent.length) : c.textContent;
+    })
+  );
+  const sortedProjectNames = [...projectNames].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+  check("project rows are in alphabetical order", JSON.stringify(projectNames) === JSON.stringify(sortedProjectNames));
+
   console.log("Checking issues panel picks up known warnings...");
   await page.click("#btn-validate");
   await page.waitForSelector("#issues-panel.open");
@@ -60,8 +73,17 @@ async function main() {
 
   console.log("Opening an existing project and checking fields populate...");
   await page.click('#tabs button[data-tab="projects"]');
-  await page.fill("#search-projects", "Impact of Covid-19");
+  // Type it character-by-character rather than page.fill(), which sets the
+  // value in one shot and dispatches a single input event. Real typing is
+  // what actually exercises the search box, and is what would have caught
+  // the "only allows you to type one letter" bug: a full-table rerender on
+  // every keystroke was destroying and recreating the search input itself,
+  // so real typing lost focus after the first character.
+  await page.click("#search-projects");
+  await page.type("#search-projects", "Impact of Covid-19", { delay: 20 });
   await page.waitForTimeout(50);
+  const typedValue = await page.inputValue("#search-projects");
+  check("search input kept every typed character (no focus loss mid-keystroke)", typedValue === "Impact of Covid-19");
   const rowText = await page.textContent("#tab-projects tbody tr");
   check("search found the GIMAC project", rowText.includes("Impact of Covid-19"));
   await page.click("#tab-projects tbody tr");
@@ -173,7 +195,7 @@ async function main() {
   const savedIraq = gimac.locations.find((l) => l.country === "Iraq");
   check("the added Iraq location is embedded directly on the project, coordinates and all", !!savedIraq && savedIraq.lat === 33.3406 && savedIraq.lng === 44.4009 && savedIraq.region === "Western Asia" && savedIraq.continent === "Asia");
 
-  console.log("Editing a webmap (kind switch, links editor)...");
+  console.log("Editing a webmap (kind switch, links editor, adding an Organisation tag)...");
   await page.click('#tabs button[data-tab="maps"]');
   await page.fill("#search-maps", "");
   const rows = await page.$$("#tab-maps tbody tr");
@@ -192,10 +214,38 @@ async function main() {
   const kvInputs = await linksField.$$(".kv-row:last-of-type input");
   await kvInputs[0].fill("Test link");
   await kvInputs[1].fill("https://example.com/test");
+
+  const webmapOrgField = await fieldByLabel("Organisation");
+  check("webmap form shows an Organisation field", webmapOrgField !== null);
+  await (await webmapOrgField.$("input[type=text]")).fill("MapAction");
+  await (await webmapOrgField.$('button:has-text("Add")')).click();
+  const webmapOrgChips = await webmapOrgField.$$eval(".chip", (chips) => chips.map((c) => c.textContent));
+  check("webmap now carries the MapAction organisation tag", webmapOrgChips.some((c) => c.includes("MapAction")));
+
   await page.click("#modal .modal-actions button.primary");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
-  console.log("Final save with the webmap link added...");
+  console.log("Checking the Maps table and search reflect the new Organisation tag...");
+  await page.fill("#search-maps", "MapAction");
+  await page.waitForTimeout(50);
+  const orgFilteredMapRows = await page.$$("#tab-maps tbody tr");
+  check("searching Maps by organisation finds exactly the edited webmap", orgFilteredMapRows.length === 1);
+  const mapOrgCell = await page.$eval("#tab-maps tbody tr td:nth-child(5)", (td) => td.textContent);
+  check("Maps table's Organisation column shows MapAction", mapOrgCell.includes("MapAction"));
+  await page.fill("#search-maps", "");
+
+  console.log("Checking the Organisations tab picks up that map alongside its projects...");
+  await page.click('#tabs button[data-tab="organisations"]');
+  await page.fill("#search-organisations", "MapAction");
+  await page.waitForTimeout(50);
+  const mapActionMapCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(5)", (td) => td.textContent.trim());
+  check("MapAction's # Maps cell reads 1", mapActionMapCountCell === "1");
+  const mapActionMapsCell = await page.$eval("#tab-organisations tbody tr td:nth-child(6)", (td) => td.textContent);
+  check("MapAction's Maps cell names the edited webmap", mapActionMapsCell.trim().length > 0 && mapActionMapsCell.trim() !== "—");
+  await page.fill("#search-organisations", "");
+  await page.click('#tabs button[data-tab="maps"]');
+
+  console.log("Final save with the webmap link and organisation tag added...");
   const finalDownload = page.waitForEvent("download");
   await page.click("#btn-save");
   const finalDl = await finalDownload;
@@ -205,6 +255,7 @@ async function main() {
   const finalMaps = JSON.parse(fs.readFileSync(path.join(outDir, "maps.json"), "utf8"));
   const editedWebmap = finalMaps.find((m) => (m.links || []).some((l) => l.url === "https://example.com/test"));
   check("webmap link edit persisted through a second save", !!editedWebmap);
+  check("webmap's Organisation tag persisted through a second save", !!editedWebmap && (editedWebmap.organisation || []).includes("MapAction"));
   const finalProjects = JSON.parse(fs.readFileSync(path.join(outDir, "projects.json"), "utf8"));
   const finalGimac = finalProjects.find((p) => p.name.startsWith("Impact of Covid-19"));
   check("GIMAC's 9 embedded locations (Iraq included) survived the second save too", finalGimac.locations.length === 9);
@@ -353,6 +404,20 @@ async function main() {
   check("WHO row is present after the merge", whoNameCell === "World Health Organisation (WHO)");
   const whoCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(3)", (td) => td.textContent.trim());
   check("WHO's project count cell reads 6 (its original 3 plus the merged-in 3)", whoCountCell === "6");
+  const whoMapCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(5)", (td) => td.textContent.trim());
+  check("WHO's # Maps cell reads 1 - the webmap tagged MapAction earlier followed the merge, not just projects", whoMapCountCell === "1");
+  await page.fill("#search-organisations", "");
+  await page.click('#tabs button[data-tab="maps"]');
+  await page.fill("#search-maps", "MapAction");
+  await page.waitForTimeout(50);
+  const staleMapActionMapRows = await page.$$("#tab-maps tbody tr");
+  check("the webmap no longer searches as \"MapAction\" - its tag was renamed to WHO along with the project merge", staleMapActionMapRows.length === 0);
+  await page.fill("#search-maps", "World Health Organisation");
+  await page.waitForTimeout(50);
+  const renamedMapRows = await page.$$("#tab-maps tbody tr");
+  check("the webmap's Organisation tag now reads World Health Organisation (WHO)", renamedMapRows.length === 1);
+  await page.fill("#search-maps", "");
+  await page.click('#tabs button[data-tab="organisations"]');
 
   console.log("Adding a brand-new organisation additively, onto a project that already has other tags...");
   await page.click('#tab-organisations .toolbar button.primary'); // + Add new
