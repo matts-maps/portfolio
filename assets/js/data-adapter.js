@@ -8,10 +8,13 @@
 // `lng` stay as a single-value fallback (first usable location) for anything
 // that hasn't been upgraded yet.
 //
-// Parent projects (isParent: true) are included in loadProjects() like any
-// other project: several now carry their own multi-country location lists
-// (e.g. GIMAC), and that's real, deliberately-entered data that should be
-// visible on the map/table, not just an artifact of the migration.
+// Parent projects (isParent: true) are umbrella/programme records used to
+// group their children in the data-editor — they aren't themselves real,
+// individually-delivered work, so loadProjects() excludes them: the
+// Projects page's map and table should list the actual (child) projects,
+// not the umbrella row above them. A child still shows its parent's name
+// via `parentProject` (the "Part of" note in the detail panel), so the
+// grouping isn't lost, just not rendered as its own row/pin.
 
 const DATA_BASE = new URL("../data/", import.meta.url);
 
@@ -54,6 +57,35 @@ function uniqueValues(values) {
   return [...new Set(values.filter((v) => v != null && v !== ""))];
 }
 
+// A few countries' common English name conventionally takes a "the" article
+// (e.g. "The Bahamas", "The Philippines") even though the location data
+// stores the plain ISO-style name. Add more entries here as needed — this is
+// the one place display names are corrected before reaching any table,
+// panel, or filter dropdown.
+const COUNTRY_DISPLAY_NAMES = {
+  "Bahamas": "The Bahamas",
+  "Philippines": "The Philippines",
+};
+
+function displayCountry(country) {
+  return COUNTRY_DISPLAY_NAMES[country] || country;
+}
+
+// Alphabetical sort key for a country's display name: strips a leading
+// "The " so e.g. "The Bahamas" sorts next to "Bangladesh" (under B) and
+// "The Philippines" sorts next to "Peru"/"Portugal" (under P), rather than
+// both falling under "T" alongside "Thailand".
+function countrySortKey(name) {
+  return name.replace(/^The\s+/i, "");
+}
+
+// Multi-country projects should list their countries alphabetically rather
+// than in whatever order the locations happened to be entered.
+function displayCountries(locations) {
+  return uniqueValues(locations.map((l) => displayCountry(l.country)))
+    .sort((a, b) => countrySortKey(a).localeCompare(countrySortKey(b)));
+}
+
 // A map/webmap with no usable location of its own inherits its linked
 // project's locations, per the schema's documented "empty locations[] means
 // inherit the project" convention.
@@ -71,8 +103,8 @@ function toLegacyProject(p, projectById) {
   return {
     name: p.name || "",
     continent: loc?.continent || "",
-    country: loc?.country || "",
-    countries: uniqueValues(locations.map((l) => l.country)),
+    country: displayCountry(loc?.country || ""),
+    countries: displayCountries(locations),
     continents: uniqueValues(locations.map((l) => l.continent)),
     locations,
     location: loc?.settlement || "",
@@ -105,7 +137,9 @@ function toLegacyProject(p, projectById) {
 export async function loadProjects() {
   const projects = await loadRawProjects();
   const projectById = new Map(projects.map((p) => [p.id, p]));
-  return projects.map((p) => toLegacyProject(p, projectById));
+  return projects
+    .filter((p) => !p.isParent)
+    .map((p) => toLegacyProject(p, projectById));
 }
 
 function toLegacyImage(m, locations) {
