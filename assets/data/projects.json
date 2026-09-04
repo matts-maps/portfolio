@@ -3514,11 +3514,11 @@
       {
         "settlement": null,
         "state": null,
-        "country": "Iran, Islamic Republic of",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 24.7283,
-        "lng": 76.62,
+        "country": null,
+        "region": "Middle East",
+        "continent": null,
+        "lat": 29.7682,
+        "lng": 42.6643,
         "precision": "region-centroid"
       }
     ],
@@ -3548,11 +3548,11 @@
       {
         "settlement": null,
         "state": null,
-        "country": "Iran, Islamic Republic of",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 24.7283,
-        "lng": 76.62,
+        "country": null,
+        "region": "Middle East",
+        "continent": null,
+        "lat": 29.7682,
+        "lng": 42.6643,
         "precision": "region-centroid"
       }
     ],
@@ -3581,5 +3581,83 @@
     "endDate": null,
     "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in the Middle East to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
     "sourceRowCount": 1
+  },
+  {
+    "id": "2026-yem-professional-acaps-deep-dive-into-the-ongoing-conflict-in-yemen",
+    "name": "Deep dive into the ongoing conflict in Yemen",
+    "parentId": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Yemen",
+        "region": "Western Asia",
+        "continent": "Asia",
+        "lat": 15.3545,
+        "lng": 44.2065,
+        "precision": "capital"
+      }
+    ],
+    "year": 2026,
+    "month": "August",
+    "type": null,
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Assessment Capacity Project",
+      "European Union - Emergency response coordination centre"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": null,
+    "startDate": "2026-08-10",
+    "endDate": "2026-08-31",
+    "description": "Spatial analysis and visualisation into the ongoing conflict in Yemen"
+  },
+  {
+    "id": "2026-professional-acaps-deep-dive-into-the-ongoing-conflict-in-crimea",
+    "name": "Deep dive into the ongoing conflict in Crimea",
+    "parentId": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
+    "locations": [
+      {
+        "settlement": null,
+        "state": "Crimea",
+        "country": null,
+        "region": null,
+        "continent": null,
+        "lat": 45.3,
+        "lng": 34.4,
+        "precision": "region-centroid"
+      }
+    ],
+    "year": 2026,
+    "month": "August",
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Assessment Capacity Project",
+      "European Union - Emergency response coordination centre"
+    ],
+    "level": [
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Current",
+    "startDate": "2026-08-10",
+    "endDate": null,
+    "description": "Spatial analysis and visualisation into the ongoing conflict in Crimea. This project specifically looked at trends in the degradation of power infrastructure in Crimea through night light analysis, the decline of shipping in the Black sea and the main supply routes and logistics to Crimea."
   }
 ]
