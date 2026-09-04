@@ -37,6 +37,23 @@ prompt — a zip sidesteps that entirely.)
   badge in the Projects/Parent projects tables, and is searchable and
   sortable like any other column. Maps don't have their own Category — it's
   a project-level classification only.
+- **The Project (and parent project) form has a fixed field order, and most
+  of it stays out of the way until it's relevant.** Name, ID, Category,
+  Themes, Description, Status, Start date, End date and Location always
+  show, in that order. Parent project, Type, Modality, Organisation, Level
+  and Disaster only appear once Category is set to **Professional** — a
+  personal or "Other" project skips straight from Location to the Save
+  button instead of scrolling past six fields that mostly only make sense
+  for client/organisational work. Switching Category back off Professional
+  hides them again without clearing whatever was in them. **Year and Month
+  aren't fields on the form at all any more** — they're derived
+  automatically from whatever's typed into Start date (recognising
+  `YYYY-MM-DD`, `YYYY-MM`, a bare `YYYY`, and the old `DD/MM/YYYY` format
+  left over from the original migration) and stay in the saved JSON purely
+  because the Year column, sorting by Year, and the id convention below all
+  still use them. A Start date typed in some other format is left alone
+  rather than guessed at, so it doesn't clobber a Year/Month that's already
+  there from before this changed.
 - **Parent projects** and **Projects** split the same underlying project data
   by an explicit flag (`isParent`), not by whether anything happens to be
   linked to it yet. A project becomes a parent project the moment it's added
@@ -85,18 +102,21 @@ prompt — a zip sidesteps that entirely.)
   not raw id. No more typing an id from memory or getting it wrong.
 - **Project ids follow a fixed convention**, auto-filled if the ID field is
   left blank when you save: `year-country-category-(org abbreviation)-name`,
-  e.g. `2020-irq-professional-who-impact-of-covid-19-visualisations`.
-  `country` is the ISO3 code of the first location's Country; `category` is
-  the Category field below; the organisation segment is optional and only
+  e.g. `2020-irq-professional-who-impact-of-covid-19-visualisations`. `year`
+  comes from Start date (see above — there's no separate Year field to fill
+  in); `country` is the ISO3 code of the first location's Country; `category`
+  is the Category field; the organisation segment is optional and only
   appears when one of the project's Organisation tags has an Abbreviation
-  set (see the Organisations tab below) — the first one that resolves wins.
-  Any part that isn't known yet (no year, no country, no category, no
-  matching abbreviation) is simply left out rather than leaving a gap, so a
-  brand-new project with just a Name still gets a sensible id. To regenerate
-  an existing project's id after filling in more of these fields, clear the
-  ID field and save again — same mechanism, not automatic on every edit.
-  Map ids aren't part of this convention (there's no Category on maps) and
-  keep their existing name/file-based auto-fill.
+  set (see the Organisations tab below) — the first one that resolves wins,
+  and since Organisation only shows once Category is Professional, that
+  segment is only reachable at all for a Professional project. Any part
+  that isn't known yet (no year, no country, no matching abbreviation) is
+  simply left out rather than leaving a gap, so a brand-new project with
+  just a Name still gets a sensible id. To regenerate an existing project's
+  id after filling in more of these fields, clear the ID field and save
+  again — same mechanism, not automatic on every edit. Map ids aren't part
+  of this convention (there's no Category on maps) and keep their existing
+  name/file-based auto-fill.
 - Tag inputs for `themes`, `disaster`, `modality`, `organisation`, `level` — typing
   suggests values already in use elsewhere, so "Hurricane" vs "Cyclone" vs "Typhoon"
   stays a deliberate choice.
@@ -166,7 +186,13 @@ a different header switches the active sort column), search by *typing* into
 a search box character-by-character (rather than setting its value in one
 shot) to catch focus being dropped mid-keystroke, set a project's Category
 and confirm it shows as a badge in the table, persists through search, and
-survives a save, open a project
+survives a save, confirm the project form's core fields render in the fixed
+order (Name, ID, Category, Themes, Description, Status, Start date, End
+date, Location) and that Parent project/Type/Modality/Organisation/Level/
+Disaster and a Year or Month field are absent until Category is set to
+Professional (and hidden again switching back), confirm typing a Start
+date derives Year/Month with no field on screen to type them into, open a
+project
 and check its embedded location cards render, add a location card and confirm
 the Country → Region/Continent auto-populate (and that it never overwrites an
 existing value), fill a location's coordinates from each of Country/Region/

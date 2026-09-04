@@ -316,6 +316,51 @@ const PRECISIONS = ["exact", "capital", "region-centroid", "continent-centroid",
 // exactly these three), so it isn't worth a tagInput's open-ended autocomplete.
 const CATEGORIES = ["Personal", "Professional", "Other"];
 
+// Year/Month aren't their own form fields any more (see buildProjectForm) -
+// they're derived from Start date whenever it's typed, so the project form
+// only has one date to fill in instead of three. Both fields stay in the
+// data model (they still drive the id convention, the table columns, and
+// sorting) - this just changes how they get populated.
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** Best-effort parse of a project's free-text Start date into {year, month}.
+ * Recognises the formats actually seen in this data: ISO "YYYY-MM-DD" /
+ * "YYYY-MM" (what new entries use), a bare "YYYY", and the old UK-style
+ * "DD/MM/YYYY" left over from the original migration (MapAction is UK-based,
+ * so day-first is the right reading there). Anything else - free text,
+ * partial dates typed some other way - returns null rather than guessing,
+ * so a format this doesn't recognise just leaves whatever Year/Month value
+ * was already on the record untouched instead of clobbering it. */
+function parseStartDateParts(value) {
+  if (!value) return null;
+  const s = value.trim();
+  let m = s.match(/^(\d{4})-(\d{1,2})(?:-(\d{1,2}))?$/);
+  if (m) {
+    const month = Number(m[2]);
+    return { year: Number(m[1]), month: month >= 1 && month <= 12 ? MONTH_NAMES[month - 1] : null };
+  }
+  m = s.match(/^(\d{4})$/);
+  if (m) return { year: Number(m[1]), month: null };
+  m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (m) {
+    const month = Number(m[2]);
+    return { year: Number(m[3]), month: month >= 1 && month <= 12 ? MONTH_NAMES[month - 1] : null };
+  }
+  return null;
+}
+
+/** Applies parseStartDateParts to draft.startDate and, only when it
+ * successfully parses, writes draft.year/draft.month. Doesn't re-render -
+ * Year/Month aren't shown, so there's nothing on screen to update, and this
+ * runs on every keystroke in Start date (same "input" event the field's
+ * own onChange uses), which a full modal re-render would fight with. */
+function deriveYearMonthFromStartDate(draft) {
+  const parsed = parseStartDateParts(draft.startDate);
+  if (!parsed) return;
+  draft.year = parsed.year;
+  if (parsed.month) draft.month = parsed.month;
+}
+
 /* ---------------------------------------------------------------------
  * Reference data for Location's Country/Continent/Region selectors -
  * embedded rather than fetched, since this page is opened directly as a
@@ -1922,65 +1967,84 @@ function buildLocationEntryCard(entry, idx, draft, rerender) {
   return card;
 }
 
+/** Project form field order, Matt's ask (3 Sept 2026): Name, ID, Category,
+ * Themes, Description, Status, Start date, End date, Location - always
+ * shown, in that order. Everything else (Parent project, Type, Modality,
+ * Organisation, Level, Disaster) only matters for client/professional work,
+ * so it's tucked away behind Category = Professional instead of cluttering
+ * the form for a personal project. Year/Month are gone as visible fields
+ * entirely - see deriveYearMonthFromStartDate above. */
 function buildProjectForm(body, draft, opts) {
   // A parent project (added via the Parent projects tab) is always
   // top-level by definition - it never has a Parent project field of its
   // own, whether it's brand new or being edited afterwards.
   const hideParentField = !!draft.isParent;
   const modalTab = (opts && opts.tab) || "projects";
+  const isNew = () => !state.projects.some((p) => p.id === draft.id);
+  const rerender = () => renderModal(modalTab, draft, isNew(), draft.id);
+
+  // 1. Name
   body.appendChild(field("Name", null, textInput(draft.name, (v) => (draft.name = v))));
-  body.appendChild(field("ID", "leave blank to auto-fill as year-country-category-(org abbreviation)-name, e.g. 2020-irq-professional-who-impact-of-covid-19-visualisations - each part is skipped if not yet known", textInput(draft.id, (v) => (draft.id = v))));
+  // 2. ID
+  body.appendChild(field("ID", "leave blank to auto-fill as year-country-category-(org abbreviation)-name, e.g. 2020-irq-professional-who-impact-of-covid-19-visualisations - each part is skipped if not yet known (year comes from Start date below)", textInput(draft.id, (v) => (draft.id = v))));
 
   if (draft.legacyParentName) {
     const banner = el("div", { class: "warn-msg", text: `⚠ Unresolved parent from migration: "${draft.legacyParentName}". Pick a parent below, or clear it.` });
-    const clearBtn = el("button", { text: "Clear unresolved reference", onclick: () => { draft.legacyParentName = null; renderModal(modalTab, draft, false, draft.id); } });
+    const clearBtn = el("button", { text: "Clear unresolved reference", onclick: () => { draft.legacyParentName = null; rerender(); } });
     body.appendChild(field("", null, el("div", {}, [banner, clearBtn])));
   }
 
-  if (hideParentField) {
-    body.appendChild(field("Parent project", "left empty — parent projects are always top-level", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
-  } else {
-    body.appendChild(field("Parent project", "pick from the projects listed in the Parent projects tab, or leave empty", relationPicker({
-      multi: false, values: draft.parentId, options: projectOptions(draft.id, { onlyParents: true }),
-      onChange: (v) => {
-        draft.parentId = v;
-        // Picking a real parent resolves the migration-era hint - clear it
-        // so the warning banner and "unresolved" issue don't linger once
-        // the actual link is made.
-        if (v && draft.legacyParentName) {
-          draft.legacyParentName = null;
-          renderModal(modalTab, draft, !state.projects.some((p) => p.id === draft.id), draft.id);
-        }
-      },
-    })));
-  }
+  // 3. Category - also controls whether the professional-only fields below show at all.
+  body.appendChild(field("Category", "personal work, professional/client work, or something else", selectInputNullable(draft.category, CATEGORIES, (v) => { draft.category = v; rerender(); })));
 
-  buildLocationsField(body, draft, () => renderModal(modalTab, draft, !state.projects.some((p) => p.id === draft.id), draft.id), { hint: "at least one required" });
+  // 4. Themes
+  body.appendChild(field("Themes", null, tagInput(draft.themes, allValuesFor("themes"), (v) => (draft.themes = v))));
 
-  const row = el("div", { class: "row2" });
-  row.appendChild(field("Year", null, numberInput(draft.year, (v) => (draft.year = v))));
-  row.appendChild(field("Month", null, textInput(draft.month, (v) => (draft.month = v))));
-  body.appendChild(row);
+  // 5. Description
+  body.appendChild(field("Description", null, textArea(draft.description, (v) => (draft.description = v))));
 
-  const row2 = el("div", { class: "row2" });
-  row2.appendChild(field("Type", null, textInput(draft.type, (v) => (draft.type = v), { list: "dl-project-type" })));
-  row2.appendChild(field("Status", null, textInput(draft.status, (v) => (draft.status = v), { list: "dl-project-status" })));
-  body.appendChild(row2);
-  body.appendChild(datalistFor("dl-project-type", allValuesForSingle(state.projects, "type")));
+  // 6. Status
+  body.appendChild(field("Status", null, textInput(draft.status, (v) => (draft.status = v), { list: "dl-project-status" })));
   body.appendChild(datalistFor("dl-project-status", allValuesForSingle(state.projects, "status")));
-  body.appendChild(field("Category", "personal work, professional/client work, or something else", selectInputNullable(draft.category, CATEGORIES, (v) => (draft.category = v))));
 
+  // 7/8. Start date / End date - Start date also derives Year/Month live.
   const row3 = el("div", { class: "row2" });
-  row3.appendChild(field("Start date", null, textInput(draft.startDate, (v) => (draft.startDate = v))));
+  row3.appendChild(field("Start date", "also fills the year/month used for sorting and the id, when it's a recognisable date", textInput(draft.startDate, (v) => { draft.startDate = v; deriveYearMonthFromStartDate(draft); })));
   row3.appendChild(field("End date", null, textInput(draft.endDate, (v) => (draft.endDate = v))));
   body.appendChild(row3);
 
-  body.appendChild(field("Modality", null, tagInput(draft.modality, allValuesFor("modality"), (v) => (draft.modality = v))));
-  body.appendChild(field("Organisation", null, tagInput(draft.organisation, allValuesFor("organisation"), (v) => (draft.organisation = v))));
-  body.appendChild(field("Level", null, tagInput(draft.level, allValuesFor("level"), (v) => (draft.level = v))));
-  body.appendChild(field("Themes", null, tagInput(draft.themes, allValuesFor("themes"), (v) => (draft.themes = v))));
-  body.appendChild(field("Disaster", null, tagInput(draft.disaster, allValuesFor("disaster"), (v) => (draft.disaster = v))));
-  body.appendChild(field("Description", null, textArea(draft.description, (v) => (draft.description = v))));
+  // 9. Location
+  buildLocationsField(body, draft, rerender, { hint: "at least one required" });
+
+  // Professional-only: parent linkage plus the free-text/tag classification
+  // fields, which mostly only make sense for client/organisational work.
+  if (draft.category === "Professional") {
+    if (hideParentField) {
+      body.appendChild(field("Parent project", "left empty — parent projects are always top-level", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
+    } else {
+      body.appendChild(field("Parent project", "pick from the projects listed in the Parent projects tab, or leave empty", relationPicker({
+        multi: false, values: draft.parentId, options: projectOptions(draft.id, { onlyParents: true }),
+        onChange: (v) => {
+          draft.parentId = v;
+          // Picking a real parent resolves the migration-era hint - clear it
+          // so the warning banner and "unresolved" issue don't linger once
+          // the actual link is made.
+          if (v && draft.legacyParentName) {
+            draft.legacyParentName = null;
+            rerender();
+          }
+        },
+      })));
+    }
+
+    body.appendChild(field("Type", null, textInput(draft.type, (v) => (draft.type = v), { list: "dl-project-type" })));
+    body.appendChild(datalistFor("dl-project-type", allValuesForSingle(state.projects, "type")));
+
+    body.appendChild(field("Modality", null, tagInput(draft.modality, allValuesFor("modality"), (v) => (draft.modality = v))));
+    body.appendChild(field("Organisation", null, tagInput(draft.organisation, allValuesFor("organisation"), (v) => (draft.organisation = v))));
+    body.appendChild(field("Level", null, tagInput(draft.level, allValuesFor("level"), (v) => (draft.level = v))));
+    body.appendChild(field("Disaster", null, tagInput(draft.disaster, allValuesFor("disaster"), (v) => (draft.disaster = v))));
+  }
 }
 
 function buildMapForm(body, draft) {

@@ -140,6 +140,37 @@ async function main() {
   check("Category is searchable - searching \"Professional\" finds the project just tagged", categorySearchRows.length >= 1);
   await page.fill("#search-projects", "");
 
+  console.log("Checking the project form's field order, and that Category = Professional gates the rest...");
+  await page.click('#tab-projects .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  const coreFieldLabels = await page.$$eval(
+    "#modal .field > label, #modal .locations-section > label",
+    (labels) => labels.map((l) => (l.childNodes[0]?.textContent || "").trim())
+  );
+  check(
+    "core fields appear in order: Name, ID, Category, Themes, Description, Status, Start date, End date, Locations",
+    JSON.stringify(coreFieldLabels) === JSON.stringify(["Name", "ID", "Category", "Themes", "Description", "Status", "Start date", "End date", "Locations"])
+  );
+  check("Parent project is hidden on a new project until Category is Professional", (await fieldByLabel("Parent project")) === null);
+  check("Type is hidden until Category is Professional", (await fieldByLabel("Type")) === null);
+  check("Modality is hidden until Category is Professional", (await fieldByLabel("Modality")) === null);
+  check("Organisation is hidden until Category is Professional", (await fieldByLabel("Organisation")) === null);
+  check("Level is hidden until Category is Professional", (await fieldByLabel("Level")) === null);
+  check("Disaster is hidden until Category is Professional", (await fieldByLabel("Disaster")) === null);
+  check("Year is no longer a field at all", (await fieldByLabel("Year")) === null);
+  check("Month is no longer a field at all", (await fieldByLabel("Month")) === null);
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Professional");
+  check("Parent project appears once Category is Professional", (await fieldByLabel("Parent project")) !== null);
+  check("Type appears once Category is Professional", (await fieldByLabel("Type")) !== null);
+  check("Modality appears once Category is Professional", (await fieldByLabel("Modality")) !== null);
+  check("Organisation appears once Category is Professional", (await fieldByLabel("Organisation")) !== null);
+  check("Level appears once Category is Professional", (await fieldByLabel("Level")) !== null);
+  check("Disaster appears once Category is Professional", (await fieldByLabel("Disaster")) !== null);
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Personal");
+  check("switching back to Personal hides them again", (await fieldByLabel("Organisation")) === null);
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
   console.log("Checking issues panel picks up known warnings...");
   await page.click("#btn-validate");
   await page.waitForSelector("#issues-panel.open");
@@ -344,6 +375,10 @@ async function main() {
   await page.click('#tabs button[data-tab="parents"]');
   await page.click('#tab-parents .toolbar button.primary'); // + Add new
   await page.waitForSelector("#overlay.open");
+  // Parent project (and the rest of the professional-only fields) only show
+  // once Category is Professional - Professional is the natural choice for
+  // this parent project anyway (grouping response work).
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Professional");
   const parentFieldFromTab = await fieldByLabel("Parent project");
   check("Parent project field has no picker when adding from the Parents tab", (await parentFieldFromTab.$("select")) === null);
   const parentNameField = await fieldByLabel("Name");
@@ -374,6 +409,8 @@ async function main() {
   await page.waitForTimeout(50);
   await page.click("#tab-projects tbody tr");
   await page.waitForSelector("#overlay.open");
+  // Same as above - Parent project only shows once Category is Professional.
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Professional");
   const parentPickerField = await fieldByLabel("Parent project");
   const parentOptionsList = await parentPickerField.$$eval("select option", (opts) => opts.map((o) => o.textContent));
   check("Parent project picker offers the newly-added Parent project", parentOptionsList.includes("2014 Ebola response in West Africa"));
@@ -510,6 +547,9 @@ async function main() {
   await page.waitForTimeout(50);
   await page.click("#tab-projects tbody tr");
   await page.waitForSelector("#overlay.open");
+  // Organisation is one of the fields gated behind Category = Professional
+  // now - select it (without saving) purely to reveal the field for this check.
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Professional");
   const mdOrgField = await fieldByLabel("Organisation");
   const mdOrgValues = await mdOrgField.$$eval(".chip", (nodes) => nodes.map((n) => n.childNodes[0].textContent));
   check("MapAction Development kept its merged WHO tag", mdOrgValues.includes("World Health Organisation (WHO)"));
@@ -534,6 +574,7 @@ async function main() {
   await page.waitForTimeout(50);
   await page.click("#tab-projects tbody tr");
   await page.waitForSelector("#overlay.open");
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Professional");
   const mdOrgFieldAfterDelete = await fieldByLabel("Organisation");
   const mdOrgValuesAfterDelete = await mdOrgFieldAfterDelete.$$eval(".chip", (nodes) => nodes.map((n) => n.childNodes[0].textContent));
   check("MapAction Development lost only the deleted tag", mdOrgValuesAfterDelete.length === 1 && mdOrgValuesAfterDelete[0] === "World Health Organisation (WHO)");
@@ -634,12 +675,16 @@ async function main() {
   await page.click('#tab-projects .toolbar button.primary'); // + Add new
   await page.waitForSelector("#overlay.open");
   await (await (await fieldByLabel("Name")).$("input[type=text]")).fill("ID convention test project");
-  await (await (await fieldByLabel("Year")).$("input[type=number]")).fill("2020");
+  // Year isn't its own field any more - it's derived live from Start date.
+  await (await (await fieldByLabel("Start date")).$("input[type=text]")).fill("2020-06-15");
   await page.click('.locations-section button:has-text("+ Add location")');
   await page.waitForTimeout(50);
   const idConvCountryField = await fieldInCard((await locationCards())[0], "Country");
   await (await idConvCountryField.$("input[type=text]")).fill("Japan");
-  await (await (await fieldByLabel("Category")).$("select")).selectOption("Personal");
+  // Organisation (like the rest of the "other" fields) only shows once
+  // Category is Professional - selecting it here is also what this test
+  // needs anyway, since it's exercising the id's org-abbreviation segment.
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Professional");
   const idConvOrgField = await fieldByLabel("Organisation");
   await (await idConvOrgField.$("input[type=text]")).fill("ID Convention Test Org");
   await (await idConvOrgField.$('button:has-text("Add")')).click();
@@ -652,7 +697,15 @@ async function main() {
   const idConvIdCellBefore = await page.$eval("#tab-projects tbody tr .id-cell", (td) => td.textContent.trim());
   check(
     "a new project with no org abbreviation gets year-country-category-name, org segment omitted",
-    idConvIdCellBefore === "2020-jpn-personal-id-convention-test-project"
+    idConvIdCellBefore === "2020-jpn-professional-id-convention-test-project"
+  );
+  const idConvYearMonth = await page.evaluate(() => {
+    const p = state.projects.find((x) => x.name === "ID convention test project");
+    return p ? { year: p.year, month: p.month } : null;
+  });
+  check(
+    "Start date \"2020-06-15\" (typed with no Year/Month field in sight) derived Year 2020 and Month June",
+    !!idConvYearMonth && idConvYearMonth.year === 2020 && idConvYearMonth.month === "June"
   );
 
   console.log("Setting an Abbreviation on that new org, then re-saving with a blank ID to pick it up...");
@@ -678,7 +731,7 @@ async function main() {
   const idConvIdCellAfter = await page.$eval("#tab-projects tbody tr .id-cell", (td) => td.textContent.trim());
   check(
     "once the organisation has an Abbreviation, regenerating the id includes it",
-    idConvIdCellAfter === "2020-jpn-personal-icto-id-convention-test-project"
+    idConvIdCellAfter === "2020-jpn-professional-icto-id-convention-test-project"
   );
   await page.fill("#search-projects", "");
 
