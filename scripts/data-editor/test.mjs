@@ -36,6 +36,15 @@ async function main() {
 
   await page.goto(PAGE);
 
+  const fieldByLabel = async (labelPrefix) => {
+    const fields = await page.$$("#modal .field");
+    for (const f of fields) {
+      const label = await f.$eval("label", (l) => l.childNodes[0]?.textContent || "").catch(() => "");
+      if (label.startsWith(labelPrefix)) return f;
+    }
+    return null;
+  };
+
   console.log("Loading via fallback file inputs...");
   await page.click("#btn-show-fallback");
   await page.setInputFiles("#file-projects", path.join(FIXTURES, "projects.json"));
@@ -66,10 +75,11 @@ async function main() {
   check("Name header is marked sorted by default", nameHeaderClassDefault.includes("sorted"));
 
   console.log("Checking table columns are clickable to sort by, and toggle direction...");
+  // Column order for the Projects tab is Name, Category, ID, Year, ... - Year is the 4th <th>/<td>.
   const readYearColumn = () =>
-    page.$$eval("#tab-projects tbody tr td:nth-child(3)", (cells) => cells.map((c) => c.textContent.trim()));
+    page.$$eval("#tab-projects tbody tr td:nth-child(4)", (cells) => cells.map((c) => c.textContent.trim()));
 
-  await page.click("#tab-projects thead th:nth-child(3)"); // Year
+  await page.click("#tab-projects thead th:nth-child(4)"); // Year
   await page.waitForTimeout(20);
   const yearsAsc = (await readYearColumn()).map((y) => (y === "" ? null : Number(y)));
   const nonNullYearsAsc = yearsAsc.filter((y) => y !== null);
@@ -78,12 +88,12 @@ async function main() {
     JSON.stringify(nonNullYearsAsc) === JSON.stringify([...nonNullYearsAsc].sort((a, b) => a - b)) &&
       yearsAsc.slice(nonNullYearsAsc.length).every((y) => y === null)
   );
-  const yearHeaderClassAsc = await page.getAttribute("#tab-projects thead th:nth-child(3)", "class");
+  const yearHeaderClassAsc = await page.getAttribute("#tab-projects thead th:nth-child(4)", "class");
   check("Year header shows as the active sort column", yearHeaderClassAsc.includes("sorted"));
-  const yearArrowAsc = await page.textContent("#tab-projects thead th:nth-child(3) .sort-arrow");
+  const yearArrowAsc = await page.textContent("#tab-projects thead th:nth-child(4) .sort-arrow");
   check("Year header shows an ascending arrow", yearArrowAsc.includes("▲"));
 
-  await page.click("#tab-projects thead th:nth-child(3)"); // Year again - same column toggles direction
+  await page.click("#tab-projects thead th:nth-child(4)"); // Year again - same column toggles direction
   await page.waitForTimeout(20);
   const yearsDesc = (await readYearColumn()).map((y) => (y === "" ? null : Number(y)));
   const nonNullYearsDesc = yearsDesc.filter((y) => y !== null);
@@ -92,7 +102,7 @@ async function main() {
     JSON.stringify(nonNullYearsDesc) === JSON.stringify([...nonNullYearsDesc].sort((a, b) => b - a)) &&
       yearsDesc.slice(nonNullYearsDesc.length).every((y) => y === null)
   );
-  const yearArrowDesc = await page.textContent("#tab-projects thead th:nth-child(3) .sort-arrow");
+  const yearArrowDesc = await page.textContent("#tab-projects thead th:nth-child(4) .sort-arrow");
   check("Year header shows a descending arrow after the second click", yearArrowDesc.includes("▼"));
 
   await page.click("#tab-projects thead th:nth-child(1)"); // back to Name - a different column resets to ascending
@@ -104,8 +114,31 @@ async function main() {
     })
   );
   check("clicking Name returns the table to alphabetical order", JSON.stringify(namesAfterReturningToName) === JSON.stringify(sortedProjectNames));
-  const yearHeaderClassAfter = await page.getAttribute("#tab-projects thead th:nth-child(3)", "class");
+  const yearHeaderClassAfter = await page.getAttribute("#tab-projects thead th:nth-child(4)", "class");
   check("Year header is no longer marked sorted once Name is clicked", !yearHeaderClassAfter.includes("sorted"));
+
+  console.log("Checking the Category field (personal/professional/other)...");
+  const categoryHeaderText = await page.textContent("#tab-projects thead th:nth-child(2)");
+  check("the 2nd Projects column is Category", categoryHeaderText.trim().startsWith("Category"));
+  await page.fill("#search-projects", "Impact of Covid-19");
+  await page.waitForTimeout(50);
+  const gimacCategoryCellBefore = await page.$eval("#tab-projects tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  check("a project with no category set shows an em dash", gimacCategoryCellBefore === "—");
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const categoryField = await fieldByLabel("Category");
+  check("project form shows a Category field", categoryField !== null);
+  const categorySelect = await categoryField.$("select");
+  await categorySelect.selectOption("Professional");
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+  const gimacCategoryCellAfter = await page.$eval("#tab-projects tbody tr td:nth-child(2)", (td) => td.textContent.trim());
+  check("setting Category to Professional shows a Professional badge in the table", gimacCategoryCellAfter === "Professional");
+  await page.fill("#search-projects", "Professional");
+  await page.waitForTimeout(50);
+  const categorySearchRows = await page.$$("#tab-projects tbody tr");
+  check("Category is searchable - searching \"Professional\" finds the project just tagged", categorySearchRows.length >= 1);
+  await page.fill("#search-projects", "");
 
   console.log("Checking issues panel picks up known warnings...");
   await page.click("#btn-validate");
@@ -134,15 +167,6 @@ async function main() {
   await page.waitForSelector("#overlay.open");
   const modalTitle = await page.textContent("#modal h2");
   check("modal opened for the right project", modalTitle.includes("Impact of Covid-19"));
-
-  const fieldByLabel = async (labelPrefix) => {
-    const fields = await page.$$("#modal .field");
-    for (const f of fields) {
-      const label = await f.$eval("label", (l) => l.childNodes[0]?.textContent || "").catch(() => "");
-      if (label.startsWith(labelPrefix)) return f;
-    }
-    return null;
-  };
 
   /** Same as fieldByLabel, but scoped to one location-card handle - needed
    * once a modal has more than one card, since every card repeats the same
@@ -238,6 +262,7 @@ async function main() {
   check("GIMAC project now has 9 locations (Iraq added)", gimac.locations.length === 9);
   const savedIraq = gimac.locations.find((l) => l.country === "Iraq");
   check("the added Iraq location is embedded directly on the project, coordinates and all", !!savedIraq && savedIraq.lat === 33.3406 && savedIraq.lng === 44.4009 && savedIraq.region === "Western Asia" && savedIraq.continent === "Asia");
+  check("the Category set earlier (Professional) also persisted through the save", gimac.category === "Professional");
 
   console.log("Editing a webmap (kind switch, links editor, adding an Organisation tag)...");
   await page.click('#tabs button[data-tab="maps"]');

@@ -31,6 +31,12 @@ prompt — a zip sidesteps that entirely.)
   click the same header again to reverse direction. The active column is
   highlighted with a ▲/▼ arrow showing which way it's currently sorted.
   Click a row to edit, or **+ Add new**.
+- Every Project (and parent project) has a **Category** field — Personal,
+  Professional, or Other, picked from a fixed dropdown rather than typed
+  freely like Type/Status. It's optional (starts unset), shows as a coloured
+  badge in the Projects/Parent projects tables, and is searchable and
+  sortable like any other column. Maps don't have their own Category — it's
+  a project-level classification only.
 - **Parent projects** and **Projects** split the same underlying project data
   by an explicit flag (`isParent`), not by whether anything happens to be
   linked to it yet. A project becomes a parent project the moment it's added
@@ -144,7 +150,9 @@ that clicking a column header - including a numeric one, Year - re-sorts by
 it, that clicking the same header again reverses direction, and that clicking
 a different header switches the active sort column), search by *typing* into
 a search box character-by-character (rather than setting its value in one
-shot) to catch focus being dropped mid-keystroke, open a project
+shot) to catch focus being dropped mid-keystroke, set a project's Category
+and confirm it shows as a badge in the table, persists through search, and
+survives a save, open a project
 and check its embedded location cards render, add a location card and confirm
 the Country → Region/Continent auto-populate (and that it never overwrites an
 existing value), fill a location's coordinates from each of Country/Region/

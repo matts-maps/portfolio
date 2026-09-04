@@ -15,6 +15,7 @@
     --accent-contrast: #ffffff;
     --danger: #b3432b;
     --warn: #b8860b;
+    --info: #3d6b99;
     --chip-bg: #eef0ea;
     --input-bg: #ffffff;
   }
@@ -29,6 +30,7 @@
       --accent-contrast: #0c0d0e;
       --danger: #e0836a;
       --warn: #e0bd5e;
+      --info: #7fb0e0;
       --chip-bg: #2b2d30;
       --input-bg: #1a1b1d;
     }
@@ -123,6 +125,9 @@
   }
   .badge.warn { background: color-mix(in srgb, var(--warn) 20%, transparent); color: var(--warn); }
   .badge.err { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); }
+  .badge.cat-personal { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); }
+  .badge.cat-professional { background: color-mix(in srgb, var(--info) 18%, transparent); color: var(--info); }
+  .badge.cat-other { background: var(--chip-bg); color: var(--text-dim); }
   .empty-hint { color: var(--text-dim); padding: 40px 0; text-align: center; }
   .tab-hint { color: var(--text-dim); font-size: 12px; margin: -4px 0 12px; }
 
@@ -304,6 +309,13 @@ const state = {
 // linked project" exactly as locationIds used to.
 const PRECISIONS = ["exact", "capital", "region-centroid", "continent-centroid", "global-centroid"];
 
+// Project.category - a fixed three-way classification (personal work vs.
+// professional/client work vs. something else), unlike the free-text Type
+// field. Deliberately not extensible via the UI: adding a fourth value here
+// would need code changes anyway (the table badge styling below is keyed to
+// exactly these three), so it isn't worth a tagInput's open-ended autocomplete.
+const CATEGORIES = ["Personal", "Professional", "Other"];
+
 /* ---------------------------------------------------------------------
  * Reference data for Location's Country/Continent/Region selectors -
  * embedded rather than fetched, since this page is opened directly as a
@@ -438,7 +450,7 @@ function serializeProject(p) {
   Object.assign(out, {
     locations: (p.locations || []).map(serializeLocationEntry),
     year: p.year ?? null, month: p.month || null,
-    type: p.type || null, modality: p.modality || [], organisation: p.organisation || [],
+    type: p.type || null, category: p.category || null, modality: p.modality || [], organisation: p.organisation || [],
     level: p.level || [], themes: p.themes || [], disaster: p.disaster || [],
     status: p.status || null, startDate: p.startDate || null, endDate: p.endDate || null,
     description: p.description || null,
@@ -1007,6 +1019,7 @@ function columnSpecsFor(tab) {
   if (tab === "projects") {
     return [
       { label: "Name", getValue: (p) => p.name || p.id || "" },
+      { label: "Category", getValue: (p) => p.category || "" },
       { label: "ID", getValue: (p) => p.id || "" },
       { label: "Year", getValue: (p) => p.year ?? null },
       { label: "Locations", getValue: (p) => locationsSummary(p.locations) },
@@ -1017,6 +1030,7 @@ function columnSpecsFor(tab) {
   if (tab === "parents") {
     return [
       { label: "Name", getValue: (p) => p.name || p.id || "" },
+      { label: "Category", getValue: (p) => p.category || "" },
       { label: "ID", getValue: (p) => p.id || "" },
       { label: "Year", getValue: (p) => p.year ?? null },
       { label: "Children", getValue: (p) => state.projects.filter((c) => c.parentId === p.id).map((c) => c.name).join(", ") },
@@ -1100,11 +1114,19 @@ function matchesSearch(item, tab, search) {
     .filter(Boolean)
     .join(" ");
   const orgText = (item.organisation || []).join(" ");
-  const hay = [item.id, item.name, item.type, locationText, orgText]
+  const hay = [item.id, item.name, item.type, item.category, locationText, orgText]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
   return hay.includes(search);
+}
+
+/** Small coloured pill for Project.category - null renders as nothing (the
+ *  table cell falls back to "—" itself, same as every other unset column). */
+function categoryBadge(category) {
+  if (!category) return null;
+  const cls = category === "Personal" ? "cat-personal" : category === "Professional" ? "cat-professional" : "cat-other";
+  return el("span", { class: `badge ${cls}`, text: category });
 }
 
 function renderTableHead(tab) {
@@ -1145,6 +1167,7 @@ function renderTableRow(item, tab) {
     const parentName = item.parentId ? (byId(state.projects, item.parentId)?.name || item.parentId) : "—";
     tr.append(
       el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
+      el("td", {}, [categoryBadge(item.category) || document.createTextNode("—")]),
       el("td", { class: "id-cell", text: item.id }),
       el("td", { text: item.year ?? "" }),
       el("td", { text: locNames || "—" }),
@@ -1157,6 +1180,7 @@ function renderTableRow(item, tab) {
     const childText = children.length ? children.map((c) => c.name).join(", ") : "—";
     tr.append(
       el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
+      el("td", {}, [categoryBadge(item.category) || document.createTextNode("—")]),
       el("td", { class: "id-cell", text: item.id }),
       el("td", { text: item.year ?? "" }),
       el("td", { text: childText }),
@@ -1427,7 +1451,7 @@ function openEditor(tab, id) {
   let draft;
   if (entity === "projects") {
     draft = isNew
-      ? { id: "", name: "", parentId: null, isParent: tab === "parents", locations: [], year: null, month: "", type: "", modality: [], organisation: [], level: [], themes: [], disaster: [], status: "", startDate: "", endDate: "", description: "" }
+      ? { id: "", name: "", parentId: null, isParent: tab === "parents", locations: [], year: null, month: "", type: "", category: null, modality: [], organisation: [], level: [], themes: [], disaster: [], status: "", startDate: "", endDate: "", description: "" }
       : cloneDraftWithLocations(byId(state.projects, id));
   } else {
     draft = isNew
@@ -1917,6 +1941,7 @@ function buildProjectForm(body, draft, opts) {
   body.appendChild(row2);
   body.appendChild(datalistFor("dl-project-type", allValuesForSingle(state.projects, "type")));
   body.appendChild(datalistFor("dl-project-status", allValuesForSingle(state.projects, "status")));
+  body.appendChild(field("Category", "personal work, professional/client work, or something else", selectInputNullable(draft.category, CATEGORIES, (v) => (draft.category = v))));
 
   const row3 = el("div", { class: "row2" });
   row3.appendChild(field("Start date", null, textInput(draft.startDate, (v) => (draft.startDate = v))));
