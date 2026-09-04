@@ -3297,8 +3297,8 @@
         "precision": "capital"
       }
     ],
-    "year": null,
-    "month": null,
+    "year": 2026,
+    "month": "March",
     "type": "Preparedness and anticipatory action",
     "category": "Professional",
     "modality": [],
@@ -3311,7 +3311,7 @@
     "themes": [],
     "disaster": [],
     "status": "Current",
-    "startDate": null,
+    "startDate": "01/03/2026",
     "endDate": null,
     "description": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness"
   },
