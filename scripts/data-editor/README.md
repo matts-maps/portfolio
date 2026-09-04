@@ -31,12 +31,18 @@ prompt — a zip sidesteps that entirely.)
   click the same header again to reverse direction. The active column is
   highlighted with a ▲/▼ arrow showing which way it's currently sorted.
   Click a row to edit, or **+ Add new**.
-- Every Project (and parent project) has a **Category** field — Personal,
-  Professional, or Other, picked from a fixed dropdown rather than typed
-  freely like Type/Status. It's optional (starts unset), shows as a coloured
-  badge in the Projects/Parent projects tables, and is searchable and
-  sortable like any other column. Maps don't have their own Category — it's
-  a project-level classification only.
+- Every Project (and parent project) **and Map** has a **Category** field —
+  Personal, Professional, or Other, picked from the same fixed dropdown
+  rather than typed freely like Type/Status. It shows as a coloured badge in
+  the table (the Projects/Parent projects tables, and the Maps table's own
+  Category column) and is searchable and sortable like any other column. On
+  Projects it's optional and starts unset (and also gates the
+  professional-only fields — see below); on Maps it isn't tied to any other
+  field's visibility, and **a brand-new map defaults to Professional**
+  rather than starting unset, since that's true of the great majority of
+  them — pick Personal or Other by hand for the exceptions. Existing maps
+  from before this field existed simply have no Category yet (shown as an
+  em dash in the table) until edited.
 - **The Project (and parent project) form has a fixed field order, and most
   of it stays out of the way until it's relevant.** Name, ID, Parent
   project, Category, Themes, Description, Status, Start date, End date and
@@ -133,8 +139,9 @@ prompt — a zip sidesteps that entirely.)
   just a Name still gets a sensible id. To regenerate an existing project's
   id after filling in more of these fields, clear the ID field and save
   again — same mechanism, not automatic on every edit. Map ids aren't part
-  of this convention (there's no Category on maps) and keep their existing
-  name/file-based auto-fill.
+  of this convention — even though Maps have a Category field too now, it
+  doesn't feed into the id — and keep their existing name/file-based
+  auto-fill.
 - Tag inputs for `themes`, `disaster`, `modality`, `organisation`, `level` — typing
   suggests values already in use elsewhere, so "Hurricane" vs "Cyclone" vs "Typhoon"
   stays a deliberate choice.
@@ -216,7 +223,11 @@ like "Jun-23") leaves it blank but surfaces the raw value in the hint
 instead of just losing it, and that picking a date saves cleanly and
 derives Year/Month with no field on screen to type them into, confirm the
 Region reference list offers Middle East, Pacific and Caribbean alongside
-the formal UN M49 terms, open a
+the formal UN M49 terms, edit a webmap's Category field (present alongside
+Kind, offering the same Personal/Professional/Other options as Projects,
+starting unset on a fixture map with none yet) and confirm it shows in the
+Maps table's Category column and survives a save, and separately confirm a
+brand-new map defaults its Category to Professional, open a
 project
 and check its embedded location cards render, add a location card and confirm
 the Country → Region/Continent auto-populate (and that it never overwrites an

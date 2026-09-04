@@ -390,6 +390,15 @@ async function main() {
   const webmapOrgChips = await webmapOrgField.$$eval(".chip", (chips) => chips.map((c) => c.textContent));
   check("webmap now carries the MapAction organisation tag", webmapOrgChips.some((c) => c.includes("MapAction")));
 
+  console.log("Checking the new Maps Category field (shared with Projects)...");
+  const webmapCategoryField = await fieldByLabel("Category");
+  check("webmap form shows a Category field", webmapCategoryField !== null);
+  const webmapCategorySelect = await webmapCategoryField.$("select");
+  const webmapCategoryOptions = await webmapCategorySelect.$$eval("option", (opts) => opts.map((o) => o.value));
+  check("Category options are Personal/Professional/Other (plus not-set)", ["", "Personal", "Professional", "Other"].every((v) => webmapCategoryOptions.includes(v)));
+  check("this fixture webmap has no category yet, so it starts as not-set", await webmapCategorySelect.inputValue() === "");
+  await webmapCategorySelect.selectOption("Professional");
+
   await page.click("#modal .modal-actions button.primary");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
@@ -398,8 +407,10 @@ async function main() {
   await page.waitForTimeout(50);
   const orgFilteredMapRows = await page.$$("#tab-maps tbody tr");
   check("searching Maps by organisation finds exactly the edited webmap", orgFilteredMapRows.length === 1);
-  const mapOrgCell = await page.$eval("#tab-maps tbody tr td:nth-child(5)", (td) => td.textContent);
+  const mapOrgCell = await page.$eval("#tab-maps tbody tr td:nth-child(6)", (td) => td.textContent);
   check("Maps table's Organisation column shows MapAction", mapOrgCell.includes("MapAction"));
+  const mapCategoryCell = await page.$eval("#tab-maps tbody tr td:nth-child(4)", (td) => td.textContent);
+  check("Maps table's Category column shows the Professional badge just set", mapCategoryCell.includes("Professional"));
   await page.fill("#search-maps", "");
 
   console.log("Checking the Organisations tab picks up that map alongside its projects...");
@@ -424,6 +435,7 @@ async function main() {
   const editedWebmap = finalMaps.find((m) => (m.links || []).some((l) => l.url === "https://example.com/test"));
   check("webmap link edit persisted through a second save", !!editedWebmap);
   check("webmap's Organisation tag persisted through a second save", !!editedWebmap && (editedWebmap.organisation || []).includes("MapAction"));
+  check("webmap's Category persisted through a second save", !!editedWebmap && editedWebmap.category === "Professional");
   const finalProjects = JSON.parse(fs.readFileSync(path.join(outDir, "projects.json"), "utf8"));
   const finalGimac = finalProjects.find((p) => p.name.startsWith("Impact of Covid-19"));
   check("GIMAC's 9 embedded locations (Iraq included) survived the second save too", finalGimac.locations.length === 9);
@@ -591,6 +603,16 @@ async function main() {
   const renamedMapRows = await page.$$("#tab-maps tbody tr");
   check("the webmap's Organisation tag now reads World Health Organisation (WHO)", renamedMapRows.length === 1);
   await page.fill("#search-maps", "");
+
+  console.log("Checking a brand-new map defaults its Category to Professional...");
+  await page.click('#tab-maps .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  const newMapCategoryField = await fieldByLabel("Category");
+  const newMapCategorySelect = await newMapCategoryField.$("select");
+  check("a brand-new map starts with Category = Professional", await newMapCategorySelect.inputValue() === "Professional");
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
   await page.click('#tabs button[data-tab="organisations"]');
 
   console.log("Adding a brand-new organisation additively, onto a project that already has other tags...");

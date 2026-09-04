@@ -314,11 +314,13 @@ const state = {
 // linked project" exactly as locationIds used to.
 const PRECISIONS = ["exact", "capital", "region-centroid", "continent-centroid", "global-centroid"];
 
-// Project.category - a fixed three-way classification (personal work vs.
-// professional/client work vs. something else), unlike the free-text Type
-// field. Deliberately not extensible via the UI: adding a fourth value here
-// would need code changes anyway (the table badge styling below is keyed to
-// exactly these three), so it isn't worth a tagInput's open-ended autocomplete.
+// Project.category / Map.category - a fixed three-way classification
+// (personal work vs. professional/client work vs. something else), unlike
+// the free-text Type field. Shared between Projects and Maps. Deliberately
+// not extensible via the UI: adding a fourth value here would need code
+// changes anyway (the table badge styling below is keyed to exactly these
+// three), so it isn't worth a tagInput's open-ended autocomplete. New maps
+// default to "Professional" since that's true of the great majority of them.
 const CATEGORIES = ["Personal", "Professional", "Other"];
 
 // Year/Month aren't their own form fields any more (see buildProjectForm) -
@@ -534,7 +536,7 @@ function serializeProject(p) {
 
 function serializeMap(m) {
   const out = {
-    id: m.id, kind: m.kind, name: m.name || null, file: m.kind === "map" ? (m.file || null) : null,
+    id: m.id, kind: m.kind, category: m.category || null, name: m.name || null, file: m.kind === "map" ? (m.file || null) : null,
     projectId: m.projectId || null, locations: (m.locations || []).map(serializeLocationEntry),
     year: m.year ?? null, month: m.month || null,
     organisation: m.organisation || [], themes: m.themes || [], disaster: m.disaster || [],
@@ -1125,6 +1127,7 @@ function columnSpecsFor(tab) {
     { label: "Name", getValue: (m) => m.name || m.id || "" },
     { label: "ID", getValue: (m) => m.id || "" },
     { label: "Kind", getValue: (m) => m.kind || "" },
+    { label: "Category", getValue: (m) => m.category || "" },
     { label: "Project", getValue: (m) => (m.projectId ? byId(state.projects, m.projectId)?.name || m.projectId : "") },
     { label: "Organisation", getValue: (m) => (m.organisation || []).join(", ") },
     { label: "Locations", getValue: (m) => locationsSummary(m.locations) },
@@ -1277,6 +1280,7 @@ function renderTableRow(item, tab) {
       el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
       el("td", { class: "id-cell", text: item.id }),
       el("td", { text: item.kind }),
+      el("td", {}, [categoryBadge(item.category) || document.createTextNode("—")]),
       el("td", { text: proj }),
       el("td", { text: (item.organisation || []).join(", ") || "—" }),
       el("td", { text: locNames }),
@@ -1553,7 +1557,7 @@ function openEditor(tab, id) {
       : cloneDraftWithLocations(byId(state.projects, id));
   } else {
     draft = isNew
-      ? { id: "", kind: "map", name: "", file: "", projectId: null, locations: [], year: null, month: "", organisation: [], themes: [], disaster: [], description: "", map_style: "", data_sources: [], screenshot: "", links: [], embeddable: true }
+      ? { id: "", kind: "map", category: "Professional", name: "", file: "", projectId: null, locations: [], year: null, month: "", organisation: [], themes: [], disaster: [], description: "", map_style: "", data_sources: [], screenshot: "", links: [], embeddable: true }
       : cloneDraftWithLocations(byId(state.maps, id));
   }
   const originalId = draft.id;
@@ -2133,6 +2137,7 @@ function buildMapForm(body, draft) {
   body.appendChild(field("Name", null, textInput(draft.name, (v) => (draft.name = v))));
   body.appendChild(field("ID", "auto-filled from name/file if left blank on a new entry", textInput(draft.id, (v) => (draft.id = v))));
   body.appendChild(field("Kind", null, selectInput(draft.kind, ["map", "webmap"], (v) => { draft.kind = v; renderModal("maps", draft, !state.maps.some(m=>m.id===draft.id), draft.id); })));
+  body.appendChild(field("Category", "same classification as Projects - personal work, professional/client work, or something else", selectInputNullable(draft.category, CATEGORIES, (v) => (draft.category = v))));
 
   if (draft.kind === "map") {
     body.appendChild(field("Image file", "path relative to the repo, e.g. assets/images/maps/foo.jpg", textInput(draft.file, (v) => (draft.file = v))));
