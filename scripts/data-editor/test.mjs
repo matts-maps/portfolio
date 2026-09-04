@@ -62,6 +62,50 @@ async function main() {
   );
   const sortedProjectNames = [...projectNames].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
   check("project rows are in alphabetical order", JSON.stringify(projectNames) === JSON.stringify(sortedProjectNames));
+  const nameHeaderClassDefault = await page.getAttribute("#tab-projects thead th:nth-child(1)", "class");
+  check("Name header is marked sorted by default", nameHeaderClassDefault.includes("sorted"));
+
+  console.log("Checking table columns are clickable to sort by, and toggle direction...");
+  const readYearColumn = () =>
+    page.$$eval("#tab-projects tbody tr td:nth-child(3)", (cells) => cells.map((c) => c.textContent.trim()));
+
+  await page.click("#tab-projects thead th:nth-child(3)"); // Year
+  await page.waitForTimeout(20);
+  const yearsAsc = (await readYearColumn()).map((y) => (y === "" ? null : Number(y)));
+  const nonNullYearsAsc = yearsAsc.filter((y) => y !== null);
+  check(
+    "clicking the Year header sorts ascending, with blank years pushed to the end",
+    JSON.stringify(nonNullYearsAsc) === JSON.stringify([...nonNullYearsAsc].sort((a, b) => a - b)) &&
+      yearsAsc.slice(nonNullYearsAsc.length).every((y) => y === null)
+  );
+  const yearHeaderClassAsc = await page.getAttribute("#tab-projects thead th:nth-child(3)", "class");
+  check("Year header shows as the active sort column", yearHeaderClassAsc.includes("sorted"));
+  const yearArrowAsc = await page.textContent("#tab-projects thead th:nth-child(3) .sort-arrow");
+  check("Year header shows an ascending arrow", yearArrowAsc.includes("▲"));
+
+  await page.click("#tab-projects thead th:nth-child(3)"); // Year again - same column toggles direction
+  await page.waitForTimeout(20);
+  const yearsDesc = (await readYearColumn()).map((y) => (y === "" ? null : Number(y)));
+  const nonNullYearsDesc = yearsDesc.filter((y) => y !== null);
+  check(
+    "clicking Year a second time reverses to descending, blanks still last",
+    JSON.stringify(nonNullYearsDesc) === JSON.stringify([...nonNullYearsDesc].sort((a, b) => b - a)) &&
+      yearsDesc.slice(nonNullYearsDesc.length).every((y) => y === null)
+  );
+  const yearArrowDesc = await page.textContent("#tab-projects thead th:nth-child(3) .sort-arrow");
+  check("Year header shows a descending arrow after the second click", yearArrowDesc.includes("▼"));
+
+  await page.click("#tab-projects thead th:nth-child(1)"); // back to Name - a different column resets to ascending
+  await page.waitForTimeout(20);
+  const namesAfterReturningToName = await page.$$eval("#tab-projects tbody tr td:first-child", (cells) =>
+    cells.map((c) => {
+      const badge = c.querySelector(".badge");
+      return badge ? c.textContent.slice(badge.textContent.length) : c.textContent;
+    })
+  );
+  check("clicking Name returns the table to alphabetical order", JSON.stringify(namesAfterReturningToName) === JSON.stringify(sortedProjectNames));
+  const yearHeaderClassAfter = await page.getAttribute("#tab-projects thead th:nth-child(3)", "class");
+  check("Year header is no longer marked sorted once Name is clicked", !yearHeaderClassAfter.includes("sorted"));
 
   console.log("Checking issues panel picks up known warnings...");
   await page.click("#btn-validate");

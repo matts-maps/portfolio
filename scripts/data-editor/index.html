@@ -105,6 +105,10 @@
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
   th { color: var(--text-dim); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .02em; }
+  th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+  th.sortable:hover { color: var(--text); }
+  th.sortable.sorted { color: var(--accent); }
+  th.sortable .sort-arrow { font-size: 10px; margin-left: 2px; }
   tbody tr { cursor: pointer; }
   tbody tr:hover { background: var(--chip-bg); }
   .id-cell { color: var(--text-dim); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
@@ -283,6 +287,10 @@ const state = {
   mode: null,         // "fsapi" | "fallback"
   dirty: false,
   activeTab: "projects",
+  // Per-tab { key, dir } - key is a column label from columnSpecsFor(), dir
+  // is "asc"/"desc". Missing entry means "not clicked yet", which defaults
+  // to Name/Organisation ascending - see getSort().
+  sort: {},
 };
 
 // Locations are no longer a shared, separately-stored entity (see the
@@ -989,12 +997,94 @@ function renderListResults(tab) {
   }
 }
 
-/** Alphabetical by name (case-insensitive), falling back to id for the rare
- *  record with no name yet, so a still-unnamed draft doesn't jump around. */
+/** Every column a table can be sorted by, in the same order they're
+ *  rendered - {label, getValue(item)}. getValue mirrors exactly what
+ *  renderTableRow() puts in that column's cell (recomputed here rather than
+ *  shared, since the two need slightly different shapes: a raw value to
+ *  compare vs. DOM nodes to render), so sorting a column always matches
+ *  what's actually displayed in it. */
+function columnSpecsFor(tab) {
+  if (tab === "projects") {
+    return [
+      { label: "Name", getValue: (p) => p.name || p.id || "" },
+      { label: "ID", getValue: (p) => p.id || "" },
+      { label: "Year", getValue: (p) => p.year ?? null },
+      { label: "Locations", getValue: (p) => locationsSummary(p.locations) },
+      { label: "Parent", getValue: (p) => (p.parentId ? byId(state.projects, p.parentId)?.name || p.parentId : "") },
+      { label: "Status", getValue: (p) => p.status || "" },
+    ];
+  }
+  if (tab === "parents") {
+    return [
+      { label: "Name", getValue: (p) => p.name || p.id || "" },
+      { label: "ID", getValue: (p) => p.id || "" },
+      { label: "Year", getValue: (p) => p.year ?? null },
+      { label: "Children", getValue: (p) => state.projects.filter((c) => c.parentId === p.id).map((c) => c.name).join(", ") },
+      { label: "Locations", getValue: (p) => locationsSummary(p.locations) },
+    ];
+  }
+  if (tab === "organisations") {
+    return [
+      { label: "Organisation", getValue: (o) => o.name || "" },
+      { label: "Abbreviation", getValue: (o) => o.abbreviation || "" },
+      { label: "# Projects", getValue: (o) => o.projects.length },
+      { label: "Projects", getValue: (o) => o.projects.map((p) => p.name).join(", ") },
+      { label: "# Maps", getValue: (o) => o.maps.length },
+      { label: "Maps", getValue: (o) => o.maps.map((m) => m.name || "").join(", ") },
+    ];
+  }
+  // maps
+  return [
+    { label: "Name", getValue: (m) => m.name || m.id || "" },
+    { label: "ID", getValue: (m) => m.id || "" },
+    { label: "Kind", getValue: (m) => m.kind || "" },
+    { label: "Project", getValue: (m) => (m.projectId ? byId(state.projects, m.projectId)?.name || m.projectId : "") },
+    { label: "Organisation", getValue: (m) => (m.organisation || []).join(", ") },
+    { label: "Locations", getValue: (m) => locationsSummary(m.locations) },
+    { label: "Year", getValue: (m) => m.year ?? null },
+  ];
+}
+
+/** The column each table starts sorted by before anything's been clicked -
+ *  matches the old fixed-alphabetical behaviour exactly. */
+function defaultSortKeyFor(tab) {
+  return tab === "organisations" ? "Organisation" : "Name";
+}
+
+function getSort(tab) {
+  return state.sort[tab] || { key: defaultSortKeyFor(tab), dir: "asc" };
+}
+
+/** Clicking a header that's already active flips direction; clicking a
+ *  different one switches to it, ascending. */
+function setSort(tab, key) {
+  const current = getSort(tab);
+  state.sort[tab] = { key, dir: current.key === key && current.dir === "asc" ? "desc" : "asc" };
+  renderListResults(tab);
+}
+
+/** Blank values always sort to the end regardless of direction (there's
+ *  nothing to compare them by, and burying them at the top on a descending
+ *  sort would be surprising); otherwise numbers compare numerically and
+ *  everything else compares as case-insensitive text. */
+function compareValues(va, vb, dir) {
+  const aEmpty = va === null || va === undefined || va === "";
+  const bEmpty = vb === null || vb === undefined || vb === "";
+  if (aEmpty && bEmpty) return 0;
+  if (aEmpty) return 1;
+  if (bEmpty) return -1;
+  const cmp =
+    typeof va === "number" && typeof vb === "number"
+      ? va - vb
+      : String(va).localeCompare(String(vb), undefined, { sensitivity: "base" });
+  return dir === "desc" ? -cmp : cmp;
+}
+
 function sortForTab(data, tab) {
-  return [...data].sort((a, b) =>
-    (a.name || a.id || "").localeCompare(b.name || b.id || "", undefined, { sensitivity: "base" })
-  );
+  const { key, dir } = getSort(tab);
+  const specs = columnSpecsFor(tab);
+  const spec = specs.find((c) => c.label === key) || specs[0];
+  return [...data].sort((a, b) => compareValues(spec.getValue(a), spec.getValue(b), dir));
 }
 
 function matchesSearch(item, tab, search) {
@@ -1018,12 +1108,16 @@ function matchesSearch(item, tab, search) {
 }
 
 function renderTableHead(tab) {
-  const cols =
-    tab === "projects" ? ["Name", "ID", "Year", "Locations", "Parent", "Status"] :
-    tab === "parents" ? ["Name", "ID", "Year", "Children", "Locations"] :
-    tab === "organisations" ? ["Organisation", "Abbreviation", "# Projects", "Projects", "# Maps", "Maps"] :
-    ["Name", "ID", "Kind", "Project", "Organisation", "Locations", "Year"];
-  return el("thead", {}, [el("tr", {}, cols.map((c) => el("th", { text: c })))]);
+  const { key: activeKey, dir } = getSort(tab);
+  const ths = columnSpecsFor(tab).map((col) => {
+    const isActive = col.label === activeKey;
+    return el(
+      "th",
+      { class: isActive ? "sortable sorted" : "sortable", onclick: () => setSort(tab, col.label) },
+      [document.createTextNode(col.label), isActive ? el("span", { class: "sort-arrow", text: dir === "asc" ? "▲" : "▼" }) : null]
+    );
+  });
+  return el("thead", {}, [el("tr", {}, ths)]);
 }
 
 function renderTableRow(item, tab) {

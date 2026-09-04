@@ -24,8 +24,13 @@ prompt — a zip sidesteps that entirely.)
 
 ## What it does
 
-- Four tabs — Projects, Parent projects, Maps, Organisations — each a searchable
-  table, sorted alphabetically by name. Click a row to edit, or **+ Add new**.
+- Four tabs — Projects, Parent projects, Maps, Organisations — each a searchable,
+  sortable table, sorted alphabetically by name by default. Click any column
+  header to sort by that column instead (numeric columns like Year sort
+  numerically; a blank value always sorts to the end, whichever direction);
+  click the same header again to reverse direction. The active column is
+  highlighted with a ▲/▼ arrow showing which way it's currently sorted.
+  Click a row to edit, or **+ Add new**.
 - **Parent projects** and **Projects** split the same underlying project data
   by an explicit flag (`isParent`), not by whether anything happens to be
   linked to it yet. A project becomes a parent project the moment it's added
@@ -134,9 +139,12 @@ prompt — a zip sidesteps that entirely.)
 `test.mjs` is a Playwright smoke test that exercises the fallback (file-input +
 zip-download) path end to end against real fixture data in `test-fixtures/`
 (a snapshot of the actual `assets/data/*.json` at the time this was built) —
-load, confirm the Projects table renders alphabetically sorted, search by
-*typing* into a search box character-by-character (rather than setting its
-value in one shot) to catch focus being dropped mid-keystroke, open a project
+load, confirm the Projects table renders alphabetically sorted by default (and
+that clicking a column header - including a numeric one, Year - re-sorts by
+it, that clicking the same header again reverses direction, and that clicking
+a different header switches the active sort column), search by *typing* into
+a search box character-by-character (rather than setting its value in one
+shot) to catch focus being dropped mid-keystroke, open a project
 and check its embedded location cards render, add a location card and confirm
 the Country → Region/Continent auto-populate (and that it never overwrites an
 existing value), fill a location's coordinates from each of Country/Region/
