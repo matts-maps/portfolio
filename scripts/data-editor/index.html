@@ -1968,12 +1968,12 @@ function buildLocationEntryCard(entry, idx, draft, rerender) {
 }
 
 /** Project form field order, Matt's ask (3 Sept 2026): Name, ID, Category,
- * Themes, Description, Status, Start date, End date, Location - always
- * shown, in that order. Everything else (Parent project, Type, Modality,
- * Organisation, Level, Disaster) only matters for client/professional work,
- * so it's tucked away behind Category = Professional instead of cluttering
- * the form for a personal project. Year/Month are gone as visible fields
- * entirely - see deriveYearMonthFromStartDate above. */
+ * Parent project, Category, Themes, Description, Status, Start date, End
+ * date, Location - always shown, in that order. Everything else (Type,
+ * Modality, Organisation, Level, Disaster) only matters for client/
+ * professional work, so it's tucked away behind Category = Professional
+ * instead of cluttering the form for a personal project. Year/Month are
+ * gone as visible fields entirely - see deriveYearMonthFromStartDate above. */
 function buildProjectForm(body, draft, opts) {
   // A parent project (added via the Parent projects tab) is always
   // top-level by definition - it never has a Parent project field of its
@@ -1994,49 +1994,52 @@ function buildProjectForm(body, draft, opts) {
     body.appendChild(field("", null, el("div", {}, [banner, clearBtn])));
   }
 
-  // 3. Category - also controls whether the professional-only fields below show at all.
+  // 3. Parent project - always shown now (previously tucked behind
+  // Category = Professional along with the rest; Matt asked for it back
+  // out as a core field, right after ID).
+  if (hideParentField) {
+    body.appendChild(field("Parent project", "left empty — parent projects are always top-level", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
+  } else {
+    body.appendChild(field("Parent project", "pick from the projects listed in the Parent projects tab, or leave empty", relationPicker({
+      multi: false, values: draft.parentId, options: projectOptions(draft.id, { onlyParents: true }),
+      onChange: (v) => {
+        draft.parentId = v;
+        // Picking a real parent resolves the migration-era hint - clear it
+        // so the warning banner and "unresolved" issue don't linger once
+        // the actual link is made.
+        if (v && draft.legacyParentName) {
+          draft.legacyParentName = null;
+          rerender();
+        }
+      },
+    })));
+  }
+
+  // 4. Category - also controls whether the professional-only fields below show at all.
   body.appendChild(field("Category", "personal work, professional/client work, or something else", selectInputNullable(draft.category, CATEGORIES, (v) => { draft.category = v; rerender(); })));
 
-  // 4. Themes
+  // 5. Themes
   body.appendChild(field("Themes", null, tagInput(draft.themes, allValuesFor("themes"), (v) => (draft.themes = v))));
 
-  // 5. Description
+  // 6. Description
   body.appendChild(field("Description", null, textArea(draft.description, (v) => (draft.description = v))));
 
-  // 6. Status
+  // 7. Status
   body.appendChild(field("Status", null, textInput(draft.status, (v) => (draft.status = v), { list: "dl-project-status" })));
   body.appendChild(datalistFor("dl-project-status", allValuesForSingle(state.projects, "status")));
 
-  // 7/8. Start date / End date - Start date also derives Year/Month live.
+  // 8/9. Start date / End date - Start date also derives Year/Month live.
   const row3 = el("div", { class: "row2" });
   row3.appendChild(field("Start date", "also fills the year/month used for sorting and the id, when it's a recognisable date", textInput(draft.startDate, (v) => { draft.startDate = v; deriveYearMonthFromStartDate(draft); })));
   row3.appendChild(field("End date", null, textInput(draft.endDate, (v) => (draft.endDate = v))));
   body.appendChild(row3);
 
-  // 9. Location
+  // 10. Location
   buildLocationsField(body, draft, rerender, { hint: "at least one required" });
 
-  // Professional-only: parent linkage plus the free-text/tag classification
-  // fields, which mostly only make sense for client/organisational work.
+  // Professional-only: the free-text/tag classification fields, which
+  // mostly only make sense for client/organisational work.
   if (draft.category === "Professional") {
-    if (hideParentField) {
-      body.appendChild(field("Parent project", "left empty — parent projects are always top-level", el("div", { class: "hint" }, [document.createTextNode("— none —")])));
-    } else {
-      body.appendChild(field("Parent project", "pick from the projects listed in the Parent projects tab, or leave empty", relationPicker({
-        multi: false, values: draft.parentId, options: projectOptions(draft.id, { onlyParents: true }),
-        onChange: (v) => {
-          draft.parentId = v;
-          // Picking a real parent resolves the migration-era hint - clear it
-          // so the warning banner and "unresolved" issue don't linger once
-          // the actual link is made.
-          if (v && draft.legacyParentName) {
-            draft.legacyParentName = null;
-            rerender();
-          }
-        },
-      })));
-    }
-
     body.appendChild(field("Type", null, textInput(draft.type, (v) => (draft.type = v), { list: "dl-project-type" })));
     body.appendChild(datalistFor("dl-project-type", allValuesForSingle(state.projects, "type")));
 

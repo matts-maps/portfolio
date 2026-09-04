@@ -38,12 +38,12 @@ prompt — a zip sidesteps that entirely.)
   sortable like any other column. Maps don't have their own Category — it's
   a project-level classification only.
 - **The Project (and parent project) form has a fixed field order, and most
-  of it stays out of the way until it's relevant.** Name, ID, Category,
-  Themes, Description, Status, Start date, End date and Location always
-  show, in that order. Parent project, Type, Modality, Organisation, Level
+  of it stays out of the way until it's relevant.** Name, ID, Parent
+  project, Category, Themes, Description, Status, Start date, End date and
+  Location always show, in that order. Type, Modality, Organisation, Level
   and Disaster only appear once Category is set to **Professional** — a
   personal or "Other" project skips straight from Location to the Save
-  button instead of scrolling past six fields that mostly only make sense
+  button instead of scrolling past five fields that mostly only make sense
   for client/organisational work. Switching Category back off Professional
   hides them again without clearing whatever was in them. **Year and Month
   aren't fields on the form at all any more** — they're derived
@@ -187,11 +187,12 @@ a search box character-by-character (rather than setting its value in one
 shot) to catch focus being dropped mid-keystroke, set a project's Category
 and confirm it shows as a badge in the table, persists through search, and
 survives a save, confirm the project form's core fields render in the fixed
-order (Name, ID, Category, Themes, Description, Status, Start date, End
-date, Location) and that Parent project/Type/Modality/Organisation/Level/
+order (Name, ID, Parent project, Category, Themes, Description, Status,
+Start date, End date, Location) and that Type/Modality/Organisation/Level/
 Disaster and a Year or Month field are absent until Category is set to
-Professional (and hidden again switching back), confirm typing a Start
-date derives Year/Month with no field on screen to type them into, open a
+Professional (and hidden again switching back, with Parent project staying
+visible throughout), confirm typing a Start date derives Year/Month with
+no field on screen to type them into, open a
 project
 and check its embedded location cards render, add a location card and confirm
 the Country → Region/Continent auto-populate (and that it never overwrites an
