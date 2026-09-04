@@ -45,15 +45,24 @@ prompt — a zip sidesteps that entirely.)
   personal or "Other" project skips straight from Location to the Save
   button instead of scrolling past five fields that mostly only make sense
   for client/organisational work. Switching Category back off Professional
-  hides them again without clearing whatever was in them. **Year and Month
-  aren't fields on the form at all any more** — they're derived
-  automatically from whatever's typed into Start date (recognising
-  `YYYY-MM-DD`, `YYYY-MM`, a bare `YYYY`, and the old `DD/MM/YYYY` format
-  left over from the original migration) and stay in the saved JSON purely
-  because the Year column, sorting by Year, and the id convention below all
-  still use them. A Start date typed in some other format is left alone
-  rather than guessed at, so it doesn't clobber a Year/Month that's already
-  there from before this changed.
+  hides them again without clearing whatever was in them. **Start date and
+  End date are proper date pickers** (a native `<input type="date">`, not a
+  free-text box) — click to open a calendar rather than typing a date by
+  hand. **Year and Month aren't fields on the form at all any more** —
+  picking a Start date derives them automatically and they stay in the
+  saved JSON purely because the Year column, sorting by Year, and the id
+  convention below all still use them. Existing dates from before this
+  changed still show correctly if they were already `YYYY-MM-DD` or the old
+  `DD/MM/YYYY` format left over from the original migration (both convert
+  into the picker automatically) — anything the picker genuinely can't
+  represent, like a month-only date such as `Jun-23`, shows the raw stored
+  value in the field's hint text instead of just going blank, and stays
+  exactly as it was until a real date is picked to replace it.
+- **Any table column that lists other records — a parent's Children, an
+  organisation's Projects or Maps — renders them as a numbered list, one
+  per line, instead of running them together as one comma-separated
+  string.** Easier to scan and count once there's more than a couple; a
+  cell with nothing to list still just shows a plain em dash.
 - **Parent projects** and **Projects** split the same underlying project data
   by an explicit flag (`isParent`), not by whether anything happens to be
   linked to it yet. A project becomes a parent project the moment it's added
@@ -87,10 +96,15 @@ prompt — a zip sidesteps that entirely.)
   overwritten. This is non-destructive by design: the auto-fill only ever
   writes into a field that's genuinely still empty.
 - Country/Region/Continent all autocomplete against a reference list (249
-  countries/territories with ISO3 + capital; the 25 UN-geoscheme regions; the 7
-  continents) embedded in the page — typing still accepts anything, this is
-  suggestion, not enforcement, so existing values that don't match exactly
-  (older canonicalisations, edge cases) are never silently touched. Each of the
+  countries/territories with ISO3 + capital; 27 regions — the 25 UN-geoscheme
+  sub-regions plus Middle East and Pacific, both common enough in how this
+  data gets described that they're offered alongside the formal M49 terms
+  (Western Asia, and Melanesia/Micronesia/Polynesia/Australia and New
+  Zealand, still cover the same countries) — Caribbean is also in there,
+  under the Americas; the 7 continents) embedded in the page — typing still
+  accepts anything, this is suggestion, not enforcement, so existing values
+  that don't match exactly (older canonicalisations, edge cases) are never
+  silently touched. Each of the
   three fields has its own **Fill lat/lng from…** button: Country fills from
   that country's capital and sets precision to `capital`; Region fills from
   that UN-geoscheme region's centroid and sets precision to `region-centroid`;
@@ -104,8 +118,12 @@ prompt — a zip sidesteps that entirely.)
   left blank when you save: `year-country-category-(org abbreviation)-name`,
   e.g. `2020-irq-professional-who-impact-of-covid-19-visualisations`. `year`
   comes from Start date (see above — there's no separate Year field to fill
-  in); `country` is the ISO3 code of the first location's Country; `category`
-  is the Category field; the organisation segment is optional and only
+  in); `country` is the ISO3 code of the first location's Country — **except
+  on a parent project, where that slot is always the literal `parent`**
+  instead (e.g. `2020-parent-professional-who-regional-covid-19-response`),
+  since a parent groups children that can each be somewhere different, so
+  its own first location's country would be misleading there; `category` is
+  the Category field; the organisation segment is optional and only
   appears when one of the project's Organisation tags has an Abbreviation
   set (see the Organisations tab below) — the first one that resolves wins,
   and since Organisation only shows once Category is Professional, that
@@ -191,15 +209,24 @@ order (Name, ID, Parent project, Category, Themes, Description, Status,
 Start date, End date, Location) and that Type/Modality/Organisation/Level/
 Disaster and a Year or Month field are absent until Category is set to
 Professional (and hidden again switching back, with Parent project staying
-visible throughout), confirm typing a Start date derives Year/Month with
-no field on screen to type them into, open a
+visible throughout), confirm Start date/End date are native date pickers -
+that the old DD/MM/YYYY migration format and plain ISO dates both convert
+into the picker correctly, that a date the picker can't represent (no day,
+like "Jun-23") leaves it blank but surfaces the raw value in the hint
+instead of just losing it, and that picking a date saves cleanly and
+derives Year/Month with no field on screen to type them into, confirm the
+Region reference list offers Middle East, Pacific and Caribbean alongside
+the formal UN M49 terms, open a
 project
 and check its embedded location cards render, add a location card and confirm
 the Country → Region/Continent auto-populate (and that it never overwrites an
 existing value), fill a location's coordinates from each of Country/Region/
 Continent (including that an unmatched name is refused rather than silently
 applied), edit a webmap's links and tag it with an Organisation, save, add a
-parent project and link a child to it, manage the Organisations tab
+parent project and link a child to it (confirming its Children column
+renders as a numbered list, not a comma-separated run - same check repeated
+for an organisation's Projects column further down), manage the
+Organisations tab
 (rename-as-merge, additive add, delete — checking each leaves unrelated
 projects and maps untouched, and that a rename/merge/delete carries a tagged
 map along even though maps aren't individually pickable in that modal — plus
@@ -207,7 +234,9 @@ setting/searching/merging/deleting an Abbreviation without it leaking onto the
 wrong organisation or surviving a delete), confirm a new project with a blank
 ID gets the year-country-category-name convention with the organisation
 segment correctly omitted when no Abbreviation is set yet, then confirm
-regenerating the id (blank it, save again) after setting one picks it up, and
+regenerating the id (blank it, save again) after setting one picks it up,
+confirm a parent project's id uses the literal "parent" in the country
+slot even when it has a location on it, and
 confirm an invalid save (a project with
 zero usable locations) is blocked with the right error. Run it with:
 

@@ -172,6 +172,37 @@ async function main() {
   await page.click("#modal .modal-actions button:has-text('Cancel')");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
+  console.log("Checking Start date/End date are proper date pickers...");
+  await page.fill("#search-projects", "MapAction Development");
+  await page.waitForTimeout(50);
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const startDateField = await fieldByLabel("Start date");
+  const startDateInput = await startDateField.$("input[type=date]");
+  check("Start date is a native date input", startDateInput !== null);
+  check("Start date has no plain text input any more", (await startDateField.$("input[type=text]")) === null);
+  const startDateValue = await startDateInput.evaluate((el) => el.value);
+  check("the old \"01/07/2006\" DD/MM/YYYY value converts to the picker's 2006-07-01", startDateValue === "2006-07-01");
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.fill("#search-projects", "Data and GIS training");
+  await page.waitForTimeout(50);
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const trainingStartField = await fieldByLabel("Start date");
+  const trainingStartValue = await (await trainingStartField.$("input[type=date]")).evaluate((el) => el.value);
+  check("a date the picker can't represent (\"Jun-23\", no day) leaves the picker blank", trainingStartValue === "");
+  const trainingStartHint = await trainingStartField.$eval(".hint", (el) => el.textContent).catch(() => "");
+  check("...but the raw stored value shows in the hint instead of just vanishing", trainingStartHint.includes("Jun-23"));
+  const trainingEndField = await fieldByLabel("End date");
+  const trainingEndHint = await trainingEndField.$eval(".hint", (el) => el.textContent).catch(() => "");
+  check("same for End date (\"Aug-23\")", trainingEndHint.includes("Aug-23"));
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.fill("#search-projects", "");
+
   console.log("Checking issues panel picks up known warnings...");
   await page.click("#btn-validate");
   await page.waitForSelector("#issues-panel.open");
@@ -295,6 +326,42 @@ async function main() {
   const savedIraq = gimac.locations.find((l) => l.country === "Iraq");
   check("the added Iraq location is embedded directly on the project, coordinates and all", !!savedIraq && savedIraq.lat === 33.3406 && savedIraq.lng === 44.4009 && savedIraq.region === "Western Asia" && savedIraq.continent === "Asia");
   check("the Category set earlier (Professional) also persisted through the save", gimac.category === "Professional");
+
+  console.log("Checking a date picked in the Start date picker saves clean and derives Year/Month...");
+  await page.click('#tab-projects .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  await (await (await fieldByLabel("Name")).$("input[type=text]")).fill("Date picker test project");
+  await (await (await fieldByLabel("Start date")).$("input[type=date]")).fill("2021-03-09");
+  await page.click('.locations-section button:has-text("+ Add location")');
+  await page.waitForTimeout(50);
+  const datePickerCountryField = await fieldInCard((await locationCards())[0], "Country");
+  await (await datePickerCountryField.$("input[type=text]")).fill("Kenya");
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+  const datePickerYearMonth = await page.evaluate(() => {
+    const p = state.projects.find((x) => x.name === "Date picker test project");
+    return p ? { year: p.year, month: p.month, startDate: p.startDate } : null;
+  });
+  check(
+    "picking 2021-03-09 in the date picker saves it as-is and derives Year 2021 / Month March",
+    !!datePickerYearMonth && datePickerYearMonth.startDate === "2021-03-09" && datePickerYearMonth.year === 2021 && datePickerYearMonth.month === "March"
+  );
+
+  console.log("Checking the Region reference list includes Middle East, Pacific and Caribbean...");
+  await page.fill("#search-projects", "Date picker test project");
+  await page.waitForTimeout(50);
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  const regionCard = (await locationCards())[0];
+  const regionField = await fieldInCard(regionCard, "Region");
+  const regionListId = await (await regionField.$("input[type=text]")).getAttribute("list");
+  const regionOptions = await page.$$eval(`datalist#${regionListId} option`, (opts) => opts.map((o) => o.value));
+  check("Region reference list includes Middle East", regionOptions.includes("Middle East"));
+  check("Region reference list includes Pacific", regionOptions.includes("Pacific"));
+  check("Region reference list includes Caribbean", regionOptions.includes("Caribbean"));
+  await page.click("#modal .modal-actions button:has-text('Cancel')");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+  await page.fill("#search-projects", "");
 
   console.log("Editing a webmap (kind switch, links editor, adding an Organisation tag)...");
   await page.click('#tabs button[data-tab="maps"]');
@@ -431,6 +498,8 @@ async function main() {
   const parentsRowAfterLink = await page.textContent("#tab-parents tbody tr").catch(() => "");
   check("parents tab still lists the parent project", parentsRowAfterLink.includes("2014 Ebola response in West Africa"));
   check("its Children column now shows the linked Ebola project", parentsRowAfterLink.split("2014 Ebola response in West Africa")[1]?.includes("Ebola"));
+  const childrenListItems = await page.$$eval("#tab-parents tbody tr td:nth-child(5) ol.cell-list li", (lis) => lis.map((l) => l.textContent));
+  check("the Children column renders as a numbered list, not a comma-separated run", childrenListItems.length === 1 && childrenListItems[0].includes("Ebola"));
 
   await page.click('#tabs button[data-tab="projects"]');
   await page.fill("#search-projects", "2014 Ebola response in West Africa");
@@ -476,6 +545,8 @@ async function main() {
   check("MapAction row lists its 3 projects", mapActionRowText.includes("MapAction Development"));
   const mapActionCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(3)", (td) => td.textContent.trim());
   check("MapAction's project count cell reads 3", mapActionCountCell === "3");
+  const mapActionProjectListItems = await page.$$eval("#tab-organisations tbody tr td:nth-child(4) ol.cell-list li", (lis) => lis.map((l) => l.textContent));
+  check("MapAction's Projects column renders as a numbered list of all 3, not a comma-separated run", mapActionProjectListItems.length === 3);
   await page.click("#tab-organisations tbody tr");
   await page.waitForSelector("#overlay.open");
   const orgModalTitle = await page.textContent("#modal h2");
@@ -507,6 +578,8 @@ async function main() {
   check("WHO's project count cell reads 6 (its original 3 plus the merged-in 3)", whoCountCell === "6");
   const whoMapCountCell = await page.$eval("#tab-organisations tbody tr td:nth-child(5)", (td) => td.textContent.trim());
   check("WHO's # Maps cell reads 1 - the webmap tagged MapAction earlier followed the merge, not just projects", whoMapCountCell === "1");
+  const whoProjectListItems = await page.$$eval("#tab-organisations tbody tr td:nth-child(4) ol.cell-list li", (lis) => lis.map((l) => l.textContent));
+  check("WHO's Projects column renders as a numbered list of all 6, not a comma-separated run", whoProjectListItems.length === 6);
   await page.fill("#search-organisations", "");
   await page.click('#tabs button[data-tab="maps"]');
   await page.fill("#search-maps", "MapAction");
@@ -670,8 +743,10 @@ async function main() {
   await page.click('#tab-projects .toolbar button.primary'); // + Add new
   await page.waitForSelector("#overlay.open");
   await (await (await fieldByLabel("Name")).$("input[type=text]")).fill("ID convention test project");
-  // Year isn't its own field any more - it's derived live from Start date.
-  await (await (await fieldByLabel("Start date")).$("input[type=text]")).fill("2020-06-15");
+  // Year isn't its own field any more - it's derived live from Start date,
+  // now a native date picker (fill() accepts "YYYY-MM-DD" directly and
+  // fires the picker's own change event).
+  await (await (await fieldByLabel("Start date")).$("input[type=date]")).fill("2020-06-15");
   await page.click('.locations-section button:has-text("+ Add location")');
   await page.waitForTimeout(50);
   const idConvCountryField = await fieldInCard((await locationCards())[0], "Country");
@@ -702,6 +777,31 @@ async function main() {
     "Start date \"2020-06-15\" (typed with no Year/Month field in sight) derived Year 2020 and Month June",
     !!idConvYearMonth && idConvYearMonth.year === 2020 && idConvYearMonth.month === "June"
   );
+
+  console.log("Checking a parent project's id uses \"parent\" instead of a country code...");
+  await page.click('#tabs button[data-tab="parents"]');
+  await page.click('#tab-parents .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  await (await (await fieldByLabel("Name")).$("input[type=text]")).fill("Parent id convention test parent");
+  await (await (await fieldByLabel("Start date")).$("input[type=date]")).fill("2022-01-01");
+  await page.click('.locations-section button:has-text("+ Add location")');
+  await page.waitForTimeout(50);
+  const parentIdCountryField = await fieldInCard((await locationCards())[0], "Country");
+  await (await parentIdCountryField.$("input[type=text]")).fill("Kenya");
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Professional");
+  // ID field is left blank - it should be auto-generated on save.
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.fill("#search-parents", "Parent id convention test parent");
+  await page.waitForTimeout(50);
+  const parentIdCell = await page.$eval("#tab-parents tbody tr .id-cell", (td) => td.textContent.trim());
+  check(
+    "a parent project's id uses the literal \"parent\" instead of a country code, even with a Kenya location on it",
+    parentIdCell === "2022-parent-professional-parent-id-convention-test-parent"
+  );
+  await page.fill("#search-parents", "");
+  await page.click('#tabs button[data-tab="projects"]');
 
   console.log("Setting an Abbreviation on that new org, then re-saving with a blank ID to pick it up...");
   await page.click('#tabs button[data-tab="organisations"]');
