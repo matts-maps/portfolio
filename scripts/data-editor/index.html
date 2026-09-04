@@ -1512,10 +1512,37 @@ function singular(tab) {
   return tab === "projects" ? "project" : tab === "parents" ? "parent project" : "map";
 }
 
-function ensureId(list, draft) {
+/** Builds a project id following the convention Matt asked for:
+ *  yyyy-iso3-personal/professional/other-(org abbreviation)-freetext.
+ *  Organisation is optional, per the ask - included only when one of the
+ *  project's organisation tags actually has an Abbreviation set (there's no
+ *  "pick which org" step; the first one that resolves wins). Every other
+ *  part is optional too, in the sense that a part whose source field isn't
+ *  filled in yet is skipped rather than left as a hole (e.g. "--" or
+ *  "-undefined-") - a brand-new project with only a Name typed in just gets
+ *  a plain name-slug id, same as before this convention existed, and each
+ *  part that gets filled in afterwards would show up on the next blank-id
+ *  save. `country` comes from the first location entry, since the
+ *  convention only has room for one - a project with locations in several
+ *  countries just gets id'd from whichever one is listed first. */
+function suggestedProjectId(draft) {
+  const parts = [];
+  if (draft.year) parts.push(String(draft.year));
+  const country = findCountry(draft.locations && draft.locations[0] && draft.locations[0].country);
+  if (country) parts.push(country.iso3.toLowerCase());
+  if (draft.category) parts.push(slugify(draft.category));
+  const orgAbbrev = (draft.organisation || []).map(getAbbreviation).find(Boolean);
+  if (orgAbbrev) parts.push(slugify(orgAbbrev));
+  const freetext = slugify(draft.name);
+  if (freetext) parts.push(freetext);
+  return parts.join("-");
+}
+
+function ensureId(list, draft, entity) {
   const existingIds = list.map((x) => x.id);
   if (!draft.id) {
-    draft.id = uniqueSlug(slugify(draft.name), existingIds, null);
+    const base = entity === "projects" ? suggestedProjectId(draft) : slugify(draft.name);
+    draft.id = uniqueSlug(base, existingIds, null);
   } else {
     // keep user-typed id, but de-dupe against everything except itself
     draft.id = draft.id.trim();
@@ -1530,7 +1557,7 @@ function commitDraft(tab, draft, isNew, originalId) {
     return;
   }
   const list = state[entity];
-  ensureId(list, draft);
+  ensureId(list, draft, entity);
   const clashesWithOther = list.some((x) => x.id === draft.id && x.id !== originalId);
   if (clashesWithOther) {
     alert(`ID "${draft.id}" is already used by another ${singular(tab)}. Pick a different id.`);
@@ -1902,7 +1929,7 @@ function buildProjectForm(body, draft, opts) {
   const hideParentField = !!draft.isParent;
   const modalTab = (opts && opts.tab) || "projects";
   body.appendChild(field("Name", null, textInput(draft.name, (v) => (draft.name = v))));
-  body.appendChild(field("ID", "auto-filled from name if left blank on a new entry", textInput(draft.id, (v) => (draft.id = v))));
+  body.appendChild(field("ID", "leave blank to auto-fill as year-country-category-(org abbreviation)-name, e.g. 2020-irq-professional-who-impact-of-covid-19-visualisations - each part is skipped if not yet known", textInput(draft.id, (v) => (draft.id = v))));
 
   if (draft.legacyParentName) {
     const banner = el("div", { class: "warn-msg", text: `⚠ Unresolved parent from migration: "${draft.legacyParentName}". Pick a parent below, or clear it.` });

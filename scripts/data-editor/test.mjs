@@ -630,6 +630,58 @@ async function main() {
   const projectCountAfterScratch = (await page.textContent("#count-projects")).trim();
   check("cancelling the scratch project didn't add it", projectCountAfterScratch === projectCountBeforeScratch);
 
+  console.log("Checking generated project IDs follow the year-country-category-(org abbreviation)-name convention...");
+  await page.click('#tab-projects .toolbar button.primary'); // + Add new
+  await page.waitForSelector("#overlay.open");
+  await (await (await fieldByLabel("Name")).$("input[type=text]")).fill("ID convention test project");
+  await (await (await fieldByLabel("Year")).$("input[type=number]")).fill("2020");
+  await page.click('.locations-section button:has-text("+ Add location")');
+  await page.waitForTimeout(50);
+  const idConvCountryField = await fieldInCard((await locationCards())[0], "Country");
+  await (await idConvCountryField.$("input[type=text]")).fill("Japan");
+  await (await (await fieldByLabel("Category")).$("select")).selectOption("Personal");
+  const idConvOrgField = await fieldByLabel("Organisation");
+  await (await idConvOrgField.$("input[type=text]")).fill("ID Convention Test Org");
+  await (await idConvOrgField.$('button:has-text("Add")')).click();
+  // ID field is left blank - it should be auto-generated on save.
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.fill("#search-projects", "ID convention test project");
+  await page.waitForTimeout(50);
+  const idConvIdCellBefore = await page.$eval("#tab-projects tbody tr .id-cell", (td) => td.textContent.trim());
+  check(
+    "a new project with no org abbreviation gets year-country-category-name, org segment omitted",
+    idConvIdCellBefore === "2020-jpn-personal-id-convention-test-project"
+  );
+
+  console.log("Setting an Abbreviation on that new org, then re-saving with a blank ID to pick it up...");
+  await page.click('#tabs button[data-tab="organisations"]');
+  await page.fill("#search-organisations", "ID Convention Test Org");
+  await page.waitForTimeout(50);
+  await page.click("#tab-organisations tbody tr");
+  await page.waitForSelector("#overlay.open");
+  await (await (await fieldByLabel("Abbreviation")).$("input[type=text]")).fill("ICTO");
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+
+  await page.click('#tabs button[data-tab="projects"]');
+  await page.fill("#search-projects", "ID convention test project");
+  await page.waitForTimeout(50);
+  await page.click("#tab-projects tbody tr");
+  await page.waitForSelector("#overlay.open");
+  await (await (await fieldByLabel("ID")).$("input[type=text]")).fill(""); // blank it so it regenerates on save
+  await page.click("#modal .modal-actions button.primary");
+  await page.waitForSelector("#overlay.open", { state: "hidden" });
+  await page.fill("#search-projects", "ID convention test project");
+  await page.waitForTimeout(50);
+  const idConvIdCellAfter = await page.$eval("#tab-projects tbody tr .id-cell", (td) => td.textContent.trim());
+  check(
+    "once the organisation has an Abbreviation, regenerating the id includes it",
+    idConvIdCellAfter === "2020-jpn-personal-icto-id-convention-test-project"
+  );
+  await page.fill("#search-projects", "");
+
   console.log("Setting an Abbreviation on an organisation whose name doesn't already spell one out...");
   await page.click('#tabs button[data-tab="organisations"]');
   await page.fill("#search-organisations", "the Global Health Cluster");

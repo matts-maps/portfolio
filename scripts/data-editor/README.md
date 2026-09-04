@@ -83,6 +83,20 @@ prompt — a zip sidesteps that entirely.)
   so a fill never silently overwrites coordinates you've already set by hand.
 - Relation pickers for `Project.parentId` and `Map.projectId` — search by name,
   not raw id. No more typing an id from memory or getting it wrong.
+- **Project ids follow a fixed convention**, auto-filled if the ID field is
+  left blank when you save: `year-country-category-(org abbreviation)-name`,
+  e.g. `2020-irq-professional-who-impact-of-covid-19-visualisations`.
+  `country` is the ISO3 code of the first location's Country; `category` is
+  the Category field below; the organisation segment is optional and only
+  appears when one of the project's Organisation tags has an Abbreviation
+  set (see the Organisations tab below) — the first one that resolves wins.
+  Any part that isn't known yet (no year, no country, no category, no
+  matching abbreviation) is simply left out rather than leaving a gap, so a
+  brand-new project with just a Name still gets a sensible id. To regenerate
+  an existing project's id after filling in more of these fields, clear the
+  ID field and save again — same mechanism, not automatic on every edit.
+  Map ids aren't part of this convention (there's no Category on maps) and
+  keep their existing name/file-based auto-fill.
 - Tag inputs for `themes`, `disaster`, `modality`, `organisation`, `level` — typing
   suggests values already in use elsewhere, so "Hurricane" vs "Cyclone" vs "Typhoon"
   stays a deliberate choice.
@@ -163,7 +177,11 @@ parent project and link a child to it, manage the Organisations tab
 projects and maps untouched, and that a rename/merge/delete carries a tagged
 map along even though maps aren't individually pickable in that modal — plus
 setting/searching/merging/deleting an Abbreviation without it leaking onto the
-wrong organisation or surviving a delete), and confirm an invalid save (a project with
+wrong organisation or surviving a delete), confirm a new project with a blank
+ID gets the year-country-category-name convention with the organisation
+segment correctly omitted when no Abbreviation is set yet, then confirm
+regenerating the id (blank it, save again) after setting one picks it up, and
+confirm an invalid save (a project with
 zero usable locations) is blocked with the right error. Run it with:
 
 ```
