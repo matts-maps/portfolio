@@ -17,7 +17,7 @@ let isInitialPageLoad = true; // Flag to trace first-run initialization states
 // Leaflet Engine Control Context Global Holders
 let mapInstance = null;
 let markerClusterGroup = null;
-let activeStarMarker = null; // Independent global holder for the active map star symbol
+let activeStarMarkers = []; // Independent global holder for the active map's star symbols (one per location)
 
 // Zoom and Pan State Vectors Architecture Tracker
 const panelTransform = { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 };
@@ -256,10 +256,8 @@ function syncMapVectorMarkers() {
     if (!markerClusterGroup || !mapInstance) return;
     
     markerClusterGroup.clearLayers();
-    if (activeStarMarker) {
-        mapInstance.removeLayer(activeStarMarker);
-        activeStarMarker = null;
-    }
+    activeStarMarkers.forEach(m => mapInstance.removeLayer(m));
+    activeStarMarkers = [];
 
     if (filteredImages.length === 0) return;
 
@@ -270,40 +268,48 @@ function syncMapVectorMarkers() {
         iconAnchor: [9, 9]
     });
 
+    // An item can have more than one location (e.g. a map covering several
+    // countries), so it gets one marker per location.
     filteredImages.forEach(item => {
-        if (item.lat === undefined || item.lng === undefined) return;
+        const locations = item.locations || [];
 
-        // Bypass clusters entirely for the active featured star marker
+        // Bypass clusters entirely for the active featured item's star markers
         if (currentFeaturedItem && item.file === currentFeaturedItem.file) {
-            activeStarMarker = L.marker([item.lat, item.lng], { 
-                icon: redStarIcon,
-                zIndexOffset: 5000 
-            });
+            locations.forEach(loc => {
+                const starMarker = L.marker([loc.lat, loc.lng], {
+                    icon: redStarIcon,
+                    zIndexOffset: 5000
+                });
 
-            activeStarMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
-            activeStarMarker.on('click', () => {
-                if (mapInstance) mapInstance.panTo([item.lat, item.lng], { animate: true });
-            });
+                starMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
+                starMarker.on('click', () => {
+                    if (mapInstance) mapInstance.panTo([loc.lat, loc.lng], { animate: true });
+                });
 
-            activeStarMarker.addTo(mapInstance);
-        } else {
-            const blueCircleMarker = L.circleMarker([item.lat, item.lng], {
-                color: '#ffffff',     
-                fillColor: '#0055ff', 
-                fillOpacity: 1.0,     
+                starMarker.addTo(mapInstance);
+                activeStarMarkers.push(starMarker);
+            });
+            return;
+        }
+
+        locations.forEach(loc => {
+            const blueCircleMarker = L.circleMarker([loc.lat, loc.lng], {
+                color: '#ffffff',
+                fillColor: '#0055ff',
+                fillOpacity: 1.0,
                 radius: 6,
-                weight: 1.5           
+                weight: 1.5
             });
 
             blueCircleMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
-            blueCircleMarker.on('click', () => { 
-                renderFeaturedSelection(item); 
+            blueCircleMarker.on('click', () => {
+                renderFeaturedSelection(item);
                 syncMapVectorMarkers();
-                if (mapInstance) mapInstance.panTo([item.lat, item.lng], { animate: true });
+                if (mapInstance) mapInstance.panTo([loc.lat, loc.lng], { animate: true });
             });
 
             markerClusterGroup.addLayer(blueCircleMarker);
-        }
+        });
     });
 }
 

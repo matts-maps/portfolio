@@ -2,15 +2,16 @@
 // organisations.json) back to the flat shapes that map-projects.js,
 // image-map.js, image-lightbox.js, map-viewer.js and the webmaps layout were
 // built around, so those consumers can switch data sources without any
-// internal changes. A project/map with more than one location is flattened
-// down to its first location only, mirroring the old per-country-duplicated
-// rows — a later phase can drop that flattening once the renderers are
-// upgraded to plot every location a record has.
+// internal changes. Each record also carries its full `locations` array (and
+// derived `countries`/`continents` on projects) so renderers that have been
+// upgraded to plot every location a record has can do so; `country`/`lat`/
+// `lng` stay as a single-value fallback (first usable location) for anything
+// that hasn't been upgraded yet.
 //
-// Parent projects (isParent: true) are excluded from loadProjects(): the old
-// data never had a standalone row for a parent grouping, just a
-// parentProject/parentProjectDescription pair repeated on each child row, so
-// including them here would add markers/table rows that didn't exist before.
+// Parent projects (isParent: true) are included in loadProjects() like any
+// other project: several now carry their own multi-country location lists
+// (e.g. GIMAC), and that's real, deliberately-entered data that should be
+// visible on the map/table, not just an artifact of the migration.
 
 const DATA_BASE = new URL("../data/", import.meta.url);
 
@@ -42,27 +43,38 @@ export function loadRawOrganisations() {
   return rawOrganisationsPromise;
 }
 
-function firstLocation(locations) {
-  return (locations && locations[0]) || null;
+// A location entry with no resolved coordinate (a placeholder left blank, or
+// still awaiting geocoding) isn't plottable — drop it rather than pass a
+// null/NaN lat/lng down to Leaflet.
+function usableLocations(locations) {
+  return (locations || []).filter((l) => l && Number.isFinite(l.lat) && Number.isFinite(l.lng));
 }
 
-// A map/webmap with no location of its own inherits its linked project's
-// first location, per the schema's documented "empty locations[] means
+function uniqueValues(values) {
+  return [...new Set(values.filter((v) => v != null && v !== ""))];
+}
+
+// A map/webmap with no usable location of its own inherits its linked
+// project's locations, per the schema's documented "empty locations[] means
 // inherit the project" convention.
-function resolveLocation(record, projectById) {
-  const own = firstLocation(record.locations);
-  if (own) return own;
+function resolveLocations(record, projectById) {
+  const own = usableLocations(record.locations);
+  if (own.length) return own;
   const project = record.projectId ? projectById.get(record.projectId) : null;
-  return firstLocation(project?.locations);
+  return usableLocations(project?.locations);
 }
 
 function toLegacyProject(p, projectById) {
-  const loc = firstLocation(p.locations);
+  const locations = usableLocations(p.locations);
+  const loc = locations[0] || null;
   const parent = p.parentId ? projectById.get(p.parentId) : null;
   return {
     name: p.name || "",
     continent: loc?.continent || "",
     country: loc?.country || "",
+    countries: uniqueValues(locations.map((l) => l.country)),
+    continents: uniqueValues(locations.map((l) => l.continent)),
+    locations,
     location: loc?.settlement || "",
     year: p.year != null ? String(p.year) : "",
     month: p.month || "",
@@ -88,19 +100,22 @@ function toLegacyProject(p, projectById) {
   };
 }
 
-// Legacy `projects-data.js` shape — for map-projects.js.
+// Legacy `projects-data.js` shape (plus `locations`/`countries`/`continents`)
+// — for map-projects.js.
 export async function loadProjects() {
   const projects = await loadRawProjects();
   const projectById = new Map(projects.map((p) => [p.id, p]));
-  return projects.filter((p) => !p.isParent).map((p) => toLegacyProject(p, projectById));
+  return projects.map((p) => toLegacyProject(p, projectById));
 }
 
-function toLegacyImage(m, loc) {
+function toLegacyImage(m, locations) {
+  const loc = locations[0] || null;
   return {
     file: m.file || "",
     name: m.name || "",
     continent: loc?.continent || "",
-    country: loc?.country ? [loc.country] : [],
+    country: uniqueValues(locations.map((l) => l.country)),
+    locations,
     location: loc?.settlement || "",
     year: m.year ?? "",
     month: m.month ?? "",
@@ -122,14 +137,16 @@ export async function loadImages() {
   const projectById = new Map(projects.map((p) => [p.id, p]));
   return maps
     .filter((m) => m.kind === "map")
-    .map((m) => toLegacyImage(m, resolveLocation(m, projectById)));
+    .map((m) => toLegacyImage(m, resolveLocations(m, projectById)));
 }
 
-function toLegacyWebmap(m, loc) {
+function toLegacyWebmap(m, locations) {
+  const loc = locations[0] || null;
   return {
     name: m.name || "",
     continent: loc?.continent || "",
-    country: loc?.country ? [loc.country] : [],
+    country: uniqueValues(locations.map((l) => l.country)),
+    locations,
     location: loc?.settlement || "",
     year: m.year ?? "",
     month: m.month ?? "",
@@ -137,10 +154,9 @@ function toLegacyWebmap(m, loc) {
     lng: loc?.lng ?? null,
     themes: m.themes || [],
     // NOTE: the normalized schema always stores this as an array; the old
-    // webmaps-and-visualisations-data.js stored a single string and the
-    // webmaps-and-visualisations.html inline script still does
-    // `project.disaster.trim()` — that call site needs updating to handle an
-    // array before this feed is wired in (tracked as a Phase 2 follow-up).
+    // webmaps-and-visualisations-data.js stored a single string. The
+    // webmaps-and-visualisations.html inline script was updated to handle
+    // the array in Phase 2.
     disaster: m.disaster || [],
     description: m.description || "",
     screenshot: m.screenshot || "",
@@ -150,11 +166,13 @@ function toLegacyWebmap(m, loc) {
 }
 
 // Legacy `webmaps-and-visualisations-data.js` shape (kind: "webmap") — for
-// the webmaps-and-visualisations layout's inline script.
+// the webmaps-and-visualisations layout's inline script. No current record
+// has more than one location, so that layout still only plots `lat`/`lng`
+// (the first one) — `locations` is exposed here for when one does.
 export async function loadWebmaps() {
   const [maps, projects] = await Promise.all([loadRawMaps(), loadRawProjects()]);
   const projectById = new Map(projects.map((p) => [p.id, p]));
   return maps
     .filter((m) => m.kind === "webmap")
-    .map((m) => toLegacyWebmap(m, resolveLocation(m, projectById)));
+    .map((m) => toLegacyWebmap(m, resolveLocations(m, projectById)));
 }

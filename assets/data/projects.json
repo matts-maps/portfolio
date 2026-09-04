@@ -2588,11 +2588,201 @@
       {
         "settlement": null,
         "state": null,
+        "country": "Bangladesh",
+        "region": "Southern Asia",
+        "continent": "Asia",
+        "lat": 23.7104,
+        "lng": 90.4074,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Haiti",
+        "region": "Caribbean",
+        "continent": "North America",
+        "lat": 18.5435,
+        "lng": -72.3388,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Philippines",
+        "region": "South-Eastern Asia",
+        "continent": "Asia",
+        "lat": 14.6042,
+        "lng": 120.9822,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Bahamas",
+        "region": "Caribbean",
+        "continent": "North America",
+        "lat": 25.0582,
+        "lng": -77.3431,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Dominican Republic",
+        "region": "Caribbean",
+        "continent": "North America",
+        "lat": 18.4719,
+        "lng": -69.8923,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Spain",
+        "region": "Southern Europe",
+        "continent": "Europe",
+        "lat": 40.4165,
+        "lng": -3.7026,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
         "country": "Guatemala",
         "region": "Central America",
         "continent": "North America",
-        "lat": 13.698889,
-        "lng": -89.191389,
+        "lat": 14.6407,
+        "lng": -90.5133,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Honduras",
+        "region": "Central America",
+        "continent": "North America",
+        "lat": 14.0818,
+        "lng": -87.2068,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Jamaica",
+        "region": "Caribbean",
+        "continent": "North America",
+        "lat": 17.997,
+        "lng": -76.7936,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Mexico",
+        "region": "Central America",
+        "continent": "North America",
+        "lat": 19.4285,
+        "lng": -99.1277,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Nicaragua",
+        "region": "Central America",
+        "continent": "North America",
+        "lat": 12.1328,
+        "lng": -86.2504,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Puerto Rico",
+        "region": "Caribbean",
+        "continent": "North America",
+        "lat": 18.4663,
+        "lng": -66.1057,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Trinidad and Tobago",
+        "region": "Caribbean",
+        "continent": "North America",
+        "lat": null,
+        "lng": null,
+        "precision": null
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Chile",
+        "region": "South America",
+        "continent": "South America",
+        "lat": -33.4569,
+        "lng": -70.6483,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Colombia",
+        "region": "South America",
+        "continent": "South America",
+        "lat": 4.6097,
+        "lng": -74.0817,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Ecuador",
+        "region": "South America",
+        "continent": "South America",
+        "lat": null,
+        "lng": null,
+        "precision": null
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Greece",
+        "region": "Southern Europe",
+        "continent": "Europe",
+        "lat": 37.9838,
+        "lng": 23.7278,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Peru",
+        "region": "South America",
+        "continent": "South America",
+        "lat": -12.0432,
+        "lng": -77.0282,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Portugal",
+        "region": "Southern Europe",
+        "continent": "Europe",
+        "lat": 38.7251,
+        "lng": -9.1498,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Thailand",
+        "region": "South-Eastern Asia",
+        "continent": "Asia",
+        "lat": 13.754,
+        "lng": 100.5014,
         "precision": "capital"
       }
     ],
