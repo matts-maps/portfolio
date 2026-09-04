@@ -1,0 +1,62 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>data-adapter smoke test</title>
+<pre id="out">loading...</pre>
+<script type="module">
+  import { loadProjects, loadImages, loadWebmaps, loadRawProjects, loadRawMaps } from "../assets/js/data-adapter.js";
+
+  const out = document.getElementById("out");
+  function log(label, value) {
+    out.textContent += `\n\n--- ${label} ---\n` + JSON.stringify(value, null, 2);
+  }
+
+  try {
+    const [rawProjects, rawMaps] = await Promise.all([loadRawProjects(), loadRawMaps()]);
+    const projects = await loadProjects();
+    const images = await loadImages();
+    const webmaps = await loadWebmaps();
+
+    out.textContent = "OK";
+    log("counts", {
+      rawProjects: rawProjects.length,
+      rawParents: rawProjects.filter(p => p.isParent).length,
+      legacyProjects: projects.length,
+      rawMaps: rawMaps.length,
+      legacyImages: images.length,
+      legacyWebmaps: webmaps.length,
+    });
+
+    // Sanity checks
+    const problems = [];
+    for (const p of projects) {
+      if (typeof p.country !== "string") problems.push(`project country not scalar: ${p.name}`);
+      if (!Array.isArray(p.disaster)) problems.push(`project disaster not array: ${p.name}`);
+      if (!Array.isArray(p.organisation)) problems.push(`project organisation not array: ${p.name}`);
+    }
+    for (const img of images) {
+      if (!Array.isArray(img.country)) problems.push(`image country not array: ${img.name}`);
+      if (!Array.isArray(img.disaster)) problems.push(`image disaster not array: ${img.name}`);
+    }
+    log("problems", problems.length ? problems : "none");
+
+    // A project with a resolved parent, to eyeball the parentProject/parentProjectDescription mapping.
+    const withParent = projects.find(p => p.parentProject);
+    log("sample project with parent", withParent);
+
+    log("sample legacy project (first)", projects[0]);
+    log("sample legacy image (first)", images[0]);
+    log("sample legacy webmap (first)", webmaps[0]);
+
+    // A map that inherits its location from a linked project (locations: [] + projectId set).
+    const inherited = rawMaps.find(m => (!m.locations || m.locations.length === 0) && m.projectId);
+    if (inherited) {
+      const resolved = images.find(i => i.name === inherited.name) || webmaps.find(w => w.name === inherited.name);
+      log("map inheriting project location: raw", inherited);
+      log("map inheriting project location: resolved", resolved);
+    } else {
+      log("map inheriting project location", "no such record found in current data");
+    }
+  } catch (err) {
+    out.textContent = "ERROR: " + err.message + "\n" + err.stack;
+  }
+</script>

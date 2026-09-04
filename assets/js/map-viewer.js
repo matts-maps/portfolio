@@ -1,8 +1,16 @@
-import { images } from './image-data.js';
+import { loadImages } from './data-adapter.js';
 import { initFilterEngine, SORT } from './filter-engine.js';
 
+// Start the fetch as soon as the module runs, so it's already in flight by
+// the time DOMContentLoaded fires below.
+const imagesPromise = loadImages();
+
 // Application State Variables
-let filteredImages = [...images];
+// Populated once imagesPromise resolves (see DOMContentLoaded below);
+// renderSimilarImagesPanel() reads this via closure and only ever runs after
+// that point.
+let images = [];
+let filteredImages = [];
 let currentFeaturedItem = null;
 let isInitialPageLoad = true; // Flag to trace first-run initialization states
 
@@ -15,7 +23,7 @@ let activeStarMarker = null; // Independent global holder for the active map sta
 const panelTransform = { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 };
 const modalTransform = { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // 1. Initialize Interactive Leaflet Map Instance Window
     initializeLeafletSystem();
 
@@ -26,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeImageInteractionHandlers();
 
     // 4. Run initial filter pass, populate dependent dropdowns, and paint points
+    images = await imagesPromise;
+    filteredImages = [...images];
     initFilterEngine(images, handleFilteredResults, {
         sortEl: 'ife-sort',
         resetEl: 'reset-filters',

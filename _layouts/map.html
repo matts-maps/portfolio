@@ -17,16 +17,22 @@ layout: default
 {% include image-lightbox.html %}
 
 <script type="module">
-  import { images } from "{{ site.baseurl }}/assets/js/image-data.js";
+  import { loadImages } from "{{ site.baseurl }}/assets/js/data-adapter.js";
   import { initFilterEngine, SORT } from "{{ site.baseurl }}/assets/js/filter-engine.js";
   import { initLightbox } from "{{ site.baseurl }}/assets/js/image-lightbox.js";
 
   // Import our clean map logic module
   import { initMapBase, renderMapMarkers } from "{{ site.baseurl }}/assets/js/image-map.js";
 
-  document.addEventListener("DOMContentLoaded", () => {
+  // Start the fetch as soon as the module runs, so it's already in flight by
+  // the time DOMContentLoaded fires below.
+  const imagesPromise = loadImages();
+
+  document.addEventListener("DOMContentLoaded", async () => {
     initLightbox();
     initMapBase();
+
+    const images = await imagesPromise;
 
     // Wire up the filtering engine to pass data subsets straight to our map generator
     initFilterEngine(images, renderMapMarkers, {

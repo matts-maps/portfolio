@@ -102,7 +102,7 @@
     "kind": "map",
     "name": "Who, what and where (3W) humanitarian presence (as at 5 September 2014)",
     "file": "assets/images/maps/2014-liberia-ebola-humanitarian-presence.jpg",
-    "projectId": "ebola-2014",
+    "projectId": "2014-lbr-professional-undac-ebola-response-in-liberia",
     "locations": [
       {
         "settlement": null,
@@ -261,7 +261,7 @@
     "kind": "map",
     "name": "European Migrant Crisis: Overview (as of 17 November 2015)",
     "file": "assets/images/maps/2015-european-migration.jpg",
-    "projectId": "mediterranean-migration-crisis-2015",
+    "projectId": "2015-srb-professional-acaps-mediterranean-migration-crisis",
     "locations": [
       {
         "settlement": null,
@@ -406,7 +406,7 @@
     "kind": "map",
     "name": "Hurricane Isaac - Wind speed probabilities (as at 11 September 2018)",
     "file": "assets/images/maps/2018-dominica-isaac-wind-speed-probabilities.jpeg",
-    "projectId": "hurricane-isacc-2018",
+    "projectId": "2018-dma-professional-hurricane-isacc",
     "locations": [],
     "year": 2018,
     "month": 9,
@@ -854,7 +854,7 @@
     "kind": "map",
     "name": "Situational Overview (as of 21 April 2021)",
     "file": "assets/images/maps/2021-st-vincent-volcano-situational-overview.jpeg",
-    "projectId": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption-2021",
+    "projectId": "2021-vct-professional-cdema-humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption",
     "locations": [],
     "year": 2021,
     "month": 4,
@@ -1383,7 +1383,7 @@
     "kind": "map",
     "name": "International flights from Manila in 2026",
     "file": "assets/images/maps/all-flights-international-manila-2026.png",
-    "projectId": "asean-erat-level-2-information-management-training-course-2026",
+    "projectId": "2026-professional-the-aha-centre-asean-erat-level-2-information-management-training-course",
     "locations": [],
     "year": 2026,
     "month": 1,
@@ -1748,7 +1748,7 @@
     "kind": "webmap",
     "name": "Humanitarian and environmental impact mapping to the La Soufrière volcanic eruption",
     "file": null,
-    "projectId": "humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption-2021",
+    "projectId": "2021-vct-professional-cdema-humanitarian-and-environmental-impact-mapping-to-the-la-soufriere-volcanic-eruption",
     "locations": [],
     "year": 2021,
     "month": 3,

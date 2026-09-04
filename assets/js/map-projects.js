@@ -1,12 +1,18 @@
 import { initFilterEngine, SORT } from "./filter-engine.js";
-import { projects } from "./projects-data.js";
+import { loadProjects } from "./data-adapter.js";
 
-// Assign unique IDs to every project
-projects.forEach((p, index) => {
-  p.id = index;
-});
+// Start the fetch as soon as the module runs, so it's already in flight by
+// the time DOMContentLoaded fires below.
+const projectsPromise = loadProjects();
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const projects = await projectsPromise;
+
+  // Assign unique IDs to every project
+  projects.forEach((p, index) => {
+    p.id = index;
+  });
 
   const mapEl = document.getElementById("projects-map");
   const tableBody = document.getElementById("project-table-body");
