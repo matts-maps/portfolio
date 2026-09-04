@@ -1,6 +1,6 @@
 [
   {
-    "id": "mapaction-development-2006",
+    "id": "2006-gbr-professional-mapaction-development",
     "name": "MapAction Development",
     "parentId": null,
     "locations": [
@@ -36,7 +36,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "mapaction-simexes-2006",
+    "id": "2006-gbr-professional-mapaction-simexes",
     "name": "MapAction Simexes",
     "parentId": null,
     "locations": [
@@ -72,7 +72,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "mapaction-team-training-2006",
+    "id": "2006-professional-mapaction-team-training",
     "name": "MapAction Team Training",
     "parentId": null,
     "locations": [
@@ -108,7 +108,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "undac-induction-2011",
+    "id": "2011-gbr-professional-undac-undac-induction",
     "name": "UNDAC Induction",
     "parentId": null,
     "locations": [
@@ -150,7 +150,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "introduction-to-humanitarian-gis-2012",
+    "id": "2012-gbr-professional-rgs-introduction-to-humanitarian-gis",
     "name": "Introduction to humanitarian GIS",
     "parentId": null,
     "locations": [
@@ -191,8 +191,8 @@
     "sourceRowCount": 1
   },
   {
-    "id": "gis-and-mapping-support-munitions-depot-explosion-2012",
-    "name": "GIS and mapping support, Munitions depot explosion",
+    "id": "2012-professional-undac-munitions-depot-explosion-in-brazzaville",
+    "name": "Munitions depot explosion in Brazzaville",
     "parentId": null,
     "locations": [
       {
@@ -231,7 +231,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "the-osocc-operational-support-staff-ooss-course-2012",
+    "id": "2012-fin-professional-undac-the-osocc-operational-support-staff-ooss-course",
     "name": "The OSOCC Operational Support Staff (OOSS) course",
     "parentId": null,
     "locations": [
@@ -314,7 +314,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "typhoon-haiyan-2013",
+    "id": "2013-professional-undac-typhoon-haiyan",
     "name": "Typhoon Haiyan",
     "parentId": null,
     "locations": [
@@ -353,7 +353,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "insarag-exercise-2013",
+    "id": "2013-mys-professional-insarag-insarag-exercise",
     "name": "INSARAG Exercise",
     "parentId": null,
     "locations": [
@@ -393,8 +393,8 @@
     "sourceRowCount": 1
   },
   {
-    "id": "training-support-to-msb-2014",
-    "name": "Training support to MSB",
+    "id": "2014-swe-professional-ihp-training-support-to-msb",
+    "name": "Training support to The Swedish Civil Contingencies Agency (MSB)",
     "parentId": null,
     "locations": [
       {
@@ -416,7 +416,8 @@
       "In-situ"
     ],
     "organisation": [
-      "International Humanitarian Partnership"
+      "International Humanitarian Partnership",
+      "The Swedish Civil Contingencies Agency"
     ],
     "level": [
       "Regional",
@@ -434,7 +435,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "undac-team-leaders-2014",
+    "id": "2014-che-professional-undac-undac-team-leaders",
     "name": "UNDAC Team Leaders",
     "parentId": null,
     "locations": [
@@ -516,7 +517,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "yazidi-displacement-from-mount-sinjar-2014",
+    "id": "2014-irq-professional-dfid-yazidi-displacement-from-mount-sinjar",
     "name": "Yazidi displacement from Mount Sinjar",
     "parentId": null,
     "locations": [
@@ -595,7 +596,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "flooding-2015",
+    "id": "2015-mwi-professional-unocha-flooding-in-malawi",
     "name": "Flooding in Malawi",
     "parentId": null,
     "locations": [
@@ -694,7 +695,7 @@
     "sourceRowCount": 3
   },
   {
-    "id": "triplex-16-2016",
+    "id": "2015-nor-professional-ihp-triplex-16",
     "name": "Triplex 16",
     "parentId": null,
     "locations": [
@@ -709,7 +710,7 @@
         "precision": "exact"
       }
     ],
-    "year": 2016,
+    "year": 2015,
     "month": "September",
     "type": "Training",
     "category": "Professional",
@@ -728,13 +729,13 @@
     ],
     "disaster": [],
     "status": "Complete",
-    "startDate": null,
-    "endDate": null,
+    "startDate": "2015-09-01",
+    "endDate": "2016-12-31",
     "description": "GIS and data lead for the exercise scenario planning team and exercise controllers for large-scale multinational humanitarian simulation exercise in Norway.\nThis involved leadership and coordination across a wide range of stakeholders and organizations including national disaster agencies, civil defence, NGOs, civil society, UN organizations, development partners, and others.",
     "sourceRowCount": 1
   },
   {
-    "id": "tropical-cyclone-donna-2017",
+    "id": "2017-vut-professional-undac-tropical-cyclone-donna",
     "name": "Tropical Cyclone Donna",
     "parentId": null,
     "locations": [
@@ -810,7 +811,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "id": "2018-idn-professional-the-aha-centre-sulawesi-earthquake-tsunami-and-liquefaction-response-analysis",
     "name": "Sulawesi Earthquake, tsunami and liquefaction response analysis",
     "parentId": null,
     "locations": [
@@ -851,7 +852,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "typhoon-mangkhut-2018",
+    "id": "2018-professional-the-aha-centre-typhoon-mangkhut",
     "name": "Typhoon Mangkhut",
     "parentId": null,
     "locations": [
@@ -891,7 +892,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "insarag-exercise-2018",
+    "id": "2018-professional-insarag-insarag-exercise",
     "name": "INSARAG Exercise",
     "parentId": null,
     "locations": [
@@ -931,7 +932,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "disease-outbreak-mapping-cyclone-idai-2019",
+    "id": "2019-moz-professional-who-disease-outbreak-mapping-cyclone-idai",
     "name": "Disease outbreak mapping (Cyclone Idai)",
     "parentId": null,
     "locations": [
@@ -1010,7 +1011,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "floods-2019",
+    "id": "2019-dji-professional-undac-flooding-in-djibouti",
     "name": "Flooding in Djibouti",
     "parentId": null,
     "locations": [
@@ -1218,7 +1219,7 @@
   {
     "id": "2020-cmr-professional-iom-impact-of-covid-19-visualisations-in-cameroon",
     "name": "Visualising the impact of Covid-19 in Cameroon",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -1261,7 +1262,7 @@
   {
     "id": "2020-tcd-professional-iom-impact-of-covid-19-visualisations-in-chad",
     "name": "Visualising the impact of Covid-19 in Chad",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -1304,7 +1305,7 @@
   {
     "id": "2020-eth-professional-iom-visualising-the-impact-of-covid-19-in-ethiopia",
     "name": "Visualising the impact of Covid-19 in Ethiopia",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -1347,7 +1348,7 @@
   {
     "id": "2020-afg-professional-iom-visualising-the-impact-of-covid-19-in-iraq",
     "name": "Visualising the impact of Covid-19 in Iraq",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -1388,7 +1389,7 @@
     "sourceRowCount": 8
   },
   {
-    "id": "typhoon-goni-rolly-and-vamco-ulysses-2020",
+    "id": "2020-professional-the-aha-centre-typhoon-goni-rolly-and-vamco-ulysses",
     "name": "Typhoon Goni (Rolly) and Vamco (Ulysses)",
     "parentId": null,
     "locations": [
@@ -1470,7 +1471,7 @@
   {
     "id": "2021-idn-professional-the-aha-centre-asean-erat-coaching",
     "name": "ASEAN-ERAT Coaching",
-    "parentId": "asean-erat-training",
+    "parentId": "2018-parent-professional-asean-erat-training",
     "locations": [
       {
         "settlement": "Jakarta",
@@ -1510,7 +1511,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "typhoon-rai-2021",
+    "id": "2021-professional-cdp-typhoon-rai",
     "name": "Typhoon Rai",
     "parentId": null,
     "locations": [
@@ -1669,7 +1670,7 @@
   {
     "id": "2022-mys-professional-the-aha-centre-asean-erat-level-2-information-management-training-course",
     "name": "ASEAN-ERAT Level 2 - Information Management training course",
-    "parentId": "asean-erat-training",
+    "parentId": "2018-parent-professional-asean-erat-training",
     "locations": [
       {
         "settlement": "Kuala Lumpur",
@@ -1786,7 +1787,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "hunga-tonga-hunga-ha-apai-volcano-eruption-2022",
+    "id": "2022-ton-professional-hunga-tonga-hunga-ha-apai-volcano-eruption",
     "name": "Hunga Tonga–Hunga Haʻapai volcano eruption",
     "parentId": null,
     "locations": [
@@ -1907,7 +1908,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "technical-and-institutional-support-to-the-philippines-disaster-resilience-foundation-pdrf-2023",
+    "id": "2023-professional-pdrf-technical-and-institutional-support-to-the-philippines-disaster-resilience-foundation-pdrf",
     "name": "Technical and institutional support to the Philippines Disaster Resilience Foundation (PDRF)",
     "parentId": null,
     "locations": [
@@ -1947,7 +1948,7 @@
   {
     "id": "2023-idn-professional-the-aha-centre-asean-erat-level-3-team-leaders-pilot-course",
     "name": "ASEAN-ERAT Level 3 - Team Leaders pilot course",
-    "parentId": "asean-erat-training",
+    "parentId": "2018-parent-professional-asean-erat-training",
     "locations": [
       {
         "settlement": "Bogor",
@@ -1986,7 +1987,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "scoping-and-landscape-mapping-2023",
+    "id": "2023-professional-pdrf-scoping-and-landscape-mapping-for-pdrf",
     "name": "Scoping and landscape mapping for PDRF",
     "parentId": null,
     "locations": [
@@ -2024,7 +2025,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "partner-mapping-2023",
+    "id": "2023-lka-professional-adrrn-partner-mapping",
     "name": "Partner mapping",
     "parentId": null,
     "locations": [
@@ -2062,7 +2063,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "partner-mapping-2024",
+    "id": "2024-npl-professional-adrrn-partner-mapping",
     "name": "Partner mapping",
     "parentId": null,
     "locations": [
@@ -2178,7 +2179,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "scoping-of-a-civil-society-organisation-engagement-platform-for-multilateral-development-banks-mdbs-2025",
+    "id": "2025-professional-adb-scoping-of-a-civil-society-organisation-engagement-platform-for-multilateral-development-banks-mdbs",
     "name": "Scoping of a Civil Society Organisation engagement platform for Multilateral Development Banks (MDBs)",
     "parentId": null,
     "locations": [
@@ -2217,7 +2218,7 @@
   {
     "id": "2026-ukr-professional-acaps-bi-weekly-analysis-and-visualisation-of-the-conflict-in-ukraine",
     "name": "Bi-weekly analysis and visualisation of the conflict in Ukraine",
-    "parentId": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
+    "parentId": "2026-parent-professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
     "locations": [
       {
         "settlement": null,
@@ -2257,7 +2258,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "gis-support-to-chuuk-state-following-typhoon-sinlaku-2026",
+    "id": "2026-professional-unocha-gis-support-to-chuuk-state-following-typhoon-sinlaku",
     "name": "GIS support to Chuuk State following Typhoon Sinlaku",
     "parentId": null,
     "locations": [
@@ -2297,9 +2298,9 @@
     "sourceRowCount": 1
   },
   {
-    "id": "schools-at-risk-to-sea-level-rise-in-guyana-2026",
+    "id": "2026-guy-professional-schools-at-risk-to-sea-level-rise-in-guyana",
     "name": "Schools at risk to sea-level rise in Guyana",
-    "parentId": "schools-at-exposed-to-climate-change-risks",
+    "parentId": "2026-parent-professional-schools-at-exposed-to-climate-change-risks",
     "locations": [
       {
         "settlement": "Georgetown",
@@ -2338,7 +2339,7 @@
   {
     "id": "2026-vct-professional-schools-at-risk-to-sea-level-rise-in-saint-vincent-and-the-grenadines",
     "name": "Schools at risk to sea-level rise in Saint Vincent and the Grenadines",
-    "parentId": "schools-at-exposed-to-climate-change-risks",
+    "parentId": "2026-parent-professional-schools-at-exposed-to-climate-change-risks",
     "locations": [
       {
         "settlement": "Kingstown",
@@ -2376,7 +2377,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "h2h-lebanon-2026",
+    "id": "2026-lbn-professional-h2h-h2h-lebanon",
     "name": "H2H Lebanon",
     "parentId": null,
     "locations": [
@@ -2415,18 +2416,18 @@
     "sourceRowCount": 1
   },
   {
-    "id": "h2h-syria-2026",
+    "id": "2026-syr-professional-h2h-h2h-syria",
     "name": "H2H Syria",
     "parentId": null,
     "locations": [
       {
         "settlement": null,
         "state": null,
-        "country": "Syria",
-        "region": null,
-        "continent": "Middle East",
-        "lat": 33.5138,
-        "lng": 36.2765,
+        "country": "Syrian Arab Republic",
+        "region": "Western Asia",
+        "continent": "Asia",
+        "lat": 33.5102,
+        "lng": 36.2913,
         "precision": "capital"
       }
     ],
@@ -2456,7 +2457,7 @@
   {
     "id": "2026-hti-professional-undss-mapping-security-incidents",
     "name": "Mapping security incidents",
-    "parentId": "security-incident-mapping",
+    "parentId": "2026-parent-professional-undss-security-incident-mapping-for-undss",
     "locations": [
       {
         "settlement": "Port-au-Prince",
@@ -2496,18 +2497,18 @@
     "sourceRowCount": 1
   },
   {
-    "id": "mapping-security-incidents-2026-2",
+    "id": "2026-pse-professional-undss-mapping-security-incidents",
     "name": "Mapping security incidents",
-    "parentId": "security-incident-mapping",
+    "parentId": "2026-parent-professional-undss-security-incident-mapping-for-undss",
     "locations": [
       {
         "settlement": null,
         "state": null,
-        "country": "oPT",
-        "region": null,
+        "country": "Palestine, State of",
+        "region": "Western Asia",
         "continent": "Middle East",
-        "lat": 31.5075,
-        "lng": 34.459722,
+        "lat": 31.7834,
+        "lng": 35.2339,
         "precision": "capital"
       }
     ],
@@ -2541,7 +2542,7 @@
   {
     "id": "2026-professional-the-aha-centre-asean-erat-level-2-information-management-training-course",
     "name": "ASEAN-ERAT Level 2 - Information Management training course",
-    "parentId": "asean-erat-training",
+    "parentId": "2018-parent-professional-asean-erat-training",
     "locations": [
       {
         "settlement": "Manila",
@@ -2581,7 +2582,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "data-preparedness-for-world-central-kitchen-2026",
+    "id": "2026-bgd-professional-wck-data-preparedness-for-world-central-kitchen",
     "name": "Data preparedness for World Central Kitchen",
     "parentId": null,
     "locations": [
@@ -2811,39 +2812,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "gis-and-im-support-to-unocha",
-    "name": "GIS and IM support to UNOCHA",
-    "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": null,
-        "region": null,
-        "continent": "Asia-Pacific",
-        "lat": -2.5,
-        "lng": 140,
-        "precision": "region-centroid"
-      }
-    ],
-    "year": 2020,
-    "month": null,
-    "type": "Response",
-    "category": "Professional",
-    "modality": [],
-    "organisation": [
-      "UN Office of Coordination for Humanitarian Affairs"
-    ],
-    "level": [],
-    "themes": [],
-    "disaster": [],
-    "status": null,
-    "startDate": null,
-    "endDate": null,
-    "description": null
-  },
-  {
-    "id": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "id": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "name": "Global Information Management Assessment and Analysis Cell on Covid-19 (GIMAC)",
     "parentId": null,
     "isParent": true,
@@ -2930,7 +2899,7 @@
       }
     ],
     "year": 2020,
-    "month": null,
+    "month": "September",
     "type": null,
     "category": "Professional",
     "modality": [],
@@ -2938,13 +2907,13 @@
     "level": [],
     "themes": [],
     "disaster": [],
-    "status": null,
-    "startDate": null,
-    "endDate": null,
+    "status": "Current",
+    "startDate": "2020-09-01",
+    "endDate": "2021-12-31",
     "description": null
   },
   {
-    "id": "schools-at-exposed-to-climate-change-risks",
+    "id": "2026-parent-professional-schools-at-exposed-to-climate-change-risks",
     "name": "Schools at exposed to climate change risks",
     "parentId": null,
     "isParent": true,
@@ -2975,17 +2944,23 @@
     "type": "Preparedness and anticipatory action",
     "category": "Professional",
     "modality": [],
-    "organisation": [],
-    "level": [],
+    "organisation": [
+      "InterWorks"
+    ],
+    "level": [
+      "National"
+    ],
     "themes": [],
-    "disaster": [],
+    "disaster": [
+      "Climate change"
+    ],
     "status": "Complete",
     "startDate": null,
     "endDate": null,
     "description": null
   },
   {
-    "id": "asean-erat-training",
+    "id": "2018-parent-professional-asean-erat-training",
     "name": "ASEAN-ERAT training",
     "parentId": null,
     "isParent": true,
@@ -3001,8 +2976,8 @@
         "precision": "region-centroid"
       }
     ],
-    "year": null,
-    "month": null,
+    "year": 2018,
+    "month": "January",
     "type": null,
     "category": "Professional",
     "modality": [],
@@ -3011,12 +2986,12 @@
     "themes": [],
     "disaster": [],
     "status": null,
-    "startDate": null,
+    "startDate": "2018-01-01",
     "endDate": null,
     "description": null
   },
   {
-    "id": "aim-net-training",
+    "id": "2024-parent-professional-aim-net-training",
     "name": "AIM-Net training",
     "parentId": null,
     "isParent": true,
@@ -3032,8 +3007,8 @@
         "precision": "region-centroid"
       }
     ],
-    "year": null,
-    "month": null,
+    "year": 2024,
+    "month": "September",
     "type": null,
     "category": "Professional",
     "modality": [],
@@ -3042,12 +3017,12 @@
     "themes": [],
     "disaster": [],
     "status": null,
-    "startDate": null,
+    "startDate": "2024-09-01",
     "endDate": null,
     "description": null
   },
   {
-    "id": "security-incident-mapping",
+    "id": "2026-parent-professional-undss-security-incident-mapping-for-undss",
     "name": "Security incident mapping for UNDSS",
     "parentId": null,
     "isParent": true,
@@ -3075,7 +3050,7 @@
     ],
     "year": 2026,
     "month": null,
-    "type": null,
+    "type": "Response",
     "category": "Professional",
     "modality": [],
     "organisation": [
@@ -3088,7 +3063,7 @@
       "Security"
     ],
     "disaster": [],
-    "status": null,
+    "status": "Current",
     "startDate": null,
     "endDate": null,
     "description": null
@@ -3205,7 +3180,7 @@
     "description": "Surge support to the information management unit supporting disaster responses in Nepal, Tonga and the Democratic People’s Republic of Korea."
   },
   {
-    "id": "lka-professional-visualising-adrrn-partner-mapping",
+    "id": "parent-professional-visualising-adrrn-partner-mapping",
     "name": "Visualising ADRRN partner mapping",
     "parentId": null,
     "isParent": true,
@@ -3248,7 +3223,7 @@
   {
     "id": "2020-afg-professional-iom-impact-of-covid-19-visualisations-in-afghanistan",
     "name": "Visualising the impact of Covid-19 in Afghanistan",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -3291,7 +3266,7 @@
   {
     "id": "2020-ner-professional-iom-visualising-the-impact-of-covid-19-in-niger",
     "name": "Visualising the impact of Covid-19 in Niger",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -3334,7 +3309,7 @@
   {
     "id": "2020-som-professional-iom-visualising-the-impact-of-covid-19-in-somalia",
     "name": "Visualising the impact of Covid-19 in Somalia",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -3377,7 +3352,7 @@
   {
     "id": "2020-ssd-professional-iom-visualising-the-impact-of-covid-19-in-south-sudan",
     "name": "Visualising the impact of Covid-19 in South Sudan",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -3420,7 +3395,7 @@
   {
     "id": "2020-sdn-professional-iom-visualising-the-impact-of-covid-19-in-sudan",
     "name": "Visualising the impact of Covid-19 in Sudan",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -3461,7 +3436,7 @@
     "sourceRowCount": 8
   },
   {
-    "id": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
+    "id": "2026-parent-professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
     "name": "Anticipatory and Rapid Analysis for EU Preparedness in Ukraine",
     "parentId": null,
     "isParent": true,
@@ -3506,7 +3481,7 @@
     "description": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness"
   },
   {
-    "id": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
+    "id": "2026-parent-professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
     "name": "Anticipatory and Rapid Analysis for EU Preparedness in the Middle East",
     "parentId": null,
     "isParent": true,
@@ -3543,7 +3518,7 @@
   {
     "id": "2026-irn-professional-acaps-bi-weekly-analysis-and-visualisation-of-the-conflicts-in-the-middle-east",
     "name": "Bi-weekly analysis and visualisation of the conflicts in the Middle East",
-    "parentId": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
+    "parentId": "2026-parent-professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
     "locations": [
       {
         "settlement": null,
@@ -3585,7 +3560,7 @@
   {
     "id": "2026-yem-professional-acaps-deep-dive-into-the-ongoing-conflict-in-yemen",
     "name": "Deep dive into the ongoing conflict in Yemen",
-    "parentId": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
+    "parentId": "2026-parent-professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
     "locations": [
       {
         "settlement": null,
@@ -3624,7 +3599,7 @@
   {
     "id": "2026-professional-acaps-deep-dive-into-the-ongoing-conflict-in-crimea",
     "name": "Deep dive into the ongoing conflict in Crimea",
-    "parentId": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
+    "parentId": "2026-parent-professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
     "locations": [
       {
         "settlement": null,

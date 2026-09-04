@@ -5,7 +5,7 @@
     "category": "Professional",
     "name": "Distribution and concentrations of reported ordnance (as of 22 March 2012)",
     "file": "assets/images/maps/2012-brazzaville-munitions.jpg",
-    "projectId": "gis-and-mapping-support-munitions-depot-explosion-2012",
+    "projectId": "2012-professional-undac-munitions-depot-explosion-in-brazzaville",
     "locations": [
       {
         "settlement": null,
@@ -450,7 +450,7 @@
     "category": "Professional",
     "name": "Affected population (as at 22 September 2018)",
     "file": "assets/images/maps/2018-philippines-mangkhut-affected-population.jpeg",
-    "projectId": "typhoon-mangkhut-2018",
+    "projectId": "2018-professional-the-aha-centre-typhoon-mangkhut",
     "locations": [
       {
         "settlement": null,
@@ -484,7 +484,7 @@
     "category": "Professional",
     "name": "Agriculture damage costs (as at 20 September 2018)",
     "file": "assets/images/maps/2018-philippines-mangkhut-agriculture-damage-costs.jpeg",
-    "projectId": "typhoon-mangkhut-2018",
+    "projectId": "2018-professional-the-aha-centre-typhoon-mangkhut",
     "locations": [
       {
         "settlement": null,
@@ -553,7 +553,7 @@
     "category": "Professional",
     "name": "Number of families at IDP camps (as at 22 October 2018)",
     "file": "assets/images/maps/2018-indonesia-idp-camps.jpg",
-    "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "projectId": "2018-idn-professional-the-aha-centre-sulawesi-earthquake-tsunami-and-liquefaction-response-analysis",
     "locations": [],
     "year": 2018,
     "month": 10,
@@ -577,7 +577,7 @@
     "category": "Professional",
     "name": "Location of water distribution points (as of 22 October 2018)",
     "file": "assets/images/maps/2018-indonesia-potable-water-distribution-points.jpeg",
-    "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "projectId": "2018-idn-professional-the-aha-centre-sulawesi-earthquake-tsunami-and-liquefaction-response-analysis",
     "locations": [],
     "year": 2018,
     "month": 10,
@@ -599,7 +599,7 @@
     "category": "Professional",
     "name": "Estimated potable water requirements (as at 23 October 2018)",
     "file": "assets/images/maps/2018-indonesia-potable-water-requirements.jpg",
-    "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "projectId": "2018-idn-professional-the-aha-centre-sulawesi-earthquake-tsunami-and-liquefaction-response-analysis",
     "locations": [
       {
         "settlement": "Palu",
@@ -632,7 +632,7 @@
     "category": "Professional",
     "name": "Estimated potable water requirements - temporary settlements",
     "file": "assets/images/maps/2018-indonesia-potable-water-temporary-settlements.jpeg",
-    "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
+    "projectId": "2018-idn-professional-the-aha-centre-sulawesi-earthquake-tsunami-and-liquefaction-response-analysis",
     "locations": [],
     "year": 2018,
     "month": 10,
@@ -657,7 +657,7 @@
     "category": "Professional",
     "name": "Cholera cases (as at 2 April 2019)",
     "file": "assets/images/maps/2019-mozambique-idai-who-beira-cholera-cases.jpeg",
-    "projectId": "disease-outbreak-mapping-cyclone-idai-2019",
+    "projectId": "2019-moz-professional-who-disease-outbreak-mapping-cyclone-idai",
     "locations": [
       {
         "settlement": "Beira",
@@ -692,7 +692,7 @@
     "category": "Professional",
     "name": "EMTs, CTCs and health facilities (as at 1 April 2019)",
     "file": "assets/images/maps/2019-mozambique-idai-who-beira-emts-ctcs-health-facilities.jpeg",
-    "projectId": "disease-outbreak-mapping-cyclone-idai-2019",
+    "projectId": "2019-moz-professional-who-disease-outbreak-mapping-cyclone-idai",
     "locations": [
       {
         "settlement": "Beira",
@@ -727,7 +727,7 @@
     "category": "Professional",
     "name": "Health facilities (as at 1 April 2019)",
     "file": "assets/images/maps/2019-mozambique-idai-who-sofala-emts-ctcs-health-facilities.jpeg",
-    "projectId": "disease-outbreak-mapping-cyclone-idai-2019",
+    "projectId": "2019-moz-professional-who-disease-outbreak-mapping-cyclone-idai",
     "locations": [
       {
         "settlement": "Sofala",
@@ -760,7 +760,7 @@
     "category": "Professional",
     "name": "Health cluster 4W (as at 1 April 2019)",
     "file": "assets/images/maps/2019-mozambique-idai-who-sofala-health-cluster-345w.jpg",
-    "projectId": "disease-outbreak-mapping-cyclone-idai-2019",
+    "projectId": "2019-moz-professional-who-disease-outbreak-mapping-cyclone-idai",
     "locations": [
       {
         "settlement": "Sofala",
@@ -815,7 +815,7 @@
     "category": "Professional",
     "name": "Tracking changes in the number of IDPs (Aug 2018–Aug 2020)",
     "file": "assets/images/maps/2021-gimac-iraq-idp-change.jpg",
-    "projectId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "projectId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -848,7 +848,7 @@
     "category": "Professional",
     "name": "Number of displaced individuals by shelter type (as at 30 August 2020)",
     "file": "assets/images/maps/2021-gimac-iraq-shelter-type.jpg",
-    "projectId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "projectId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -881,7 +881,7 @@
     "category": "Professional",
     "name": "Commodity trends (Jan 2019–Apr 2020)",
     "file": "assets/images/maps/2021-gimac-ethiopia-commodity-trends.jpg",
-    "projectId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "projectId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -935,7 +935,7 @@
     "category": "Professional",
     "name": "Projected food insecurity (June–Nov 2021)",
     "file": "assets/images/maps/2021-gimac-afghanistan.jpg",
-    "projectId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "projectId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -968,7 +968,7 @@
     "category": "Professional",
     "name": "Fatalities per event type (Jan 2019–Aug 2020)",
     "file": "assets/images/maps/2021-iraq-security.jpg",
-    "projectId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "projectId": "2020-parent-professional-global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -1616,7 +1616,7 @@
     "category": "Professional",
     "name": "Distances from state ports to the outer islands",
     "file": "assets/images/maps/2026-micronesia-distances.png",
-    "projectId": "gis-support-to-chuuk-state-following-typhoon-sinlaku-2026",
+    "projectId": "2026-professional-unocha-gis-support-to-chuuk-state-following-typhoon-sinlaku",
     "locations": [
       {
         "settlement": "Chuuk State",
