@@ -1,0 +1,52 @@
+Table,Field,Type,Required/Optional,Notes
+Projects / Parent projects,id,string,Auto-generated if left blank,"Format: year-iso3-category-(org abbreviation)-name, e.g. 2020-irq-professional-who-impact-of-covid-19-visualisations"
+Projects / Parent projects,name,string,Required,
+Projects / Parent projects,parentId,reference (Project id),Optional,"0 or 1, one level only; always empty on parent projects themselves"
+Projects / Parent projects,isParent,boolean,Set once at creation,Determines whether the record shows in the Projects or Parent projects tab
+Projects / Parent projects,legacyParentName,string,Optional,Leftover from the original migration; present only on records not yet linked to a real parent
+Projects / Parent projects,locations,embedded list,Required (at least 1 usable entry),See "Location entry" rows below for the fields on each one
+Projects / Parent projects,year,number,Optional,
+Projects / Parent projects,month,string,Optional,
+Projects / Parent projects,type,string,Optional,Free text with autocomplete (e.g. Training Response)
+Projects / Parent projects,category,enum,Optional,Personal / Professional / Other - fixed dropdown
+Projects / Parent projects,modality,string list,Optional,Free-text tags with autocomplete
+Projects / Parent projects,level,string list,Optional,Free-text tags with autocomplete
+Projects / Parent projects,themes,string list,Optional,Free-text tags with autocomplete
+Projects / Parent projects,disaster,string list,Optional,Free-text tags with autocomplete
+Projects / Parent projects,organisation,string list,Optional,Free-text tags with autocomplete; drives the Organisations tab
+Projects / Parent projects,status,string,Optional,Free text with autocomplete
+Projects / Parent projects,startDate,string,Optional,
+Projects / Parent projects,endDate,string,Optional,
+Projects / Parent projects,description,text,Optional,
+Projects / Parent projects,sourceRowCount,number,Optional,Only present on records carried over from the original migration
+Maps,id,string,Auto-generated if left blank,From name/file - not part of the Projects id convention
+Maps,kind,enum,Required,map or webmap
+Maps,name,string,Optional,
+Maps,projectId,reference (Project id),Optional,0 or 1
+Maps,locations,embedded list,Optional,Empty inherits the linked project's locations; required if standalone
+Maps,year,number,Optional,
+Maps,month,string,Optional,
+Maps,organisation,string list,Optional,Free-text tags with autocomplete
+Maps,themes,string list,Optional,Free-text tags with autocomplete
+Maps,disaster,string list,Optional,Free-text tags with autocomplete
+Maps,description,text,Optional,
+Maps,file,string,"Map kind only",Path to the static map image
+Maps,map_style,string,"Map kind only",
+Maps,data_sources,list,"Map kind only",
+Maps,screenshot,string,"Webmap kind only",Preview image filename
+Maps,links,list,"Webmap kind only",
+Maps,embeddable,boolean,"Webmap kind only",
+Organisations,name,string,Required,
+Organisations,abbreviation,string,Optional,The only field actually stored in organisations.json
+Organisations,# Projects (computed),number,n/a,Table column only - not a stored field
+Organisations,Projects (computed),string list,n/a,Table column only - not a stored field
+Organisations,# Maps (computed),number,n/a,Table column only - not a stored field
+Organisations,Maps (computed),string list,n/a,Table column only - not a stored field
+Location entry (embedded on a Project or Map),settlement,string,Optional,A specific named place/site
+Location entry (embedded on a Project or Map),state,string,Optional,Free-text province/sub-national unit; no reference list behind it
+Location entry (embedded on a Project or Map),country,string,Optional,
+Location entry (embedded on a Project or Map),region,string,Optional,UN M49 geoscheme sub-region, not a country's internal admin region
+Location entry (embedded on a Project or Map),continent,string,Optional,
+Location entry (embedded on a Project or Map),lat,number,Optional,
+Location entry (embedded on a Project or Map),lng,number,Optional,
+Location entry (embedded on a Project or Map),precision,enum,Optional,exact / capital / region-centroid / continent-centroid / global-centroid

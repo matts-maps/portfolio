@@ -18,6 +18,7 @@
     "year": 2006,
     "month": null,
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ",
       "Remote"
@@ -53,6 +54,7 @@
     "year": 2006,
     "month": null,
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ",
       "Remote"
@@ -88,6 +90,7 @@
     "year": 2006,
     "month": null,
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ",
       "Remote"
@@ -123,6 +126,7 @@
     "year": 2011,
     "month": "October",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -164,6 +168,7 @@
     "year": 2012,
     "month": "March",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -204,6 +209,7 @@
     "year": 2012,
     "month": "March",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -243,6 +249,7 @@
     "year": 2012,
     "month": "December",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -282,6 +289,7 @@
     "year": 2013,
     "month": "September",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -324,6 +332,7 @@
     "year": 2013,
     "month": "November",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -362,6 +371,7 @@
     "year": 2013,
     "month": "November",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -401,6 +411,7 @@
     "year": 2014,
     "month": "May",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -441,6 +452,7 @@
     "year": 2014,
     "month": "December",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -482,6 +494,7 @@
     "year": 2014,
     "month": "September",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -521,6 +534,7 @@
     "year": 2014,
     "month": "July",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -559,6 +573,7 @@
     "year": 2015,
     "month": "April",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -598,6 +613,7 @@
     "year": 2015,
     "month": "February",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -656,6 +672,7 @@
     "year": 2015,
     "month": null,
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -695,6 +712,7 @@
     "year": 2016,
     "month": "September",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -734,6 +752,7 @@
     "year": 2017,
     "month": "May",
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -772,6 +791,7 @@
     "year": 2018,
     "month": "September",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -808,6 +828,7 @@
     "year": 2018,
     "month": "October",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -848,6 +869,7 @@
     "year": 2018,
     "month": "September",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -887,6 +909,7 @@
     "year": 2018,
     "month": null,
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -926,6 +949,7 @@
     "year": 2019,
     "month": "March",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -965,6 +989,7 @@
     "year": 2019,
     "month": null,
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1003,6 +1028,7 @@
     "year": 2019,
     "month": "December",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1041,6 +1067,7 @@
     "year": 2019,
     "month": "December",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -1064,7 +1091,7 @@
   {
     "id": "covid-19-2020",
     "name": "Covid-19",
-    "parentId": null,
+    "parentId": "2020-npl-professional-gis-and-information-management-support-to-unocha-bangkok",
     "locations": [
       {
         "settlement": null,
@@ -1090,6 +1117,7 @@
     "year": 2020,
     "month": "May",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1112,7 +1140,7 @@
   {
     "id": "covid-19-and-tropical-cyclone-harold-2020",
     "name": "Covid-19 and Tropical Cyclone Harold",
-    "parentId": null,
+    "parentId": "2020-npl-professional-gis-and-information-management-support-to-unocha-bangkok",
     "locations": [
       {
         "settlement": null,
@@ -1128,6 +1156,7 @@
     "year": 2020,
     "month": "May",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1166,6 +1195,7 @@
     "year": 2020,
     "month": "August",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1284,6 +1314,7 @@
     "year": 2020,
     "month": null,
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1326,6 +1357,7 @@
     "year": 2020,
     "month": "November",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1348,7 +1380,7 @@
   {
     "id": "community-insights-for-covid-19-2020",
     "name": "Community Insights for Covid-19",
-    "parentId": null,
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
       {
         "settlement": null,
@@ -1364,6 +1396,7 @@
     "year": 2020,
     "month": null,
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1404,6 +1437,7 @@
     "year": 2021,
     "month": "August",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -1445,6 +1479,7 @@
     "year": 2021,
     "month": "December",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -1484,6 +1519,7 @@
     "year": 2021,
     "month": null,
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1522,6 +1558,7 @@
     "year": 2021,
     "month": "March",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1561,6 +1598,7 @@
     "year": 2022,
     "month": null,
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1598,6 +1636,7 @@
     "year": 2022,
     "month": "October",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -1639,6 +1678,7 @@
     "year": 2022,
     "month": null,
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1676,6 +1716,7 @@
     "year": 2022,
     "month": "January",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1714,6 +1755,7 @@
     "year": 2022,
     "month": "December",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1748,6 +1790,7 @@
     "year": 2023,
     "month": "July",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -1790,6 +1833,7 @@
     "year": 2023,
     "month": "August",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -1832,6 +1876,7 @@
     "year": 2023,
     "month": "September",
     "type": null,
+    "category": "Professional",
     "modality": [
       "In-situ",
       "Remote"
@@ -1869,6 +1914,7 @@
     "year": 2023,
     "month": "May",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -1909,6 +1955,7 @@
     "year": 2023,
     "month": "October",
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -1946,6 +1993,7 @@
     "year": 2023,
     "month": null,
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -1983,6 +2031,7 @@
     "year": 2024,
     "month": "July",
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2020,6 +2069,7 @@
     "year": 2024,
     "month": "September",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -2061,6 +2111,7 @@
     "year": 2024,
     "month": "January",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2096,6 +2147,7 @@
     "year": 2025,
     "month": "September",
     "type": "Development",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2132,6 +2184,7 @@
     "year": 2026,
     "month": "March",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2173,6 +2226,7 @@
     "year": 2026,
     "month": "March",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2214,6 +2268,7 @@
     "year": 2026,
     "month": "April",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2253,6 +2308,7 @@
     "year": 2026,
     "month": "May",
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2291,6 +2347,7 @@
     "year": 2026,
     "month": "May",
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2330,6 +2387,7 @@
     "year": 2026,
     "month": "May",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2368,6 +2426,7 @@
     "year": 2026,
     "month": "May",
     "type": "Response",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2406,6 +2465,7 @@
     "year": 2026,
     "month": "February",
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2447,6 +2507,7 @@
     "year": 2026,
     "month": "June",
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2489,6 +2550,7 @@
     "year": 2026,
     "month": "July",
     "type": "Training",
+    "category": "Professional",
     "modality": [
       "In-situ"
     ],
@@ -2530,6 +2592,7 @@
     "year": 2026,
     "month": "August",
     "type": "Preparedness",
+    "category": "Professional",
     "modality": [
       "Remote"
     ],
@@ -2569,6 +2632,7 @@
     "year": 2020,
     "month": null,
     "type": "Response",
+    "category": "Professional",
     "modality": [],
     "organisation": [
       "UN Office of Coordination for Humanitarian Affairs"
@@ -2587,16 +2651,6 @@
     "parentId": null,
     "isParent": true,
     "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Iraq",
-        "region": "Western Asia",
-        "continent": "Asia",
-        "lat": 33.3406,
-        "lng": 44.4009,
-        "precision": "capital"
-      },
       {
         "settlement": null,
         "state": null,
@@ -2620,6 +2674,46 @@
       {
         "settlement": null,
         "state": null,
+        "country": "Chad",
+        "region": "Middle Africa",
+        "continent": "Africa",
+        "lat": 12.1067,
+        "lng": 15.0444,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Ethiopia",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": 9.025,
+        "lng": 38.7469,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Iraq",
+        "region": "Western Asia",
+        "continent": "Asia",
+        "lat": 33.3406,
+        "lng": 44.4009,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Niger",
+        "region": "Western Africa",
+        "continent": "Africa",
+        "lat": 13.5137,
+        "lng": 2.1098,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
         "country": "South Sudan",
         "region": "Eastern Africa",
         "continent": "Africa",
@@ -2630,37 +2724,18 @@
       {
         "settlement": null,
         "state": null,
-        "country": "Sudan",
-        "region": "Northern Africa",
+        "country": "South Sudan",
+        "region": "Eastern Africa",
         "continent": "Africa",
-        "lat": 15.5518,
-        "lng": 32.5324,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Niger",
-        "region": "Western Africa",
-        "continent": "Africa",
-        "lat": null,
-        "lng": null,
-        "precision": null
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Syrian Arab Republic",
-        "region": "Western Asia",
-        "continent": "Asia",
-        "lat": 33.5102,
-        "lng": 36.2913,
+        "lat": 4.8517,
+        "lng": 31.5825,
         "precision": "capital"
       }
     ],
     "year": 2020,
     "month": null,
     "type": null,
+    "category": "Professional",
     "modality": [],
     "organisation": [],
     "level": [],
@@ -2701,6 +2776,7 @@
     "year": 2026,
     "month": null,
     "type": "Preparedness and anticipatory action",
+    "category": "Professional",
     "modality": [],
     "organisation": [],
     "level": [],
@@ -2731,6 +2807,7 @@
     "year": null,
     "month": null,
     "type": null,
+    "category": "Professional",
     "modality": [],
     "organisation": [],
     "level": [],
@@ -2761,6 +2838,7 @@
     "year": null,
     "month": null,
     "type": null,
+    "category": "Professional",
     "modality": [],
     "organisation": [],
     "level": [],
@@ -2801,6 +2879,7 @@
     "year": 2026,
     "month": null,
     "type": null,
+    "category": "Professional",
     "modality": [],
     "organisation": [
       "United Nations Department for Safety and Security"
@@ -2816,5 +2895,116 @@
     "startDate": null,
     "endDate": null,
     "description": null
+  },
+  {
+    "id": "running-maps",
+    "name": "Running maps",
+    "parentId": null,
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 58.0163,
+        "lng": 8.2419,
+        "precision": "region-centroid"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "New Zealand",
+        "region": "Australia and New Zealand",
+        "continent": "Oceania",
+        "lat": -41.2866,
+        "lng": 174.7756,
+        "precision": "capital"
+      }
+    ],
+    "year": 2026,
+    "month": null,
+    "type": null,
+    "category": "Personal",
+    "modality": [],
+    "organisation": [],
+    "level": [],
+    "themes": [],
+    "disaster": [],
+    "status": null,
+    "startDate": null,
+    "endDate": null,
+    "description": null
+  },
+  {
+    "id": "2020-npl-professional-gis-and-information-management-support-to-unocha-bangkok",
+    "name": "GIS and Information Management support to UNOCHA - Bangkok",
+    "parentId": null,
+    "isParent": true,
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Nepal",
+        "region": "Southern Asia",
+        "continent": "Asia",
+        "lat": 27.7017,
+        "lng": 85.3206,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Korea, Democratic People's Republic of",
+        "region": "Eastern Asia",
+        "continent": "Asia",
+        "lat": 39.0339,
+        "lng": 125.7543,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Tonga",
+        "region": "Polynesia",
+        "continent": "Oceania",
+        "lat": -21.1368,
+        "lng": -175.2011,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": null,
+        "region": "South-Eastern Asia",
+        "continent": null,
+        "lat": 8.4732,
+        "lng": 107.6242,
+        "precision": "region-centroid"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": null,
+        "region": null,
+        "continent": null,
+        "lat": null,
+        "lng": null,
+        "precision": null
+      }
+    ],
+    "year": 2020,
+    "month": "May",
+    "type": null,
+    "category": "Professional",
+    "modality": [],
+    "organisation": [],
+    "level": [],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "01/05/2020",
+    "endDate": "31/07/2020",
+    "description": "Surge support to the information management unit supporting disaster responses in Nepal, Tonga and the Democratic People’s Republic of Korea."
   }
 ]
