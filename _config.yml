@@ -10,6 +10,10 @@ theme: minima
 paginate: 5
 paginate_path: "/posts/page:num/"
 
+exclude:
+  - scripts
+  - assets/data/migration-report.md
+
 include:
   - assets
 

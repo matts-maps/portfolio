@@ -13,11 +13,15 @@ layout: default
 {% include image-lightbox.html %}
 
 <script type="module">
-  import { images } from "{{ site.baseurl }}/assets/js/image-data.js";
+  import { loadImages } from "{{ site.baseurl }}/assets/js/data-adapter.js";
   import { initFilterEngine, SORT } from "{{ site.baseurl }}/assets/js/filter-engine.js";
   import { initLightbox, updateLightboxPool, launchLightbox } from "{{ site.baseurl }}/assets/js/image-lightbox.js";
 
   const baseUrl = "{{ site.baseurl }}";
+
+  // Start the fetch as soon as the module runs, so it's already in flight by
+  // the time DOMContentLoaded fires below.
+  const imagesPromise = loadImages();
 
   function renderGrid(filteredItems) {
     const grid = document.getElementById('gallery-grid');
@@ -101,8 +105,9 @@ layout: default
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     initLightbox();
+    const images = await imagesPromise;
     initFilterEngine(images, renderGrid, {
       searchEl: "ife-search",
       searchFields: ["name", "country", "location"],

@@ -49,8 +49,11 @@ export function renderMapMarkers(filteredItems) {
   const markersToGroup = [];
 
   filteredItems.forEach(item => {
-    if (item.lat !== undefined && item.lng !== undefined) {
-      const marker = L.marker([item.lat, item.lng], { icon: blueDotIcon });
+    // An item can have more than one location (e.g. a map covering several
+    // countries), so it gets one marker per location, all pointing back to
+    // the same lightbox entry.
+    (item.locations || []).forEach(loc => {
+      const marker = L.marker([loc.lat, loc.lng], { icon: blueDotIcon });
 
       // Trigger the lightbox window when a pin is selected
       marker.on('click', () => {
@@ -58,7 +61,7 @@ export function renderMapMarkers(filteredItems) {
       });
 
       markersToGroup.push(marker);
-    }
+    });
   });
 
   // Batch-inject the group into the cluster system to optimize rendering performance

@@ -56,9 +56,14 @@ layout: default
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script type="module">
-  import { visualizationProjects } from '{{ site.baseurl }}/assets/js/webmaps-and-visualisations-data.js';
+  import { loadWebmaps } from '{{ site.baseurl }}/assets/js/data-adapter.js';
 
-  document.addEventListener("DOMContentLoaded", function () {
+  // Start the fetch as soon as the module runs, so it's already in flight by
+  // the time DOMContentLoaded fires below.
+  const webmapsPromise = loadWebmaps();
+
+  document.addEventListener("DOMContentLoaded", async function () {
+    const visualizationProjects = await webmapsPromise;
     // Explicit setup ensuring map calculates its container box layout without clipping bounds
     const map = L.map('locator-map-canvas', {
       zoomControl: true,
@@ -147,7 +152,8 @@ layout: default
 
       const subtitleSegments = [];
       if (locationCountry && locationCountry.trim() !== "") subtitleSegments.push(locationCountry);
-      if (project.disaster && project.disaster.trim() !== "") subtitleSegments.push(project.disaster.trim());
+      const activeDisasters = (project.disaster || []).filter(d => d && d !== "None");
+      if (activeDisasters.length > 0) subtitleSegments.push(activeDisasters.join(', '));
       if (project.year) subtitleSegments.push(project.year);
 
       document.getElementById('meta-combined-subtitle').textContent = subtitleSegments.join(' · ');

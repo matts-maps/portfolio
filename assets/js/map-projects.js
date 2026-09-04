@@ -1,12 +1,18 @@
 import { initFilterEngine, SORT } from "./filter-engine.js";
-import { projects } from "./projects-data.js";
+import { loadProjects } from "./data-adapter.js";
 
-// Assign unique IDs to every project
-projects.forEach((p, index) => {
-  p.id = index;
-});
+// Start the fetch as soon as the module runs, so it's already in flight by
+// the time DOMContentLoaded fires below.
+const projectsPromise = loadProjects();
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const projects = await projectsPromise;
+
+  // Assign unique IDs to every project
+  projects.forEach((p, index) => {
+    p.id = index;
+  });
 
   const mapEl = document.getElementById("projects-map");
   const tableBody = document.getElementById("project-table-body");
@@ -63,6 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   map.addLayer(cluster);
 
+  // A project can have more than one location (e.g. a regional programme),
+  // so each id maps to an array of markers, not a single marker.
   const markerById = new Map();
 
   /* --------------------------------------------------
@@ -98,15 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
   -------------------------------------------------- */
   function createMarkers() {
     projects.forEach(p => {
-      if (p.lat == null || p.lng == null || p.lat === "" || p.lng === "") return;
-
-      const marker = L.marker(
-        [Number(p.lat), Number(p.lng)],
-        { icon: getMarkerIcon(p) }
-      );
-
-      marker.on("click", () => openDetails(p));
-      markerById.set(p.id, marker);
+      const markers = (p.locations || []).map(loc => {
+        const marker = L.marker([loc.lat, loc.lng], { icon: getMarkerIcon(p) });
+        marker.on("click", () => openDetails(p));
+        return marker;
+      });
+      markerById.set(p.id, markers);
     });
   }
 
@@ -117,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     titleEl.textContent = p.name;
 
     metaEl.textContent = [
-      p.country,
+      p.countries.join(', '),
       p.year,
       p.type,
       p.disaster
@@ -159,8 +164,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function openDetails(p) {
     fullscreenDetails(p);
 
-    const marker = markerById.get(p.id);
-    if (marker) map.setView(marker.getLatLng(), 6, { animate: true });
+    const markers = markerById.get(p.id) || [];
+    if (markers.length === 1) {
+      map.setView(markers[0].getLatLng(), 6, { animate: true });
+    } else if (markers.length > 1) {
+      const bounds = L.latLngBounds(markers.map(m => m.getLatLng()));
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6, animate: true });
+    }
   }
 
   // Backwards-compatible alias for explicit initialization routines
@@ -174,19 +184,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateMap(list) {
     cluster.clearLayers();
 
+    const coords = [];
     list.forEach(p => {
-      const marker = markerById.get(p.id);
-      if (marker) cluster.addLayer(marker);
+      const markers = markerById.get(p.id) || [];
+      markers.forEach(marker => {
+        cluster.addLayer(marker);
+        coords.push(marker.getLatLng());
+      });
     });
-
-    const coords = list
-      .map(p => [Number(p.lat), Number(p.lng)])
-      .filter(([lat, lng]) =>
-        !isNaN(lat) &&
-        !isNaN(lng) &&
-        Math.abs(lat) <= 90 &&
-        Math.abs(lng) <= 180
-      );
 
     if (coords.length === 0) return;
 
@@ -214,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${p.name}</td>
         <td>${p.year}</td>
         <td>${p.type || ""}</td>
-        <td>${p.country}</td>
+        <td>${p.countries.join(', ')}</td>
         <td>${(p.organisation || []).join(", ")}</td>
         <td>${p.status}</td>
       `;
@@ -243,8 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
     sortEl: "sort-select",
     resetEl: "reset-filters",
     fields: [
-      { key: "continent", elId: "filter-continent" },
-      { key: "country", elId: "filter-country", arrayValued: true },
+      { key: "continent", prop: "continents", elId: "filter-continent", arrayValued: true },
+      { key: "country", prop: "countries", elId: "filter-country", arrayValued: true },
       { key: "disaster", elId: "filter-disaster", arrayValued: true },
       { key: "type", elId: "filter-type" },
       { key: "modality", elId: "filter-modality", arrayValued: true },
