@@ -555,7 +555,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "cyclone-pam-2015",
+    "id": "2015-vut-professional-unocha-cyclone-pam",
     "name": "Cyclone Pam",
     "parentId": null,
     "locations": [
@@ -971,8 +971,8 @@
     "sourceRowCount": 1
   },
   {
-    "id": "earhquake-2019",
-    "name": "Earhquake",
+    "id": "2019-alb-professional-undac-earthquake-in-albania",
+    "name": "Earthquake in Albania",
     "parentId": null,
     "locations": [
       {
@@ -1049,7 +1049,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "assessment-and-analysis-cell-pilot-training-course-2019",
+    "id": "2019-est-professional-undac-assessment-and-analysis-cell-pilot-training-course",
     "name": "Assessment and Analysis Cell Pilot training course",
     "parentId": null,
     "locations": [
@@ -1216,20 +1216,10 @@
     "sourceRowCount": 1
   },
   {
-    "id": "impact-of-covid-19-visualisations-2020",
-    "name": "Impact of Covid-19 visualisations",
+    "id": "2020-cmr-professional-iom-impact-of-covid-19-visualisations-in-cameroon",
+    "name": "Visualising the impact of Covid-19 in Cameroon",
     "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
     "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Afghanistan",
-        "region": "Southern Asia",
-        "continent": "Asia",
-        "lat": 34.5281,
-        "lng": 69.1723,
-        "precision": "capital"
-      },
       {
         "settlement": null,
         "state": null,
@@ -1239,7 +1229,40 @@
         "lat": 3.8667,
         "lng": 11.5167,
         "precision": "capital"
-      },
+      }
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "the Global Health Cluster",
+      "International Organisation for Migration",
+      "UN Office of Coordination for Humanitarian Affairs",
+      "United Nations High Commissioner for Refugees",
+      "World Health Organisation"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "2020-tcd-professional-iom-impact-of-covid-19-visualisations-in-chad",
+    "name": "Visualising the impact of Covid-19 in Chad",
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "locations": [
       {
         "settlement": null,
         "state": null,
@@ -1249,7 +1272,40 @@
         "lat": 12.1067,
         "lng": 15.0444,
         "precision": "capital"
-      },
+      }
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "the Global Health Cluster",
+      "International Organisation for Migration",
+      "UN Office of Coordination for Humanitarian Affairs",
+      "United Nations High Commissioner for Refugees",
+      "World Health Organisation"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "2020-eth-professional-iom-visualising-the-impact-of-covid-19-in-ethiopia",
+    "name": "Visualising the impact of Covid-19 in Ethiopia",
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "locations": [
       {
         "settlement": null,
         "state": null,
@@ -1259,7 +1315,40 @@
         "lat": 9.025,
         "lng": 38.7469,
         "precision": "capital"
-      },
+      }
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "the Global Health Cluster",
+      "International Organisation for Migration",
+      "UN Office of Coordination for Humanitarian Affairs",
+      "United Nations High Commissioner for Refugees",
+      "World Health Organisation"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "2020-afg-professional-iom-visualising-the-impact-of-covid-19-in-iraq",
+    "name": "Visualising the impact of Covid-19 in Iraq",
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "locations": [
       {
         "settlement": null,
         "state": null,
@@ -1268,46 +1357,6 @@
         "continent": "Asia",
         "lat": 33.3406,
         "lng": 44.4009,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Niger",
-        "region": "Western Africa",
-        "continent": "Africa",
-        "lat": 13.5137,
-        "lng": 2.1098,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Somalia",
-        "region": "Eastern Africa",
-        "continent": "Africa",
-        "lat": 2.0371,
-        "lng": 45.3438,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "South Sudan",
-        "region": "Eastern Africa",
-        "continent": "Africa",
-        "lat": 4.8517,
-        "lng": 31.5825,
-        "precision": "capital"
-      },
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Sudan",
-        "region": "Northern Africa",
-        "continent": "Africa",
-        "lat": 15.5518,
-        "lng": 32.5324,
         "precision": "capital"
       }
     ],
@@ -1378,9 +1427,9 @@
     "sourceRowCount": 1
   },
   {
-    "id": "community-insights-for-covid-19-2020",
+    "id": "2020-professional-community-insights-for-covid-19",
     "name": "Community Insights for Covid-19",
-    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "parentId": "2020-npl-professional-gis-and-information-management-support-to-unocha-bangkok",
     "locations": [
       {
         "settlement": null,
@@ -1580,7 +1629,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "data-interoperability-development-2022",
+    "id": "2022-professional-adrrn-data-interoperability-development",
     "name": "Data interoperability development",
     "parentId": null,
     "locations": [
@@ -1698,7 +1747,7 @@
     "sourceRowCount": 1
   },
   {
-    "id": "disaster-simulation-exercise-development-2022",
+    "id": "2022-professional-undac-disaster-simulation-exercise-development",
     "name": "Disaster simulation exercise development",
     "parentId": null,
     "locations": [
@@ -2166,9 +2215,9 @@
     "sourceRowCount": 1
   },
   {
-    "id": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026",
-    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
-    "parentId": null,
+    "id": "2026-ukr-professional-acaps-bi-weekly-analysis-and-visualisation-of-the-conflict-in-ukraine",
+    "name": "Bi-weekly analysis and visualisation of the conflict in Ukraine",
+    "parentId": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
     "locations": [
       {
         "settlement": null,
@@ -2205,48 +2254,6 @@
     "startDate": "2026-03-14",
     "endDate": null,
     "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in Ukraine to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
-    "sourceRowCount": 1
-  },
-  {
-    "id": "european-partnership-for-the-analysis-of-conflict-consequences-e-pacc-anticipatory-and-rapid-analysis-for-eu-preparedness-2026-2",
-    "name": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness",
-    "parentId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "Iran",
-        "region": null,
-        "continent": "Middle East",
-        "lat": 35.6889,
-        "lng": 51.3897,
-        "precision": "capital"
-      }
-    ],
-    "year": 2026,
-    "month": "March",
-    "type": "Response",
-    "category": "Professional",
-    "modality": [
-      "Remote"
-    ],
-    "organisation": [
-      "Assessment Capacity Project",
-      "European Union - Emergency response coordination centre"
-    ],
-    "level": [
-      "Regional"
-    ],
-    "themes": [
-      "Risk analysis"
-    ],
-    "disaster": [
-      "Conflict"
-    ],
-    "status": "Current",
-    "startDate": "2026-03-14",
-    "endDate": null,
-    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in the Middle East to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
     "sourceRowCount": 1
   },
   {
@@ -3047,5 +3054,342 @@
     "startDate": null,
     "endDate": null,
     "description": null
+  },
+  {
+    "id": "2020-afg-professional-iom-impact-of-covid-19-visualisations-in-afghanistan",
+    "name": "Visualising the impact of Covid-19 in Afghanistan",
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Afghanistan",
+        "region": "Southern Asia",
+        "continent": "Asia",
+        "lat": 34.5281,
+        "lng": 69.1723,
+        "precision": "capital"
+      }
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "the Global Health Cluster",
+      "International Organisation for Migration",
+      "UN Office of Coordination for Humanitarian Affairs",
+      "United Nations High Commissioner for Refugees",
+      "World Health Organisation"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "2020-ner-professional-iom-visualising-the-impact-of-covid-19-in-niger",
+    "name": "Visualising the impact of Covid-19 in Niger",
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Niger",
+        "region": "Western Africa",
+        "continent": "Africa",
+        "lat": 13.5137,
+        "lng": 2.1098,
+        "precision": "capital"
+      }
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "the Global Health Cluster",
+      "International Organisation for Migration",
+      "UN Office of Coordination for Humanitarian Affairs",
+      "United Nations High Commissioner for Refugees",
+      "World Health Organisation"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "2020-som-professional-iom-visualising-the-impact-of-covid-19-in-somalia",
+    "name": "Visualising the impact of Covid-19 in Somalia",
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Somalia",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": 2.0371,
+        "lng": 45.3438,
+        "precision": "capital"
+      }
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "the Global Health Cluster",
+      "International Organisation for Migration",
+      "UN Office of Coordination for Humanitarian Affairs",
+      "United Nations High Commissioner for Refugees",
+      "World Health Organisation"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "2020-ssd-professional-iom-visualising-the-impact-of-covid-19-in-south-sudan",
+    "name": "Visualising the impact of Covid-19 in South Sudan",
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "South Sudan",
+        "region": "Eastern Africa",
+        "continent": "Africa",
+        "lat": 4.8517,
+        "lng": 31.5825,
+        "precision": "capital"
+      }
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "the Global Health Cluster",
+      "International Organisation for Migration",
+      "UN Office of Coordination for Humanitarian Affairs",
+      "United Nations High Commissioner for Refugees",
+      "World Health Organisation"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "2020-sdn-professional-iom-visualising-the-impact-of-covid-19-in-sudan",
+    "name": "Visualising the impact of Covid-19 in Sudan",
+    "parentId": "global-information-management-assessment-and-analysis-cell-on-covid-19-gimac",
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Sudan",
+        "region": "Northern Africa",
+        "continent": "Africa",
+        "lat": 15.5518,
+        "lng": 32.5324,
+        "precision": "capital"
+      }
+    ],
+    "year": 2020,
+    "month": null,
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "the Global Health Cluster",
+      "International Organisation for Migration",
+      "UN Office of Coordination for Humanitarian Affairs",
+      "United Nations High Commissioner for Refugees",
+      "World Health Organisation"
+    ],
+    "level": [
+      "National"
+    ],
+    "themes": [],
+    "disaster": [
+      "Covid-19"
+    ],
+    "status": "Complete",
+    "startDate": null,
+    "endDate": null,
+    "description": "GIS and data visualisation lead supporting countries (Afghanistan, Cameroon, Chad, Ethiopia, Iraq, Niger, Somalia, South Sudan, Sudan) with active humanitarian response plans and regional refugee plans relating to the impacts of Covid-19, collating data from a wide range of humanitarian actors.",
+    "sourceRowCount": 8
+  },
+  {
+    "id": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
+    "name": "Anticipatory and Rapid Analysis for EU Preparedness in Ukraine",
+    "parentId": null,
+    "isParent": true,
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Ukraine",
+        "region": "Eastern Europe",
+        "continent": "Europe",
+        "lat": 50.4547,
+        "lng": 30.5238,
+        "precision": "capital"
+      },
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Russian Federation",
+        "region": "Eastern Europe",
+        "continent": "Europe",
+        "lat": 55.752,
+        "lng": 37.6178,
+        "precision": "capital"
+      }
+    ],
+    "year": null,
+    "month": null,
+    "type": "Preparedness and anticipatory action",
+    "category": "Professional",
+    "modality": [],
+    "organisation": [],
+    "level": [
+      "Regional",
+      "National",
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Current",
+    "startDate": null,
+    "endDate": null,
+    "description": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness"
+  },
+  {
+    "id": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
+    "name": "Anticipatory and Rapid Analysis for EU Preparedness in the Middle East",
+    "parentId": null,
+    "isParent": true,
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Iran, Islamic Republic of",
+        "region": "Southern Asia",
+        "continent": "Asia",
+        "lat": 24.7283,
+        "lng": 76.62,
+        "precision": "region-centroid"
+      }
+    ],
+    "year": 2026,
+    "month": "March",
+    "type": "Preparedness and anticipatory action",
+    "category": "Professional",
+    "modality": [],
+    "organisation": [],
+    "level": [
+      "Regional",
+      "National",
+      "Sub-national"
+    ],
+    "themes": [],
+    "disaster": [],
+    "status": "Current",
+    "startDate": "01/03/2026",
+    "endDate": null,
+    "description": "European Partnership for the Analysis of Conflict Consequences (E-PACC): Anticipatory and Rapid Analysis for EU Preparedness"
+  },
+  {
+    "id": "2026-irn-professional-acaps-bi-weekly-analysis-and-visualisation-of-the-conflicts-in-the-middle-east",
+    "name": "Bi-weekly analysis and visualisation of the conflicts in the Middle East",
+    "parentId": "professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-the-middle-east",
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Iran, Islamic Republic of",
+        "region": "Southern Asia",
+        "continent": "Asia",
+        "lat": 24.7283,
+        "lng": 76.62,
+        "precision": "region-centroid"
+      }
+    ],
+    "year": 2026,
+    "month": "March",
+    "type": "Response",
+    "category": "Professional",
+    "modality": [
+      "Remote"
+    ],
+    "organisation": [
+      "Assessment Capacity Project",
+      "European Union - Emergency response coordination centre"
+    ],
+    "level": [
+      "Regional"
+    ],
+    "themes": [
+      "Risk analysis"
+    ],
+    "disaster": [
+      "Conflict"
+    ],
+    "status": "Current",
+    "startDate": "2026-03-14",
+    "endDate": null,
+    "description": "Bi-weekly reporting to E-PACC with visualisations and analysis of conflict in the Middle East to help understand the dynamic changes and consequences on the affected populations and the subsequent global ripple effects.",
+    "sourceRowCount": 1
   }
 ]
