@@ -20,7 +20,9 @@
     ],
     "year": 2012,
     "month": 3,
-    "organisation": [],
+    "organisation": [
+      "United Nations Disaster Assessment and Coordination"
+    ],
     "themes": [
       "Humanitarian"
     ],
@@ -139,7 +141,7 @@
     "category": "Professional",
     "name": "Location and status of Ebola Treatment Units (as of 14 October 2014)",
     "file": "assets/images/maps/2014-liberia-ebola-treatment-units.jpeg",
-    "projectId": null,
+    "projectId": "2014-lbr-professional-undac-ebola-response-in-liberia",
     "locations": [
       {
         "settlement": null,
@@ -154,7 +156,9 @@
     ],
     "year": 2014,
     "month": 10,
-    "organisation": [],
+    "organisation": [
+      "UN Office of Coordination for Humanitarian Affairs"
+    ],
     "themes": [
       "Health",
       "Humanitarian"
@@ -187,7 +191,10 @@
     ],
     "year": 2015,
     "month": 2,
-    "organisation": [],
+    "organisation": [
+      "Government of Malawi",
+      "UN Office of Coordination for Humanitarian Affairs"
+    ],
     "themes": [
       "Humanitarian"
     ],
@@ -370,7 +377,9 @@
     ],
     "year": 2016,
     "month": 11,
-    "organisation": [],
+    "organisation": [
+      "Assessment Capacity Project"
+    ],
     "themes": [
       "Population",
       "Humanitarian",
@@ -456,7 +465,9 @@
     ],
     "year": 2018,
     "month": 9,
-    "organisation": [],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management"
+    ],
     "themes": [
       "Humanitarian"
     ],
@@ -488,7 +499,9 @@
     ],
     "year": 2018,
     "month": 9,
-    "organisation": [],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management"
+    ],
     "themes": [
       "Humanitarian"
     ],
@@ -587,7 +600,18 @@
     "name": "Estimated potable water requirements (as at 23 October 2018)",
     "file": "assets/images/maps/2018-indonesia-potable-water-requirements.jpg",
     "projectId": "sulawesi-earthquake-tsunami-and-liquefaction-response-analysis-2018",
-    "locations": [],
+    "locations": [
+      {
+        "settlement": "Palu",
+        "state": null,
+        "country": "Indonesia",
+        "region": "South-Eastern Asia",
+        "continent": "Asia",
+        "lat": -0.895119859444,
+        "lng": 119.859444,
+        "precision": "exact"
+      }
+    ],
     "year": 2018,
     "month": 10,
     "organisation": [],
@@ -612,7 +636,10 @@
     "locations": [],
     "year": 2018,
     "month": 10,
-    "organisation": [],
+    "organisation": [
+      "ASEAN Coordinating Centre for Humanitarian Assistance on disaster management",
+      "Emergency Response and Assessment Team"
+    ],
     "themes": [
       "Humanitarian",
       "WASH"
@@ -645,7 +672,9 @@
     ],
     "year": 2019,
     "month": 4,
-    "organisation": [],
+    "organisation": [
+      "World Health Organisation"
+    ],
     "themes": [
       "Humanitarian",
       "Health"
@@ -678,7 +707,9 @@
     ],
     "year": 2019,
     "month": 4,
-    "organisation": [],
+    "organisation": [
+      "World Health Organisation"
+    ],
     "themes": [
       "Humanitarian",
       "Health"
@@ -1266,38 +1297,6 @@
     "data_sources": []
   },
   {
-    "id": "new-zealand-raster",
-    "kind": "map",
-    "category": "Personal",
-    "name": "Aotearoa/New Zealand",
-    "file": "assets/images/maps/new-zealand-raster.jpg",
-    "projectId": null,
-    "locations": [
-      {
-        "settlement": null,
-        "state": null,
-        "country": "New Zealand",
-        "region": "Australia and New Zealand",
-        "continent": "Oceania",
-        "lat": -42.25,
-        "lng": 173.25,
-        "precision": "capital"
-      }
-    ],
-    "year": 2025,
-    "month": 1,
-    "organisation": [],
-    "themes": [
-      "Landscape"
-    ],
-    "disaster": [
-      "None"
-    ],
-    "description": "Inspired by this map here - <a href='https://soaratlas.com/maps/oceania-new-zealand-aotearoa-15866?pos=-40.36082373372568%2C173.7623460138845%2C6.64' target='_blank'>Soar Atlas</a>",
-    "map_style": null,
-    "data_sources": []
-  },
-  {
     "id": "osaka-new",
     "kind": "map",
     "category": "Personal",
@@ -1595,7 +1594,11 @@
     ],
     "year": 2026,
     "month": 4,
-    "organisation": [],
+    "organisation": [
+      "Chuuk State Government",
+      "United Nations Disaster Assessment and Coordination",
+      "UN Office of Coordination for Humanitarian Affairs"
+    ],
     "themes": [
       "Humanitarian",
       "Damage assessment"
@@ -1628,7 +1631,11 @@
     ],
     "year": 2026,
     "month": 4,
-    "organisation": [],
+    "organisation": [
+      "UN Office of Coordination for Humanitarian Affairs",
+      "Chuuk State Government",
+      "United Nations Disaster Assessment and Coordination"
+    ],
     "themes": [
       "Humanitarian",
       "Logistics"
@@ -1828,7 +1835,7 @@
     "embeddable": true
   },
   {
-    "id": "community-insights-for-covid-19-dashboard",
+    "id": "community-insights-for-covid-19-dashboard-2",
     "kind": "webmap",
     "category": "Professional",
     "name": "Community Insights for COVID-19 Dashboard",
@@ -1894,5 +1901,37 @@
       }
     ],
     "embeddable": true
+  },
+  {
+    "id": "aotearoa-new-zealand",
+    "kind": "map",
+    "category": "Personal",
+    "name": "Aotearoa/New Zealand",
+    "file": "assets/images/maps/new-zealand-raster.jpg",
+    "projectId": null,
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "New Zealand",
+        "region": "Australia and New Zealand",
+        "continent": "Oceania",
+        "lat": -41.2866,
+        "lng": 174.7756,
+        "precision": "capital"
+      }
+    ],
+    "year": 2025,
+    "month": 1,
+    "organisation": [],
+    "themes": [
+      "Landscape"
+    ],
+    "disaster": [
+      "None"
+    ],
+    "description": "Inspired by this map here - <a href='https://soaratlas.com/maps/oceania-new-zealand-aotearoa-15866?pos=-40.36082373372568%2C173.7623460138845%2C6.64' target='_blank'>Soar Atlas</a>",
+    "map_style": null,
+    "data_sources": []
   }
 ]

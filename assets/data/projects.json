@@ -596,7 +596,7 @@
   },
   {
     "id": "flooding-2015",
-    "name": "Flooding",
+    "name": "Flooding in Malawi",
     "parentId": null,
     "locations": [
       {
@@ -628,8 +628,8 @@
       "Flooding"
     ],
     "status": "Complete",
-    "startDate": null,
-    "endDate": null,
+    "startDate": "2015-02-01",
+    "endDate": "2015-02-14",
     "description": null,
     "sourceRowCount": 1
   },
@@ -1011,7 +1011,7 @@
   },
   {
     "id": "floods-2019",
-    "name": "Floods",
+    "name": "Flooding in Djibouti",
     "parentId": null,
     "locations": [
       {
@@ -1987,7 +1987,7 @@
   },
   {
     "id": "scoping-and-landscape-mapping-2023",
-    "name": "Scoping and landscape mapping",
+    "name": "Scoping and landscape mapping for PDRF",
     "parentId": null,
     "locations": [
       {
@@ -2711,9 +2711,9 @@
         "country": "Trinidad and Tobago",
         "region": "Caribbean",
         "continent": "North America",
-        "lat": null,
-        "lng": null,
-        "precision": null
+        "lat": 10.6667,
+        "lng": -61.5189,
+        "precision": "capital"
       },
       {
         "settlement": null,
@@ -2741,9 +2741,9 @@
         "country": "Ecuador",
         "region": "South America",
         "continent": "South America",
-        "lat": null,
-        "lng": null,
-        "precision": null
+        "lat": -0.2298,
+        "lng": -78.525,
+        "precision": "capital"
       },
       {
         "settlement": null,
@@ -2807,7 +2807,7 @@
     "status": "Current",
     "startDate": "2026-08-10",
     "endDate": null,
-    "description": null,
+    "description": "Identification and processing of key base map and baseline datasets that World Central Kitchen will use for their projects on El Nino events.",
     "sourceRowCount": 1
   },
   {
