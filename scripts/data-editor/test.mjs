@@ -59,6 +59,19 @@ async function main() {
   check("parent projects count is (0) - none of the fixture data has a linked parent yet", parentCount.trim() === "(0)");
   check("maps count is (60)", mapCount.trim() === "(60)");
 
+  console.log("Checking the Maps table's Locations column - numbered list, plain em dash, or the inherits-from-project hint, never a comma-separated run...");
+  await page.click('#tabs button[data-tab="maps"]');
+  const mapLocationCellsInfo = await page.$$eval("#tab-maps tbody tr td:nth-child(7)", (cells) =>
+    cells.map((c) => ({ text: c.textContent.trim(), isList: !!c.querySelector("ol.cell-list") }))
+  );
+  check("every Maps row has a Locations cell", mapLocationCellsInfo.length === 60);
+  check(
+    "no Maps Locations cell is a raw comma-separated run - it's either a numbered list, an em dash, or the inherited-from-project hint",
+    mapLocationCellsInfo.every((c) => c.isList || c.text === "—" || c.text === "(inherits from project)")
+  );
+  check("at least one map actually renders its Locations as a numbered list (not every row just fell into the em-dash/inherited branches)", mapLocationCellsInfo.some((c) => c.isList));
+  await page.click('#tabs button[data-tab="projects"]');
+
   console.log("Checking the Projects table is sorted alphabetically...");
   // The name cell can be prefixed with an issue-count badge (e.g. an
   // unresolved-parent warning) with no separating whitespace, so strip that
@@ -326,6 +339,18 @@ async function main() {
   const savedIraq = gimac.locations.find((l) => l.country === "Iraq");
   check("the added Iraq location is embedded directly on the project, coordinates and all", !!savedIraq && savedIraq.lat === 33.3406 && savedIraq.lng === 44.4009 && savedIraq.region === "Western Asia" && savedIraq.continent === "Asia");
   check("the Category set earlier (Professional) also persisted through the save", gimac.category === "Professional");
+
+  console.log("Checking the Projects table's Locations column renders as a numbered list, not a comma-separated run...");
+  // The exact edited name, not just "Impact of Covid-19" - that shorter
+  // substring also matches the unrelated "Visualising the impact of
+  // Covid-19 in <country>" batch of projects and would pull their location
+  // <li>s into this count too.
+  await page.fill("#search-projects", "Impact of Covid-19 visualisations (edited)");
+  await page.waitForTimeout(50);
+  const gimacLocationItems = await page.$$eval("#tab-projects tbody tr td:nth-child(5) ol.cell-list li", (lis) => lis.map((l) => l.textContent));
+  check("GIMAC's Locations column lists all 9 as a numbered list", gimacLocationItems.length === 9);
+  check("GIMAC's Locations list includes Iraq by name", gimacLocationItems.some((t) => t.includes("Iraq") || t.includes("Baghdad")));
+  await page.fill("#search-projects", "");
 
   console.log("Checking a date picked in the Start date picker saves clean and derives Year/Month...");
   await page.click('#tab-projects .toolbar button.primary'); // + Add new

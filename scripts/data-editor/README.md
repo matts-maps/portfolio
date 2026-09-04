@@ -64,11 +64,16 @@ prompt — a zip sidesteps that entirely.)
   represent, like a month-only date such as `Jun-23`, shows the raw stored
   value in the field's hint text instead of just going blank, and stays
   exactly as it was until a real date is picked to replace it.
-- **Any table column that lists other records — a parent's Children, an
-  organisation's Projects or Maps — renders them as a numbered list, one
-  per line, instead of running them together as one comma-separated
-  string.** Easier to scan and count once there's more than a couple; a
-  cell with nothing to list still just shows a plain em dash.
+- **Any table column that lists several of something — a parent's
+  Children, an organisation's Projects or Maps, or a row's own Locations —
+  renders them as a numbered list, one per line, instead of running them
+  together as one comma-separated string.** Easier to scan and count once
+  there's more than a couple; a cell with nothing to list still just shows
+  a plain em dash, except a standalone-less Map's Locations cell, which
+  shows "(inherits from project)" instead when it has none of its own.
+  Tag-style columns (Organisation on Maps, Themes, etc.) are unaffected —
+  those stay plain comma-separated text, since they're short attribute
+  tags rather than lists of other records or places.
 - **Parent projects** and **Projects** split the same underlying project data
   by an explicit flag (`isParent`), not by whether anything happens to be
   linked to it yet. A project becomes a parent project the moment it's added
@@ -233,10 +238,16 @@ and check its embedded location cards render, add a location card and confirm
 the Country → Region/Continent auto-populate (and that it never overwrites an
 existing value), fill a location's coordinates from each of Country/Region/
 Continent (including that an unmatched name is refused rather than silently
-applied), edit a webmap's links and tag it with an Organisation, save, add a
+applied), confirm the Projects table's own Locations column renders GIMAC's 9
+locations as a numbered list rather than one run-on string, and confirm the
+Maps table's Locations column across all 60 fixture maps is always either a
+numbered list, a plain em dash, or the "(inherits from project)" hint -
+never a comma-separated run, edit a webmap's links and tag it with an
+Organisation, save, add a
 parent project and link a child to it (confirming its Children column
-renders as a numbered list, not a comma-separated run - same check repeated
-for an organisation's Projects column further down), manage the
+renders as a numbered list, not a comma-separated run, and that its own
+Locations column does too - same numbered-list check repeated for an
+organisation's Projects column further down), manage the
 Organisations tab
 (rename-as-merge, additive add, delete — checking each leaves unrelated
 projects and maps untouched, and that a rename/merge/delete carries a tagged

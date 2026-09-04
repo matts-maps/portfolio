@@ -915,6 +915,12 @@ function locationsSummary(locations) {
   const usable = (locations || []).filter(locationEntryIsUsable);
   return usable.map(locationLabel).join(", ");
 }
+/** Same usable locations as locationsSummary, but as an array of labels
+ *  rather than one joined string - for nameListCell(), which needs the
+ *  individual items to render as separate numbered lines. */
+function locationLabels(locations) {
+  return (locations || []).filter(locationEntryIsUsable).map(locationLabel);
+}
 
 function dataKeyFor(tab) {
   return tab === "parents" ? "projects" : tab;
@@ -1219,11 +1225,12 @@ function renderTableHead(tab) {
 }
 
 /** Renders a table cell listing related-record names (child projects, an
- * organisation's projects/maps) as a numbered list rather than one long
- * comma-separated run - much easier to scan once there's more than a
- * couple. Falls back to a plain em dash when there's nothing to list. */
-function nameListCell(names) {
-  if (!names.length) return el("td", { text: "—" });
+ * organisation's projects/maps, a row's own locations) as a numbered list
+ * rather than one long comma-separated run - much easier to scan once
+ * there's more than a couple. Falls back to emptyText (a plain em dash by
+ * default) when there's nothing to list. */
+function nameListCell(names, emptyText) {
+  if (!names.length) return el("td", { text: emptyText ?? "—" });
   const ol = el("ol", { class: "cell-list" });
   for (const name of names) ol.appendChild(el("li", { text: name }));
   return el("td", {}, [ol]);
@@ -1250,19 +1257,17 @@ function renderTableRow(item, tab) {
     : null;
 
   if (tab === "projects") {
-    const locNames = locationsSummary(item.locations);
     const parentName = item.parentId ? (byId(state.projects, item.parentId)?.name || item.parentId) : "—";
     tr.append(
       el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
       el("td", {}, [categoryBadge(item.category) || document.createTextNode("—")]),
       el("td", { class: "id-cell", text: item.id }),
       el("td", { text: item.year ?? "" }),
-      el("td", { text: locNames || "—" }),
+      nameListCell(locationLabels(item.locations)),
       el("td", { text: parentName }),
       el("td", { text: item.status || "" })
     );
   } else if (tab === "parents") {
-    const locNames = locationsSummary(item.locations);
     const children = state.projects.filter((p) => p.parentId === item.id);
     tr.append(
       el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
@@ -1270,12 +1275,12 @@ function renderTableRow(item, tab) {
       el("td", { class: "id-cell", text: item.id }),
       el("td", { text: item.year ?? "" }),
       nameListCell(children.map((c) => c.name)),
-      el("td", { text: locNames || "—" })
+      nameListCell(locationLabels(item.locations))
     );
   } else {
     const proj = item.projectId ? (byId(state.projects, item.projectId)?.name || item.projectId) : "—";
-    const ownLocNames = locationsSummary(item.locations);
-    const locNames = ownLocNames || (item.projectId ? "(inherits from project)" : "—");
+    const ownLocLabels = locationLabels(item.locations);
+    const locEmptyText = item.projectId ? "(inherits from project)" : "—";
     tr.append(
       el("td", {}, [badge, document.createTextNode(item.name || "(untitled)")]),
       el("td", { class: "id-cell", text: item.id }),
@@ -1283,7 +1288,7 @@ function renderTableRow(item, tab) {
       el("td", {}, [categoryBadge(item.category) || document.createTextNode("—")]),
       el("td", { text: proj }),
       el("td", { text: (item.organisation || []).join(", ") || "—" }),
-      el("td", { text: locNames }),
+      nameListCell(ownLocLabels, locEmptyText),
       el("td", { text: item.year ?? "" })
     );
   }
