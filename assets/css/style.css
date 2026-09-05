@@ -3,17 +3,17 @@
 -------------------------------------------------- */
 
 :root {
-  --bg: #ffffff;
-  --text: #222;
-  --accent: #0077cc;
-  --border: #e5e5e5;
+  --bg: #f5f3ef;
+  --text: #0f0f10;
+  --accent: #8c1c13;
+  --border: #ddd8d1;
   --header-height: 100px;
 }
 
 body.dark {
-  --bg: #111;
-  --text: #eee;
-  --accent: #4da3ff;
+  --bg: #0f0f10;
+  --text: #f5f3ef;
+  --accent: #ff5a3c;
   --border: #333;
 }
 
