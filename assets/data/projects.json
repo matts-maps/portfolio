@@ -3604,9 +3604,9 @@
       {
         "settlement": null,
         "state": "Crimea",
-        "country": null,
-        "region": null,
-        "continent": null,
+        "country": "Ukraine",
+        "region": "Eastern Europe",
+        "continent": "Europe",
         "lat": 45.3,
         "lng": 34.4,
         "precision": "region-centroid"
