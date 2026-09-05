@@ -93,3 +93,7 @@
   font-weight: 500;
   backdrop-filter: blur(2px);
 }
+
+.overlay-tag.tag-accent { background: rgba(214, 40, 40, 0.28); color: #ff8a70; }
+.overlay-tag.tag-accent-2 { background: rgba(47, 102, 144, 0.32); color: #8ec3e6; }
+.overlay-tag.tag-grey { background: rgba(117, 120, 123, 0.32); color: #d8d9da; }

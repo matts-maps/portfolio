@@ -17,11 +17,11 @@
     </button>
 
     <nav class="site-nav" id="site-nav">
-      <a href="{{ '/' | relative_url }}">Home</a>
-      <a href="{{ '/map-viewer/' | relative_url }}">Map viewer</a>
-      <a href="{{ '/webmaps-and-visualisations/' | relative_url }}">Webmaps and visualisations</a>
-      <a href="{{ '/projects/' | relative_url }}">Projects</a>
-      <a href="{{ '/about/' | relative_url }}">About</a>
+      <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>Home</a>
+      <a href="{{ '/map-viewer/' | relative_url }}"{% if page.url == '/map-viewer/' %} class="active"{% endif %}>Map viewer</a>
+      <a href="{{ '/webmaps-and-visualisations/' | relative_url }}"{% if page.url == '/webmaps-and-visualisations/' %} class="active"{% endif %}>Webmaps and visualisations</a>
+      <a href="{{ '/projects/' | relative_url }}"{% if page.url == '/projects/' %} class="active"{% endif %}>Projects</a>
+      <a href="{{ '/about/' | relative_url }}"{% if page.url == '/about/' %} class="active"{% endif %}>About</a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" id="theme-toggle-icon"></i></button>
     </nav>
 

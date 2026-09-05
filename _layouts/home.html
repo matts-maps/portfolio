@@ -61,12 +61,9 @@ layout: default
       }
 
       // 2. Add Disaster if it exists
-      if (item.disaster && item.disaster.length) {
-        const activeDisasters = item.disaster.filter(d => d && d !== 'None');
-
-        if (activeDisasters.length > 0) {
-          line2Parts.push(activeDisasters.join(', '));
-        }
+      const activeDisasters = (item.disaster || []).filter(d => d && d !== 'None');
+      if (activeDisasters.length > 0) {
+        line2Parts.push(activeDisasters.join(', '));
       }
 
       // 3. Add Year if it exists
@@ -78,9 +75,21 @@ layout: default
       const line2Text = line2Parts.join(' - ');
       // --------------------------------
 
+      // Color-code the category tag: hashes the category name to one of the
+      // three accent voices so the same category always lands on the same
+      // color without needing an exhaustive category-to-color table.
+      const tagCategory = activeDisasters[0];
+      let tagHtml = '';
+      if (tagCategory) {
+        const palette = ['tag-accent', 'tag-accent-2', 'tag-grey'];
+        let hash = 0;
+        for (let i = 0; i < tagCategory.length; i++) hash = (hash * 31 + tagCategory.charCodeAt(i)) >>> 0;
+        tagHtml = `<span class="overlay-tag ${palette[hash % palette.length]}">${tagCategory}</span>`;
+      }
+
       const card = document.createElement('div');
       card.className = 'gallery-card';
-      
+
       // The gallery interface renders using the high-performance thumbUrl
       card.innerHTML = `
         <div class="card-image-wrapper">
@@ -89,6 +98,7 @@ layout: default
             <div class="overlay-caption-content">
               <h3>${title}</h3>
               <p class="card-meta">${line2Text}</p>
+              ${tagHtml}
             </div>
           </div>
         </div>

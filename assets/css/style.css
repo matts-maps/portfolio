@@ -6,6 +6,8 @@
   --bg: #f5f3ef;
   --text: #0f0f10;
   --accent: #8c1c13;
+  --accent-2: #2f6690;
+  --grey: #75787b;
   --border: #ddd8d1;
   --header-height: 100px;
 }
@@ -14,6 +16,8 @@ body.dark {
   --bg: #0f0f10;
   --text: #f5f3ef;
   --accent: #ff5a3c;
+  --accent-2: #2f6690;
+  --grey: #75787b;
   --border: #333;
 }
 
@@ -71,13 +75,18 @@ body {
 
 .site-nav a {
   text-decoration: none;
-  color: var(--text);
+  color: var(--grey);
   font-weight: 600;
   font-size: 1.1rem;
 }
 
 .site-nav a:hover {
   color: var(--accent);
+}
+
+.site-nav a.active {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .theme-toggle {
@@ -235,6 +244,14 @@ body {
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
+}
+
+.hero .accent-text {
+  color: var(--accent);
+}
+
+.hero .accent2-text {
+  color: var(--accent-2);
 }
 
 @media (max-width: 600px) {
