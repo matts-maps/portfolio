@@ -1933,5 +1933,38 @@
     "description": "Inspired by this map here - <a href='https://soaratlas.com/maps/oceania-new-zealand-aotearoa-15866?pos=-40.36082373372568%2C173.7623460138845%2C6.64' target='_blank'>Soar Atlas</a>",
     "map_style": null,
     "data_sources": []
+  },
+  {
+    "id": "london-duathlon-2017",
+    "kind": "map",
+    "category": "Personal",
+    "name": "London Duathlon 2017",
+    "file": "H:\\github\\portfolio\\assets\\images\\maps\\london-duathlon-2017.png",
+    "projectId": null,
+    "locations": [
+      {
+        "settlement": "Richmond Park, London",
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 51.45371199976858,
+        "lng": -0.2573125931184726,
+        "precision": "exact"
+      }
+    ],
+    "year": 2017,
+    "month": "Se[tember",
+    "organisation": [],
+    "themes": [],
+    "disaster": [],
+    "description": null,
+    "map_style": null,
+    "data_sources": [
+      {
+        "name": "OpenStreetMap",
+        "url": ""
+      }
+    ]
   }
 ]
