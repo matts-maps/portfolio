@@ -3591,7 +3591,7 @@
     "disaster": [
       "Conflict"
     ],
-    "status": null,
+    "status": "Complete",
     "startDate": "2026-08-10",
     "endDate": "2026-08-31",
     "description": "Spatial analysis and visualisation into the ongoing conflict in Yemen"
@@ -3630,9 +3630,43 @@
     "disaster": [
       "Conflict"
     ],
-    "status": "Current",
+    "status": "Complete",
     "startDate": "2026-08-10",
-    "endDate": null,
+    "endDate": "2026-08-03",
     "description": "Spatial analysis and visualisation into the ongoing conflict in Crimea. This project specifically looked at trends in the degradation of power infrastructure in Crimea through night light analysis, the decline of shipping in the Black sea and the main supply routes and logistics to Crimea."
+  },
+  {
+    "id": "2026-ukr-professional-acaps-ukraine-six-month-forecast",
+    "name": "Ukraine - Six month forecast",
+    "parentId": "2026-parent-professional-anticipatory-and-rapid-analysis-for-eu-preparedness-in-ukraine",
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "Ukraine",
+        "region": "Eastern Europe",
+        "continent": "Europe",
+        "lat": 50.4547,
+        "lng": 30.5238,
+        "precision": "capital"
+      }
+    ],
+    "year": 2026,
+    "month": "September",
+    "type": "Preparedness",
+    "category": "Professional",
+    "modality": [],
+    "organisation": [
+      "Assessment Capacity Project",
+      "European Commission's Humanitarian Aid and Civil Protection",
+      "European Union - Emergency response coordination centre"
+    ],
+    "level": [],
+    "themes": [],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2026-09-14",
+    "endDate": "2026-10-05",
+    "description": "In depth analysis of the conflict in Ukraine."
   }
 ]
