@@ -1957,9 +1957,9 @@
     "month": "September",
     "organisation": [],
     "themes": [
-                "Running", 
-                "Cycling".
-                "Recreation"
+      "Running",
+      "Cycling",
+      "Recreation"
     ],
     "disaster": [],
     "description": null,
