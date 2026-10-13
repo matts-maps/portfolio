@@ -2805,9 +2805,9 @@
       "Data"
     ],
     "disaster": [],
-    "status": "Current",
+    "status": "Complete",
     "startDate": "2026-08-10",
-    "endDate": null,
+    "endDate": "2026-09-13",
     "description": "Identification and processing of key base map and baseline datasets that World Central Kitchen will use for their projects on El Nino events.",
     "sourceRowCount": 1
   },
