@@ -363,12 +363,12 @@ function updateLightboxDOM() {
   let imgSrc = item.file || item.src || item.image || item.url || "";
   if (imgSrc && !imgSrc.startsWith("http://") && !imgSrc.startsWith("https://") && !imgSrc.startsWith("data:")) {
     const origin = window.location.origin;
-    if (imgSrc.startsWith("/portfolio/")) {
+    if (imgSrc.startsWith("/fantail-gis/")) {
       imgSrc = origin + imgSrc;
     } else if (imgSrc.startsWith("/")) {
       imgSrc = origin + imgSrc;
     } else {
-      imgSrc = origin + "/portfolio/" + imgSrc;
+      imgSrc = origin + "/fantail-gis/" + imgSrc;
     }
   }
 

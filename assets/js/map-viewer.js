@@ -1,3 +1,4 @@
+import { addBaseLayer } from './map-config.js';
 import { loadImages } from './data-adapter.js';
 import { initFilterEngine, SORT } from './filter-engine.js';
 
@@ -71,11 +72,10 @@ function initializeLeafletSystem() {
         worldCopyJump: false              // Keeps marker tracking consistent across continuous wraps
     });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+    addBaseLayer(mapInstance, {
         noWrap: false,                    // Allows rendering to connect seamlessly across boundaries
         bounds: globalOuterBounds
-    }).addTo(mapInstance);
+    });
 
     // LOCKED IN: Your preferred clustering parameters for balanced global distribution
     markerClusterGroup = L.markerClusterGroup({
@@ -176,8 +176,8 @@ function initializeImageInteractionHandlers() {
 
     const launchFullscreenWorkspace = () => {
         if (!currentFeaturedItem || !modalOverlay || !modalImg) return;
-        const isSubfolder = window.location.pathname.includes('/portfolio');
-        modalImg.src = (isSubfolder ? '/portfolio/' : '/') + currentFeaturedItem.file;
+        const isSubfolder = window.location.pathname.includes('/fantail-gis');
+        modalImg.src = (isSubfolder ? '/fantail-gis/' : '/') + currentFeaturedItem.file;
 
         modalTransform.scale = 1; modalTransform.x = 0; modalTransform.y = 0;
         updateImageStyle(modalImg, modalTransform);
@@ -356,8 +356,8 @@ function renderSimilarImagesPanel(currentItem) {
         }
     }
 
-    const isSubfolder = window.location.pathname.includes('/portfolio');
-    const basePath = isSubfolder ? '/portfolio/' : '/';
+    const isSubfolder = window.location.pathname.includes('/fantail-gis');
+    const basePath = isSubfolder ? '/fantail-gis/' : '/';
 
     relatedList.forEach(item => {
         const wrapper = document.createElement('div');
@@ -396,8 +396,8 @@ function renderFeaturedSelection(item) {
     currentFeaturedItem = item;
     const mainImg = document.getElementById('main-map-image');
     if (mainImg) {
-        const isSubfolder = window.location.pathname.includes('/portfolio');
-        mainImg.src = (isSubfolder ? '/portfolio/' : '/') + item.file; 
+        const isSubfolder = window.location.pathname.includes('/fantail-gis');
+        mainImg.src = (isSubfolder ? '/fantail-gis/' : '/') + item.file; 
         mainImg.alt = item.name;
         panelTransform.scale = 1; panelTransform.x = 0; panelTransform.y = 0;
         mainImg.style.transform = `translate(0px, 0px) scale(1)`;

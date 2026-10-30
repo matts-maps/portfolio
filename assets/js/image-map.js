@@ -1,3 +1,4 @@
+import { addBaseLayer } from "./map-config.js";
 import { updateLightboxPool, launchLightbox } from "./image-lightbox.js";
 
 let mapInstance;
@@ -21,9 +22,7 @@ export function initMapBase() {
   // Initialize map instance centered broadly over the world view
   mapInstance = L.map('leaflet-map-canvas').setView([25, 10], 2);
   
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(mapInstance);
+  addBaseLayer(mapInstance);
 
   // Configure and append the Marker Cluster layer group
   markerClusterLayer = L.markerClusterGroup({

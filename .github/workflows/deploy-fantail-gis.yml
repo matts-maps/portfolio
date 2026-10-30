@@ -1,0 +1,55 @@
+name: Deploy to matts-maps.github.io/fantail-gis
+
+# Builds this repo (portfolio) with Jekyll and publishes the output into the
+# fantail-gis/ folder of the matts-maps/matts-maps.github.io user-site repo.
+# Needs a repository secret PAGES_DEPLOY_TOKEN: a fine-grained personal access
+# token with Contents: read and write on matts-maps/matts-maps.github.io.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-fantail-gis
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Build site
+        run: bundle exec jekyll build --baseurl "/fantail-gis"
+        env:
+          JEKYLL_ENV: production
+
+      - name: Check out user-site repo
+        uses: actions/checkout@v4
+        with:
+          repository: matts-maps/matts-maps.github.io
+          token: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          path: user-site
+
+      - name: Replace fantail-gis folder
+        run: |
+          rm -rf user-site/fantail-gis
+          mkdir -p user-site/fantail-gis
+          cp -r _site/. user-site/fantail-gis/
+          touch user-site/.nojekyll
+
+      - name: Commit and push
+        working-directory: user-site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Deploy fantail-gis from portfolio@${GITHUB_SHA::7}"
+          git push

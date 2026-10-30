@@ -57,6 +57,7 @@ layout: default
 
 <script type="module">
   import { loadWebmaps } from '{{ site.baseurl }}/assets/js/data-adapter.js';
+  import { addBaseLayer } from '{{ site.baseurl }}/assets/js/map-config.js';
 
   // Start the fetch as soon as the module runs, so it's already in flight by
   // the time DOMContentLoaded fires below.
@@ -67,12 +68,10 @@ layout: default
     // Explicit setup ensuring map calculates its container box layout without clipping bounds
     const map = L.map('locator-map-canvas', {
       zoomControl: true,
-      attributionControl: false
+      attributionControl: true
     });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 20
-    }).addTo(map);
+    addBaseLayer(map);
 
     // FIXED: Upgraded CSS marker configuration rules so points stay distinct and layout-visible
     const customDotIcon = L.divIcon({

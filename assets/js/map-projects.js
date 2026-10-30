@@ -1,3 +1,4 @@
+import { addBaseLayer } from "./map-config.js";
 import { initFilterEngine, SORT } from "./filter-engine.js";
 import { loadProjects } from "./data-adapter.js";
 
@@ -58,10 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   -------------------------------------------------- */
   const map = L.map(mapEl).setView([20, 0], 2);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 18,
-    minZoom: 2
-  }).addTo(map);
+  addBaseLayer(map, { minZoom: 2 });
 
   const cluster = L.markerClusterGroup({
     maxClusterRadius: 40,
