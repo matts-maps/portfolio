@@ -176,8 +176,8 @@ function initializeImageInteractionHandlers() {
 
     const launchFullscreenWorkspace = () => {
         if (!currentFeaturedItem || !modalOverlay || !modalImg) return;
-        const isSubfolder = window.location.pathname.includes('/fantail-gis');
-        modalImg.src = (isSubfolder ? '/fantail-gis/' : '/') + currentFeaturedItem.file;
+        const isSubfolder = window.location.pathname.includes('/portfolio');
+        modalImg.src = (isSubfolder ? '/portfolio/' : '/') + currentFeaturedItem.file;
 
         modalTransform.scale = 1; modalTransform.x = 0; modalTransform.y = 0;
         updateImageStyle(modalImg, modalTransform);
@@ -356,8 +356,8 @@ function renderSimilarImagesPanel(currentItem) {
         }
     }
 
-    const isSubfolder = window.location.pathname.includes('/fantail-gis');
-    const basePath = isSubfolder ? '/fantail-gis/' : '/';
+    const isSubfolder = window.location.pathname.includes('/portfolio');
+    const basePath = isSubfolder ? '/portfolio/' : '/';
 
     relatedList.forEach(item => {
         const wrapper = document.createElement('div');
@@ -396,8 +396,8 @@ function renderFeaturedSelection(item) {
     currentFeaturedItem = item;
     const mainImg = document.getElementById('main-map-image');
     if (mainImg) {
-        const isSubfolder = window.location.pathname.includes('/fantail-gis');
-        mainImg.src = (isSubfolder ? '/fantail-gis/' : '/') + item.file; 
+        const isSubfolder = window.location.pathname.includes('/portfolio');
+        mainImg.src = (isSubfolder ? '/portfolio/' : '/') + item.file; 
         mainImg.alt = item.name;
         panelTransform.scale = 1; panelTransform.x = 0; panelTransform.y = 0;
         mainImg.style.transform = `translate(0px, 0px) scale(1)`;

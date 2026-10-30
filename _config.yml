@@ -3,7 +3,7 @@ description: "Maps, Projects, and Visual Work"
 author: "Matt Sims"
 
 url: "https://matts-maps.github.io"
-baseurl: "/fantail-gis" # Served from the matts-maps.github.io user site at /fantail-gis (repo stays named portfolio)
+baseurl: "/portfolio" # Correctly targets your subfolder repository layout
 
 markdown: kramdown
 theme: minima
