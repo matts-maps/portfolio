@@ -3668,5 +3668,39 @@
     "startDate": "2026-09-14",
     "endDate": "2026-10-05",
     "description": "In depth analysis of the conflict in Ukraine."
+  },
+  {
+    "id": "2026-personal-extremes",
+    "name": "Extremes",
+    "parentId": null,
+    "locations": [
+      {
+        "settlement": null,
+        "state": null,
+        "country": "United Kingdom",
+        "region": "Northern Europe",
+        "continent": "Europe",
+        "lat": 51.5085,
+        "lng": -0.1257,
+        "precision": "capital"
+      }
+    ],
+    "year": 2026,
+    "month": "October",
+    "type": null,
+    "category": "Personal",
+    "modality": [],
+    "organisation": [],
+    "level": [],
+    "themes": [
+      "Game",
+      "Elevation",
+      "Climate"
+    ],
+    "disaster": [],
+    "status": "Complete",
+    "startDate": "2026-10-29",
+    "endDate": "2026-10-30",
+    "description": "This was a personal project to create a set of games on extreme geographic information.\n\nThe games can be found at - <a href=\"<href>https://matts-maps.github.io/extremes/\">Extremes</a>"
   }
 ]
