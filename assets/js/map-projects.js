@@ -139,7 +139,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       parentLineEl.style.display = "none";
     }
 
-    descEl.textContent = p.description || "";
+    // Plain text, with any web address turned into a safe, clickable link.
+    descEl.textContent = "";
+    (p.description || "").split(/(https?:\/\/[^\s<>"]+)/g).forEach((part, i) => {
+      if (i % 2 === 1) {
+        const a = document.createElement("a");
+        a.href = part;
+        a.textContent = part;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        descEl.appendChild(a);
+      } else if (part) {
+        descEl.appendChild(document.createTextNode(part));
+      }
+    });
 
     partnersList.innerHTML = "";
     if (p.organisation?.length) {
