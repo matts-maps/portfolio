@@ -5,9 +5,9 @@
 // opening its live URL in a headless browser:
 //
 //   assets/images/webmaps/<slug>/poster.jpg     1280 pixels wide, first view
-//   assets/images/webmaps/<slug>/shot-1.jpg     three screenshots, scrolling
-//   assets/images/webmaps/<slug>/shot-2.jpg     down one screen each time
-//   assets/images/webmaps/<slug>/shot-3.jpg
+//   assets/images/webmaps/<slug>/shot-1.jpg     up to three screenshots,
+//   assets/images/webmaps/<slug>/shot-2.jpg     scrolling down one screen each
+//   assets/images/webmaps/<slug>/shot-3.jpg     time (fewer for a short page)
 //   assets/images/webmaps/<slug>/clip.webm      about 10 seconds, scrolling
 //   assets/images/webmaps/<slug>/clip.mp4       slowly down and back up
 //
@@ -67,36 +67,54 @@ async function settle(page) {
 }
 
 // Scrolls the page, or the largest scrollable element when the page itself
-// does not scroll (common for dashboards), by `dy` pixels.
+// does not scroll (common for dashboards), by `dy` pixels. Returns how far
+// it actually moved, which is 0 once the bottom has been reached.
 async function scrollBy(page, dy) {
-  await page.evaluate((delta) => {
+  return page.evaluate((delta) => {
     const doc = document.scrollingElement || document.documentElement;
+    let target = null;
     if (doc.scrollHeight > window.innerHeight + 10) {
-      window.scrollBy({ top: delta, behavior: "instant" });
-      return;
+      target = doc;
+    } else {
+      const candidates = [...document.querySelectorAll("*")].filter((el) => {
+        const style = getComputedStyle(el);
+        return /(auto|scroll)/.test(style.overflowY) && el.scrollHeight > el.clientHeight + 10;
+      });
+      candidates.sort((a, b) => b.clientHeight * b.clientWidth - a.clientHeight * a.clientWidth);
+      target = candidates[0] || null;
     }
-    const candidates = [...document.querySelectorAll("*")].filter((el) => {
-      const style = getComputedStyle(el);
-      return /(auto|scroll)/.test(style.overflowY) && el.scrollHeight > el.clientHeight + 10;
-    });
-    candidates.sort((a, b) => b.clientHeight * b.clientWidth - a.clientHeight * a.clientWidth);
-    if (candidates[0]) candidates[0].scrollBy({ top: delta, behavior: "instant" });
+    if (!target) return 0;
+    const before = target.scrollTop;
+    target.scrollBy({ top: delta, behavior: "instant" });
+    return Math.abs(target.scrollTop - before);
   }, dy);
 }
 
+// Writes poster.jpg and up to three screenshots, stopping early when the
+// page cannot scroll any further so no two screenshots are the same.
+// Returns the number of screenshots written.
 async function captureStills(browser, item, outDir) {
   const context = await browser.newContext({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
   const page = await context.newPage();
   await page.goto(item.liveUrl, { waitUntil: "load", timeout: 60000 });
   await settle(page);
 
+  for (const old of fs.readdirSync(outDir).filter((f) => /^shot-\d+\.jpg$/.test(f))) {
+    fs.rmSync(path.join(outDir, old));
+  }
+
   await page.screenshot({ path: path.join(outDir, "poster.jpg"), type: "jpeg", quality: 82 });
+  let count = 0;
   for (let i = 1; i <= 3; i += 1) {
     await page.screenshot({ path: path.join(outDir, `shot-${i}.jpg`), type: "jpeg", quality: 82 });
-    await scrollBy(page, HEIGHT - 120);
+    count = i;
+    if (i === 3) break;
+    const moved = await scrollBy(page, HEIGHT - 120);
+    if (moved < 40) break;
     await page.waitForTimeout(1500);
   }
   await context.close();
+  return count;
 }
 
 async function captureClip(browser, item, outDir) {
@@ -168,8 +186,8 @@ async function main() {
     fs.mkdirSync(outDir, { recursive: true });
     console.log(`${item.slug}: ${item.liveUrl}`);
     try {
-      await captureStills(browser, item, outDir);
-      console.log("  poster.jpg and shot-1 to shot-3.jpg written");
+      const shotCount = await captureStills(browser, item, outDir);
+      console.log(`  poster.jpg and ${shotCount} screenshot(s) written`);
       let clips = null;
       if (ffmpeg) {
         clips = await captureClip(browser, item, outDir);
@@ -185,7 +203,7 @@ async function main() {
           poster: `${rel}/poster.jpg`,
           clipWebm: clips ? `${rel}/clip.webm` : existing.clipWebm || null,
           clipMp4: clips ? `${rel}/clip.mp4` : existing.clipMp4 || null,
-          screenshots: [1, 2, 3].map((n, i) => ({ src: `${rel}/shot-${n}.jpg`, caption: captions[i] || null }))
+          screenshots: Array.from({ length: shotCount }, (_, i) => ({ src: `${rel}/shot-${i + 1}.jpg`, caption: captions[i] || null }))
         };
       }
     } catch (err) {

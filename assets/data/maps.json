@@ -1949,10 +1949,19 @@
     "worldwide": false,
     "summary": null,
     "preview": {
-      "poster": null,
-      "clipWebm": null,
-      "clipMp4": null,
-      "screenshots": []
+      "poster": "assets/images/webmaps/ukraine-damaged-buildings/poster.jpg",
+      "clipWebm": "assets/images/webmaps/ukraine-damaged-buildings/clip.webm",
+      "clipMp4": "assets/images/webmaps/ukraine-damaged-buildings/clip.mp4",
+      "screenshots": [
+        {
+          "src": "assets/images/webmaps/ukraine-damaged-buildings/shot-1.jpg",
+          "caption": null
+        },
+        {
+          "src": "assets/images/webmaps/ukraine-damaged-buildings/shot-2.jpg",
+          "caption": null
+        }
+      ]
     },
     "facts": {
       "programme": null,
@@ -2064,10 +2073,23 @@
     "worldwide": true,
     "summary": null,
     "preview": {
-      "poster": null,
-      "clipWebm": null,
-      "clipMp4": null,
-      "screenshots": []
+      "poster": "assets/images/webmaps/country-extremes/poster.jpg",
+      "clipWebm": "assets/images/webmaps/country-extremes/clip.webm",
+      "clipMp4": "assets/images/webmaps/country-extremes/clip.mp4",
+      "screenshots": [
+        {
+          "src": "assets/images/webmaps/country-extremes/shot-1.jpg",
+          "caption": null
+        },
+        {
+          "src": "assets/images/webmaps/country-extremes/shot-2.jpg",
+          "caption": null
+        },
+        {
+          "src": "assets/images/webmaps/country-extremes/shot-3.jpg",
+          "caption": null
+        }
+      ]
     },
     "facts": {
       "programme": null,
