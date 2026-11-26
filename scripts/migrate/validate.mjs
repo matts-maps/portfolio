@@ -20,6 +20,12 @@
 //   - a standalone map (no projectId) has at least one usable location
 //     entry of its own to inherit nothing from
 //   - no duplicate ids within a file
+//   - every webmap has a slug (unique, lowercase-hyphenated), a format
+//     (dashboard, website or webmap), an access value (live or
+//     screenshots-only), and a liveUrl unless access is screenshots-only
+//   - every webmap slug has a case study page at _webmaps/<slug>.md
+//   - a webmap marked worldwide: true may have no locations at all, even
+//     when standalone (it shows under "Not tied to one place", no pin)
 //
 // Exit code is non-zero if any check fails, so this is CI-friendly.
 //
@@ -36,6 +42,11 @@ const argDir = process.argv.includes("--dir")
   ? process.argv[process.argv.indexOf("--dir") + 1]
   : null;
 const DIR = argDir ? path.resolve(__dirname, argDir) : path.join(__dirname, "out");
+const REPO_ROOT = path.resolve(__dirname, "..", "..");
+
+const WEBMAP_FORMATS = ["dashboard", "website", "webmap"];
+const WEBMAP_ACCESS = ["live", "screenshots-only"];
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function readJson(name) {
   const p = path.join(DIR, name);
@@ -64,6 +75,31 @@ function usableLocations(entries) {
   return (entries || []).filter(
     (l) => l && (l.settlement || l.state || l.country || l.region || l.continent || l.precision || typeof l.lat === "number" || typeof l.lng === "number")
   );
+}
+
+function checkWebmaps(maps, errors) {
+  const seenSlugs = new Set();
+  for (const m of maps.filter((x) => x.kind === "webmap")) {
+    const where = `maps.json: webmap "${m.id}"`;
+    if (!m.slug) {
+      errors.push(`${where} has no slug`);
+    } else {
+      if (!SLUG_PATTERN.test(m.slug)) errors.push(`${where} slug "${m.slug}" must be lowercase letters, numbers and hyphens`);
+      if (seenSlugs.has(m.slug)) errors.push(`${where} duplicates slug "${m.slug}"`);
+      seenSlugs.add(m.slug);
+      const page = path.join(REPO_ROOT, "_webmaps", `${m.slug}.md`);
+      if (!fs.existsSync(page)) errors.push(`${where} has no case study page at _webmaps/${m.slug}.md`);
+    }
+    if (!WEBMAP_FORMATS.includes(m.format)) {
+      errors.push(`${where} format must be one of ${WEBMAP_FORMATS.join(", ")} (got ${JSON.stringify(m.format ?? null)})`);
+    }
+    if (!WEBMAP_ACCESS.includes(m.access)) {
+      errors.push(`${where} access must be one of ${WEBMAP_ACCESS.join(", ")} (got ${JSON.stringify(m.access ?? null)})`);
+    }
+    if (m.access !== "screenshots-only" && !m.liveUrl) {
+      errors.push(`${where} needs a liveUrl unless access is screenshots-only`);
+    }
+  }
 }
 
 function main() {
@@ -104,7 +140,8 @@ function main() {
       errors.push(`maps.json: "${m.id}" references missing project "${m.projectId}"`);
     }
     const usable = usableLocations(m.locations);
-    if (!m.projectId && usable.length === 0) {
+    const worldwide = m.kind === "webmap" && m.worldwide === true;
+    if (!m.projectId && usable.length === 0 && !worldwide) {
       errors.push(`maps.json: "${m.id}" is standalone (no projectId) but has no locations to inherit from`);
     }
     for (const l of usable) {
@@ -113,6 +150,8 @@ function main() {
       }
     }
   }
+
+  checkWebmaps(maps, errors);
 
   if (errors.length === 0) {
     console.log(`OK - ${projects.length} projects, ${maps.length} maps, no referential-integrity issues.`);

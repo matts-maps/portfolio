@@ -2,447 +2,54 @@
 layout: default
 ---
 
-<div class="container site-width-container">
-  <div class="webmaps-hero-section">
-    <div class="markdown-content">
-      {{ content }}
-    </div>
-  </div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="{{ '/assets/css/webmaps.css' | relative_url }}">
 
-  <div class="split-dashboard-wrapper">
-    
-    <div class="visual-viewport-pane">
-      <iframe id="live-webmap-frame" src="" frameborder="0" allowfullscreen allow="geolocation; clipboard-write"></iframe>
-      
-      <div id="visual-fallback-container" class="visual-fallback-container hidden">
-        <img id="fallback-screenshot-img" src="" alt="Project Visual Preview Screenshot">
-        
-        <div id="fallback-cta-card" class="fallback-overlay-cta hidden">
-          <p>This interactive dashboard layout restricts external embedding views.</p>
-          <a id="fallback-direct-btn" href="" target="_blank" rel="noopener noreferrer" class="btn-primary">View Interactive Dashboard externally ↗</a>
-        </div>
-      </div>
-    </div>
+<div class="webmaps-page"
+     id="webmaps-page"
+     data-site-base="{{ '/' | relative_url }}"
+     data-case-base="{{ '/webmaps-and-visualisations/' | relative_url }}">
 
-    <aside class="meta-locator-sidebar">
-      
-      <div class="locator-map-container">
-        <div id="locator-map-canvas"></div>
-      </div>
+  {{ content }}
 
-      <div class="description-content-pane">
-        <div id="dynamic-project-details" class="portfolio-project-card">
-          
-          <h2 id="meta-name" class="project-title-display"></h2>
-          
-          <p id="meta-combined-subtitle" class="project-subtitle-meta"></p>
-          
-          <hr class="project-details-splitter">
-          
-          <div class="project-description-body">
-            <p id="meta-description"></p>
-            <div id="meta-external-link-wrapper" class="project-external-link-container"></div>
-          </div>
-          
-        </div>
+  {% include webmap-filter-bar.html %}
+
+  <div class="webmaps-layout">
+
+    <section class="webmaps-results" aria-label="Webmaps and visualisations">
+      <p id="webmaps-count" class="webmaps-count" aria-live="polite"></p>
+      <ul id="webmaps-grid" class="webmaps-grid"></ul>
+      <p id="webmaps-empty" class="webmaps-empty" hidden>
+        Nothing matches these filters. Use Reset to see everything again.
+      </p>
+
+      <noscript>
+        <ul class="webmaps-noscript-list">
+          {% for doc in site.webmaps %}
+            <li><a href="{{ doc.url | relative_url }}">{{ doc.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </noscript>
+    </section>
+
+    <aside class="webmaps-side" aria-label="Map and selected item">
+      <div class="webmaps-map-frame">
+        <div id="webmaps-map" class="webmaps-map" role="region" aria-label="Map of where each item is based. Every item on the map is also in the list."></div>
       </div>
 
+      <div id="webmaps-unplaced" class="webmaps-unplaced" hidden>
+        <h2 class="webmaps-unplaced__heading">Not tied to one place</h2>
+        <ul id="webmaps-unplaced-list" class="webmaps-unplaced__list"></ul>
+      </div>
+
+      <div id="webmaps-selected" class="webmaps-selected" aria-live="polite"></div>
     </aside>
 
   </div>
 </div>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-<script type="module">
-  import { loadWebmaps } from '{{ site.baseurl }}/assets/js/data-adapter.js';
-  import { addBaseLayer } from '{{ site.baseurl }}/assets/js/map-config.js';
-
-  // Start the fetch as soon as the module runs, so it's already in flight by
-  // the time DOMContentLoaded fires below.
-  const webmapsPromise = loadWebmaps();
-
-  document.addEventListener("DOMContentLoaded", async function () {
-    const visualizationProjects = await webmapsPromise;
-    // Explicit setup ensuring map calculates its container box layout without clipping bounds
-    const map = L.map('locator-map-canvas', {
-      zoomControl: true,
-      attributionControl: true
-    });
-
-    addBaseLayer(map);
-
-    // FIXED: Upgraded CSS marker configuration rules so points stay distinct and layout-visible
-    const customDotIcon = L.divIcon({
-      className: 'custom-locator-dot',
-      iconSize: [12, 12],
-      iconAnchor: [6, 6],
-      html: '<div class="locator-dot-inner"></div>' // Injects structural child node for cross-theme layout stability
-    });
-
-    const liveWebmapFrame = document.getElementById('live-webmap-frame');
-    const fallbackContainer = document.getElementById('visual-fallback-container');
-    const fallbackImg = document.getElementById('fallback-screenshot-img');
-    const fallbackCtaCard = document.getElementById('fallback-cta-card');
-    const fallbackBtn = document.getElementById('fallback-direct-btn');
-    const externalLinkWrapper = document.getElementById('meta-external-link-wrapper');
-    
-    const markerMap = new Map();
-    const markerGroup = L.featureGroup();
-
-    function loadProjectIntoDashboard(project, marker) {
-      markerMap.forEach((m) => {
-        const element = m.getElement();
-        if (element) element.classList.remove('focused-dot');
-      });
-      
-      if (marker && marker.getElement()) {
-        marker.getElement().classList.add('focused-dot');
-      }
-
-      const projectUrl = (project.links && project.links.length > 0) ? project.links[0].url : "";
-      const labelText = (project.links && project.links.length > 0) ? project.links[0].label : "Open data source";
-
-      if (project.screenshot && project.screenshot.trim() !== "") {
-        liveWebmapFrame.classList.add('hidden');
-        fallbackContainer.classList.remove('hidden');
-        
-        fallbackImg.src = `{{ site.baseurl }}/assets/images/webmap-and-visuals-screenshots/${project.screenshot}`;
-        fallbackBtn.href = projectUrl;
-        liveWebmapFrame.src = ""; 
-
-        if (project.embeddable === false) {
-          fallbackCtaCard.classList.remove('hidden');
-        } else {
-          fallbackCtaCard.classList.add('hidden');
-        }
-      } else {
-        fallbackContainer.classList.add('hidden');
-        fallbackCtaCard.classList.add('hidden');
-        liveWebmapFrame.classList.remove('hidden');
-        
-        if (projectUrl) {
-          liveWebmapFrame.src = projectUrl;
-        }
-      }
-
-      document.getElementById('meta-name').textContent = project.name;
-      document.getElementById('meta-description').textContent = project.description || "No project overview summary provided.";
-
-      externalLinkWrapper.innerHTML = "";
-      if (projectUrl) {
-        const linkElement = document.createElement('a');
-        linkElement.href = projectUrl;
-        linkElement.target = "_blank";
-        linkElement.rel = "noopener noreferrer";
-        linkElement.className = "project-narrative-link";
-        linkElement.innerHTML = `View Live Map Source: <strong>${labelText} ↗</strong>`;
-        externalLinkWrapper.appendChild(linkElement);
-      }
-
-      const countryStr = Array.isArray(project.country) ? project.country.filter(c => c && c.trim() !== "").join(', ') : project.country;
-      let locationCountry = "";
-      if (project.location && project.location.trim() !== "") {
-        locationCountry = countryStr ? `${project.location.trim()}, ${countryStr}` : project.location.trim();
-      } else {
-        locationCountry = countryStr;
-      }
-
-      const subtitleSegments = [];
-      if (locationCountry && locationCountry.trim() !== "") subtitleSegments.push(locationCountry);
-      const activeDisasters = (project.disaster || []).filter(d => d && d !== "None");
-      if (activeDisasters.length > 0) subtitleSegments.push(activeDisasters.join(', '));
-      if (project.year) subtitleSegments.push(project.year);
-
-      document.getElementById('meta-combined-subtitle').textContent = subtitleSegments.join(' · ');
-    }
-
-    visualizationProjects.forEach(project => {
-      if (!project.lat || !project.lng) return;
-
-      const marker = L.marker([project.lat, project.lng], { icon: customDotIcon });
-      marker.addTo(markerGroup);
-      markerMap.set(project, marker);
-
-      marker.on('click', function (e) {
-        map.panTo(e.latlng);
-        loadProjectIntoDashboard(project, marker);
-      });
-    });
-
-    markerGroup.addTo(map);
-
-    // Explicitly forces Leaflet to re-calculate display box geometry on load
-    setTimeout(() => {
-      map.invalidateSize();
-      if (visualizationProjects && visualizationProjects.length > 0) {
-        const sortedProjects = [...visualizationProjects].sort((a, b) => parseInt(b.year) - parseInt(a.year));
-        const latestProject = sortedProjects[0];
-        const latestMarker = markerMap.get(latestProject);
-
-        if (markerGroup.getLayers().length > 0) {
-          map.fitBounds(markerGroup.getBounds(), {
-            padding: [30, 30],
-            maxZoom: 5
-          });
-        }
-
-        if (latestProject) {
-          loadProjectIntoDashboard(latestProject, latestMarker);
-        }
-      } else {
-        map.setView([10, -20], 1.5);
-      }
-    }, 100);
-  });
-</script>
-
-<style>
-  /* Base Container Synchronization */
-  .site-width-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-
-  .webmaps-hero-section {
-    text-align: center;
-    padding: 2rem 1rem 1rem 1rem;
-  }
-  .webmaps-hero-section .markdown-content h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    overflow-wrap: break-word;
-  }
-  .webmaps-hero-section .markdown-content p {
-    font-size: 1.2rem;
-    color: #64748b;
-    margin-bottom: 1rem;
-  }
-
-  /* Grid Layout System Transition (Copies .display-grid mechanics) */
-  .split-dashboard-wrapper {
-    display: grid;
-    grid-template-columns: 2.2fr 1fr;
-    gap: 2rem;
-    margin-top: 2rem;
-    align-items: start;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    overflow: visible;
-  }
-
-  /* Main Map Embed Panel Resets (Copies .main-display-panel) */
-  .visual-viewport-pane {
-    width: 100%;
-    height: 500px;
-    min-height: 500px;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    position: relative;
-    overflow: hidden;
-    box-sizing: border-box;
-  }
-  #live-webmap-frame {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #ffffff;
-    border: none;
-  }
-  
-  /* Fallback Overlay Adjustments */
-  .visual-fallback-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #0f172a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .visual-fallback-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    opacity: 0.5;
-  }
-  .fallback-overlay-cta {
-    position: absolute;
-    text-align: center;
-    padding: 24px;
-    max-width: 80%;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    color: #0f172a;
-  }
-  .fallback-overlay-cta p {
-    margin: 0 0 16px 0;
-    font-size: 1rem;
-    font-weight: 500;
-  }
-  .btn-primary {
-    display: inline-block;
-    background: #0055ff;
-    color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background 0.15s ease;
-  }
-  .btn-primary:hover {
-    background: #0044cc;
-  }
-
-  /* Right Sidebar Stack Definition (Copies .sidebar-panel) */
-  .meta-locator-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    background: transparent;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Map Container Frames (Copies .minimap-container mechanics) */
-  .locator-map-container {
-    background: #f1f5f9;
-    height: 240px;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-    position: relative;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-    overflow: hidden;
-    z-index: 10;
-    width: 100%;
-  }
-  #locator-map-canvas {
-    width: 100%;
-    height: 100%;
-    background: #f8fafc;
-    display: block;
-  }
-
-  /* Description & Content Panels (Copies .project-details styles) */
-  .description-content-pane {
-    padding: 0;
-    background: transparent;
-    overflow-y: visible;
-  }
-  .portfolio-project-card {
-    background: transparent;
-  }
-  .project-title-display {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #0f172a;
-    margin: 0 0 0.5rem 0;
-    line-height: 1.3;
-  }
-  .project-subtitle-meta {
-    color: #64748b;
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
-    font-weight: 500;
-    line-height: 1.5;
-  }
-  .project-details-splitter {
-    border: 0;
-    border-top: 1px dashed #cbd5e1;
-    margin-bottom: 1.25rem;
-    margin-top: 0;
-  }
-  .project-description-body {
-    border-top: none;
-    padding-top: 0;
-  }
-  .project-description-body p {
-    font-size: 0.925rem;
-    line-height: 1.6;
-    color: #334155;
-    margin: 0 0 12px 0;
-  }
-
-  /* External Link Placements */
-  .project-external-link-container {
-    margin-top: 14px;
-  }
-  .project-narrative-link {
-    font-size: 0.9rem;
-    color: #0055ff;
-    text-decoration: none;
-    display: inline-block;
-    transition: color 0.15s ease;
-  }
-  .project-narrative-link:hover {
-    color: #0044cc;
-    text-decoration: underline;
-  }
-
-  /* FIXED: Added strict sizing and circle masks to Leaflet Custom Point Layer */
-  .custom-locator-dot {
-    background: transparent !important;
-    border: none !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 12px !important;  /* Locks square bounds */
-    height: 12px !important;
-  }
-  .locator-dot-inner {
-    width: 12px;
-    height: 12px;
-    background-color: #0055ff;
-    border: 2px solid #ffffff;
-    border-radius: 50% !important; /* Forces perfect rounding */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.25);
-    box-sizing: border-box; /* Safely accounts for white borders */
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease;
-  }
-  .focused-dot .locator-dot-inner {
-    background-color: #ff0000 !important;
-    transform: scale(1.35);
-    border-radius: 50% !important; /* Retains round profile during dynamic transform animations */
-    box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.3) !important;
-  }
-
-  .hidden {
-    display: none !important;
-  }
-
-  /* Media Queries (Responsive Alignment match) */
-  @media (max-width: 968px) {
-    .split-dashboard-wrapper {
-      grid-template-columns: 1fr;
-    }
-    .visual-viewport-pane {
-      height: 380px;
-      min-height: auto;
-    }
-    .locator-map-container {
-      height: 240px;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .webmaps-hero-section .markdown-content h1 {
-      font-size: 2rem;
-    }
-    .webmaps-hero-section .markdown-content p {
-      font-size: 1rem;
-    }
-  }
-</style>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<script type="module" src="{{ '/assets/js/webmaps-index.js' | relative_url }}"></script>

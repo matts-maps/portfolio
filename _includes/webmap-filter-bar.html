@@ -1,0 +1,38 @@
+<div id="webmap-filter-bar" class="filter-bar">
+  <button type="button" id="webmap-filter-toggle" class="filter-toggle" aria-expanded="false" aria-controls="webmap-filter-row">
+    Filters <span class="filter-toggle-icon" aria-hidden="true">▾</span>
+  </button>
+  <div class="filter-row" id="webmap-filter-row" role="group" aria-label="Filter and sort the list">
+
+    <div class="filter-group">
+      <label for="wm-sort">Sort</label>
+      <select id="wm-sort">
+        <option value="yearmonth">Date (newest)</option>
+        <option value="alpha">A to Z</option>
+        <option value="theme">Theme</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="wm-type">Type</label>
+      <select id="wm-type"><option value="">All</option></select>
+    </div>
+
+    <div class="filter-group">
+      <label for="wm-country">Country</label>
+      <select id="wm-country"><option value="">All</option></select>
+    </div>
+
+    <div class="filter-group">
+      <label for="wm-theme">Theme</label>
+      <select id="wm-theme"><option value="">All</option></select>
+    </div>
+
+    <div class="filter-group">
+      <label for="wm-year">Year</label>
+      <select id="wm-year"><option value="">All</option></select>
+    </div>
+
+    <button type="button" id="reset-filters">Reset</button>
+  </div>
+</div>

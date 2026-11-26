@@ -1,0 +1,572 @@
+/* --------------------------------------------------
+   WEBMAPS AND VISUALISATIONS
+   Index page (cards + map side column) and case study pages.
+   Colours come from the site theme variables in style.css. The site's
+   --grey (#75787b) is below 4.5:1 contrast on both themes, so muted text
+   here uses its own darker/lighter grey.
+-------------------------------------------------- */
+
+.webmaps-page,
+.cs-page {
+  --wm-muted: #55585b;
+  --wm-surface: rgba(0, 0, 0, 0.04);
+  --wm-badge-bg: #0f0f10;
+  --wm-badge-text: #f5f3ef;
+}
+
+body.dark .webmaps-page,
+body.dark .cs-page {
+  --wm-muted: #a9acaf;
+  --wm-surface: rgba(255, 255, 255, 0.06);
+  --wm-badge-bg: #f5f3ef;
+  --wm-badge-text: #0f0f10;
+}
+
+.webmaps-page a:focus-visible,
+.webmaps-page button:focus-visible,
+.webmaps-page select:focus-visible,
+.cs-page a:focus-visible,
+.cs-page button:focus-visible,
+.cs-page video:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------
+   INDEX LAYOUT
+-------------------------------------------------- */
+
+.webmaps-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
+.webmaps-count {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--wm-muted);
+}
+
+.webmaps-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.webmaps-empty {
+  padding: 1.5rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+/* --------------------------------------------------
+   CARDS
+-------------------------------------------------- */
+
+.webmap-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.webmap-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.webmap-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--wm-surface);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.webmap-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.webmap-card__media--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.75rem;
+  color: var(--wm-muted);
+}
+
+.webmap-card__access {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: var(--wm-badge-bg);
+  color: var(--wm-badge-text);
+}
+
+.webmap-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem 1.2rem;
+  flex: 1;
+}
+
+.webmap-card__meta,
+.webmap-card__where,
+.webmap-card__desc {
+  margin: 0;
+}
+
+.webmap-card__meta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--wm-muted);
+}
+
+.webmap-card__title {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.webmap-card__where {
+  font-size: 0.9rem;
+}
+
+.webmap-card__where span {
+  font-weight: 600;
+}
+
+.webmap-card__desc {
+  font-size: 0.95rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.webmap-card__cta {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.webmap-card__cta::after {
+  content: " \2192";
+}
+
+.webmap-card:hover .webmap-card__cta {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------
+   SIDE COLUMN: MAP, UNPLACED ITEMS, SELECTED ITEM
+-------------------------------------------------- */
+
+.webmaps-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.webmaps-map-frame {
+  height: 300px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--wm-surface);
+  /* Keep Leaflet's own z-index values (up to 1000) inside the map so they
+     can never stack over the sticky site header or anything else. */
+  isolation: isolate;
+}
+
+.webmaps-map {
+  width: 100%;
+  height: 100%;
+}
+
+.webmaps-unplaced__heading {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.webmaps-unplaced__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.webmaps-unplaced__btn {
+  padding: 0.35rem 0.7rem;
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.webmaps-unplaced__btn:hover,
+.webmaps-unplaced__btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.webmaps-selected__label {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--wm-muted);
+}
+
+.webmaps-selected__title {
+  margin: 0.2rem 0 0.35rem;
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+
+.webmaps-selected__meta {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--wm-muted);
+}
+
+.webmaps-selected__desc {
+  margin: 0 0 0.75rem;
+}
+
+.webmaps-selected__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.webmaps-selected__links a {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.webmaps-selected__links i {
+  margin-left: 0.35rem;
+  font-size: 0.8em;
+}
+
+/* Map pin emphasis while a card is hovered or focused */
+.item-cluster-highlight > div {
+  outline: 3px solid #0f0f10;
+  outline-offset: 1px;
+}
+
+.item-star-highlight i {
+  transform: scale(1.3);
+}
+
+/* --------------------------------------------------
+   CASE STUDY
+-------------------------------------------------- */
+
+.cs-page {
+  padding: 2rem 0 3rem;
+}
+
+.cs-back {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.cs-back::before {
+  content: "\2190  ";
+}
+
+.cs-meta {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--wm-muted);
+}
+
+.cs-title {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 2.4rem;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.cs-summary {
+  margin: 0 0 1.5rem;
+  font-size: 1.15rem;
+  max-width: 65ch;
+}
+
+.cs-hero {
+  position: relative;
+  margin: 0 0 2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--wm-surface);
+}
+
+.cs-hero video,
+.cs-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cs-hero__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(15, 15, 16, 0.8);
+  color: #f5f3ef;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.cs-hero__play:hover {
+  background: var(--accent);
+}
+
+.cs-hero figcaption {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--wm-muted);
+  border-top: 1px solid var(--border);
+}
+
+.cs-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.cs-section {
+  margin-bottom: 2rem;
+  max-width: 70ch;
+}
+
+.cs-section h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+}
+
+.cs-section ol {
+  padding-left: 1.4rem;
+}
+
+.cs-section li {
+  margin-bottom: 0.35rem;
+}
+
+.cs-screens {
+  max-width: none;
+}
+
+.cs-screens__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-screens__grid figure {
+  margin: 0;
+}
+
+.cs-screens__grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.cs-screens__grid figcaption {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--wm-muted);
+}
+
+.cs-facts {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.cs-live-btn {
+  display: block;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--bg);
+  text-align: center;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cs-live-btn:hover {
+  text-decoration: underline;
+}
+
+.cs-live-btn i {
+  margin-left: 0.4rem;
+  font-size: 0.85em;
+}
+
+.cs-live-note,
+.cs-access-note {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: var(--wm-muted);
+}
+
+.cs-access-note {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: var(--wm-surface);
+  color: var(--text);
+}
+
+.cs-facts dl {
+  margin: 1.25rem 0 0;
+}
+
+.cs-facts dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--wm-muted);
+}
+
+.cs-facts dd {
+  margin: 0.1rem 0 0.9rem;
+}
+
+.cs-facts dd:last-child {
+  margin-bottom: 0;
+}
+
+.cs-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.cs-pager a {
+  display: flex;
+  flex-direction: column;
+  max-width: 45%;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.cs-pager a:hover .cs-pager__title {
+  text-decoration: underline;
+}
+
+.cs-pager__next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.cs-pager__label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--wm-muted);
+}
+
+.cs-pager__title {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* --------------------------------------------------
+   RESPONSIVE
+-------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .webmaps-layout,
+  .cs-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Map column stacks above the grid; facts panel (with the live button)
+     above the case study text. */
+  .webmaps-side,
+  .cs-facts {
+    order: -1;
+  }
+
+  .webmaps-map-frame {
+    height: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  .webmaps-grid,
+  .cs-screens__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cs-title {
+    font-size: 1.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .webmap-card {
+    transition: none;
+  }
+}

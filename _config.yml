@@ -21,3 +21,16 @@ collections:
   projects:
     output: true
     permalink: /projects/:path/
+  # Case study pages for the Webmaps and visualisations index. Prose lives in
+  # _webmaps/<slug>.md; everything structured (title, year, locations,
+  # links, media, facts) stays in assets/data/maps.json, matched by slug.
+  webmaps:
+    output: true
+    permalink: /webmaps-and-visualisations/:path/
+
+defaults:
+  - scope:
+      path: ""
+      type: webmaps
+    values:
+      layout: webmap-case-study

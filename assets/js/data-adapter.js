@@ -174,9 +174,51 @@ export async function loadImages() {
     .map((m) => toLegacyImage(m, resolveLocations(m, projectById)));
 }
 
-function toLegacyWebmap(m, locations) {
+const WEBMAP_TYPE_LABELS = { dashboard: "Dashboard", website: "Website", webmap: "Web map" };
+
+// "Where:" text for a webmap card or facts panel: the countries it covers,
+// falling back to the broadest named area (region, then continent) for a
+// location with no country, and "Worldwide" when there is no location.
+function webmapWhere(m, locations) {
+  if (m.worldwide === true || !locations.length) return "Worldwide";
+  const names = uniqueValues(
+    locations.map((l) => (l.country ? displayCountry(l.country) : l.region || l.continent))
+  );
+  return names.join(", ") || "Worldwide";
+}
+
+function toLegacyWebmap(m, locations, project) {
   const loc = locations[0] || null;
+  const preview = m.preview || {};
+  const facts = m.facts || {};
   return {
+    id: m.id,
+    slug: m.slug || "",
+    category: m.category || "",
+    format: m.format || "",
+    typeLabel: WEBMAP_TYPE_LABELS[m.format] || "",
+    access: m.access || "live",
+    liveUrl: m.liveUrl || "",
+    worldwide: m.worldwide === true,
+    where: webmapWhere(m, locations),
+    summary: m.summary || m.description || "",
+    organisation: m.organisation || [],
+    preview: {
+      poster: preview.poster || "",
+      clipWebm: preview.clipWebm || "",
+      clipMp4: preview.clipMp4 || "",
+      screenshots: (preview.screenshots || []).filter((s) => s && s.src),
+    },
+    // Facts panel values. Programme falls back to the record's
+    // organisations, and status to the linked project's own status, so
+    // nothing is shown that the data does not already say.
+    facts: {
+      programme: facts.programme || (m.organisation || []).join(", "),
+      data: facts.data || "",
+      tools: facts.tools || "",
+      role: facts.role || "",
+      status: facts.status || project?.status || "",
+    },
     name: m.name || "",
     continent: loc?.continent || "",
     country: uniqueValues(locations.map((l) => l.country)),
@@ -199,14 +241,18 @@ function toLegacyWebmap(m, locations) {
   };
 }
 
-// Legacy `webmaps-and-visualisations-data.js` shape (kind: "webmap") — for
-// the webmaps-and-visualisations layout's inline script. No current record
-// has more than one location, so that layout still only plots `lat`/`lng`
-// (the first one) — `locations` is exposed here for when one does.
+// Webmap records (kind: "webmap") for the Webmaps and visualisations index
+// (webmaps-index.js) and case study pages (webmap-case-study.js): the legacy
+// flat shape plus the case study fields. A record marked `worldwide: true`
+// never inherits its project's locations, so it gets no pin and is listed
+// under "Not tied to one place" instead.
 export async function loadWebmaps() {
   const [maps, projects] = await Promise.all([loadRawMaps(), loadRawProjects()]);
   const projectById = new Map(projects.map((p) => [p.id, p]));
   return maps
     .filter((m) => m.kind === "webmap")
-    .map((m) => toLegacyWebmap(m, resolveLocations(m, projectById)));
+    .map((m) => {
+      const locations = m.worldwide === true ? [] : resolveLocations(m, projectById);
+      return toLegacyWebmap(m, locations, m.projectId ? projectById.get(m.projectId) : null);
+    });
 }

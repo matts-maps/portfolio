@@ -105,3 +105,4 @@ function setupFilterToggle(toggleId, barId) {
 
 setupFilterToggle("project-filter-toggle", "project-filter-bar");
 setupFilterToggle("image-filter-toggle", "image-filter-bar");
+setupFilterToggle("webmap-filter-toggle", "webmap-filter-bar");

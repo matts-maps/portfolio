@@ -189,6 +189,27 @@ prompt — a zip sidesteps that entirely.)
   every field is blank doesn't. **Save** refuses to write while there are hard
   errors (shown in the issues panel); warnings (like an unresolved parent name,
   or a usable location with no coordinates yet) don't block saving.
+- **Webmaps have a "Case study page" section** that drives the Webmaps and
+  visualisations index and each item's case study page at
+  `/webmaps-and-visualisations/<slug>/`. **Slug** is the page address (a
+  **Make from name** button builds one, accents stripped and lowercased) and
+  needs a matching `_webmaps/<slug>.md` file, which holds the case study prose
+  (the question it answers, what it does, how it was built, your role) rather
+  than the JSON. **Type** (dashboard, website or webmap) feeds the index's Type
+  filter. **Access** is live or screenshots-only; screenshots-only removes the
+  live button and shows a recorded walkthrough instead, for work that cannot be
+  shown publicly. **Live URL** is required unless Access is screenshots-only
+  (**Copy first link** fills it from Links). **Summary** is the one sentence
+  under the title; the Description is used when it is empty. **Not tied to one
+  place** is for worldwide items: no pin, listed under the index map instead,
+  and the linked project's location is not inherited. Under **Preview media**,
+  **Fill media paths from slug** sets the poster and both clip paths to
+  `assets/images/webmaps/<slug>/poster.jpg`, `clip.webm` and `clip.mp4` (the
+  folder `scripts/capture-previews/` writes to); **Screenshots** is a list of
+  caption and image path pairs. **Facts panel** holds programme or client,
+  data, tools, role and status as free text; any left empty are not shown.
+  **Check for issues** flags a webmap with no slug, a malformed or duplicate
+  slug, no Type, no Access, or no Live URL when one is needed.
 - Saved JSON uses a fixed key order per entity, so future diffs stay clean and
   focused on what actually changed rather than reordered keys.
 
@@ -232,7 +253,11 @@ the formal UN M49 terms, edit a webmap's Category field (present alongside
 Kind, offering the same Personal/Professional/Other options as Projects,
 starting unset on a fixture map with none yet) and confirm it shows in the
 Maps table's Category column and survives a save, and separately confirm a
-brand-new map defaults its Category to Professional, open a
+brand-new map defaults its Category to Professional, fill that webmap's case
+study fields (Make from name builds a valid slug, Type and Access offer the
+right values, Fill media paths from slug sets the poster path, add a captioned
+screenshot and a Tools fact) and confirm all of them survive the save with
+empty facts written as null and the worldwide flag as a boolean, open a
 project
 and check its embedded location cards render, add a location card and confirm
 the Country → Region/Continent auto-populate (and that it never overwrites an

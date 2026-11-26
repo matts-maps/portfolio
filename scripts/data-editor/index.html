@@ -175,6 +175,8 @@
   .field input[type=date] { color-scheme: light dark; }
   .field textarea { min-height: 64px; resize: vertical; }
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-section { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; margin: 18px 0 8px; padding-top: 10px; border-top: 1px solid #ddd; }
+  .fill-paths-btn { margin-bottom: 8px; }
   .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   .locations-section { margin-bottom: 12px; }
   .location-card {
@@ -549,9 +551,41 @@ function serializeMap(m) {
     out.screenshot = m.screenshot || null;
     out.links = m.links || [];
     out.embeddable = m.embeddable !== false;
+    // Fields used by the Webmaps and visualisations index and case study
+    // pages. Always written (with empty defaults) so every webmap record has
+    // the same shape and later diffs only show values changing.
+    const preview = m.preview || {};
+    const facts = m.facts || {};
+    Object.assign(out, {
+      slug: m.slug || null,
+      format: m.format || null,
+      access: m.access || null,
+      liveUrl: m.liveUrl || null,
+      worldwide: m.worldwide === true,
+      summary: m.summary || null,
+      preview: {
+        poster: preview.poster || null,
+        clipWebm: preview.clipWebm || null,
+        clipMp4: preview.clipMp4 || null,
+        screenshots: (preview.screenshots || [])
+          .filter((s) => s && (s.src || s.caption))
+          .map((s) => ({ src: s.src || null, caption: s.caption || null })),
+      },
+      facts: {
+        programme: facts.programme || null,
+        data: facts.data || null,
+        tools: facts.tools || null,
+        role: facts.role || null,
+        status: facts.status || null,
+      },
+    });
   }
   return out;
 }
+
+const WEBMAP_FORMATS = ["dashboard", "website", "webmap"];
+const WEBMAP_ACCESS = ["live", "screenshots-only"];
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function serializeOrganisation(o) {
   return { name: o.name, abbreviation: o.abbreviation };
@@ -845,6 +879,7 @@ function validateAll() {
   }
 
   const seenMap = new Set();
+  const seenSlug = new Set();
   for (const m of state.maps) {
     if (seenMap.has(m.id)) issues.push({ level: "error", entity: "maps", id: m.id, message: `Duplicate id "${m.id}"` });
     seenMap.add(m.id);
@@ -854,7 +889,8 @@ function validateAll() {
       issues.push({ level: "error", entity: "maps", id: m.id, message: `References missing project "${m.projectId}"` });
     }
     const usableMapLocations = (m.locations || []).filter(locationEntryIsUsable);
-    if (!m.projectId && usableMapLocations.length === 0) {
+    const isWorldwide = m.kind === "webmap" && m.worldwide === true;
+    if (!m.projectId && usableMapLocations.length === 0 && !isWorldwide) {
       issues.push({ level: "error", entity: "maps", id: m.id, message: "Standalone (no project) but has no locations to inherit from" });
     }
     for (const l of usableMapLocations) {
@@ -863,6 +899,18 @@ function validateAll() {
       }
     }
     if (m.kind === "map" && !m.file) issues.push({ level: "warning", entity: "maps", id: m.id, message: "No image file set" });
+    if (m.kind === "webmap") {
+      if (!m.slug) {
+        issues.push({ level: "error", entity: "maps", id: m.id, message: "Webmap has no slug (the case study page address)" });
+      } else {
+        if (!SLUG_PATTERN.test(m.slug)) issues.push({ level: "error", entity: "maps", id: m.id, message: `Slug "${m.slug}" must be lowercase letters, numbers and hyphens only` });
+        if (seenSlug.has(m.slug)) issues.push({ level: "error", entity: "maps", id: m.id, message: `Duplicate slug "${m.slug}"` });
+        seenSlug.add(m.slug);
+      }
+      if (!WEBMAP_FORMATS.includes(m.format)) issues.push({ level: "error", entity: "maps", id: m.id, message: "Webmap has no Type (dashboard, website or web map)" });
+      if (!WEBMAP_ACCESS.includes(m.access)) issues.push({ level: "error", entity: "maps", id: m.id, message: "Webmap has no Access value (live or screenshots only)" });
+      if (m.access !== "screenshots-only" && !m.liveUrl) issues.push({ level: "error", entity: "maps", id: m.id, message: "Webmap needs a Live URL unless Access is screenshots only" });
+    }
   }
 
   return issues;
@@ -1491,22 +1539,23 @@ function relationPicker({ multi, values, options, onChange }) {
   return wrap;
 }
 
-/** Repeatable {name/label, url} row editor, used for data_sources and links. */
-function kvListEditor(rows, keyLabel, onChange) {
-  let current = (rows || []).map((r) => (typeof r === "string" ? { [keyLabel]: r, url: "" } : { ...r }));
+/** Repeatable {name/label, url} row editor, used for data_sources and links.
+ * `valueKey` defaults to "url"; webmap screenshots use it as {caption, src}. */
+function kvListEditor(rows, keyLabel, onChange, valueKey = "url", addLabel = keyLabel) {
+  let current = (rows || []).map((r) => (typeof r === "string" ? { [keyLabel]: r, [valueKey]: "" } : { ...r }));
   const wrap = el("div", { class: "kv-rows" });
 
   function render() {
     wrap.innerHTML = "";
     current.forEach((row, i) => {
       const nameInput = el("input", { type: "text", placeholder: keyLabel, value: row[keyLabel] || "" });
-      const urlInput = el("input", { type: "text", placeholder: "url", value: row.url || "" });
+      const urlInput = el("input", { type: "text", placeholder: valueKey, value: row[valueKey] || "" });
       nameInput.addEventListener("input", () => { current[i][keyLabel] = nameInput.value; onChange(current); });
-      urlInput.addEventListener("input", () => { current[i].url = urlInput.value; onChange(current); });
+      urlInput.addEventListener("input", () => { current[i][valueKey] = urlInput.value; onChange(current); });
       const removeBtn = el("button", { text: "Remove", onclick: () => { current.splice(i, 1); render(); onChange(current); } });
       wrap.appendChild(el("div", { class: "kv-row" }, [nameInput, urlInput, removeBtn]));
     });
-    const addBtn = el("button", { text: `+ Add ${keyLabel}`, onclick: () => { current.push({ [keyLabel]: "", url: "" }); render(); onChange(current); } });
+    const addBtn = el("button", { text: `+ Add ${addLabel}`, onclick: () => { current.push({ [keyLabel]: "", [valueKey]: "" }); render(); onChange(current); } });
     wrap.appendChild(addBtn);
   }
   render();
@@ -1545,7 +1594,12 @@ function closeEditor() {
  * never leak into the stored record until commitDraft() actually applies it.
  */
 function cloneDraftWithLocations(original) {
-  return { ...original, locations: (original.locations || []).map((l) => ({ ...l })) };
+  const copy = { ...original, locations: (original.locations || []).map((l) => ({ ...l })) };
+  // Webmap preview/facts are nested objects edited field by field, so they
+  // need their own copies too for the same reason.
+  if (original.preview) copy.preview = { ...original.preview, screenshots: (original.preview.screenshots || []).map((s) => ({ ...s })) };
+  if (original.facts) copy.facts = { ...original.facts };
+  return copy;
 }
 
 function openEditor(tab, id) {
@@ -1562,7 +1616,10 @@ function openEditor(tab, id) {
       : cloneDraftWithLocations(byId(state.projects, id));
   } else {
     draft = isNew
-      ? { id: "", kind: "map", category: "Professional", name: "", file: "", projectId: null, locations: [], year: null, month: "", organisation: [], themes: [], disaster: [], description: "", map_style: "", data_sources: [], screenshot: "", links: [], embeddable: true }
+      ? { id: "", kind: "map", category: "Professional", name: "", file: "", projectId: null, locations: [], year: null, month: "", organisation: [], themes: [], disaster: [], description: "", map_style: "", data_sources: [], screenshot: "", links: [], embeddable: true,
+          slug: "", format: null, access: "live", liveUrl: "", worldwide: false, summary: "",
+          preview: { poster: "", clipWebm: "", clipMp4: "", screenshots: [] },
+          facts: { programme: "", data: "", tools: "", role: "", status: "" } }
       : cloneDraftWithLocations(byId(state.maps, id));
   }
   const originalId = draft.id;
@@ -2152,12 +2209,18 @@ function buildMapForm(body, draft) {
     embed.addEventListener("change", () => (draft.embeddable = embed.checked));
     body.appendChild(field("Embeddable", null, embed));
     body.appendChild(field("Links", null, kvListEditor(draft.links, "label", (v) => (draft.links = v))));
+    buildWebmapPageFields(body, draft);
   }
 
   body.appendChild(field("Project", "optional — leave empty if standalone", relationPicker({
     multi: false, values: draft.projectId, options: projectOptions(null),
     onChange: (v) => (draft.projectId = v),
   })));
+  if (draft.kind === "webmap") {
+    const ww = el("input", { type: "checkbox", ...(draft.worldwide === true ? { checked: "checked" } : {}) });
+    ww.addEventListener("change", () => (draft.worldwide = ww.checked));
+    body.appendChild(field("Not tied to one place", "tick for worldwide items: no pin on the map, listed under the map instead, and the project's location is not inherited", ww));
+  }
   buildLocationsField(body, draft, () => renderModal("maps", draft, !state.maps.some((m) => m.id === draft.id), draft.id), { hint: "leave empty to inherit the linked project's locations; required if standalone" });
 
   const row = el("div", { class: "row2" });
@@ -2173,6 +2236,69 @@ function buildMapForm(body, draft) {
   if (draft.kind === "map") {
     body.appendChild(field("Map style", null, textInput(draft.map_style, (v) => (draft.map_style = v))));
     body.appendChild(field("Data sources", null, kvListEditor(draft.data_sources, "name", (v) => (draft.data_sources = v))));
+  }
+}
+
+/** Webmap-only fields that drive the Webmaps and visualisations index card
+ * and the case study page at /webmaps-and-visualisations/<slug>/. Prose for
+ * the case study (the question, what it does, how it was built, role) lives
+ * in _webmaps/<slug>.md, not here. */
+function buildWebmapPageFields(body, draft) {
+  draft.preview = draft.preview || { poster: "", clipWebm: "", clipMp4: "", screenshots: [] };
+  draft.facts = draft.facts || { programme: "", data: "", tools: "", role: "", status: "" };
+
+  body.appendChild(el("h3", { class: "form-section", text: "Case study page" }));
+
+  const slugInput = textInput(draft.slug, (v) => (draft.slug = v));
+  const slugBtn = el("button", { type: "button", text: "Make from name", onclick: () => {
+    draft.slug = slugify(draft.name);
+    slugInput.value = draft.slug;
+  } });
+  body.appendChild(field("Slug", "the case study page address, e.g. ukraine-damaged-buildings. Needs a matching _webmaps/<slug>.md file",
+    el("div", { class: "tag-add" }, [slugInput, slugBtn])));
+
+  const row = el("div", { class: "row2" });
+  row.appendChild(field("Type", "shown as the Type filter", selectInputNullable(draft.format, WEBMAP_FORMATS, (v) => (draft.format = v))));
+  row.appendChild(field("Access", "screenshots only hides the live button", selectInput(draft.access || "live", WEBMAP_ACCESS, (v) => (draft.access = v))));
+  body.appendChild(row);
+  if (!draft.access) draft.access = "live";
+
+  const liveInput = textInput(draft.liveUrl, (v) => (draft.liveUrl = v));
+  const liveBtn = el("button", { type: "button", text: "Copy first link", onclick: () => {
+    const first = (draft.links || []).find((l) => l && l.url);
+    if (first) { draft.liveUrl = first.url; liveInput.value = first.url; }
+  } });
+  body.appendChild(field("Live URL", "required unless Access is screenshots only", el("div", { class: "tag-add" }, [liveInput, liveBtn])));
+
+  body.appendChild(field("Summary", "one sentence under the title on cards and the case study page. The Description is used when this is empty", textArea(draft.summary, (v) => (draft.summary = v))));
+
+  body.appendChild(el("h3", { class: "form-section", text: "Preview media" }));
+  const posterInput = textInput(draft.preview.poster, (v) => (draft.preview.poster = v));
+  const webmInput = textInput(draft.preview.clipWebm, (v) => (draft.preview.clipWebm = v));
+  const mp4Input = textInput(draft.preview.clipMp4, (v) => (draft.preview.clipMp4 = v));
+  body.appendChild(el("button", { type: "button", class: "fill-paths-btn", text: "Fill media paths from slug", onclick: () => {
+    if (!draft.slug) return;
+    const dir = `assets/images/webmaps/${draft.slug}`;
+    draft.preview.poster = posterInput.value = `${dir}/poster.jpg`;
+    draft.preview.clipWebm = webmInput.value = `${dir}/clip.webm`;
+    draft.preview.clipMp4 = mp4Input.value = `${dir}/clip.mp4`;
+  } }));
+  body.appendChild(field("Poster image", "path relative to the repo, 1280 pixels wide, e.g. assets/images/webmaps/<slug>/poster.jpg", posterInput));
+  body.appendChild(field("Clip (webm)", null, webmInput));
+  body.appendChild(field("Clip (mp4)", null, mp4Input));
+  body.appendChild(field("Screenshots", "up to three, each with a caption and an image path",
+    kvListEditor(draft.preview.screenshots, "caption", (v) => (draft.preview.screenshots = v), "src", "screenshot")));
+
+  body.appendChild(el("h3", { class: "form-section", text: "Facts panel" }));
+  const facts = [
+    ["programme", "Programme or client"],
+    ["data", "Data"],
+    ["tools", "Tools"],
+    ["role", "Role"],
+    ["status", "Status"],
+  ];
+  for (const [key, label] of facts) {
+    body.appendChild(field(label, null, textInput(draft.facts[key], (v) => (draft.facts[key] = v))));
   }
 }
 

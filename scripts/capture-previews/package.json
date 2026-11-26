@@ -1,0 +1,12 @@
+{
+  "name": "fantail-capture-previews",
+  "private": true,
+  "type": "module",
+  "description": "Captures posters, screenshots and clips of each live webmap for the Webmaps and visualisations pages.",
+  "scripts": {
+    "capture": "node capture.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.49.1"
+  }
+}

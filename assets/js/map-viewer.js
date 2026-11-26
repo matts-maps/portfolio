@@ -1,4 +1,4 @@
-import { addBaseLayer } from './map-config.js';
+import { createItemMap, renderItemMarkers, fitWorld } from './item-map.js';
 import { loadImages } from './data-adapter.js';
 import { initFilterEngine, SORT } from './filter-engine.js';
 
@@ -15,10 +15,9 @@ let filteredImages = [];
 let currentFeaturedItem = null;
 let isInitialPageLoad = true; // Flag to trace first-run initialization states
 
-// Leaflet Engine Control Context Global Holders
+// Shared map context from item-map.js (map, cluster layer, star markers)
+let itemMap = null;
 let mapInstance = null;
-let markerClusterGroup = null;
-let activeStarMarkers = []; // Independent global holder for the active map's star symbols (one per location)
 
 // Zoom and Pan State Vectors Architecture Tracker
 const panelTransform = { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 };
@@ -52,37 +51,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 /**
- * Generates the Leaflet map layer using high-contrast minimalist base tiles.
+ * Creates the minimap with the shared basemap and cluster layer.
  */
 function initializeLeafletSystem() {
     const mapNode = document.getElementById('leaflet-minimap');
     if (!mapNode) return;
-
-    // Hard boundary limits spanning the absolute coordinate limits of the planet
-    const globalOuterBounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
-
-    mapInstance = L.map('leaflet-minimap', {
-        center: [15.0, 10.0],
-        zoom: 0,                          
-        zoomControl: true,
-        minZoom: 0,                       // Allowed to drop down to zero to fit within compact components
-        maxZoom: 11,
-        maxBounds: globalOuterBounds,     // Lock camera framework inside planetary coordinates
-        maxBoundsViscosity: 1.0,          // Solid bounce back when dragging past world edges
-        worldCopyJump: false              // Keeps marker tracking consistent across continuous wraps
-    });
-
-    addBaseLayer(mapInstance, {
-        noWrap: false,                    // Allows rendering to connect seamlessly across boundaries
-        bounds: globalOuterBounds
-    });
-
-    // LOCKED IN: Your preferred clustering parameters for balanced global distribution
-    markerClusterGroup = L.markerClusterGroup({
-        showCoverageOnHover: false,
-        maxClusterRadius: 20,             // Drastically reduced footprint radius to stop heavy overlapping grouping
-        disableClusteringAtZoom: 2        // Break apart groups quickly near the base global zoom levels
-    }).addTo(mapInstance);
+    itemMap = createItemMap(mapNode);
+    mapInstance = itemMap.map;
 }
 
 /**
@@ -235,81 +210,21 @@ function handleFilteredResults(filtered) {
 
     syncMapVectorMarkers();
 
-    // Re-calculates explicit 180W to 180E display bounds across the map container
-    if (mapInstance) {
-        mapInstance.invalidateSize();
-        
-        const strictFullGlobalView = L.latLngBounds(
-            L.latLng(-55, -175), 
-            L.latLng(75, 175)    
-        );
-        
-        mapInstance.fitBounds(strictFullGlobalView, {
-            padding: [0, 0],
-            animate: false,
-            maxZoom: 1          
-        });
-    }
+    // Always show the whole world, whatever the filters leave
+    if (itemMap) fitWorld(itemMap);
 }
 
 function syncMapVectorMarkers() {
-    if (!markerClusterGroup || !mapInstance) return;
-    
-    markerClusterGroup.clearLayers();
-    activeStarMarkers.forEach(m => mapInstance.removeLayer(m));
-    activeStarMarkers = [];
-
-    if (filteredImages.length === 0) return;
-
-    const redStarIcon = L.divIcon({
-        html: '<i class="fa-solid fa-star" style="color: #ff0000; font-size: 18px; -webkit-text-stroke: 1.5px #ffffff; display: block;"></i>',
-        className: 'custom-star-marker',
-        iconSize: [18, 18],
-        iconAnchor: [9, 9]
-    });
-
+    if (!itemMap) return;
     // An item can have more than one location (e.g. a map covering several
     // countries), so it gets one marker per location.
-    filteredImages.forEach(item => {
-        const locations = item.locations || [];
-
-        // Bypass clusters entirely for the active featured item's star markers
-        if (currentFeaturedItem && item.file === currentFeaturedItem.file) {
-            locations.forEach(loc => {
-                const starMarker = L.marker([loc.lat, loc.lng], {
-                    icon: redStarIcon,
-                    zIndexOffset: 5000
-                });
-
-                starMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
-                starMarker.on('click', () => {
-                    if (mapInstance) mapInstance.panTo([loc.lat, loc.lng], { animate: true });
-                });
-
-                starMarker.addTo(mapInstance);
-                activeStarMarkers.push(starMarker);
-            });
-            return;
+    renderItemMarkers(itemMap, filteredImages, {
+        selected: currentFeaturedItem,
+        sameItem: (a, b) => a.file === b.file,
+        onSelect: (item) => {
+            renderFeaturedSelection(item);
+            syncMapVectorMarkers();
         }
-
-        locations.forEach(loc => {
-            const blueCircleMarker = L.circleMarker([loc.lat, loc.lng], {
-                color: '#ffffff',
-                fillColor: '#0055ff',
-                fillOpacity: 1.0,
-                radius: 6,
-                weight: 1.5
-            });
-
-            blueCircleMarker.bindTooltip(item.name, { direction: 'top', offset: [0, -5] });
-            blueCircleMarker.on('click', () => {
-                renderFeaturedSelection(item);
-                syncMapVectorMarkers();
-                if (mapInstance) mapInstance.panTo([loc.lat, loc.lng], { animate: true });
-            });
-
-            markerClusterGroup.addLayer(blueCircleMarker);
-        });
     });
 }
 

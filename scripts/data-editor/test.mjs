@@ -424,6 +424,32 @@ async function main() {
   check("this fixture webmap has no category yet, so it starts as not-set", await webmapCategorySelect.inputValue() === "");
   await webmapCategorySelect.selectOption("Professional");
 
+  console.log("Checking the webmap case study fields (slug, type, access, live URL, media, facts)...");
+  const slugField = await fieldByLabel("Slug");
+  check("webmap form shows a Slug field", slugField !== null);
+  await (await slugField.$('button:has-text("Make from name")')).click();
+  const madeSlug = await (await slugField.$("input[type=text]")).inputValue();
+  check("Make from name builds a lowercase hyphenated slug", /^[a-z0-9]+(-[a-z0-9]+)*$/.test(madeSlug) && madeSlug.length > 0);
+  const typeField = await fieldByLabel("Type");
+  const typeOptions = await (await typeField.$("select")).$$eval("option", (opts) => opts.map((o) => o.value));
+  check("Type offers dashboard, website and webmap", ["dashboard", "website", "webmap"].every((v) => typeOptions.includes(v)));
+  await (await typeField.$("select")).selectOption("website");
+  const accessField = await fieldByLabel("Access");
+  const accessOptions = await (await accessField.$("select")).$$eval("option", (opts) => opts.map((o) => o.value));
+  check("Access offers live and screenshots-only", accessOptions.includes("live") && accessOptions.includes("screenshots-only"));
+  check("Live URL field is present", (await fieldByLabel("Live URL")) !== null);
+  check("Not tied to one place checkbox is present", (await fieldByLabel("Not tied to one place")) !== null);
+  await (await (await fieldByLabel("Summary")).$("textarea")).fill("Test summary sentence.");
+  await page.click('#modal button:has-text("Fill media paths from slug")');
+  const posterValue = await (await (await fieldByLabel("Poster image")).$("input")).inputValue();
+  check("Fill media paths from slug sets the poster path", posterValue === `assets/images/webmaps/${madeSlug}/poster.jpg`);
+  const shotsField = await fieldByLabel("Screenshots");
+  await (await shotsField.$('button:has-text("Add screenshot")')).click();
+  const shotInputs = await shotsField.$$(".kv-row:last-of-type input");
+  await shotInputs[0].fill("Test caption");
+  await shotInputs[1].fill("assets/images/webmaps/test/shot-1.jpg");
+  await (await (await fieldByLabel("Tools")).$("input")).fill("QGIS, Leaflet");
+
   await page.click("#modal .modal-actions button.primary");
   await page.waitForSelector("#overlay.open", { state: "hidden" });
 
@@ -461,6 +487,11 @@ async function main() {
   check("webmap link edit persisted through a second save", !!editedWebmap);
   check("webmap's Organisation tag persisted through a second save", !!editedWebmap && (editedWebmap.organisation || []).includes("MapAction"));
   check("webmap's Category persisted through a second save", !!editedWebmap && editedWebmap.category === "Professional");
+  check("webmap's slug, Type and Summary persisted", !!editedWebmap && editedWebmap.slug === madeSlug && editedWebmap.format === "website" && editedWebmap.summary === "Test summary sentence.");
+  check("webmap's preview paths and screenshot persisted", !!editedWebmap && editedWebmap.preview.clipMp4 === `assets/images/webmaps/${madeSlug}/clip.mp4`
+    && editedWebmap.preview.screenshots.length === 1 && editedWebmap.preview.screenshots[0].caption === "Test caption" && editedWebmap.preview.screenshots[0].src === "assets/images/webmaps/test/shot-1.jpg");
+  check("webmap's Tools fact persisted and empty facts are saved as null", !!editedWebmap && editedWebmap.facts.tools === "QGIS, Leaflet" && editedWebmap.facts.data === null);
+  check("webmap's worldwide flag saves as a boolean", !!editedWebmap && editedWebmap.worldwide === false);
   const finalProjects = JSON.parse(fs.readFileSync(path.join(outDir, "projects.json"), "utf8"));
   const finalGimac = finalProjects.find((p) => p.name.startsWith("Impact of Covid-19"));
   check("GIMAC's 9 embedded locations (Iraq included) survived the second save too", finalGimac.locations.length === 9);

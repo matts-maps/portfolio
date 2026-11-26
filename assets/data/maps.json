@@ -1835,7 +1835,26 @@
         "url": "https://mapaction.maps.arcgis.com/home/webscene/viewer.html?webscene=319c676a2b034edeb40ef3d00ac4fbcc&_ga=2.220957080.1405317380.1621374070-1796227178.1597106685"
       }
     ],
-    "embeddable": true
+    "embeddable": true,
+    "slug": "la-soufriere-impact-mapping",
+    "format": "webmap",
+    "access": "live",
+    "liveUrl": "https://mapaction.maps.arcgis.com/home/webscene/viewer.html?webscene=319c676a2b034edeb40ef3d00ac4fbcc&_ga=2.220957080.1405317380.1621374070-1796227178.1597106685",
+    "worldwide": false,
+    "summary": null,
+    "preview": {
+      "poster": null,
+      "clipWebm": null,
+      "clipMp4": null,
+      "screenshots": []
+    },
+    "facts": {
+      "programme": null,
+      "data": null,
+      "tools": null,
+      "role": null,
+      "status": null
+    }
   },
   {
     "id": "community-insights-for-covid-19-dashboard-2",
@@ -1874,7 +1893,26 @@
         "url": "https://sites.google.com/view/rcce-community-insights/"
       }
     ],
-    "embeddable": false
+    "embeddable": false,
+    "slug": "covid-19-community-insights",
+    "format": "dashboard",
+    "access": "live",
+    "liveUrl": "https://sites.google.com/view/rcce-community-insights/",
+    "worldwide": false,
+    "summary": null,
+    "preview": {
+      "poster": null,
+      "clipWebm": null,
+      "clipMp4": null,
+      "screenshots": []
+    },
+    "facts": {
+      "programme": null,
+      "data": null,
+      "tools": null,
+      "role": null,
+      "status": null
+    }
   },
   {
     "id": "ukraine-damaged-buildings-dashboard",
@@ -1903,7 +1941,26 @@
         "url": "https://matts-maps.github.io/acaps-ukraine-buildings/"
       }
     ],
-    "embeddable": true
+    "embeddable": true,
+    "slug": "ukraine-damaged-buildings",
+    "format": "dashboard",
+    "access": "live",
+    "liveUrl": "https://matts-maps.github.io/acaps-ukraine-buildings/",
+    "worldwide": false,
+    "summary": null,
+    "preview": {
+      "poster": null,
+      "clipWebm": null,
+      "clipMp4": null,
+      "screenshots": []
+    },
+    "facts": {
+      "programme": null,
+      "data": null,
+      "tools": null,
+      "role": null,
+      "status": null
+    }
   },
   {
     "id": "aotearoa-new-zealand",
@@ -1973,5 +2030,51 @@
         "url": ""
       }
     ]
+  },
+  {
+    "id": "country-extremes",
+    "kind": "webmap",
+    "category": "Personal",
+    "name": "Country extremes",
+    "file": null,
+    "projectId": "2026-personal-extremes",
+    "locations": [],
+    "year": 2026,
+    "month": 10,
+    "organisation": [],
+    "themes": [
+      "Game",
+      "Elevation",
+      "Climate"
+    ],
+    "disaster": [],
+    "description": "Five short games about the extremes of the world's countries and territories, made for teaching and training. Every answer comes with the figures behind it.",
+    "screenshot": null,
+    "links": [
+      {
+        "label": "Extremes",
+        "url": "https://matts-maps.github.io/extremes/"
+      }
+    ],
+    "embeddable": true,
+    "slug": "country-extremes",
+    "format": "website",
+    "access": "live",
+    "liveUrl": "https://matts-maps.github.io/extremes/",
+    "worldwide": true,
+    "summary": null,
+    "preview": {
+      "poster": null,
+      "clipWebm": null,
+      "clipMp4": null,
+      "screenshots": []
+    },
+    "facts": {
+      "programme": null,
+      "data": null,
+      "tools": null,
+      "role": null,
+      "status": null
+    }
   }
 ]

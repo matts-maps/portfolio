@@ -1,0 +1,81 @@
+---
+layout: default
+---
+{% comment %}
+  Case study page for one item on the Webmaps and visualisations index.
+  Prose comes from this page's front matter (_webmaps/<slug>.md). Anything
+  structured (type, year, summary, media, facts, live link) comes from the
+  matching record in assets/data/maps.json and is filled in by
+  webmap-case-study.js. Any section with nothing in it is left out.
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ '/assets/css/webmaps.css' | relative_url }}">
+
+<article class="cs-page"
+         id="cs-page"
+         data-slug="{{ page.slug }}"
+         data-site-base="{{ '/' | relative_url }}"
+         data-case-base="{{ '/webmaps-and-visualisations/' | relative_url }}">
+
+  <a class="cs-back" href="{{ '/webmaps-and-visualisations/' | relative_url }}">All webmaps and visualisations</a>
+
+  <p class="cs-meta" id="cs-meta"></p>
+  <h1 class="cs-title" id="cs-title">{{ page.title }}</h1>
+  <p class="cs-summary" id="cs-summary" hidden></p>
+
+  <figure class="cs-hero" id="cs-hero" hidden></figure>
+
+  <div class="cs-columns">
+    <div class="cs-main">
+
+      {% if page.question and page.question != "" %}
+      <section class="cs-section" aria-labelledby="cs-question">
+        <h2 id="cs-question">The question it answers</h2>
+        {{ page.question | markdownify }}
+      </section>
+      {% endif %}
+
+      {% if page.what_it_does and page.what_it_does.size > 0 %}
+      <section class="cs-section" aria-labelledby="cs-what">
+        <h2 id="cs-what">What it does</h2>
+        <ol>
+          {% for step in page.what_it_does %}
+          <li>{{ step | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+          {% endfor %}
+        </ol>
+      </section>
+      {% endif %}
+
+      <section class="cs-section cs-screens" id="cs-screens" aria-labelledby="cs-screens-heading" hidden>
+        <h2 id="cs-screens-heading">Screenshots</h2>
+        <ul class="cs-screens__grid" id="cs-screens-grid"></ul>
+      </section>
+
+      {% if page.how_built and page.how_built != "" %}
+      <section class="cs-section" aria-labelledby="cs-how">
+        <h2 id="cs-how">How it was built</h2>
+        {{ page.how_built | markdownify }}
+      </section>
+      {% endif %}
+
+      {% if page.my_role and page.my_role != "" %}
+      <section class="cs-section" aria-labelledby="cs-role">
+        <h2 id="cs-role">My role</h2>
+        {{ page.my_role | markdownify }}
+      </section>
+      {% endif %}
+
+      {{ content }}
+    </div>
+
+    <aside class="cs-facts" id="cs-facts" aria-label="Facts">
+      {% if page.access_note and page.access_note != "" %}
+      <template id="cs-access-note">{{ page.access_note | markdownify }}</template>
+      {% endif %}
+    </aside>
+  </div>
+
+  <nav class="cs-pager" id="cs-pager" aria-label="Other case studies" hidden></nav>
+</article>
+
+<script type="module" src="{{ '/assets/js/webmap-case-study.js' | relative_url }}"></script>

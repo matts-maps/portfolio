@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "assets/images/maps/**"
+      - "assets/images/webmaps/**"
       - ".github/workflows/generate-thumbnails.yml"
 
 permissions:
@@ -60,6 +61,36 @@ jobs:
           }
           EOF
 
+      - name: Generate webmap preview thumbnails
+        # Index cards load assets/images/webmaps/<slug>/thumbs/poster.jpg
+        # (640 pixels wide) instead of the full 1280 pixel poster. Always
+        # rebuilt, so a re-captured poster gets a fresh thumbnail; unchanged
+        # images produce identical files and so no commit.
+        run: |
+          node --input-type=module << 'EOF'
+          import fs from "fs";
+          import path from "path";
+          import sharp from "sharp";
+
+          const root = "assets/images/webmaps";
+          if (!fs.existsSync(root)) process.exit(0);
+
+          for (const slug of fs.readdirSync(root)) {
+            const dir = path.join(root, slug);
+            if (!fs.statSync(dir).isDirectory()) continue;
+            const thumbs = path.join(dir, "thumbs");
+            const files = fs.readdirSync(dir).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
+            if (files.length) fs.mkdirSync(thumbs, { recursive: true });
+
+            for (const file of files) {
+              const input = path.join(dir, file);
+              const output = path.join(thumbs, file);
+              await sharp(input).resize(640).toFile(output);
+              console.log("Created:", output);
+            }
+          }
+          EOF
+
       - name: Commit thumbnails
         run: |
           git config user.name "github-actions"
@@ -67,6 +98,7 @@ jobs:
 
           if [ -n "$(git status --porcelain)" ]; then
             git add assets/images/maps/thumbs
+            git add assets/images/webmaps
             git commit -m "Auto-generate thumbnails"
             git push
           else
