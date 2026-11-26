@@ -6,3 +6,5 @@ Gemfile
 scripts/capture-previews/node_modules/
 scripts/capture-previews/package-lock.json
 scripts/capture-previews/.tmp/
+scripts/data-editor/node_modules/
+scripts/data-editor/test-output/
