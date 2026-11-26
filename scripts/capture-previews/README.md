@@ -16,15 +16,22 @@ This folder is excluded from the Jekyll build, like the rest of `scripts/`.
 
 ## One-off setup
 
-Use PowerShell or Command Prompt, from the repository folder
-(`H:\github\portfolio`).
+Use PowerShell or Command Prompt. Every command below starts from the
+repository folder, so go there first:
 
-1. Install the script's one dependency and the browser it drives:
+```
+cd H:\github\portfolio
+```
+
+1. Install the script's one dependency and the browser it drives. Use
+   `npm.cmd` and `npx.cmd` rather than `npm` and `npx`: PowerShell's default
+   script policy blocks the `npm.ps1` and `npx.ps1` wrappers, and the `.cmd`
+   versions work the same in both terminals.
 
    ```
    cd scripts\capture-previews
-   npm install
-   npx playwright install chromium
+   npm.cmd install
+   npx.cmd playwright install chromium
    cd ..\..
    ```
 
